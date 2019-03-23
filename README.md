@@ -1,7 +1,8 @@
 # ExoticPetHouse
 exotic pet house (final prject)
 
-#Installation
+# Installation
 - clone this project
 - npm install (on both file)
 - add .env file
+- add ormconfig.json
