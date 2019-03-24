@@ -1,0 +1,3 @@
+rootProject.name = 'epet_frontend_customer'
+
+include ':app'

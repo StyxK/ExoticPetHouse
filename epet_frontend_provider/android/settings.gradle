@@ -1,0 +1,3 @@
+rootProject.name = 'epet_frontend_provider'
+
+include ':app'
