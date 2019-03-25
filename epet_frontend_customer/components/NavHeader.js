@@ -5,15 +5,9 @@ export default class NavHeader extends Component{
     render(){
         return(
                 <Header style={{backgroundColor:'#7A5032'}}>
-                    <Left>
-                        <Button transparent>
-                            <Icon name='menu'/>
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Exotic PetHouse</Title>
+                    <Body style={{alignItems:'center'}}>
+                        <Title>MY PETS</Title>
                     </Body>
-                    <Right/>
                 </Header>
         )
     }

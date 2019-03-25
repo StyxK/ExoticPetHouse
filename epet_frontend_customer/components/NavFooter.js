@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {Footer,FooterTab,Button,Icon,Text,Badge} from 'native-base';
+import {Footer,FooterTab,Button,Icon,Text} from 'native-base';
 
 export default class NavFooter extends Component{
     render(){

@@ -9,15 +9,14 @@
 
 import React, {Component} from 'react';
 import {Container,Content} from 'native-base';
-import NavHeader from './components/NavHeader.js';
-import NavFooter from './components/NavFooter.js';
+import NavHeader from '../components/NavHeader.js';
+import NavFooter from '../components/NavFooter.js';
 
 // type Props = {};
-export default class App extends Component {
+export default class Search extends Component {
   render() {
     return (
       <Container>
-        <NavHeader/>
         <Content/>
         <NavFooter/>
       </Container>
