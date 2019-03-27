@@ -9,7 +9,7 @@
 
 import React, {Component} from 'react';
 import {Container,Content} from 'native-base';
-import {View,StyleSheet,Text} from 'react-native';
+import {View,StyleSheet,Modal,Alert,TouchableHighlight,Text} from 'react-native';
 import MapView,{Marker} from 'react-native-maps'
 import NavFooter from '../components/NavFooter.js';
 
@@ -47,8 +47,13 @@ export default class Search extends Component {
       startPoint:{
         latitude:13.5774781,
         longitude:100.44130759
-      }
+      },
+      ModalVisible:false
     }
+  }
+
+  setModalVisible = (visible)=>{
+    this.setState({ModalVisible:visible})
   }
 
   render() {
@@ -70,7 +75,22 @@ export default class Search extends Component {
             <Marker coordinate={this.state.startPoint}/>
             {storeMarker}
           </MapView>
+          <TouchableHighlight onPress={()=>{this.setModalVisible(true)}}>
+            <Text>Show Moal</Text>
+          </TouchableHighlight>
         </View>
+        <Modal animationType="slide" transparent={true} visible={this.state.ModalVisible} 
+            onRequestClose={()=>{
+              Alert.alert('Modal Closed')
+          }}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modal}>
+                <TouchableHighlight onPress={()=>{this.setModalVisible(!this.state.ModalVisible)}}>
+                  <Text>Hide Modal</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </Modal>
       <NavFooter/>
       </Container>
     );
@@ -87,4 +107,17 @@ const styles = StyleSheet.create({
     marginTop: 1.5,
     ...StyleSheet.absoluteFillObject,
   },
+  modalContainer:{
+    flexDirection:'column-reverse',
+    alignItems:'center',
+    // justifyContent:'flex-end'
+  },
+  modal:{
+    backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center',
+    opacity:0.99,
+    width:'75%',
+    height:'75%'
+  }
 })
