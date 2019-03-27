@@ -1,9 +1,9 @@
-import { StoreOwner } from "./StoreOwner";
-import { Employee } from "./Employee";
-import { Order } from "./Order";
-import { Feedback } from "./Feedback";
-import { Cage } from "./Cage";
-import { Address } from "./Address";
+import { StoreOwner } from "../models/StoreOwner";
+import { Employee } from "../models/Employee";
+import { Order } from "../models/Order";
+import { Feedback } from "../models/Feedback";
+import { Cage } from "../models/Cage";
+import { Address } from "../models/Address";
 import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
