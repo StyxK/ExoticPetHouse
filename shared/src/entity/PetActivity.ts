@@ -1,5 +1,5 @@
 import { OrderLine } from "./OrderLine";
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
 
 @Entity()
 export class PetActivity {
@@ -13,6 +13,6 @@ export class PetActivity {
     @Column()
     picture: string;
 
-    @Column()
-    orderLine: OrderLine
+    @ManyToOne(type => OrderLine,orderLine => orderLine.activitys)
+    orderLine: OrderLine;
 }

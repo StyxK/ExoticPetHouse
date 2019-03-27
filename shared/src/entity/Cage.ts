@@ -1,5 +1,5 @@
 import { Store } from "./Store";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
 
 @Entity()
 export class Cage {
@@ -19,6 +19,6 @@ export class Cage {
     @Column()
     price: string;
 
-    @Column()
+    @ManyToOne(type => Store,store => store.cages)
     store: Store;
 }

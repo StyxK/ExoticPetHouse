@@ -1,6 +1,6 @@
 import { Customer } from "./Customer";
 import { OrderLine } from "./OrderLine";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
 export class Pet {
@@ -38,9 +38,9 @@ export class Pet {
     @Column()
     wasDeposit: boolean;
 
-    @Column()
+    @ManyToOne(type => Customer,customer => customer.pets)
     owner: Customer;
 
-    @Column()
+    @OneToMany(type => OrderLine,orderLine => orderLine.pet)
     orderLines: OrderLine[];
 }

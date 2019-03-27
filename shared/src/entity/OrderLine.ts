@@ -3,7 +3,7 @@ import { Pet } from "./Pet";
 import { Order } from "./Order";
 
 import { PetActivity } from "./PetActivity";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
 export class OrderLine {
@@ -17,12 +17,12 @@ export class OrderLine {
     @Column()
     submitDate: Date;
 
-    @Column()
-    pets: Pet[]
+    @ManyToOne(type => Pet,pet => pet.orderLines)
+    pet: Pet;
 
-    @Column()
+    @ManyToOne(type => Order,order => order.orderLines)
     order: Order;
 
-    @Column()
+    @OneToMany(type => PetActivity,activity => activity.orderLine)
     activitys: PetActivity[];
 }

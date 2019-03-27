@@ -3,23 +3,23 @@ import { Address } from "./Address";
 import { Order } from "./Order";
 import { Feedback } from "./Feedback";
 import { User } from "./User";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
 export class Customer extends User {
 
-    @PrimaryColumn()
+    @Column()
     phoneNumber: string;
 
-    @Column()
+    @OneToMany(type => Pet,pet => pet.owner)
     pets: Pet[];
 
-    @Column()
+    @ManyToOne(type => Address)
     address: Address;
 
-    @Column()
+    @OneToMany(type => Order,order => order.customer)
     orders: Order[];
 
-    @Column()
+    @OneToMany(type => Feedback,feedbacks => feedbacks.customer)
     feedbacks: Feedback[];
 }

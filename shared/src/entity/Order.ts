@@ -5,7 +5,7 @@ import { Customer } from "./Customer";
 import { OrderLine } from "./OrderLine";
 
 import { Feedback } from "./Feedback";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
 export class Order {
@@ -25,15 +25,15 @@ export class Order {
     @Column()
     endDate: Date;
 
-    @Column()
+    @ManyToOne(type => Store,store => store.orders)
     store: Store;
 
-    @Column()
+    @ManyToOne(type => Customer,customer => customer.orders)
     customer: Customer;
 
-    @Column()
+    @OneToMany(type => OrderLine,orderLine => orderLine.order)
     orderLines: OrderLine[];
 
-    @Column()
-    feedback: Feedback;
+    @OneToMany(type => Feedback,feedback => feedback.order)
+    feedbacks: Feedback[];
 }

@@ -1,7 +1,7 @@
 import { Customer } from "./Customer";
 import { Order } from "./Order";
 import { Store } from "./Store";
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
 
 @Entity()
 export class Feedback {
@@ -15,12 +15,12 @@ export class Feedback {
     @Column()
     comment: string;
 
-    @Column()
-    customer: Customer
+    @ManyToOne(type => Customer,customer => customer.feedbacks)
+    customer: Customer;
 
-    @Column()
+    @ManyToOne(type => Order,order => order.feedbacks)
     order: Order;
 
-    @Column()
-    store: Store
+    @ManyToOne(type => Store,store => store.feedbacks)
+    store: Store;
 }

@@ -4,7 +4,7 @@ import { Order } from "./Order";
 import { Feedback } from "./Feedback";
 import { Cage } from "./Cage";
 import { Address } from "./Address";
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
 export class Store {
@@ -30,18 +30,18 @@ export class Store {
     @Column()
     owner: StoreOwner;
 
-    @Column()
+    @OneToMany(type => Employee,employee => employee.store)
     employees: Employee[];
 
-    @Column()
+    @ManyToOne(type => Address)
     address: Address;
 
-    @Column()
+    @OneToMany(type => Cage,cage => cage.store)
     cages: Cage[];
 
-    @Column()
+    @OneToMany(type => Order,order => order.store)
     orders: Order[];
 
-    @Column()
+    @OneToMany(type => Feedback,feedback => feedback.store)
     feedbacks: Feedback[];
 }
