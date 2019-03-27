@@ -1,4 +1,4 @@
-import { StoreOwner } from "./Owner";
+import { StoreOwner } from "./StoreOwner";
 import { Employee } from "./Employee";
 import { Order } from "./Order";
 import { Feedback } from "./Feedback";
@@ -27,7 +27,7 @@ export class Store {
     @Column()
     rating: number;
 
-    @Column()
+    @ManyToOne(type => StoreOwner,owner => owner.stores)
     owner: StoreOwner;
 
     @OneToMany(type => Employee,employee => employee.store)

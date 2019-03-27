@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import {User} from "../../shared/src/entity/User";
 
 createConnection().then(async connection => {
 
@@ -8,7 +8,7 @@ createConnection().then(async connection => {
     const user = new User();
     user.userName = "test";
     user.password = "test";
-    user.firstName = "Timber";
+    user.firstName = "Tinber";
     user.lastName = "Saw";
     user.email = "b@b.b";
     await connection.manager.save(user);
