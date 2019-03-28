@@ -17,4 +17,11 @@ export class Address {
 
     @Column()
     postcode: string;
+
+    @Column()
+    latitude: number;
+
+    @Column()
+    longitude: number;
+
 }
