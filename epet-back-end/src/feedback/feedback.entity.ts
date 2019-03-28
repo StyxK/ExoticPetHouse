@@ -1,6 +1,6 @@
-import { Customer } from "./Customer";
-import { Order } from "./Order";
-import { Store } from "../store/Store";
+import { Customer } from "../customer/customer.entity";
+import { Order } from "../order/order.entity";
+import { Store } from "../store/store.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
 
 @Entity()

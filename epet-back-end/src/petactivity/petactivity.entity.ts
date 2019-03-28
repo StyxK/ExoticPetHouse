@@ -1,4 +1,4 @@
-import { OrderLine } from "./OrderLine";
+import { OrderLine } from "../orderline/orderline.entity";
 import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
 
 @Entity()

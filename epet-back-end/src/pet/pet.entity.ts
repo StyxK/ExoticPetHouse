@@ -1,5 +1,5 @@
-import { Customer } from "./Customer";
-import { OrderLine } from "./OrderLine";
+import { Customer } from "../customer/customer.entity";
+import { OrderLine } from "../orderline/orderline.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()

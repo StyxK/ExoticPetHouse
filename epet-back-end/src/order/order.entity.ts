@@ -1,10 +1,10 @@
-import { Store } from "../store/Store";
+import { Store } from "../store/store.entity";
 
-import { Customer } from "./Customer";
+import { Customer } from "../customer/customer.entity";
 
-import { OrderLine } from "./OrderLine";
+import { OrderLine } from "../orderline/orderline.entity";
 
-import { Feedback } from "./Feedback";
+import { Feedback } from "../feedback/feedback.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()

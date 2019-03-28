@@ -1,4 +1,4 @@
-import { Store } from "../store/Store";
+import { Store } from "../store/store.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
 
 @Entity()

@@ -1,8 +1,8 @@
-import { Pet } from "./Pet";
-import { Address } from "./Address";
-import { Order } from "./Order";
-import { Feedback } from "./Feedback";
-import { User } from "./User";
+import { Pet } from "../pet/pet.entity";
+import { Address } from "../address/address.entity";
+import { Order } from "../order/order.entity";
+import { Feedback } from "../feedback/feedback.entity";
+import { User } from "../user/user.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
