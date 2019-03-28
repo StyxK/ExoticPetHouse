@@ -6,30 +6,30 @@ export class StoreController {
 
     constructor(private readonly storesService:StoreService){}
 
-    @Get('/store')
+    @Get('/')
     async showAll(){
         await console.log('get from store')
-        await this.storesService.showAll()
+        return await this.storesService.showAll()
     }
 
-    @Get('/store/:id')
+    @Get('/:id')
     async showById(@Param() id){
-        await this.storesService.showById(id)
+        return await this.storesService.showById(id)
     }
 
-    @Post('store')
+    @Post('/')
     async createStore(@Body() data){
-        await this.storesService.create(data)
+        return await this.storesService.create(data)
     }
 
-    @Put('store/:id')
+    @Put('/:id')
     async updateStore(@Param() id,@Body() data){
-        await this.storesService.update(id,data)
+        return await this.storesService.update(id,data)
     }
 
-    @Delete('store/:id')
+    @Delete('/:id')
     async deleteStore(@Param() id){
-        await this.storesService.delete(id)
+        return await this.storesService.delete(id)
     }
 
 }

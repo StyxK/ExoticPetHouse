@@ -19,16 +19,16 @@ export class StoreService {
     }
 
     async showById(id :string){
-        return this.storesRepository.findOne({id})
+        return this.storesRepository.findOne({where:id})
     }
 
     async update(id:string , data : Partial<StoreDTO>){
-        await this.storesRepository.update({id},data)
-        return this.storesRepository.findOne({id})
+        await this.storesRepository.update(id,data)
+        return this.storesRepository.findOne({where:id})
     }
 
     async delete(id:string){
-        await this.storesRepository.delete({id});
+        await this.storesRepository.delete(id);
         return {deleted : true}
     }
 }
