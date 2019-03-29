@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {Repository, DeepPartial} from 'typeorm';
+import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Store} from './store.entity';
 import { StoreDTO } from './store.dto';

@@ -10,7 +10,7 @@ export class Address {
     street: string;
 
     @Column()
-    District: string;
+    district: string;
 
     @Column()
     province: string;
@@ -18,10 +18,10 @@ export class Address {
     @Column()
     postcode: string;
 
-    @Column()
+    @Column({type:"double precision"})
     latitude: number;
 
-    @Column()
+    @Column({type:"double precision"})
     longitude: number;
 
 }
