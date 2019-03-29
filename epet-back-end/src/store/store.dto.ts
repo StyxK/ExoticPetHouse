@@ -1,3 +1,5 @@
+import { Address } from "src/address/address.entity";
+
 export interface StoreDTO{
     id:string
     name:string
@@ -5,4 +7,5 @@ export interface StoreDTO{
     description:string
     maxOfDeposit:number
     rating:number
+    address:Address
 }
