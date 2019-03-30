@@ -4,7 +4,6 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Store} from './store.entity';
 import { StoreDTO } from './store.dto';
 import { Address } from 'src/address/address.entity';
-import { AddressDTO } from 'src/address/address.dto';
 
 @Injectable()
 export class StoreService {

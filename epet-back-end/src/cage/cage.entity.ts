@@ -5,7 +5,7 @@ import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
 export class Cage {
 
     @PrimaryColumn()
-    Id: string;
+    id: string;
 
     @Column()
     name: string;
@@ -16,8 +16,8 @@ export class Cage {
     @Column()
     description: string;
 
-    @Column()
-    price: string;
+    @Column({type:"double precision"})
+    price: number;
 
     @ManyToOne(type => Store,store => store.cages)
     store: Store;
