@@ -12,9 +12,11 @@ import { Container, Content, Button, Icon, ListItem, List, Text, Left, Body, Rig
 import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
 import NavFooter from '../components/NavFooter.js';
-import axios from "axios";
+import axios from 'axios';
+import Config from 'react-native-config';
 
 // type Props = {};
+const API_URL = Config.API_URL;
 
 export default class Search extends Component {
 
@@ -38,13 +40,13 @@ export default class Search extends Component {
 
   componentWillMount() {
     axios
-      .get('http://192.168.31.178:3000/store/')
+      .get(API_URL+'/store/')
       .then(response => {
         this.setState({
           stores: response.data
         })
         console.log(JSON.stringify(response))
-      })
+      }).then(error=>console.log(error))
   }
 
   setModalVisible = (visible) => {
@@ -58,7 +60,6 @@ export default class Search extends Component {
     let storeList = [];
     for (store of stores) {
       {
-        store.address &&
           storeMarker.push(
             <Marker key={store.id} coordinate={{
               latitude: store.address.latitude,
@@ -69,7 +70,7 @@ export default class Search extends Component {
       storeList.push(
         <ListItem avatar key={store.id}>
           <Left>
-            <Icon name='paw' />
+            <Icon name='paw'/>
           </Left>
           <Body>
             <Text>{store.name}</Text>
