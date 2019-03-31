@@ -92,24 +92,29 @@ export default class Search extends Component {
             <Marker coordinate={startPoint} />
             {storeMarker}
           </MapView>
-          <TouchableHighlight onPress={() => { this.setModalVisible(true) }}>
-            <Text>Show Moal</Text>
-          </TouchableHighlight>
-        </View>
-        <Modal animationType="slide" transparent={true} visible={ModalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal Closed')
+            <View style={{alignSelf:"flex-end"}}>
+              <Button style={{borderRadius:20,height:35}} 
+                  onPress={()=>{this.setModalVisible(true)}}
+                  visible={!ModalVisible}>
+                <Text>Show Store List</Text>
+              </Button>
+            </View>
+          <Modal animationType="slide" transparent={true} visible={ModalVisible} 
+            onRequestClose={()=>{
+              Alert.alert('Modal Closed')
           }}>
-          <View style={styles.modalContainer}>
-            <Content style={styles.modal}>
-              <TouchableHighlight onPress={() => { this.setModalVisible(!ModalVisible) }} style={{ alignItems: 'center' }}>
-                <Text style={{ marginTop: 7 }}>Hide Modal</Text>
-              </TouchableHighlight>
-              <List>{storeList}</List>
-            </Content>
-          </View>
-        </Modal>
-        <NavFooter />
+            <View style={styles.modalContainer}>
+              <Content style={styles.modal}>
+                <TouchableHighlight onPress={()=>{this.setModalVisible(!ModalVisible)}} style={{alignItems:'center'}}>
+                  <Text style={{marginTop:7}}>Hide Modal</Text>
+                </TouchableHighlight>
+                <List>{storeList}</List>
+              </Content>
+            </View>
+          </Modal>
+        </View>
+        
+      <NavFooter/>
       </Container>
     );
   }
@@ -143,6 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: "row"
   },
   map: {
     marginTop: 1.5,
