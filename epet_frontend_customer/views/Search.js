@@ -16,44 +16,6 @@ import axios from "axios";
 
 // type Props = {};
 
-// const store = [
-//   {
-//     name: 'ดำรงค์สัตว์แพทย์',
-//     latitude: 10.5774781,
-//     longitude: 101.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'DogePetHouse',
-//     latitude: 15.5774781,
-//     longitude: 102.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-// ]
-
 export default class Search extends Component {
 
   constructor(props) {
@@ -90,7 +52,8 @@ export default class Search extends Component {
   }
 
   render() {
-    const { stores } = this.state;
+    const { stores, startPoint, initialPoint, ModalVisible} = this.state;
+
     let storeMarker = [];
     let storeList = [];
     for (store of stores) {
@@ -113,7 +76,10 @@ export default class Search extends Component {
             <Text note>{store.descripion}</Text>
           </Body>
           <Right>
-            <Text note>distance 7.7 km.</Text>
+            {(startPoint && store.address) ? 
+            <Text note>distance {distance(startPoint.latitude,startPoint.longitude,store.address.latitude,store.address.longitude,"K").toFixed(2)} km.</Text>
+            : <Text note>N/A</Text>
+            }
           </Right>
         </ListItem>
       )
@@ -122,21 +88,21 @@ export default class Search extends Component {
     return (
       <Container>
         <View style={styles.container}>
-          <MapView style={styles.map} initialRegion={this.state.initialPoint}>
-            <Marker coordinate={this.state.startPoint} />
+          <MapView style={styles.map} initialRegion={initialPoint}>
+            <Marker coordinate={startPoint} />
             {storeMarker}
           </MapView>
           <TouchableHighlight onPress={() => { this.setModalVisible(true) }}>
             <Text>Show Moal</Text>
           </TouchableHighlight>
         </View>
-        <Modal animationType="slide" transparent={true} visible={this.state.ModalVisible}
+        <Modal animationType="slide" transparent={true} visible={ModalVisible}
           onRequestClose={() => {
             Alert.alert('Modal Closed')
           }}>
           <View style={styles.modalContainer}>
             <Content style={styles.modal}>
-              <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.ModalVisible) }} style={{ alignItems: 'center' }}>
+              <TouchableHighlight onPress={() => { this.setModalVisible(!ModalVisible) }} style={{ alignItems: 'center' }}>
                 <Text style={{ marginTop: 7 }}>Hide Modal</Text>
               </TouchableHighlight>
               <List>{storeList}</List>
@@ -146,6 +112,29 @@ export default class Search extends Component {
         <NavFooter />
       </Container>
     );
+  }
+}
+
+
+function distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
   }
 }
 
