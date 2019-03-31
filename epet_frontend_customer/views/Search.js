@@ -16,44 +16,6 @@ import axios from "axios";
 
 // type Props = {};
 
-// const store = [
-//   {
-//     name: 'ดำรงค์สัตว์แพทย์',
-//     latitude: 10.5774781,
-//     longitude: 101.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'DogePetHouse',
-//     latitude: 15.5774781,
-//     longitude: 102.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-//   {
-//     name: 'นุนิสัตว์แปลกน่ารัก',
-//     latitude: 12.5774781,
-//     longitude: 105.44130759,
-//   },
-// ]
-
 export default class Search extends Component {
 
   constructor(props) {
@@ -126,24 +88,34 @@ export default class Search extends Component {
             <Marker coordinate={this.state.startPoint} />
             {storeMarker}
           </MapView>
-          <TouchableHighlight onPress={() => { this.setModalVisible(true) }}>
-            <Text>Show Moal</Text>
-          </TouchableHighlight>
-        </View>
-        <Modal animationType="slide" transparent={true} visible={this.state.ModalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal Closed')
+            <View style={{flex:2,flexDirection:'column-reverse',alignItems:'center'}}>
+              <Button style={{borderRadius:20,height:35,width:'70%'}} 
+                  onPress={()=>{this.setModalVisible(true)}}
+                  visible={!this.state.ModalVisible}>
+                <Text>Show Store List</Text>
+              </Button>
+              <Button style={{justifyContent:'center',borderRadius:20,height:35,width:'70%'}} 
+                  onPress={()=>{this.setModalVisible(true)}}
+                  visible={!this.state.ModalVisible}>
+                <Text>Show Store List</Text>
+              </Button>
+            </View>
+          <Modal animationType="slide" transparent={true} visible={this.state.ModalVisible} 
+            onRequestClose={()=>{
+              Alert.alert('Modal Closed')
           }}>
-          <View style={styles.modalContainer}>
-            <Content style={styles.modal}>
-              <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.ModalVisible) }} style={{ alignItems: 'center' }}>
-                <Text style={{ marginTop: 7 }}>Hide Modal</Text>
-              </TouchableHighlight>
-              <List>{storeList}</List>
-            </Content>
-          </View>
-        </Modal>
-        <NavFooter />
+            <View style={styles.modalContainer}>
+              <Content style={styles.modal}>
+                <TouchableHighlight onPress={()=>{this.setModalVisible(!this.state.ModalVisible)}} style={{alignItems:'center'}}>
+                  <Text style={{marginTop:7}}>Hide Modal</Text>
+                </TouchableHighlight>
+                <List>{storeList}</List>
+              </Content>
+            </View>
+          </Modal>
+        </View>
+        
+      <NavFooter/>
       </Container>
     );
   }
