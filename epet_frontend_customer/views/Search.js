@@ -40,13 +40,13 @@ export default class Search extends Component {
 
   componentWillMount() {
     axios
-      .get(API_URL+'/store/')
+      .get(API_URL + '/store/')
       .then(response => {
         this.setState({
           stores: response.data
         })
         console.log(JSON.stringify(response))
-      }).then(error=>console.log(error))
+      }).then(error => console.log(error))
   }
 
   setModalVisible = (visible) => {
@@ -60,6 +60,7 @@ export default class Search extends Component {
     let storeList = [];
     for (store of stores) {
       {
+        store.address &&
           storeMarker.push(
             <Marker key={store.id} coordinate={{
               latitude: store.address.latitude,
@@ -70,7 +71,7 @@ export default class Search extends Component {
       storeList.push(
         <ListItem avatar key={store.id}>
           <Left>
-            <Icon name='paw'/>
+            <Icon name='paw' />
           </Left>
           <Body>
             <Text>{store.name}</Text>
@@ -96,7 +97,7 @@ export default class Search extends Component {
         </View>
         <View style={styles.container}>
           <TextInput
-            style={{ height: 40, width: "90%", borderColor: 'gray',backgroundColor: "white", borderRadius: 10, margin:20, borderWidth: 1 }}
+            style={{ height: 40, width: "90%", borderColor: 'gray', backgroundColor: "white", borderRadius: 10, margin: 20, borderWidth: 1 }}
             editable={true}
             placeholder="Search"
             onChangeText={this.onSearchTextChange}
