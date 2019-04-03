@@ -6,10 +6,10 @@ import { AddressModule } from './address/address.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CageModule } from './cage/cage.module';
 import { OrderModule } from './order/order.module';
-import { UserModule } from './user/user.module';
+import { StoreownerModule } from './storeowner/storeowner.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule, UserModule],
+  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule],
   controllers: [AppController,],
   providers: [AppService,],
 })

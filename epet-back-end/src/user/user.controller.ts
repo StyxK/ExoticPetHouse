@@ -2,10 +2,10 @@ import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common'
 import { UserService } from './user.service';
 
 @Controller('user')
-export class UserController {
+export abstract class UserController {
     
     constructor(
-        private readonly userService:UserService
+        protected readonly userService:UserService
     ){}
 
     @Get('/')

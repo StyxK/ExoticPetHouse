@@ -4,9 +4,9 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { UserDTO } from './user.dto';
 @Injectable()
-export class UserService {
+export abstract class UserService {
 
-    constructor(@InjectRepository(User) private readonly userRepository:Repository<User>){}
+    constructor(@InjectRepository(User) protected readonly userRepository:Repository<User>){}
 
     async showAll(){
         return await this.userRepository.find();

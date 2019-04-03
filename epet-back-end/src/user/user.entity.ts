@@ -1,7 +1,6 @@
-import {Entity, PrimaryColumn, Column} from "typeorm";
+import {PrimaryColumn, Column} from "typeorm";
 
-@Entity()
-export class User {
+export abstract class User {
 
     @PrimaryColumn()
     userName: string;
