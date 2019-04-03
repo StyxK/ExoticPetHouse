@@ -25,11 +25,11 @@ export class UserController {
 
     @Put(':id')
     async updateUser(@Param() id,@Body() data){
-        return this.updateUser(id,data)
+        return this.userService.update(id,data)
     }
 
     @Delete(':id')
     async deleteUser(@Param() id){
-        return this.deleteUser(id)
+        return this.userService.delete(id)
     }
 }
