@@ -10,26 +10,29 @@ export class UserController {
 
     @Get('/')
     async showAll(){
-        return this.userService.showAll();
+        return await this.userService.showAll();
     }
 
-    @Get(':id')
-    async showById(@Param() id){
-        return this.userService.showById(id);
+    @Get('/:userName')
+    async showById(@Param() userName){
+        console.log(userName)
+        return await this.userService.showById(userName);
     }
 
     @Post('/')
     async createUser(@Body() data){
-        return this.userService.create(data);
+        return await this.userService.create(data);
     }
 
-    @Put(':id')
-    async updateUser(@Param() id,@Body() data){
-        return this.userService.update(id,data)
+    @Put('/:id')
+    async updateUser(@Param() userName,@Body() data){
+        console.log(userName)
+        return await this.userService.update(userName,data)
     }
 
-    @Delete(':id')
-    async deleteUser(@Param() id){
-        return this.userService.delete(id)
+    @Delete('/:userName')
+    async deleteUser(@Param() userName){
+        console.log(userName)
+        return await this.userService.delete(userName)
     }
 }

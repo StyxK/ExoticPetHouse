@@ -10,11 +10,12 @@ export class UserService {
     constructor(@InjectRepository(User) private readonly userRepository:Repository<User>){}
 
     async showAll(){
-        return this.userRepository.find();
+        return await this.userRepository.find();
     }
 
-    async showById(id:string){
-        return this.userRepository.findOne({where:id})
+    async showById(userName:string){
+        console.log(userName)
+        return await this.userRepository.findOne({where:userName})
     }
 
     async create(data:Partial<UserDTO>){
@@ -23,13 +24,15 @@ export class UserService {
         return user;
     }
 
-    async update(id:string,data:Partial<UserDTO>){
-        await this.userRepository.update(id,data)
-        return this.userRepository.findOne({where:id})
+    async update(userName:string,data:Partial<UserDTO>){
+        console.log(userName)
+        await this.userRepository.update(userName,data)
+        return this.userRepository.findOne({where:userName})
     }
 
-    async delete(id:string){
-        await this.userRepository.delete(id)
+    async delete(userName:string){
+        console.log(userName)
+        await this.userRepository.delete(userName)
         return {delete:true}
     }
 }
