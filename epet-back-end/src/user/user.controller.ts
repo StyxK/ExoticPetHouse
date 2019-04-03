@@ -15,7 +15,6 @@ export class UserController {
 
     @Get('/:userName')
     async showById(@Param() userName){
-        console.log(userName)
         return await this.userService.showById(userName);
     }
 
@@ -24,15 +23,13 @@ export class UserController {
         return await this.userService.create(data);
     }
 
-    @Put('/:id')
+    @Put('/:userName')
     async updateUser(@Param() userName,@Body() data){
-        console.log(userName)
         return await this.userService.update(userName,data)
     }
 
     @Delete('/:userName')
     async deleteUser(@Param() userName){
-        console.log(userName)
         return await this.userService.delete(userName)
     }
 }
