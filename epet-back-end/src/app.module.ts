@@ -7,9 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CageModule } from './cage/cage.module';
 import { OrderModule } from './order/order.module';
 import { StoreownerModule } from './storeowner/storeowner.module';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule],
+  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule, EmployeeModule],
   controllers: [AppController,],
   providers: [AppService,],
 })
