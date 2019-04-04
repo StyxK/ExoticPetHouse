@@ -4,7 +4,7 @@ import { EmployeeService } from './employee.service';
 
 @Controller('employee')
 export class EmployeeController extends UserController{
-    constructor(employeeService:EmployeeService){
+    constructor(private readonly employeeService:EmployeeService){
         super(employeeService)
     }
 
