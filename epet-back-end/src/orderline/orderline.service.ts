@@ -17,9 +17,9 @@ export class OrderLineService {
     }
 
     async create(data: OrderLineDTO): Promise<OrderLine> {
-        const OrderLine = await this.OrderLineRepository.create(data);
+        const orderLine = await this.OrderLineRepository.create(data);
         await this.OrderLineRepository.save(data);
-        return OrderLine;
+        return orderLine;
     }
 
     async update(id: string, data: OrderLineDTO): Promise<OrderLine> {
