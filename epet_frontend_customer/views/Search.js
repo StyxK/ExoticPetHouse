@@ -13,6 +13,8 @@ import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput } from 'r
 import MapView, { Marker } from 'react-native-maps'
 import axios from 'axios';
 import Config from 'react-native-config';
+import { Actions } from 'react-native-router-flux'
+
 
 // type Props = {};
 const API_URL = Config.API_URL;
@@ -68,7 +70,7 @@ export default class Search extends Component {
           )
       }
       storeList.push(
-        <ListItem avatar key={store.id}>
+        <ListItem avatar key={store.id} onPress={this.goToTest}>
           <Left>
             <Icon name='paw' />
           </Left>
@@ -127,6 +129,9 @@ export default class Search extends Component {
   onSearchTextChange = (text) => {
     console.log(text)
   }
+  goToTest = () => {
+    Actions.test()
+  }
 }
 
 
@@ -181,4 +186,5 @@ const styles = StyleSheet.create({
     width: '85%',
     marginTop: 40
   }
+  
 })
