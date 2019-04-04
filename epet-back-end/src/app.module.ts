@@ -12,9 +12,10 @@ import { CustomerModule } from './customer/customer.module';
 import { PetService } from './pet/pet.service';
 import { PetController } from './pet/pet.controller';
 import { PetModule } from './pet/pet.module';
+import { OrderLineModule } from './orderline/orderline.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule, EmployeeModule, CustomerModule, PetModule],
+  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule, EmployeeModule, CustomerModule, PetModule, OrderLineModule],
   controllers: [AppController, PetController,],
   providers: [AppService, PetService,],
 })
