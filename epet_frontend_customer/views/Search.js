@@ -11,7 +11,6 @@ import React, { Component } from 'react';
 import { Container, Content, Button, Icon, ListItem, List, Text, Left, Body, Right } from 'native-base';
 import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
-import NavFooter from '../components/NavFooter.js';
 import axios from 'axios';
 import Config from 'react-native-config';
 
@@ -121,8 +120,6 @@ export default class Search extends Component {
             </View>
           </Modal>
         </View>
-
-        <NavFooter />
       </Container>
     );
   }

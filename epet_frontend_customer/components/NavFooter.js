@@ -1,33 +1,42 @@
-import React,{Component} from 'react';
-import {Footer,FooterTab,Button,Icon,Text} from 'native-base';
+import React, { Component } from 'react';
+import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux'
 
-export default class NavFooter extends Component{
-    render(){
-        return(
+export default class NavFooter extends Component {
+    render() {
+        return (
             <Footer>
-                <FooterTab style={{backgroundColor:'#7A5032'}}>
-                    <Button Badge vertical>
-                        <Icon name='search' style={{color:'white'}}/>
-                        <Text style={{fontSize:10,color:'white'}}>search</Text>
+                <FooterTab style={{ backgroundColor: '#7A5032' }}>
+                    <Button Badge vertical onPress={this.goToHome}>
+                        <Icon name='search' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 10, color: 'white' }}>search</Text>
+                    </Button>
+                    <Button Badge vertical onPress={this.goToMyPet}>
+                        <Icon name='paw' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 10, color: 'white' }}>my pets</Text>
                     </Button>
                     <Button Badge vertical>
-                        <Icon name='paw' style={{color:'white'}}/>
-                        <Text style={{fontSize:10,color:'white'}}>my pets</Text>
+                        <Icon name='chatbubbles' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 10, color: 'white' }}>chat</Text>
                     </Button>
                     <Button Badge vertical>
-                        <Icon name='chatbubbles' style={{color:'white'}}/>
-                        <Text style={{fontSize:10,color:'white'}}>chat</Text>
+                        <Icon name='list' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 10, color: 'white' }}>history</Text>
                     </Button>
                     <Button Badge vertical>
-                        <Icon name='list' style={{color:'white'}}/>
-                        <Text style={{fontSize:10,color:'white'}}>history</Text>
-                    </Button>
-                    <Button Badge vertical>
-                        <Icon name='person' style={{color:'white'}}/>
-                        <Text style={{fontSize:10,color:'white'}}>profile</Text>
+                        <Icon name='person' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 10, color: 'white' }}>profile</Text>
                     </Button>
                 </FooterTab>
-            </Footer>    
+            </Footer>
         )
+    }
+
+    goToHome = () => {
+        Actions.home()
+    }
+
+    goToMyPet = () => {
+        Actions.myPet()
     }
 }
