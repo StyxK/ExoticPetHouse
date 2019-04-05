@@ -9,7 +9,7 @@
 
 import React, { Component } from 'react';
 import { Container, Content, Button, Icon, ListItem, List, Text, Left, Body, Right } from 'native-base';
-import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput } from 'react-native';
+import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput, Dimensions } from 'react-native';
 import MapView, { Marker } from 'react-native-maps'
 import axios from 'axios';
 import Config from 'react-native-config';
@@ -18,6 +18,10 @@ import { Actions } from 'react-native-router-flux'
 
 // type Props = {};
 const API_URL = Config.API_URL;
+const {width,height} = Dimensions.get('window')
+const ASPECT_RATIO = width/height
+const LATITUDE_DELTA = 0.922
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO 
 
 export default class Search extends Component {
 
@@ -26,17 +30,39 @@ export default class Search extends Component {
     this.state = {
       stores: [],
       initialPoint: {
-        latitude: 13.5774781,
-        longitude: 100.44130759,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
       startPoint: {
-        latitude: 13.5774781,
-        longitude: 100.44130759
+        latitude: 0,
+        longitude: 0
       },
       ModalVisible: false
     }
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position)=>{
+      console.log(JSON.stringify(position))
+      lat = parseFloat(position.coords.latitude)
+      long = parseFloat(position.coords.longitude)
+      initialCoordinate = {
+        latitude : lat,
+        longitude : long,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      }
+      this.setState({initialPoint:initialCoordinate})
+      this.setState({
+        startPoint:{
+          latitude:lat,
+          longitude:long
+        }
+      })
+    })
+    
   }
 
   componentWillMount() {
@@ -92,7 +118,7 @@ export default class Search extends Component {
       <Container>
         <View style={styles.map}>
           <MapView style={styles.map} initialRegion={initialPoint}>
-            <Marker coordinate={startPoint} />
+            <Marker coordinate={startPoint}/>
             {storeMarker}
           </MapView>
         </View>
@@ -135,7 +161,7 @@ export default class Search extends Component {
 }
 
 
-function distance(lat1, lon1, lat2, lon2, unit) {
+distance = (lat1, lon1, lat2, lon2, unit) =>{
   if ((lat1 == lat2) && (lon1 == lon2)) {
     return 0;
   }
