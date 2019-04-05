@@ -103,7 +103,7 @@ export default class Search extends Component {
             placeholder="Search"
             onChangeText={this.onSearchTextChange}
           />
-          <Button style={{ borderRadius: 20, height: 35, alignSelf: "center" }}
+          <Button style={{ marginBottom:19, borderRadius: 20, height: 35, alignSelf: "center" }}
             onPress={() => { this.setModalVisible(true) }}
             visible={!ModalVisible}>
             <Text>Show Store List</Text>
