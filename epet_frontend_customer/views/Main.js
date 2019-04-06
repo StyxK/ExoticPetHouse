@@ -5,7 +5,7 @@ import { Router, Scene } from 'react-native-router-flux';
 import NavFooter from '../components/NavFooter.js';
 import MyPet from './MyPet';
 import Search from './Search';
-import Test from './Test.js';
+import Store from './Store';
 
 export default class Main extends Component {
     render() {
@@ -15,7 +15,7 @@ export default class Main extends Component {
                     <Scene key="root" hideNavBar={true} >
                         <Scene key="home" component={Search} title="Home" initial={true} />
                         <Scene key="myPet" component={MyPet} title="MyPet" />
-                        <Scene key="test" component={Test} title="Test" />
+                        <Scene key="store" component={Store} title="Store" />
                     </Scene>
                 </Router>
                 <NavFooter />

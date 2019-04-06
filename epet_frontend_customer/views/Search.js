@@ -96,7 +96,7 @@ export default class Search extends Component {
           )
       }
       storeList.push(
-        <ListItem avatar key={store.id} onPress={this.goToTest}>
+        <ListItem avatar key={store.id} onPress={this.goToStore}>
           <Left>
             <Icon name='paw' />
           </Left>
@@ -155,8 +155,8 @@ export default class Search extends Component {
   onSearchTextChange = (text) => {
     console.log(text)
   }
-  goToTest = () => {
-    Actions.test()
+  goToStore= () =>{
+    Actions.store({text:store.id});
   }
 }
 
