@@ -44,6 +44,11 @@ export default class Search extends Component {
   }
 
   componentDidMount() {
+    
+    
+  }
+
+  componentWillMount() {
     navigator.geolocation.getCurrentPosition((position)=>{
       lat = parseFloat(position.coords.latitude)
       long = parseFloat(position.coords.longitude)
@@ -62,9 +67,6 @@ export default class Search extends Component {
       })
     })
     
-  }
-
-  componentWillMount() {
     axios
       .get(API_URL + '/store/')
       .then(response => {
