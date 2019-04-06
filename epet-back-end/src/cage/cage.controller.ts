@@ -5,19 +5,14 @@ import { CageService } from './cage.service';
 export class CageController {
     constructor(private readonly cageService:CageService){}
 
-    @Get("/")
-    async showAll(){
-        return this.cageService.showAll();
-    }
-
     @Get(":id")
-    async showById(@Param() id){
-        return this.cageService.showById(id);
+    async showById(@Param() storeId){
+        return this.cageService.showAll(storeId);
     }
 
-    @Post("/")
-    async createCage(@Body() data){
-        return this.cageService.create(data);
+    @Post(":id")
+    async createCage(@Param() id,@Body() data){
+        return this.cageService.create(id,data);
     }
 
     @Put(":id")
@@ -25,7 +20,7 @@ export class CageController {
         return this.cageService.update(id,data);
     }
 
-    @Delete("id")
+    @Delete(":id")
     async deleteCage(@Param() id){
         return this.cageService.delete(id);
     }

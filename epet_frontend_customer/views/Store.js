@@ -12,7 +12,7 @@ export default class Store extends Component {
         super(props)
         this.state = {
           stores: [],
-          address:{}
+          address:{},
         }
     }
 
@@ -31,6 +31,8 @@ export default class Store extends Component {
             })
             console.log(JSON.stringify(response))
           }).then(error => console.log(error))
+        axios
+            .get(API_URL+ '/')
     }
 
     render() {
