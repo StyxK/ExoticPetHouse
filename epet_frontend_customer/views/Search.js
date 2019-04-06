@@ -45,7 +45,6 @@ export default class Search extends Component {
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position)=>{
-      console.log(JSON.stringify(position))
       lat = parseFloat(position.coords.latitude)
       long = parseFloat(position.coords.longitude)
       initialCoordinate = {
@@ -83,36 +82,31 @@ export default class Search extends Component {
   render() {
     const { stores, startPoint, initialPoint, ModalVisible } = this.state;
 
-    let storeMarker = [];
-    let storeList = [];
-    for (store of stores) {
-      {
-        store.address &&
-          storeMarker.push(
-            <Marker key={store.id} coordinate={{
-              latitude: store.address.latitude,
-              longitude: store.address.longitude
-            }} pinColor={'#7A5032'} title={store.name} onPress={() => { this.setModalVisible(true) }} />
-          )
-      }
-      storeList.push(
-        <ListItem avatar key={store.id} onPress={this.goToStore}>
-          <Left>
-            <Icon name='paw' />
-          </Left>
-          <Body>
-            <Text>{store.name}</Text>
-            <Text note>{store.descripion}</Text>
-          </Body>
-          <Right>
-            {(startPoint && store.address) ?
-              <Text note>distance {distance(startPoint.latitude, startPoint.longitude, store.address.latitude, store.address.longitude, "K").toFixed(2)} km.</Text>
-              : <Text note>N/A</Text>
-            }
-          </Right>
-        </ListItem>
-      )
-    }
+    let storeMarker = this.state.stores.map((data)=>{
+      return <Marker key={data.id} coordinate={{
+                latitude: data.address.latitude,
+                longitude: data.address.longitude
+              }} pinColor={"#7A5032"} title={data.name} onPress={() => { this.setModalVisible(true) }} />
+    });
+
+    let storeList = this.state.stores.map((data)=>{
+      return  <ListItem avatar key={data.id} onPress={()=>this.goToStore(data.id)}>
+                <Left>
+                <Icon name='paw' />
+                </Left>
+                <Body>
+                  <Text>{data.name}</Text>
+                  <Text note>{data.descripion}</Text>
+                </Body>
+                <Right>
+                  {(startPoint && data.address) ?
+                    <Text note>distance 
+                      {distance(startPoint.latitude, startPoint.longitude, data.address.latitude, data.address.longitude, "K").toFixed(2)} km.</Text>
+                    : <Text note>N/A</Text>
+                  }
+                </Right>
+              </ListItem>
+    });
 
     return (
       <Container>
@@ -155,8 +149,10 @@ export default class Search extends Component {
   onSearchTextChange = (text) => {
     console.log(text)
   }
-  goToStore= () =>{
-    Actions.store({text:store.id});
+  goToStore= (storeID) =>{
+    this.setModalVisible(false)
+    console.log(storeID)
+    Actions.store({id:storeID});
   }
 }
 

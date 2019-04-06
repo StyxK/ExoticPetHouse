@@ -1,11 +1,11 @@
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
+import NavHeader from '../components/NavHeader'
 
 const API_URL = Config.API_URL;
-const storeId = 'ID';
 export default class Store extends Component {
     
     constructor(props) {
@@ -16,7 +16,7 @@ export default class Store extends Component {
     }
 
     setStoreId(){
-        this.storeId = this.props.text;
+        this.storeId = this.props.id
     }
 
     componentWillMount() {
@@ -36,7 +36,7 @@ export default class Store extends Component {
         return (
             <View style={styles.container}>          
                 <Container>
-                    <Header />
+                    <NavHeader/>
                     <Content>
                         <Card style={{flex: 0}}>
                             <CardItem>
@@ -61,14 +61,16 @@ export default class Store extends Component {
                                 <CardItem>
                                 <Body>
                                     <Text>
-                                        รายละเอียดร้านค้า: {'\n'}
+                                        รายละเอียดร้านค้า: 
+                                    </Text>
+                                    <Text>
                                         {stores.description}
                                     </Text>
                                 </Body>
                                 </CardItem>
                                 <CardItem>
                                 <Left>
-                                    <Text>ที่อยู่ : </Text>
+                                    <Text>ที่อยู่ : {JSON.stringify(stores.address)}</Text>
                                 </Left>
                             </CardItem>
                         </Card>
