@@ -4,11 +4,13 @@ import {InjectRepository} from '@nestjs/typeorm';
 import {Store} from './store.entity';
 import { StoreDTO } from './store.dto';
 import { Address } from 'src/address/address.entity';
+import { Cage } from 'src/cage/cage.entity';
 
 @Injectable()
 export class StoreService {
     constructor(@InjectRepository(Store) private readonly storesRepository:Repository<Store>
-    ,@InjectRepository(Address) private readonly addressRepository:Repository<Address>){}
+    ,@InjectRepository(Address) private readonly addressRepository:Repository<Address>
+    ,@InjectRepository(Cage) private readonly cageRepository:Repository<Cage>){}
 
     async showAll(){
         return await this.storesRepository.find({relations:['address']});
@@ -23,7 +25,9 @@ export class StoreService {
     }
 
     async showById(id :string){
-        return this.storesRepository.findOne({where:id,relations:['address']})
+        const store = await this.storesRepository.findOne({where:id,relations:['address']})
+        const cage = await this.cageRepository.find({store:store})
+        return {...store,cage}
     }
 
     async update(id:string , data : Partial<StoreDTO>){

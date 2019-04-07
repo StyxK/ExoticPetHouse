@@ -11,14 +11,8 @@ export class CageService {
     ,@InjectRepository(Store) private readonly storeRepository:Repository<Store>
     ){}
 
-    async showAll(id:string){
-        const store = await this.storeRepository.findOne({where:id})
-        return this.cageRepository.find({store:store});
-    }
-
     async create(id:string,data:Partial<CageDTO>){
         const store = await this.storeRepository.findOne({where:id});
-        await console.log(store)
         const cage = await this.cageRepository.create({...data,store:store});
         await this.cageRepository.save(cage);
         return {cage};
