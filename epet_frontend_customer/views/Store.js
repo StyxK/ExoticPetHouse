@@ -1,4 +1,4 @@
-import { Container, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, ListItem, List, Radio} from 'native-base';
+import { Container, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, ListItem, List, Radio, DatePicker} from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import axios from 'axios';
@@ -14,12 +14,24 @@ export default class Store extends Component {
           stores: [],
           address:{},
           cage:[],
-          cageSelected: "cageId"
+          cageSelected: "cageId",
+          startChosenDate: new Date(),
+          endChosenDate: new Date()
         }
+        this.setStartDate = this.setStartDate.bind(this);
+        this.setEndDate = this.setEndDate.bind(this);
     }
 
     setStoreId(){
         this.storeId = this.props.id
+    }
+
+    setStartDate(newDate) {
+        this.setState({ startChosenDate: newDate });
+    }
+
+    setEndDate(newDate) {
+        this.setState({ endChosenDate: newDate });
     }
 
     componentWillMount() {
@@ -56,7 +68,7 @@ export default class Store extends Component {
                                 color={"#f0ad4e"}
                                 selectedColor={"#5cb85c"}
                                 selected={this.state.cageSelected == data.id}
-                                
+                                onPress={() => this.setState({ cageSelected:data.id })}
                             />
                       </Right>
                     </ListItem>
@@ -104,12 +116,46 @@ export default class Store extends Component {
                                 </Left>
                             </CardItem> 
                             <List>{storeList}</List>
-                            
-                            
-                        </Card>
-                        
-                        <Text>{this.state.cageSelected}</Text>
-                        
+                            <CardItem>
+                                <Left>
+                                    <Text>ฝากตั้งแต่</Text>
+                                    <DatePicker
+                                    defaultDate={new Date().getDate}
+                                    locale={"th"}
+                                    timeZoneOffsetInMinutes={undefined}
+                                    modalTransparent={false}
+                                    animationType={"fade"}
+                                    androidMode={"default"}
+                                    placeHolderText="Select date"
+                                    textStyle={{ color: "green" }}
+                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                    onDateChange={this.setStartDate}
+                                    disabled={false}
+                                    />
+                                </Left>
+                            </CardItem>
+                            <CardItem>
+                                <Text>ถึง</Text>
+                                <DatePicker
+                                    defaultDate={new Date().getDate}
+                                    locale={"th"}
+                                    timeZoneOffsetInMinutes={undefined}
+                                    modalTransparent={false}
+                                    animationType={"fade"}
+                                    androidMode={"default"}
+                                    placeHolderText="Select date"
+                                    textStyle={{ color: "green" }}
+                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                    onDateChange={this.setEndDate}
+                                    disabled={false}
+                                />
+                            </CardItem>
+                            <Text>
+                                วันที่ฝาก: {this.state.startChosenDate.toString().substr(4, 12)}
+                                - {this.state.endChosenDate.toString().substr(4, 12)}
+                            </Text>
+                        </Card>    
+                        <Text>{this.state.cageSelected}</Text> 
                     </Content>
                 </Container>
             </View>
