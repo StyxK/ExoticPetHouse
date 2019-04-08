@@ -83,7 +83,6 @@ export default class Search extends Component {
 
   render() {
     const { stores, startPoint, initialPoint, ModalVisible } = this.state;
-
     let storeMarker = this.state.stores.map((data)=>{
       return <Marker key={data.id} coordinate={{
                 latitude: data.address.latitude,
@@ -128,7 +127,7 @@ export default class Search extends Component {
           <Button style={{ marginBottom:19, borderRadius: 20, height: 35, alignSelf: "center" }}
             onPress={() => { this.setModalVisible(true) }}
             visible={!ModalVisible}>
-            <Text>Show Store List</Text>
+          <Text>รายการร้านใกล้เคียง</Text>
           </Button>
           <Modal animationType="slide" transparent={true} visible={ModalVisible}
             onRequestClose={() => {
@@ -137,7 +136,7 @@ export default class Search extends Component {
             <View style={styles.modalContainer}>
               <Content style={styles.modal}>
                 <TouchableHighlight onPress={() => { this.setModalVisible(!ModalVisible) }} style={{ alignItems: 'center' }}>
-                  <Text style={{ marginTop: 7 }}>Hide Modal</Text>
+                  <Text style={{ marginTop: 7 }}>ซ่อนรายการร้าน</Text>
                 </TouchableHighlight>
                 <List>{storeList}</List>
               </Content>

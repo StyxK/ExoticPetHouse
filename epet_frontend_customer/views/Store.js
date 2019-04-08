@@ -1,9 +1,9 @@
-import { Container, Content, Card, CardItem, Text, Button, Icon, Left, Body, Right, ListItem, List, Radio, DatePicker} from 'native-base';
+import { Container, Content, Card, CardItem,Button, Text, Icon, Left, Body, Right, ListItem, List, Radio, DatePicker, Header, Title} from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
-import NavHeader from '../components/NavHeader'
+import { Actions } from 'react-native-router-flux';
 
 const API_URL = Config.API_URL;
 export default class Store extends Component {
@@ -78,7 +78,17 @@ export default class Store extends Component {
         return (
             <View style={styles.container}>          
                 <Container>
-                    <NavHeader/>
+                    <Header style={{backgroundColor:'#7A5032'}}>
+                        <Left style={{flex:1}}>
+                            <Icon name="ios-arrow-back" onPress={()=>{Actions.home()}} style={{color:'white',marginLeft:10}}/>
+                        </Left>
+                        <Body style={{flex:1,alignItems:'center'}}>
+                            <Title style={{color:'white',fontSize:20}}>
+                                {stores.name}
+                            </Title>
+                        </Body>
+                        <Right/>
+                    </Header>
                     <Content>
                         <Card style={{flex: 0}}>
                             <CardItem header>
@@ -99,7 +109,7 @@ export default class Store extends Component {
                             </CardItem>
                             <CardItem>
                                 <Left>
-                                    <Text>Tel</Text>
+                                    <Text>ติดต่อ</Text>
                                     <Text note style={{color:'#7A5032'}}>{stores.phoneNumber}</Text>
                                 </Left>
                             </CardItem>
@@ -111,46 +121,50 @@ export default class Store extends Component {
                             </CardItem>
                             <CardItem>
                                 <Left>
-                                    <Text>Total Cage</Text>
-                                    <Text note style={{color:'#7A5032'}}>{stores.maxOfDeposit}</Text>
+                                    <Text>กรงทั้งหมด</Text>
+                                    <Text note style={{color:'#7A5032'}}>{stores.maxOfDeposit} กรง</Text>
                                 </Left>
                             </CardItem> 
                             <List>{storeList}</List>
                             <CardItem>
                                 <Left>
                                     <Text>ฝากตั้งแต่</Text>
+                                </Left>
+                                <Left>
                                     <DatePicker
-                                    defaultDate={new Date().getDate}
-                                    locale={"th"}
-                                    timeZoneOffsetInMinutes={undefined}
-                                    modalTransparent={false}
-                                    animationType={"fade"}
-                                    androidMode={"default"}
-                                    placeHolderText="Select date"
-                                    textStyle={{ color: "green" }}
-                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                    onDateChange={this.setStartDate}
-                                    disabled={false}
+                                        defaultDate={new Date().getDate}
+                                        locale={"th"}
+                                        timeZoneOffsetInMinutes={undefined}
+                                        modalTransparent={false}
+                                        animationType={"fade"}
+                                        androidMode={"default"}
+                                        placeHolderText="เลือกวัน"
+                                        textStyle={{ color: "green" , fontSize: 10}}
+                                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                        onDateChange={this.setStartDate}
+                                        disabled={false}
+                                    />
+                                </Left>
+                                <Left>
+                                    <Text>ถึง</Text>
+                                </Left>
+                                <Left>
+                                    <DatePicker
+                                        defaultDate={new Date().getDate}
+                                        locale={"th"}
+                                        timeZoneOffsetInMinutes={undefined}
+                                        modalTransparent={false}
+                                        animationType={"fade"}
+                                        androidMode={"calendar"}
+                                        placeHolderText="เลือกวัน"
+                                        textStyle={{ color: "green" , fontSize: 10}}
+                                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                                        onDateChange={this.setEndDate}
+                                        disabled={false}
                                     />
                                 </Left>
                             </CardItem>
-                            <CardItem>
-                                <Text>ถึง</Text>
-                                <DatePicker
-                                    defaultDate={new Date().getDate}
-                                    locale={"th"}
-                                    timeZoneOffsetInMinutes={undefined}
-                                    modalTransparent={false}
-                                    animationType={"fade"}
-                                    androidMode={"default"}
-                                    placeHolderText="Select date"
-                                    textStyle={{ color: "green" }}
-                                    placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                    onDateChange={this.setEndDate}
-                                    disabled={false}
-                                />
-                            </CardItem>
-                            <Text>
+                            <Text note>
                                 วันที่ฝาก: {this.state.startChosenDate.toString().substr(4, 12)}
                                 - {this.state.endChosenDate.toString().substr(4, 12)}
                             </Text>
