@@ -141,7 +141,7 @@ export default class Store extends Component {
                             <DatePicker
                                 defaultDate={new Date().getDate}
                                 locale={"th"}
-                                minimumDate={new Date().getDate}
+                                minimumDate={new Date()}
                                 timeZoneOffsetInMinutes={undefined}
                                 modalTransparent={false}
                                 animationType={"slide"}
@@ -158,7 +158,7 @@ export default class Store extends Component {
                             <DatePicker
                                 defaultDate={new Date().getDate}
                                 locale={"th"}
-                                minimumDate={new Date().getDate}
+                                minimumDate={new Date()}
                                 timeZoneOffsetInMinutes={undefined}
                                 modalTransparent={false}
                                 animationType={"slide"}
