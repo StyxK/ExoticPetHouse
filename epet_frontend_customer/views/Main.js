@@ -1,13 +1,15 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Router, Scene } from 'react-native-router-flux';
+import { StyleSheet, View , Text } from 'react-native';
+import { Router, Scene, Actions} from 'react-native-router-flux';
 import NavFooter from '../components/NavFooter.js';
 import MyPet from './MyPet';
 import Search from './Search';
 import Store from './Store';
 
+
 export default class Main extends Component {
+
     render() {
         return (
             <View style={styles.container}>
@@ -18,7 +20,6 @@ export default class Main extends Component {
                         <Scene key="store" component={Store} title="Store" />
                     </Scene>
                 </Router>
-                <NavFooter />
             </View>
         )
     }

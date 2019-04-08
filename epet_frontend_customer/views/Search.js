@@ -10,10 +10,11 @@
 import React, { Component } from 'react';
 import { Container, Content, Button, Icon, ListItem, List, Text, Left, Body, Right } from 'native-base';
 import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput, Dimensions } from 'react-native';
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker } from 'react-native-maps';
 import axios from 'axios';
 import Config from 'react-native-config';
-import { Actions } from 'react-native-router-flux'
+import NavFooter from '../components/NavFooter'
+import { Actions } from 'react-native-router-flux';
 
 
 // type Props = {};
@@ -41,11 +42,6 @@ export default class Search extends Component {
       },
       ModalVisible: false
     }
-  }
-
-  componentDidMount() {
-    
-    
   }
 
   componentWillMount() {
@@ -143,6 +139,7 @@ export default class Search extends Component {
             </View>
           </Modal>
         </View>
+        <NavFooter/>
       </Container>
     );
   }
