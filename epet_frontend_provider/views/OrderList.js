@@ -186,8 +186,6 @@ const styles = StyleSheet.create({
       },
       modal: {
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: 'grey',
         marginBottom: 65,
         backgroundColor: 'white',
         opacity: 0.99,
