@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {Container, Header, Body, Text, Left, Right, Content, ListItem, List, Icon, Button} from 'native-base'
+import {Container, Header, Body, Text, Left, Right, Content, ListItem, List, Icon, Button, Footer, FooterTab} from 'native-base'
 import { StyleSheet, View , Modal} from 'react-native';
 
 const order = [
@@ -141,13 +141,28 @@ export default class OrderList extends Component {
                     <List>
                         {orderFlatList}
                     </List>
-                    <Modal animationType="slide" transparent={true} visible={modalVisible}>
+                    <Modal animationType="slide" visible={modalVisible} transparent={true}>
                         <View style={styles.modalContainer}>
-                            <Content style={styles.modal}>
-                                <Button full onPress={()=>this.setModalVisible(!modalVisible)}>
-                                    <Text>ปิดรายละเอียด</Text>
-                                </Button>
-                            </Content>
+                            <Container style={styles.modal}>
+                                <Content>
+                                    <Button full style={{borderTopLeftRadius:10,borderTopRightRadius:10}} 
+                                            onPress={()=>this.setModalVisible(!modalVisible)}>
+                                        <Text>ปิดรายละเอียด</Text>
+                                    </Button>
+                                </Content>
+                                <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                    <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                        <Button full style={{backgroundColor:'green',borderBottomLeftRadius:10}}>
+                                            <Text style={{color:'white'}}> ตอบรับการรับฝาก </Text>
+                                        </Button>
+                                    </FooterTab>
+                                    <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                        <Button full style={{backgroundColor:'red',borderBottomRightRadius:10}}>
+                                            <Text style={{color:'white'}}> ปฏิเสธการรับฝาก </Text>
+                                        </Button>
+                                    </FooterTab>
+                                </Footer>
+                            </Container>
                         </View>
                     </Modal>
                 </Content>
@@ -166,11 +181,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column-reverse',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 500
+        height: 500,
+        backgroundColor:'rgba(52, 52, 52, 0.8)'
       },
       modal: {
         borderRadius: 10,
-        borderWidth: 5,
+        borderWidth: 1,
         borderColor: 'grey',
         marginBottom: 65,
         backgroundColor: 'white',
