@@ -1,14 +1,15 @@
 
-import { Text } from 'native-base';
+import { Text ,Container} from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
+import PetCard from '../components/PetCard';
 
 export default class MyPet extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text>My Pet</Text>
-            </View>
+            <Container style={styles.container}>
+                <PetCard></PetCard>
+            </Container>
         )
     }
 }
