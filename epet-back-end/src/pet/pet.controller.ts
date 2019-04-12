@@ -10,6 +10,11 @@ export class PetController {
         return this.petService.showAll();
     }
 
+    @Get('/u/:userName')
+    async showByUser(@Param() userName) {
+        return this.petService.showByuserName(userName);
+    }
+
     @Get(':id')
     async showById(@Param() id) {
         return this.petService.showById(id);

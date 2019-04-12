@@ -20,19 +20,19 @@ export class Pet {
     @Column()
     gender: string;
 
-    @Column()
+    @Column({nullable:true})
     congenitalDisease: string;
 
-    @Column()
+    @Column({nullable:true})
     allergicDrugs: string;
 
-    @Column()
+    @Column({nullable:true})
     allergicFoods: string;
 
-    @Column()
+    @Column({nullable:true})
     favThing: string;
 
-    @Column()
+    @Column({nullable:true})
     hateThing: string;
 
     @Column()

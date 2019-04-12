@@ -1,22 +1,36 @@
-
-import { Text ,Container} from 'native-base';
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import PetCard from '../components/PetCard';
+import { Text, Container, Button, ListItem, List } from "native-base";
+import React, { Component } from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
+import PetCard from "../components/PetCard";
+import { Provider, Subscribe } from "unstated";
+import CounterContainer from "../states/CounterContainer";
+import MyPetState from "../states/MyPetState";
 
 export default class MyPet extends Component {
-    render() {
-        return (
-            <Container style={styles.container}>
-                <PetCard></PetCard>
-            </Container>
-        )
-    }
+  render() {
+    return (
+      <Container>
+        {/* <PetCard /> */}
+        <Subscribe to={[MyPetState]}>
+          {petState => (
+            <ScrollView style={styles.container}>
+              {petState.state.pets.map(pet => (
+                <PetCard pet={pet} />
+              ))}
+              <Button onPress={() => petState.add(1)}>
+                <Text>+</Text>
+              </Button>
+            </ScrollView>
+          )}
+        </Subscribe>
+      </Container>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-    },
-})
+  container: {
+    flex: 1,
+    flexDirection: "column"
+  }
+});
