@@ -15,6 +15,11 @@ export class OrderLineController {
         return this.orderLineService.showById(id);
     }
 
+    @Get('/order/:id')
+    async showByOrderID(@Param() id){
+        return this.orderLineService.showByOrderId(id);
+    }
+
     @Post('/')
     async createOrder(@Body() data) {
         return this.orderLineService.create(data);
