@@ -7,21 +7,17 @@ export default class NavFooter extends Component {
         return (
             <Footer>
                 <FooterTab style={{ backgroundColor: '#7A5032' }}>
-                    <Button Badge vertical onPress={this.goToHome}>
-                        <Icon name='list' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>รายการฝาก</Text>
-                    </Button>
                     <Button Badge vertical>
-                        <Icon name='paw' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>สัตว์เลี้ยง</Text>
+                        <Icon name='home' style={{ color: 'white' }} />
+                        <Text style={{ fontSize: 7, color: 'white' }}>หน้าร้าน</Text>
                     </Button>
                     <Button Badge vertical>
                         <Icon name='chatbubbles' style={{ color: 'white' }} />
                         <Text style={{ fontSize: 7, color: 'white' }}>แชท</Text>
                     </Button>
-                    <Button Badge vertical>
+                    <Button Badge vertical onPress={this.goToHome}>
                         <Icon name='list' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>ประวัติรับฝาก</Text>
+                        <Text style={{ fontSize: 7, color: 'white' }}>รายการฝาก</Text>
                     </Button>
                     <Button Badge vertical>
                         <Icon name='person' style={{ color: 'white' }} />
