@@ -11,18 +11,9 @@ import {
   Thumbnail
 } from "native-base";
 
-const API_URL = Config.API_URL;
 
 export default class PetCard extends Component {
-  // componentWillMount() {
-  //   axios
-  //   .get(API_URL + '/pet/u/'+'nongnaem5')
-  //   .then(response => {
-  //     this.setState({
-        
-  //     })  
-  //   }
-  // }
+
   render() {
     const { pet } = this.props;
     return (
