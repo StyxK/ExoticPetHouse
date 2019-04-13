@@ -7,7 +7,7 @@ export class OrderService {
     constructor(@InjectRepository(Order) private readonly orderRepository:Repository<Order>){}
 
     async showAll(){
-        return this.orderRepository.find();
+        return this.orderRepository.find({relations:['customer']});
     }
 
     async showById(id:string){

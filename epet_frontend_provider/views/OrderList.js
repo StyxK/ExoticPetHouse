@@ -3,79 +3,19 @@ import React, { Component } from 'react';
 import {Container, Header, Body, Text, Left, Right, Content, ListItem, List, Icon, Button, Footer, FooterTab} from 'native-base'
 import { StyleSheet, View , Modal} from 'react-native';
 import { connect } from 'react-redux'
+import Axios from 'axios'
+import Config from 'react-native-config'
 
-const order = [
-    {
-        id:'od0001',
-        transportation:'self',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'bankbaw',
-    },
-    {
-        id:'od0002',
-        transportation:'self',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Wissanupong'
-    },
-    {
-        id:'od0003',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Vuttichai'
-    },
-    {
-        id:'od0004',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Kittiphun'
-    },
-    {
-        id:'od0005',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Nhathakit'
-    },
-    {
-        id:'od0006',
-        transportation:'self',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Kantarat'
-    },
-    {
-        id:'od0007',
-        transportation:'self',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Keerati'
-    }
-]
-
+const API_URL = Config.API_URL;
 
 class OrderList extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            orders:order,
+            orders:[],
             orderLines:[],
             modalVisible:false,
-            initialUser:{
-                name:'bank',
-                age:'22'
-            }
         }
     }
 
@@ -84,11 +24,18 @@ class OrderList extends Component {
     }
 
     componentWillMount(){
-
+        Axios.get(API_URL+'/order').then(
+            (response)=>{
+                this.setState({
+                    orders : response.data
+                })
+            }
+        )
     }
 
     render() {
         const { modalVisible , orders} = this.state
+
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
                         <Left>
@@ -99,7 +46,8 @@ class OrderList extends Component {
                             }/>
                         </Left>
                         <Body style={{flex:2}}>
-                            <Text style={{fontSize:15}}> ผู้ฝาก : <Text note>{data.customerUserName} </Text ></Text>
+                            <Text style={{fontSize:15}}> รหัสการสั่ง : <Text note>{data.id}</Text></Text>
+                            <Text style={{fontSize:15}}> ผู้ฝาก : <Text note>{this.props.name} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
@@ -114,14 +62,16 @@ class OrderList extends Component {
         return (
             <Container>
                 <Header style={{backgroundColor:'#7A5032'}}>
-                    <Left style={{flex:1}}/>
+                    <Left style={{flex:1}}>
+                        <Icon name='person' onPress={()=>{this.props.logout()}}/>
+                    </Left>
                     <Body style={{flex:2.5}}>
                         <Text style={{color:'white'}}>
                             รายการคำขอฝากสัตว์เลี้ยง
                         </Text>
                     </Body>
                     <Right style={{flex:1}}>
-                        <Icon name='person'/>
+                        <Icon name='person' onPress={()=>{this.props.login()}}/>
                     </Right>
                 </Header>
                 <Content>
@@ -158,11 +108,17 @@ class OrderList extends Component {
     }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        login : ()=> dispatch({ 'type':'LOGIN' , 'payload' : 'developer'}),
+        logout : ()=> dispatch({ 'type':'LOGOUT' , 'payload' : 'annonymous'})
+    }
+}
+
 const mapStateToProps = (state)=>{
     return state
 }
-export default connect (mapStateToProps)(OrderList)
-// module.exports = connect(mapStateToProps)(OrderList)
+export default connect (mapStateToProps,mapDispatchToProps)(OrderList)
 
 const styles = StyleSheet.create({
     container: {
