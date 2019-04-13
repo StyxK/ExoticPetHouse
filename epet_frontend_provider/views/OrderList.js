@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import {Container, Header, Body, Text, Left, Right, Content, ListItem, List, Icon, Button, Footer, FooterTab} from 'native-base'
 import { StyleSheet, View , Modal} from 'react-native';
+import { connect } from 'react-redux'
 
 const order = [
     {
@@ -59,42 +60,22 @@ const order = [
         startDate:new Date('2019-11-12'),
         endDate:new Date('2019-11-12'),
         customerUserName:'Keerati'
-    },
-    {
-        id:'od0008',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Suparurk'
-    },
-    {
-        id:'od0009',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'FlookLSD'
-    },
-    {
-        id:'od0010',
-        transportation:'kerry',
-        submitDate:new Date('2019-11-12'),
-        startDate:new Date('2019-11-12'),
-        endDate:new Date('2019-11-12'),
-        customerUserName:'Supakorn'
-    },
+    }
 ]
 
 
-export default class OrderList extends Component {
+class OrderList extends Component {
 
     constructor(props){
         super(props)
         this.state = {
             orders:order,
             orderLines:[],
-            modalVisible:false
+            modalVisible:false,
+            initialUser:{
+                name:'bank',
+                age:'22'
+            }
         }
     }
 
@@ -111,7 +92,11 @@ export default class OrderList extends Component {
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
                         <Left>
-                            <Icon name='person'/>
+                            <Icon name='person' onPress={
+                                ()=>{
+                                    alert(this.props.name)
+                                }
+                            }/>
                         </Left>
                         <Body style={{flex:2}}>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note>{data.customerUserName} </Text ></Text>
@@ -135,7 +120,9 @@ export default class OrderList extends Component {
                             รายการคำขอฝากสัตว์เลี้ยง
                         </Text>
                     </Body>
-                    <Right style={{flex:1}}/>
+                    <Right style={{flex:1}}>
+                        <Icon name='person'/>
+                    </Right>
                 </Header>
                 <Content>
                     <List>
@@ -170,6 +157,12 @@ export default class OrderList extends Component {
         )
     }
 }
+
+const mapStateToProps = (state)=>{
+    return state
+}
+export default connect (mapStateToProps)(OrderList)
+// module.exports = connect(mapStateToProps)(OrderList)
 
 const styles = StyleSheet.create({
     container: {

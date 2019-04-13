@@ -4,20 +4,26 @@ import { StyleSheet, View , Text } from 'react-native';
 import { Router, Scene, Actions} from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import NavFooter from '../components/NavFooter';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import userReducer from '../src/reducer/UserReducer'
 
+const store = createStore(userReducer)
 
 export default class Main extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Router>
-                    <Scene key="root" hideNavBar={true} >
-                        <Scene key="home" component={OrderList} title="Home" initial={true} />
-                    </Scene>
-                </Router>
-                <NavFooter/>
-            </View>
+            <Provider store={store}>
+                <View style={styles.container}>
+                    <Router>
+                        <Scene key="root" hideNavBar={true} >
+                            <Scene key="home" component={OrderList} title="Home" initial={true} />
+                        </Scene>
+                    </Router>
+                    <NavFooter/>
+                </View>
+            </Provider>
         )
     }
 }
