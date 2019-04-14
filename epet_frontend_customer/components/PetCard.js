@@ -29,7 +29,7 @@ export default class PetCard extends Component {
               />
               <Body>
                 <Text>{pet.name}</Text>
-                <Text note>GeekyAnts</Text>
+                <Text note>{pet.typeOfPet}</Text>
               </Body>
             </Left>
           </CardItem>

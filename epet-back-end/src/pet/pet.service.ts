@@ -20,7 +20,10 @@ export class PetService {
   }
 
   async showByuserName(userName: string): Promise<Pet[]> {
-    return this.petRepository.find({where: {ownerUserName: userName}});
+    return this.petRepository.find({
+      where: { ownerUserName: userName },
+      relations: ['owner'],
+    });
   }
 
   async create(data: PetDTO): Promise<Pet> {

@@ -7,6 +7,7 @@ import Search from "./Search";
 import Store from "./Store";
 import { Provider, Subscribe } from "unstated";
 import AddPet from "./AddPet.js";
+import PetDescription from "./PetDescription.js";
 
 export default class Main extends Component {
   render() {
@@ -24,6 +25,7 @@ export default class Main extends Component {
               <Scene key="myPet" component={MyPet} title="MyPet" />
               <Scene key="store" component={Store} title="Store" />
               <Scene key="addPet" component={AddPet} title="AddPet" />
+              <Scene key="petDescription" component={PetDescription} title="PetDescription" />
             </Scene>
           </Router>
         </View>
