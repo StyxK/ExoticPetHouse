@@ -25,12 +25,9 @@ import { addPet, setPets } from "../actions";
 const API_URL = Config.API_URL;
 
 export default class PetDescription extends Component {
-  state = {
-  };
+  state = {};
 
-  componentWillMount() {
-    
-  }
+  componentWillMount() {}
 
   render() {
     const { pet } = this.props;
@@ -54,12 +51,88 @@ export default class PetDescription extends Component {
             <CardItem header>
               <Text style={{ fontSize: 25 }}> {pet.name} </Text>
             </CardItem>
+            <CardItem>
+              <Left>
+                <Text>ชื่อ</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.name}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>ประเภท</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.typeOfPet}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>อายุ</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.age}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>เพศ</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.gender}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>โรคประจำตัว</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.congenitalDisease||"-"}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>ยาที่แพ้</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.allergicDrugs||"-"}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>อาหารที่แพ้</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.allergicFoods||"-"}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>สิ่งที่ชอบ</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.favThing||"-"}
+                </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Text>สิ่งที่ไม่ชอบ</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.hateThing||"-"}
+                </Text>
+              </Left>
+            </CardItem>
           </Card>
+          <Button onPress={()=>Actions.addPet({pet:pet})}>
+            <Text>
+              edit
+            </Text>
+          </Button>
         </Content>
       </Container>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -68,4 +141,3 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   }
 });
-

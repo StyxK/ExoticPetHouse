@@ -35,26 +35,30 @@ export default class AddPet extends Component {
     congenitalDisease: "",
     allergicDrugs: "",
     allergicFoods: "",
-    favoriteThing: "",
+    favThing: "",
     hateThing: "",
     age: "",
-    petType: "",
+    typeOfPet: "",
     gender: ""
   };
+  constructor(props){
+    super(props)
+    alert(JSON.stringify(props.pet))
+    this.state = {...this.state, ...props.pet}
+  }
 
   componentWillMount() {}
 
   render() {
-    const { pets = [], setPets, addPet } = this.props;
     const {
       name,
       congenitalDisease,
       allergicDrugs,
       allergicFoods,
-      favoriteThing,
+      favThing,
       hateThing,
       age,
-      petType,
+      typeOfPet,
       gender
     } = this.state;
     return (
@@ -90,8 +94,8 @@ export default class AddPet extends Component {
                 placeholder="Select your SIM"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
-                selectedValue={petType}
-                onValueChange={this.onChangeText("petType")}
+                selectedValue={typeOfPet}
+                onValueChange={this.onChangeText("typeOfPet")}
               >
                 <Picker.Item label="โปรดเลือกประเภทของสัตว์เลี้ยง" value="" />
                 <Picker.Item label="สัตว์เลื้อยคลาน" value="key0" />
@@ -158,8 +162,8 @@ export default class AddPet extends Component {
             <Label>สิ่งที่ชอบ</Label>
             <Item stackedLabel>
               <Input
-                onChangeText={this.onChangeText("favoriteThing")}
-                defaultValue={favoriteThing}
+                onChangeText={this.onChangeText("favThing")}
+                defaultValue={favThing}
               />
             </Item>
             <Label>สิ่งที่ไม่ชอบ</Label>
@@ -193,10 +197,10 @@ export default class AddPet extends Component {
       congenitalDisease,
       allergicDrugs,
       allergicFoods,
-      favoriteThing,
+      favThing,
       hateThing,
       age,
-      petType,
+      typeOfPet,
       gender
     } = this.state;
     if (!name) {
@@ -208,7 +212,7 @@ export default class AddPet extends Component {
     if (!gender) {
       return alert("Plese Enter your pet gender");
     }
-    if (!petType) {
+    if (!typeOfPet) {
       return alert("Plese Enter your pet type");
     }
     axios
@@ -217,10 +221,10 @@ export default class AddPet extends Component {
         congenitalDisease,
         allergicDrugs,
         allergicFoods,
-        favThing: favoriteThing,
+        favThing,
         hateThing,
         age: Number(age),
-        typeOfPet: petType,
+        typeOfPet,
         gender,
         owner: {
           userName: "nongnaem5"
