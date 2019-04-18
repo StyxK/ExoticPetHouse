@@ -52,20 +52,19 @@ class OrderList extends Component {
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
                         <Left>
-                            <Thumbnail source={{uri:PIC_URI}}/>
+                            <Thumbnail small source={{uri:PIC_URI}}/>
                         </Left>
                         <Body style={{flex:2}}>
-                            <Text style={{fontSize:15}}> รหัสการสั่ง : <Text note>{data.id}</Text></Text>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {JSON.parse(JSON.stringify(data.customer.userName))} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
-                            <Button style={{borderBottomEndRadius:20,height:30}} 
+                            <Button style={{height:30,backgroundColor:'#7A5032'}} 
                                 onPress={()=> { 
                                     this.orderDetails(data.id)
                                     this.setModalVisible(!modalVisible)
                                 }}>
-                                <Text style={{fontSize:10}}> ดูรายละเอียด </Text>
+                                <Text style={{fontSize:10}}> รายละเอียด </Text>
                             </Button>
                         </Right>
                     </ListItem>
@@ -78,9 +77,8 @@ class OrderList extends Component {
                             <Thumbnail small source={{uri:PIC_URI}}/>
                         </Left>
                         <Body style={{flex:3}}>
-                            <Text> ชื่อสัตว์เลี้ยง <Text note> {petDetail.name} </Text></Text>
-                            <Text> ประเภท <Text note> {petDetail.typeOfPet} </Text></Text>
-                            <Text> ยืนยันวันที่ <Text note> {data.submitDate} </Text></Text>
+                            <Text style={{fontSize:10}}> ชื่อสัตว์เลี้ยง <Text note> {petDetail.name} </Text></Text>
+                            <Text style={{fontSize:10}}> ประเภท <Text note> {petDetail.typeOfPet} </Text></Text>
                         </Body>
                         <Right style={{flex:1}}>
                         </Right>

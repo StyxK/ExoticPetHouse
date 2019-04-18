@@ -5,12 +5,13 @@ import { Customer } from "../customer/customer.entity";
 import { OrderLine } from "../orderline/orderline.entity";
 
 import { Feedback } from "../feedback/feedback.entity";
-import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
+
+import { Entity, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Order {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()

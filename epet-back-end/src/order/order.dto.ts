@@ -1,14 +1,13 @@
 import { OrderLine } from "src/orderline/orderline.entity";
-import { Feedback } from "src/feedback/feedback.entity";
 import { Customer } from "src/customer/customer.entity";
+import { Store } from "src/store/store.entity";
 
 export interface OrderDTO {
-    id:string
     transportation:string
     submitDate:Date
+    store:Store
     startDate:Date
     endDate:Date
-    orderLines: OrderLine
-    feedbacks: Feedback
+    orderLines: OrderLine[]
     customer:Customer
 }

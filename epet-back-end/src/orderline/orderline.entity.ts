@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
+import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "../order/order.entity";
 import { Pet } from "../pet/pet.entity";
 import { PetActivity } from "../petactivity/petactivity.entity";
@@ -6,14 +6,8 @@ import { PetActivity } from "../petactivity/petactivity.entity";
 @Entity()
 export class OrderLine {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
-
-    @Column()
-    transportation: string;
-
-    @Column()
-    submitDate: Date;
 
     @ManyToOne(type => Pet, pet => pet.orderLines)
     pet: Pet;
