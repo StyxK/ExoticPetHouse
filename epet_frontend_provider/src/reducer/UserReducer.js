@@ -1,5 +1,6 @@
 const initialState = {
-    name:'anonymous'
+    userName:'anonymous',
+    store:'st0005'
 }
 
 const userReducer = (state=initialState,action)=>{

@@ -9,10 +9,11 @@ import {
   Left,
   Body,
   Title,
-  Right
+  Right,
+  Content
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
+import { StyleSheet, TouchableHighlight , View} from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -39,10 +40,12 @@ class MyPet extends Component {
             <Title style={{ color: "white", fontSize: 20 }}>My Pet</Title>
           </Body>
         </Header>
-        <Fab position="bottomRight" onPress={this.goToAddPet}>
-          <Icon name="add" />
-          
-        </Fab>
+        <Content/>
+        <View>
+          <Fab position="bottomRight" onPress={this.goToAddPet}>
+            <Icon name="add" />
+          </Fab>
+        </View>
         {pets.map(pet => (
           <TouchableHighlight
             key={pet.id}

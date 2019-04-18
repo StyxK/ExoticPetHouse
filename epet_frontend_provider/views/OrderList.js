@@ -62,6 +62,10 @@ class OrderList extends Component {
         })
     }
 
+    acceptOrder = ()=>{
+        
+    }
+
     componentWillMount(){
         Axios.get(API_URL+'/order').then(
             (response)=>{
