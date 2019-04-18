@@ -16,6 +16,7 @@ class OrderList extends Component {
         this.state = {
             orders:[],
             orderLines:[],
+            orderDetialDescription:[],
             modalVisible:false,
         }
     }
@@ -24,7 +25,7 @@ class OrderList extends Component {
         this.setState({ modalVisible:visible })
     }
 
-    orderDetails = (orderId) => {
+    getOrderDetails = (orderId) => {
         console.log(orderId)
         Axios.get(API_URL+'/orderline/order/'+orderId).then(
             (response) =>{
@@ -34,6 +35,31 @@ class OrderList extends Component {
                 })
             }
         )
+    }
+
+    showOrderDetail = (data)=>{
+        this.getOrderDetails(data.id)
+        this.setModalVisible(!this.state.modalVisible)
+        this.setState({
+            orderDetialDescription : [
+                <View key={data.id}>
+                    <View style={{margin:10}}>
+                        <Text>
+                            ผู้ฝาก : <Text note> {JSON.parse(JSON.stringify(data.customer.userName))} </Text>
+                        </Text>
+                        <Text>
+                            ฝากวันที่ : <Text note> {data.startDate} </Text>
+                        </Text>
+                        <Text>
+                            ถึงวันที่ : <Text note> {data.endDate} </Text>
+                        </Text>
+                        <Text>
+                            การขนส่งสัตว์ : <Text note> {data.transportation} </Text>
+                        </Text>
+                    </View>
+                </View>
+            ]
+        })
     }
 
     componentWillMount(){
@@ -47,7 +73,7 @@ class OrderList extends Component {
     }
 
     render() {
-        const { modalVisible , orders , orderLines} = this.state
+        const { modalVisible , orders , orderLines , orderDetialDescription} = this.state
 
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
@@ -60,10 +86,7 @@ class OrderList extends Component {
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
                             <Button style={{height:30,backgroundColor:'#7A5032'}} 
-                                onPress={()=> { 
-                                    this.orderDetails(data.id)
-                                    this.setModalVisible(!modalVisible)
-                                }}>
+                                onPress={()=> this.showOrderDetail(data)}>
                                 <Text style={{fontSize:10}}> รายละเอียด </Text>
                             </Button>
                         </Right>
@@ -72,7 +95,7 @@ class OrderList extends Component {
 
         let orderLineFlatList = orderLines.map((data)=>{
             petDetail = JSON.parse(JSON.stringify(data.pet))
-            return <ListItem key={data.id}>
+            return  <ListItem key={data.id}>
                         <Left style={{flex:0.75}}>
                             <Thumbnail small source={{uri:PIC_URI}}/>
                         </Left>
@@ -84,6 +107,7 @@ class OrderList extends Component {
                         </Right>
                    </ListItem>
         })
+
 
         return (
             <Container>
@@ -104,10 +128,11 @@ class OrderList extends Component {
                         <View style={styles.modalContainer}>
                             <Container style={styles.modal}>
                                 <Content>
-                                    <Button full style={{borderTopLeftRadius:10,borderTopRightRadius:10}} 
+                                    <Button full style={{borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:'#7A5032'}} 
                                             onPress={()=>this.setModalVisible(!modalVisible)}>
                                         <Text>ปิดรายละเอียด</Text>
                                     </Button>
+                                    {orderDetialDescription}
                                     <List>
                                         {orderLineFlatList}
                                     </List>
