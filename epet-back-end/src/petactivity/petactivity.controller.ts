@@ -16,17 +16,17 @@ export class PetActivityController {
     }
 
     @Post('/')
-    async createOrder(@Body() data) {
+    async createPetActivity(@Body() data) {
         return this.petActivityService.create(data);
     }
 
     @Put(':id')
-    async updateOrder(@Param() id, @Body() data) {
+    async updatePetActivity(@Param() id, @Body() data) {
         return this.petActivityService.update(id, data);
     }
 
     @Delete(':id')
-    async deleteOrder(@Param() id) {
+    async deletePetActivity(@Param() id) {
         return this.petActivityService.delete(id);
     }
 }

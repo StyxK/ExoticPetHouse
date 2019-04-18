@@ -31,6 +31,7 @@ const API_URL = Config.API_URL;
 
 export default class AddPet extends Component {
   state = {
+    id: undefined,
     name: "",
     congenitalDisease: "",
     allergicDrugs: "",
@@ -41,16 +42,17 @@ export default class AddPet extends Component {
     typeOfPet: "",
     gender: ""
   };
-  constructor(props){
-    super(props)
-    alert(JSON.stringify(props.pet))
-    this.state = {...this.state, ...props.pet}
+  constructor(props) {
+    super(props);
+    alert(JSON.stringify(props.pet));
+    this.state = { ...this.state, ...props.pet };
   }
 
   componentWillMount() {}
 
   render() {
     const {
+      id,
       name,
       congenitalDisease,
       allergicDrugs,
@@ -112,7 +114,7 @@ export default class AddPet extends Component {
                 style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={this.onChangeText("age")}
-                defaultValue={age}
+                defaultValue={age + ""}
               />
             </Item>
             <Label>เพศ</Label>
@@ -177,7 +179,7 @@ export default class AddPet extends Component {
               style={{ backgroundColor: "#7A5032" }}
               onPress={this.submitForm}
             >
-              <Text>Add Pet</Text>
+              <Text>{id ? "Edit" : "Add Pet"}</Text>
             </Button>
           </Form>
         </Content>
@@ -193,6 +195,7 @@ export default class AddPet extends Component {
 
   submitForm = () => {
     const {
+      id,
       name,
       congenitalDisease,
       allergicDrugs,
@@ -215,29 +218,57 @@ export default class AddPet extends Component {
     if (!typeOfPet) {
       return alert("Plese Enter your pet type");
     }
-    axios
-      .post(API_URL + "/pet/", {
-        name,
-        congenitalDisease,
-        allergicDrugs,
-        allergicFoods,
-        favThing,
-        hateThing,
-        age: Number(age),
-        typeOfPet,
-        gender,
-        owner: {
-          userName: "nongnaem5"
-        }
-      })
-      .then(response => {
-        alert("success");
-        console.log(JSON.stringify(response));
-      })
-      .catch(error => {
-        alert("error" + error);
-        console.log(error);
-      });
+    if (id) {
+      axios
+        .put(API_URL + "/pet/" + id, {
+          name,
+          congenitalDisease,
+          allergicDrugs,
+          allergicFoods,
+          favThing,
+          hateThing,
+          age: Number(age),
+          typeOfPet,
+          gender,
+          owner: {
+            userName: "nongnaem5"
+          }
+        })
+        .then(response => {
+          alert("success");
+          console.log(JSON.stringify(response));
+          Actions.pop();
+        })
+        .catch(error => {
+          alert("error" + error);
+          console.log(error);
+        });
+    } else {
+      axios
+        .post(API_URL + "/pet/", {
+          name,
+          congenitalDisease,
+          allergicDrugs,
+          allergicFoods,
+          favThing,
+          hateThing,
+          age: Number(age),
+          typeOfPet,
+          gender,
+          owner: {
+            userName: "nongnaem5"
+          }
+        })
+        .then(response => {
+          alert("success");
+          console.log(JSON.stringify(response));
+          Actions.pop();
+        })
+        .catch(error => {
+          alert("error" + error);
+          console.log(error);
+        });
+    }
   };
 }
 

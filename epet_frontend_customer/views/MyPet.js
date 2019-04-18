@@ -10,10 +10,11 @@ import {
   Body,
   Title,
   Right,
-  Content
+  Content,
+  Footer
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight , View} from "react-native";
+import { StyleSheet, TouchableHighlight, View } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -35,25 +36,28 @@ class MyPet extends Component {
     const { pets = [], setPets, addPet } = this.props;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
-          <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>My Pet</Title>
-          </Body>
-        </Header>
-        <Content/>
-        <View>
+        <Container>
+          <Header style={{ backgroundColor: "#7A5032" }}>
+            <Body style={{ flex: 1, alignItems: "center" }}>
+              <Title style={{ color: "white", fontSize: 20 }}>My Pet</Title>
+            </Body>
+          </Header>
+
+          <Content>
+            {pets.map(pet => (
+              <TouchableHighlight
+                key={pet.id}
+                onPress={this.goToPetDescription(pet)}
+              >
+                <PetCard pet={pet} />
+              </TouchableHighlight>
+            ))}
+          </Content>
+
           <Fab position="bottomRight" onPress={this.goToAddPet}>
             <Icon name="add" />
           </Fab>
-        </View>
-        {pets.map(pet => (
-          <TouchableHighlight
-            key={pet.id}
-            onPress={this.goToPetDescription(pet)}
-          >
-            <PetCard pet={pet} />
-          </TouchableHighlight>
-        ))}
+        </Container>
         <NavFooter />
       </Container>
     );

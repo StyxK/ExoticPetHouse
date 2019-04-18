@@ -16,17 +16,17 @@ export class FeedbackController {
     }
 
     @Post('/')
-    async createOrder(@Body() data) {
+    async createFeedback(@Body() data) {
         return this.feedbackService.create(data);
     }
 
     @Put(':id')
-    async updateOrder(@Param() id, @Body() data) {
+    async updateFeedback(@Param() id, @Body() data) {
         return this.feedbackService.update(id, data);
     }
 
     @Delete(':id')
-    async deleteOrder(@Param() id) {
+    async deleteFeedback(@Param() id) {
         return this.feedbackService.delete(id);
     }
 }

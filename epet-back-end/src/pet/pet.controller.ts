@@ -21,17 +21,17 @@ export class PetController {
     }
 
     @Post('/')
-    async createOrder(@Body() data) {
+    async createPet(@Body() data) {
         return this.petService.create(data);
     }
 
     @Put(':id')
-    async updateOrder(@Param() id, @Body() data) {
+    async updatePet(@Param() id, @Body() data) {
         return this.petService.update(id, data);
     }
 
     @Delete(':id')
-    async deleteOrder(@Param() id) {
+    async deletePet(@Param() id) {
         return this.petService.delete(id);
     }
 }
