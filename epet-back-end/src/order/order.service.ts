@@ -18,9 +18,10 @@ export class OrderService {
         const order = await this.orderRepository.findOne({where:id});
         const orderLines = await this.orderLineRepository.find({relations:['pet','cage'] , where:{order:id}})
         let totalPrice : number = 0
+        const duration = await this.calculateDate(order.startDate,order.endDate)
         for(let orderLine in orderLines)
-            totalPrice += orderLines[orderLine].cage.price
-        return {...order,orderLines,totalPrice}
+            totalPrice += orderLines[orderLine].cage.price * duration
+        return {...order,orderLines,totalPrice,duration}
     }
 
     async create(data:Partial<OrderDTO>){
@@ -39,5 +40,9 @@ export class OrderService {
         return {delete:true};
     }
 
+    async calculateDate(startDate : Date,endDate : Date){
+        const diffTime = await Math.abs(startDate.getTime()-endDate.getTime())
+        return await Math.ceil(diffTime/(1000*60*60*24))
+    }
 
 }

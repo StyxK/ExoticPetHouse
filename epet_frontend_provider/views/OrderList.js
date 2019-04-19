@@ -47,6 +47,9 @@ class OrderList extends Component {
                                     การขนส่งสัตว์ : <Text note> {data.transportation} </Text>
                                 </Text>
                                 <Text>
+                                    ระยะเวลาฝาก : <Text note> {data.duration} </Text> วัน
+                                </Text>
+                                <Text>
                                     ค่าบริการทั้งหมด : <Text note> {data.totalPrice} </Text> บาท
                                 </Text>
                             </View>
@@ -108,6 +111,7 @@ class OrderList extends Component {
                             <Text style={{fontSize:10}}> ชื่อสัตว์เลี้ยง <Text note> {petDetail.name} </Text></Text>
                             <Text style={{fontSize:10}}> ประเภท <Text note> {petDetail.typeOfPet} </Text></Text>
                             <Text style={{fontSize:10}}> กรง : <Text note> {cage.name} </Text></Text>
+                            <Text style={{fontSize:10}}> ค่าบริการกรง / วัน : <Text note> {cage.price} </Text> บาท </Text>
                         </Body>
                         <Right style={{flex:1}}>
                         </Right>
