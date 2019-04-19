@@ -58,7 +58,7 @@ class OrderList extends Component {
                         </Text>
                     </View>
                 </View>
-            ]
+            ],
         })
     }
 
@@ -77,7 +77,7 @@ class OrderList extends Component {
     }
 
     render() {
-        const { modalVisible , orders , orderLines , orderDetialDescription} = this.state
+        const { modalVisible , orders , orderLines , orderDetialDescription , totalPrice} = this.state
 
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
@@ -98,6 +98,7 @@ class OrderList extends Component {
         })
 
         let orderLineFlatList = orderLines.map((data)=>{
+            cage = JSON.parse(JSON.stringify(data.cage))
             petDetail = JSON.parse(JSON.stringify(data.pet))
             return  <ListItem key={data.id}>
                         <Left style={{flex:0.75}}>
@@ -106,6 +107,7 @@ class OrderList extends Component {
                         <Body style={{flex:3}}>
                             <Text style={{fontSize:10}}> ชื่อสัตว์เลี้ยง <Text note> {petDetail.name} </Text></Text>
                             <Text style={{fontSize:10}}> ประเภท <Text note> {petDetail.typeOfPet} </Text></Text>
+                            <Text style={{fontSize:10}}> กรง : <Text note> {cage.name} </Text></Text>
                         </Body>
                         <Right style={{flex:1}}>
                         </Right>
@@ -140,6 +142,9 @@ class OrderList extends Component {
                                     <List>
                                         {orderLineFlatList}
                                     </List>
+                                    <Text>
+                                        ราคา
+                                    </Text>
                                 </Content>
                                 <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
                                     <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
@@ -193,6 +198,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         opacity: 0.99,
         width: '85%',
-        marginTop: 40
+        marginTop: 40,
       }
 })

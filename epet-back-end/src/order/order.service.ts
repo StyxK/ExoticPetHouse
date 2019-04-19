@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
@@ -15,7 +15,12 @@ export class OrderService {
     }
 
     async showById(id:string){
-        return this.orderRepository.findOne({where:id});
+        const order = await this.orderRepository.findOne({where:id});
+        const orderLines = await this.orderLineRepository.find({relations:['pet','cage'] , where:{order:id}})
+        let totalPrice : number = 0
+        for(let orderLine in orderLines)
+            totalPrice += orderLines[orderLine].cage.price
+        return {...order,orderLines,totalPrice}
     }
 
     async create(data:Partial<OrderDTO>){

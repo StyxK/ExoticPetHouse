@@ -6,7 +6,7 @@ import { OrderLine } from "../orderline/orderline.entity";
 
 import { Feedback } from "../feedback/feedback.entity";
 
-import { Entity, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 
 @Entity()
 export class Order {
@@ -30,7 +30,10 @@ export class Order {
     store: Store;
 
     @ManyToOne(type => Customer,customer => customer.orders)
+    @JoinColumn({name:'customerUsername'})
     customer: Customer;
+    @Column()
+    customerUsername:string
 
     @OneToMany(type => OrderLine,orderLine => orderLine.order)
     orderLines: OrderLine[];

@@ -16,11 +16,6 @@ export class OrderLineService {
         return this.OrderLineRepository.findOne({ where: id });
     }
 
-    async showByOrderId(orderId: string) : Promise<OrderLine[]> {
-        const orderLine = await this.OrderLineRepository.find({relations:['pet'] , where:{order:orderId}})
-        return orderLine
-    }
-
     async create(data: OrderLineDTO): Promise<OrderLine> {
         const orderLine = await this.OrderLineRepository.create(data);
         await this.OrderLineRepository.save(data);
