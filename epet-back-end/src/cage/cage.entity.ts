@@ -1,5 +1,6 @@
 import { Store } from "../store/store.entity";
-import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { OrderLine } from "src/orderline/orderline.entity";
 
 @Entity()
 export class Cage {
@@ -21,4 +22,8 @@ export class Cage {
 
     @ManyToOne(type => Store,store => store.cages)
     store: Store;
+
+    @OneToMany(type => OrderLine,orderLines => orderLines.cage)
+    orderLines:OrderLine[]
+    
 }
