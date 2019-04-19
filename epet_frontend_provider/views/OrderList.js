@@ -26,12 +26,32 @@ class OrderList extends Component {
     }
 
     getOrderDetails = (orderId) => {
-        console.log(orderId)
-        Axios.get(API_URL+'/orderline/order/'+orderId).then(
+        Axios.get(API_URL+'/order/'+orderId).then(
             (response) =>{
-                console.log(response.data)
+                data = response.data
                 this.setState({
-                    orderLines : response.data
+                    orderLines : data.orderLines,
+                    orderDetialDescription : [
+                        <View key={data.id}>
+                            <View style={{margin:10}}>
+                                <Text>
+                                    ผู้ฝาก : <Text note> {data.customerUsername} </Text>
+                                </Text>
+                                <Text>
+                                    ฝากวันที่ : <Text note> {data.startDate} </Text>
+                                </Text>
+                                <Text>
+                                    ถึงวันที่ : <Text note> {data.endDate} </Text>
+                                </Text>
+                                <Text>
+                                    การขนส่งสัตว์ : <Text note> {data.transportation} </Text>
+                                </Text>
+                                <Text>
+                                    ค่าบริการทั้งหมด : <Text note> {data.totalPrice} </Text> บาท
+                                </Text>
+                            </View>
+                        </View>
+                    ]
                 })
             }
         )
@@ -40,26 +60,6 @@ class OrderList extends Component {
     showOrderDetail = (data)=>{
         this.getOrderDetails(data.id)
         this.setModalVisible(!this.state.modalVisible)
-        this.setState({
-            orderDetialDescription : [
-                <View key={data.id}>
-                    <View style={{margin:10}}>
-                        <Text>
-                            ผู้ฝาก : <Text note> {JSON.parse(JSON.stringify(data.customer.userName))} </Text>
-                        </Text>
-                        <Text>
-                            ฝากวันที่ : <Text note> {data.startDate} </Text>
-                        </Text>
-                        <Text>
-                            ถึงวันที่ : <Text note> {data.endDate} </Text>
-                        </Text>
-                        <Text>
-                            การขนส่งสัตว์ : <Text note> {data.transportation} </Text>
-                        </Text>
-                    </View>
-                </View>
-            ],
-        })
     }
 
     acceptOrder = ()=>{
@@ -85,7 +85,7 @@ class OrderList extends Component {
                             <Thumbnail small source={{uri:PIC_URI}}/>
                         </Left>
                         <Body style={{flex:2}}>
-                            <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {JSON.parse(JSON.stringify(data.customer.userName))} </Text ></Text>
+                            <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {data.customerUsername} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
@@ -142,9 +142,6 @@ class OrderList extends Component {
                                     <List>
                                         {orderLineFlatList}
                                     </List>
-                                    <Text>
-                                        ราคา
-                                    </Text>
                                 </Content>
                                 <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
                                     <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>

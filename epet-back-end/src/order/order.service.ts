@@ -11,7 +11,7 @@ export class OrderService {
     ){}
 
     async showAll(){
-        return this.orderRepository.find({relations:['customer']});
+        return this.orderRepository.find();
     }
 
     async showById(id:string){
