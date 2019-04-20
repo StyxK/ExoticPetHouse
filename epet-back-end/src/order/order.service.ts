@@ -11,11 +11,11 @@ export class OrderService {
     ){}
 
     async showAll(){
-        return this.orderRepository.find();
+        return this.orderRepository.find({relations:['orderStatus']});
     }
 
     async showById(id:string){
-        const order = await this.orderRepository.findOne({where:id});
+        const order = await this.orderRepository.findOne({where:id,relations:['orderStatus']});
         const orderLines = await this.orderLineRepository.find({relations:['pet','cage'] , where:{order:id}})
         let totalPrice : number = 0
         const duration = await this.calculateDate(order.startDate,order.endDate)
