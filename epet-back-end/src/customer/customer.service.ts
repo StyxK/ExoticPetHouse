@@ -18,28 +18,17 @@ export class CustomerService extends UserService{
         return await user.map( customer => customer.toResponObject(false))
     }
 
-    // async showById(userName:string):Promise<User>{
-    //     return this.customerRepository.findOne({where:userName,relations:['address']})
-    // }
-
-    async register(data:Partial<CustomerDTO>):Promise<CustomerRO>{
-        const {userName} = data
-        let user = await this.userRepository.findOne({where:{userName}})
-        if(user){
-            throw new HttpException(
-                'User already exist',HttpStatus.BAD_REQUEST
-            )
-        }
-        user = await this.userRepository.create(data)
-        await this.userRepository.save(user)
-        return user.toResponObject()
-    }
-    // async create(data:Partial<CustomerDTO>):Promise<Customer>{
-    //     await this.addressRepository.create(data.address)
-    //     await this.addressRepository.save(data.address)
-    //     const customer = await this.customerRepository.create(data)
-    //     await this.customerRepository.save(data)
-    //     return customer
+    // async register(data:Partial<CustomerDTO>):Promise<CustomerRO>{
+    //     const {userName} = data
+    //     let user = await this.userRepository.findOne({where:{userName}})
+    //     if(user){
+    //         throw new HttpException(
+    //             'User already exist',HttpStatus.BAD_REQUEST
+    //         )
+    //     }
+    //     user = await this.userRepository.create(data)
+    //     await this.userRepository.save(user)
+    //     return user.toResponObject()
     // }
 
     async update(userName:string,data:Partial<CustomerDTO>):Promise<Customer>{

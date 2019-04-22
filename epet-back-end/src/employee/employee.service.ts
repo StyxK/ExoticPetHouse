@@ -13,19 +13,14 @@ export class EmployeeService extends UserService{
         super(employeeRepository)
     }
 
-    async showAll():Promise<User[]>{
-        return this.employeeRepository.find({relations:['store']})
+    // async showAll(){
+    //     return this.employeeRepository.find({relations:['store']})
+    // }
+    async showAll(){
+        const user = await this.employeeRepository.find({relations:['store']});
+        return await user.map( employee => employee.toResponObject(false))
     }
-
-    async showById(userName:string):Promise<User>{
-        return this.employeeRepository.findOne({where:userName,relations:['store']})
-    }    
-
-    async create(data:Partial<EmployeeDTO>):Promise<Employee>{
-        const employee = await this.employeeRepository.create(data)
-        await this.employeeRepository.save(data)
-        return employee
-    }
+    
 
     async update(userName:string,data:Partial<EmployeeDTO>):Promise<Employee>{
         await this.employeeRepository.update(userName,data)
