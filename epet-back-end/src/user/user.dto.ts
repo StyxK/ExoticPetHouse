@@ -1,7 +1,17 @@
-export interface UserDTO{
+import {IsNotEmpty} from 'class-validator'
+
+export class UserDTO{
+
+    @IsNotEmpty()
     userName: string
+    @IsNotEmpty()
     password: string
-    firstname : string
-    lastname : string
-    email : string
+}
+
+export interface UserRO{
+    userName:string
+    firstName:string
+    lastName:string
+    email: string
+    token?:string
 }

@@ -3,7 +3,8 @@ import { Address } from "../address/address.entity";
 import { Order } from "../order/order.entity";
 import { Feedback } from "../feedback/feedback.entity";
 import { User } from "../user/user.entity";
-import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, ManyToOne, OneToMany, BeforeInsert } from "typeorm";
+import { CustomerRO } from "./customer.dto";
 
 @Entity()
 export class Customer extends User {
@@ -22,4 +23,13 @@ export class Customer extends User {
 
     @OneToMany(type => Feedback,feedbacks => feedbacks.customer)
     feedbacks: Feedback[];
+
+    toResponObject(showToken:boolean = true):CustomerRO{
+        const {userName,firstName,lastName,email,token,address} = this
+        const responseObject = {userName,firstName,lastName,email,token,address}
+        if(showToken){
+            responseObject.token = token
+        }
+        return responseObject
+    }
 }

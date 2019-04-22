@@ -1,25 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { UserDTO } from './user.dto';
+import { UserDTO, UserRO } from './user.dto';
 @Injectable()
-export abstract class UserService {
+export class UserService {
 
     constructor(@InjectRepository(User) protected readonly userRepository:Repository<User>){}
 
-    async showAll(){
-        return await this.userRepository.find();
+    async showAll():Promise<UserRO[]>{
+        const user = await this.userRepository.find();
+        return user.map( user => user.toResponObject(false))
     }
 
-    async showById(userName:string){
-        return await this.userRepository.findOne({where:userName})
+    async login(data:Partial<UserDTO>):Promise<UserRO>{
+        const {userName,password} = data
+        const user = await this.userRepository.findOne({where:{userName}})
+        if(!user || !(await user.comparePassword(password))){
+            throw new HttpException(
+                'Invalid user/password',HttpStatus.BAD_REQUEST
+            )   
+        }
+        return user.toResponObject()
     }
 
-    async create(data:Partial<UserDTO>){
-        const user =  await this.userRepository.create(data)
-        await this.userRepository.save(data)
-        return user;
+    async register(data:Partial<UserDTO>):Promise<UserRO>{
+        const {userName} = data
+        let user = await this.userRepository.findOne({where:{userName}})
+        if(user){
+            throw new HttpException(
+                'User already exist',HttpStatus.BAD_REQUEST
+            )
+        }
+        user = await this.userRepository.create(data)
+        await this.userRepository.save(user)
+        return user.toResponObject()
     }
 
     async update(userName:string,data:Partial<UserDTO>){
