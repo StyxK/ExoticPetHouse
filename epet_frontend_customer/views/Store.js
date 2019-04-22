@@ -172,7 +172,7 @@ export default class Store extends Component {
                         </Left>
                     </Footer>
                     <Footer style={{backgroundColor:'#A37E63'}}>
-                        <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={()=>{ alert("สำเร็จ")}}>
+                        <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={this.goToOrder}>
                             <Text style={{color:'white'}}>ยืนยันคำสั่งฝาก</Text>
                         </Button>
                     </Footer>
@@ -180,7 +180,13 @@ export default class Store extends Component {
             </View>
         )
     }
+    goToOrder = () =>{
+        Actions.order(this.state);
+    }
 }
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
