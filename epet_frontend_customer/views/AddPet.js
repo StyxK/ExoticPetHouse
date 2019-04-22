@@ -100,12 +100,12 @@ export default class AddPet extends Component {
                 onValueChange={this.onChangeText("typeOfPet")}
               >
                 <Picker.Item label="โปรดเลือกประเภทของสัตว์เลี้ยง" value="" />
-                <Picker.Item label="สัตว์เลื้อยคลาน" value="key0" />
-                <Picker.Item label="สัตว์ครึ่งบกครึ่งน้ำ " value="key1" />
-                <Picker.Item label="สัตว์ไม่มีกระดูกสันหลัง" value="key2" />
-                <Picker.Item label="สัตว์ปีก" value="key3" />
-                <Picker.Item label="ปลาแปลก" value="key4" />
-                <Picker.Item label="เลี้ยงลูกด้วยนม  " value="key5" />
+                <Picker.Item label="สัตว์เลื้อยคลาน" value="สัตว์เลื้อยคลาน" />
+                <Picker.Item label="สัตว์ครึ่งบกครึ่งน้ำ " value="สัตว์ครึ่งบกครึ่งน้ำ" />
+                <Picker.Item label="สัตว์ไม่มีกระดูกสันหลัง" value="สัตว์ไม่มีกระดูกสันหลัง" />
+                <Picker.Item label="สัตว์ปีก" value="สัตว์ปีก" />
+                <Picker.Item label="ปลาแปลก" value="ปลาแปลก" />
+                <Picker.Item label="เลี้ยงลูกด้วยนม  " value="เลี้ยงลูกด้วยนม" />
               </Picker>
             </Item>
             <Label>อายุ</Label>
