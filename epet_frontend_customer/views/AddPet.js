@@ -231,7 +231,7 @@ export default class AddPet extends Component {
           typeOfPet,
           gender,
           owner: {
-            userName: "nongnaem5"
+            userName: "Vuttichai"
           }
         })
         .then(response => {
@@ -256,7 +256,7 @@ export default class AddPet extends Component {
           typeOfPet,
           gender,
           owner: {
-            userName: "nongnaem5"
+            userName: "Vuttichai"            
           }
         })
         .then(response => {

@@ -26,7 +26,7 @@ const API_URL = Config.API_URL;
 
 class MyPet extends Component {
   componentWillMount() {
-    axios.get(API_URL + "/pet/u/" + "nongnaem5").then(response => {
+    axios.get(API_URL + "/pet/u/" + "Vuttichai").then(response => {
       const { setPets } = this.props;
       setPets(response.data);
     });

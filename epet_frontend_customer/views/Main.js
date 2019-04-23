@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Router, Scene, Actions } from "react-native-router-flux";
 import NavFooter from "../components/NavFooter.js";
+import { Provider } from 'react-redux';
 import MyPet from "./MyPet";
 import Search from "./Search";
 import Store from "./Store";
 import AddPet from "./AddPet.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order";
+import { createStore } from 'redux';
+import petsReducer from "../reducers/petsReducer.js"
+
+const store = createStore(petsReducer)
 
 export default class Main extends Component {
   render() {
     return (
-      <Provider>
+      <Provider store={store}>
         <View style={styles.container}>
           <Router>
             <Scene key="root" hideNavBar={true}>
