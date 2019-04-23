@@ -17,18 +17,27 @@ class OrderList extends Component {
             orders:[],
             orderLines:[],
             orderDetialDescription:[],
+            orderStatusBar:[],
             modalVisible:false,
         }
     }
 
     setModalVisible = (visible) => {
-        this.setState({ modalVisible:visible })
+        this.setState({ 
+            modalVisible:visible,
+            orderLines:[],
+            orderDetialDescription:[],
+            orderStatusBar:[]
+        })
     }
 
     getOrderDetails = (orderId) => {
         Axios.get(API_URL+'/order/'+orderId).then(
             (response) =>{
                 data = response.data
+                let startDate = new Date(data.startDate).toUTCString().substring(0,17)
+                let endDate = new Date(data.endDate).toUTCString().substring(0,17)
+                let orderStatus = JSON.parse(JSON.stringify(data.orderStatus.status))
                 this.setState({
                     orderLines : data.orderLines,
                     orderDetialDescription : [
@@ -38,10 +47,10 @@ class OrderList extends Component {
                                     ผู้ฝาก : <Text note> {data.customerUsername} </Text>
                                 </Text>
                                 <Text>
-                                    ฝากวันที่ : <Text note> {data.startDate} </Text>
+                                    ฝากวันที่ : <Text note> {startDate} </Text>
                                 </Text>
                                 <Text>
-                                    ถึงวันที่ : <Text note> {data.endDate} </Text>
+                                    ถึงวันที่ : <Text note> {endDate} </Text>
                                 </Text>
                                 <Text>
                                     การขนส่งสัตว์ : <Text note> {data.transportation} </Text>
@@ -54,6 +63,11 @@ class OrderList extends Component {
                                 </Text>
                             </View>
                         </View>
+                    ],
+                    orderStatusBar : [
+                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}} key={data.id}>
+                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                        </Footer>
                     ]
                 })
             }
@@ -63,10 +77,6 @@ class OrderList extends Component {
     showOrderDetail = (data)=>{
         this.getOrderDetails(data.id)
         this.setModalVisible(!this.state.modalVisible)
-    }
-
-    acceptOrder = ()=>{
-        
     }
 
     componentWillMount(){
@@ -80,16 +90,17 @@ class OrderList extends Component {
     }
 
     render() {
-        const { modalVisible , orders , orderLines , orderDetialDescription , totalPrice} = this.state
+        const { modalVisible , orders , orderLines , orderDetialDescription , orderStatusBar} = this.state
 
         let orderFlatList = orders.map((data)=>{
             return  <ListItem avatar key={data.id}>
-                        <Left>
-                            <Thumbnail small source={{uri:PIC_URI}}/>
-                        </Left>
+                        <Left/>
                         <Body style={{flex:2}}>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {data.customerUsername} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
+                            <Text style={{fontSize:15}}> สถานะการฝาก : 
+                                <Text note> {JSON.parse(JSON.stringify(data.orderStatus.status))} </Text>
+                            </Text>
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
                             <Button style={{height:30,backgroundColor:'#7A5032'}} 
@@ -134,19 +145,23 @@ class OrderList extends Component {
                     <List>
                         {orderFlatList}
                     </List>
-                    <Modal animationType="slide" visible={modalVisible} transparent={true}>
+                </Content>
+                <Modal animationType="slide" visible={modalVisible} transparent={true}>
                         <View style={styles.modalContainer}>
                             <Container style={styles.modal}>
-                                <Content>
-                                    <Button full style={{borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:'#7A5032'}} 
-                                            onPress={()=>this.setModalVisible(!modalVisible)}>
+                                <Header translucent style={{borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:'#7A5032'}}>
+                                    <Button transparent style={{width:'100%',height:'100%',backgroundColor:'#7A5032'}}
+                                        onPress={()=>this.setModalVisible(!modalVisible) }>
                                         <Text>ปิดรายละเอียด</Text>
                                     </Button>
+                                </Header>
+                                <Content>
                                     {orderDetialDescription}
                                     <List>
                                         {orderLineFlatList}
                                     </List>
                                 </Content>
+                                {orderStatusBar}
                                 <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
                                     <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
                                         <Button full style={{backgroundColor:'green',borderBottomLeftRadius:10}}>
@@ -162,7 +177,6 @@ class OrderList extends Component {
                             </Container>
                         </View>
                     </Modal>
-                </Content>
             </Container>
         )
     }
