@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Store} from './store.entity';
@@ -21,6 +21,7 @@ export class StoreService {
         await this.addressRepository.save(data.address)
         const store = await this.storesRepository.create({...data,address:data.address})
         await this.storesRepository.save(data)
+        Logger.log(store)
         return {...store,address:store.address}
     }
 

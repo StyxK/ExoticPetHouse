@@ -4,7 +4,7 @@ import { Order } from "../order/order.entity";
 import { Feedback } from "../feedback/feedback.entity";
 import { Cage } from "../cage/cage.entity";
 import { Address } from "../address/address.entity";
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 
 @Entity()
 export class Store {
@@ -24,10 +24,13 @@ export class Store {
     @Column()
     maxOfDeposit: number;
 
-    @Column()
+    @Column({type:'double precision'})
     rating: number;
 
     @ManyToOne(type => StoreOwner,owner => owner.stores)
+    @JoinColumn({
+        name: 'ownerUserName',
+    })
     owner: StoreOwner;
 
     @OneToMany(type => Employee,employee => employee.store)
