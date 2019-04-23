@@ -1,12 +1,12 @@
 import { Customer } from "../customer/customer.entity";
 import { Order } from "../order/order.entity";
 import { Store } from "../store/store.entity";
-import { Entity, PrimaryColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Feedback {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()

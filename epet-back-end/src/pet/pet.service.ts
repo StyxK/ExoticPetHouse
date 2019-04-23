@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PetDTO } from './pet.dto';
 import { Pet } from './pet.entity';
-import * as uuid from 'uuid/v4';
 
 @Injectable()
 export class PetService {
@@ -21,13 +20,11 @@ export class PetService {
 
   async showByuserName(userName: string): Promise<Pet[]> {
     return this.petRepository.find({
-      where: { ownerUserName: userName },
-      relations: ['owner'],
+      where: { ownerUserName: userName }
     });
   }
 
   async create(data: PetDTO): Promise<Pet> {
-    data.id = uuid();
     data.wasDeposit = !!data.wasDeposit;
     data.orderLines = data.orderLines || [];
     const pet = await this.petRepository.create(data);

@@ -1,9 +1,9 @@
-import { Entity, PrimaryColumn, Column } from "typeorm";
+import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Address {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()

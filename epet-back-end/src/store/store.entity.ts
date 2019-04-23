@@ -4,12 +4,12 @@ import { Order } from "../order/order.entity";
 import { Feedback } from "../feedback/feedback.entity";
 import { Cage } from "../cage/cage.entity";
 import { Address } from "../address/address.entity";
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Store {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()

@@ -1,11 +1,11 @@
 import { Store } from "../store/store.entity";
-import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { OrderLine } from "src/orderline/orderline.entity";
 
 @Entity()
 export class Cage {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
