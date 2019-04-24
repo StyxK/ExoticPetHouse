@@ -1,4 +1,4 @@
-import { Container, Icon, Left, Body, Header, Title, Right, Content, Text, Card, CardItem, List, Button, Footer} from 'native-base';
+import { Container, Icon, Left, Body, Header, Title, Right, Content, Text, Card, CardItem, List, ListItem, Button, Footer, Radio} from 'native-base';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import axios from "axios";
@@ -14,7 +14,9 @@ export default class Order extends Component {
           cage:[],
           cageSelected:{},
           startChosenDate: new Date(),
-          endChosenDate: new Date()
+          endChosenDate: new Date(),
+          transportation : "ส่งฝากโดยผู้ฝากเอง",
+          transportationPrice : 0
         }
     }
 
@@ -28,17 +30,29 @@ export default class Order extends Component {
     
     submitForm = () => {
         axios
-          .post(API_URL + "/pet/", {
-              
-          })
-          .then(response => {
-            alert("success");
-            console.log(JSON.stringify(response));
-          })
-          .catch(error => {
-            alert("error" + error);
-            console.log(error);
-          });
+            .post(API_URL + "/pet/", {
+                transportation:"kerry",
+                submitDate:new Date(),
+                startDate:this.startChosenDate,
+                endDate:this.endChosenDate,
+                store:this.stores.id,
+                orderLines:[
+                    {
+                        pet:"dc7931b3-df39-4848-abf9-37c6520ca5a4",
+                        cage:this.cageSelected.id
+                    },
+                ],
+                customerUsername:"Vuttichai",
+                orderStatus: 1
+            })
+            .then(response => {
+                alert("success");
+                console.log(JSON.stringify(response));
+            })
+            .catch(error => {
+                alert("error" + error);
+                console.log(error);
+            });
     };
 
     render(){
@@ -71,7 +85,6 @@ export default class Order extends Component {
                                         {this.cageSelected.price} บาท/คืน
                                         </Text>
                                     </List>
-                                    
                                 </CardItem>
                                 <CardItem>
                                     <Text note>
@@ -79,22 +92,11 @@ export default class Order extends Component {
                                                 - {this.endChosenDate.toString().substr(4, 12)}
                                     </Text>
                                 </CardItem>
-                                <CardItem >
-                                    <Text> ตัวเลือกการจัดส่ง  </Text>
-                                </CardItem>
-                                <CardItem >
-                                    <List>
-                                        <Text>วิธีการชำระเงิน</Text>
-                                        <Text>ค่าบริการฝาก</Text>
-                                        <Text>การจัดส่ง</Text>
-                                        <Text>ยอดชำระเงินทั้งหมด</Text>
-                                    </List>
-                                </CardItem>
                         </Card>
                     </Content>
                     <Footer style={{backgroundColor:'#A37E63'}}>
                         <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={this.sendOrderToStore}>
-                            <Text style={{color:'white'}}>ยืนยันคำสั่งฝาก</Text>
+                            <Text style={{color:'white'}}>ส่งคำร้องเสร็จสิ้น</Text>
                         </Button>
                     </Footer>
                 </Container>
@@ -105,10 +107,8 @@ export default class Order extends Component {
 
 sendOrderToStore= () =>{
     alert("ส่งคำร้องเสร็จสิ้น");
-
+    
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
