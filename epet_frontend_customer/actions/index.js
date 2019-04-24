@@ -12,6 +12,13 @@ export function addPet(pet){
     }
 }
 
+export function removePet(pet){
+    return {
+        type: "pets/remove",
+        payload: pet
+    }
+}
+
 export function setUser(user){
     return {
         type: "user/set",

@@ -20,7 +20,7 @@ import { StyleSheet } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { addPet, setPets } from "../actions";
+import { addPet, setPets, removePet } from "../actions";
 
 const API_URL = Config.API_URL;
 
@@ -87,7 +87,7 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>โรคประจำตัว</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.congenitalDisease||"-"}
+                  {pet.congenitalDisease || "-"}
                 </Text>
               </Left>
             </CardItem>
@@ -95,7 +95,7 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>ยาที่แพ้</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.allergicDrugs||"-"}
+                  {pet.allergicDrugs || "-"}
                 </Text>
               </Left>
             </CardItem>
@@ -103,7 +103,7 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>อาหารที่แพ้</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.allergicFoods||"-"}
+                  {pet.allergicFoods || "-"}
                 </Text>
               </Left>
             </CardItem>
@@ -111,7 +111,7 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>สิ่งที่ชอบ</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.favThing||"-"}
+                  {pet.favThing || "-"}
                 </Text>
               </Left>
             </CardItem>
@@ -119,20 +119,39 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>สิ่งที่ไม่ชอบ</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.hateThing||"-"}
+                  {pet.hateThing || "-"}
                 </Text>
               </Left>
             </CardItem>
           </Card>
-          <Button onPress={()=>Actions.addPet({pet:pet})}>
-            <Text>
-              edit
-            </Text>
+          <Button onPress={() => Actions.addPet({ pet: pet })}>
+            <Text>edit</Text>
+          </Button>
+          <Button onPress={this.removePet}>
+            <Text>remove</Text>
           </Button>
         </Content>
       </Container>
     );
   }
+  removePet = () => {
+    const { pet } = this.props;
+    if (!pet.wasDeposit) {
+      axios
+        .delete(API_URL + "/pet/" + pet.id)
+        .then(response => {
+          alert("success");
+          console.log(JSON.stringify(response));
+          Actions.pop();
+        })
+        .catch(error => {
+          alert("error" + error);
+          console.log(error);
+        });
+    }else{
+      return alert("Pet was Deposit");
+    }
+  };
 }
 
 const styles = StyleSheet.create({

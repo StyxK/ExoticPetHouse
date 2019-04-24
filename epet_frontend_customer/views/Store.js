@@ -9,7 +9,7 @@ import { setPets } from "../actions";
 import PetCard from "../components/PetCard";
 import MyPet from "../views/MyPet"
 const API_URL = Config.API_URL;
-export default class Store extends Component {
+class Store extends Component {
     
     constructor(props) {
         super(props)
@@ -228,10 +228,10 @@ const mapDispatchToProps = dispatch => {
     };
 };
   
-connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(MyPet);
+)(Store);
 
 const styles = StyleSheet.create({
     container: {

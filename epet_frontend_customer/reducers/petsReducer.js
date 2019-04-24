@@ -10,6 +10,11 @@ export default (pets = initialPets, action) => {
       const newPets = [...pets, action.payload];
       return newPets;
     }
+    case "pets/remove": {
+      let newPets = [...pets];
+      newPets = newPets.splice(newPets.indexOf(action.payload), 1);
+      return newPets;
+    }
   }
   return pets;
 };
