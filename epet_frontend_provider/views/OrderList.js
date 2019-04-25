@@ -38,14 +38,14 @@ class OrderList extends Component {
                 data = response.data
                 const approveButton = [
                     <FooterTab key={'approve'} badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                        <Button full style={{backgroundColor:'green',borderBottomLeftRadius:10,borderBottomRightRadius:10}} onPress={()=>this.updateStatus(2)}>
+                        <Button full style={{backgroundColor:'green'}} onPress={()=>this.updateStatus(2)}>
                             <Text style={{color:'white'}}> ตอบรับการรับฝาก </Text>
                         </Button>
                     </FooterTab>
                 ]
                 const cancelButton = [
                     <FooterTab key={'cancel'} badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                        <Button full style={{backgroundColor:'red',borderBottomLeftRadius:10,borderBottomRightRadius:10}} onPress={()=>this.updateStatus(3)}>
+                        <Button full style={{backgroundColor:'red'}} onPress={()=>this.updateStatus(3)}>
                             <Text style={{color:'white'}}> ปฏิเสธการรับฝาก </Text>
                         </Button>
                     </FooterTab>
@@ -98,34 +98,6 @@ class OrderList extends Component {
                             }
                         )
                     break 
-                    case 'ร้านปฏิเสธการรับฝากแล้ว' :
-                        this.setState(
-                            {
-                                orderStatusBar : [
-                                    <View key={data.id}>
-                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
-                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
-                                        </Footer>
-                                        <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                                            {approveButton}
-                                        </Footer>
-                                    </View>
-                                ]
-                            }
-                        ) 
-                    break
-                    case 'ลูกค้าปฏิเสธการฝากแล้ว' :
-                        this.setState(
-                            {
-                                orderStatusBar : [
-                                    <View key={data.id}>
-                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
-                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
-                                        </Footer>
-                                    </View>
-                                ]
-                            }
-                        ) 
                     case 'รอร้านตอบรับ' : 
                         this.setState(
                             {
@@ -143,6 +115,18 @@ class OrderList extends Component {
                             }
                         )
                     break
+                    default :
+                        this.setState(
+                            {
+                                orderStatusBar : [
+                                    <View key={data.id}>
+                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
+                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                                        </Footer>
+                                    </View>
+                                ]
+                            }
+                        )
                 }
             }
         )
@@ -181,14 +165,26 @@ class OrderList extends Component {
         const { modalVisible , orders , orderLines , orderDetialDescription , orderStatusBar} = this.state
 
         let orderFlatList = orders.map((data)=>{
+            let status = JSON.parse(JSON.stringify(data.orderStatus.status))
+            let statusLabel = []
+            switch(status){
+                case 'ร้านยืนยันการรับฝากแล้ว':  
+                    statusLabel  = <Text note key={'approve'} style={{color:'green'}}> {status} </Text>
+                break
+                case 'ร้านปฏิเสธการรับฝากแล้ว':  
+                    statusLabel  = <Text note key={'cancel'} style={{color:'red'}}> {status} </Text>
+                break
+                case 'รอร้านตอบรับ':  
+                    statusLabel  = <Text note key={'waiting'} style={{color:'#7A5032'}}> {status} </Text>
+                break
+            }
             return  <ListItem avatar key={data.id}>
                         <Left/>
                         <Body style={{flex:2}}>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {data.customerUsername} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
-                            <Text style={{fontSize:15}}> สถานะการฝาก : 
-                                <Text note> {JSON.parse(JSON.stringify(data.orderStatus.status))} </Text>
-                            </Text>
+                            <Text style={{fontSize:15}}> สถานะการฝาก : </Text>
+                            {statusLabel}
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
                             <Button style={{height:30,backgroundColor:'#7A5032'}} 
@@ -212,8 +208,6 @@ class OrderList extends Component {
                             <Text style={{fontSize:10}}> กรง : <Text note> {cage.name} </Text></Text>
                             <Text style={{fontSize:10}}> ค่าบริการกรง / วัน : <Text note> {cage.price} </Text> บาท </Text>
                         </Body>
-                        <Right style={{flex:1}}>
-                        </Right>
                    </ListItem>
         })
 
