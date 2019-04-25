@@ -27,8 +27,8 @@ export class PetService {
   async create(data: PetDTO): Promise<Pet> {
     data.wasDeposit = !!data.wasDeposit;
     data.orderLines = data.orderLines || [];
-    const pet = await this.petRepository.create(data);
-    await this.petRepository.save(data);
+    await this.petRepository.create(data);
+    const pet = await this.petRepository.save(data);
     return pet;
   }
 

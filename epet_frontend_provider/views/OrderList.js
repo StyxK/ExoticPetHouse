@@ -19,6 +19,7 @@ class OrderList extends Component {
             orderDetialDescription:[],
             orderStatusBar:[],
             modalVisible:false,
+            selectedOrderId:''
         }
     }
 
@@ -35,10 +36,25 @@ class OrderList extends Component {
         Axios.get(API_URL+'/order/'+orderId).then(
             (response) =>{
                 data = response.data
+                const approveButton = [
+                    <FooterTab key={'approve'} badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                        <Button full style={{backgroundColor:'green',borderBottomLeftRadius:10,borderBottomRightRadius:10}} onPress={()=>this.updateStatus(2)}>
+                            <Text style={{color:'white'}}> ตอบรับการรับฝาก </Text>
+                        </Button>
+                    </FooterTab>
+                ]
+                const cancelButton = [
+                    <FooterTab key={'cancel'} badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                        <Button full style={{backgroundColor:'red',borderBottomLeftRadius:10,borderBottomRightRadius:10}} onPress={()=>this.updateStatus(3)}>
+                            <Text style={{color:'white'}}> ปฏิเสธการรับฝาก </Text>
+                        </Button>
+                    </FooterTab>
+                ]
                 let startDate = new Date(data.startDate).toUTCString().substring(0,17)
                 let endDate = new Date(data.endDate).toUTCString().substring(0,17)
                 let orderStatus = JSON.parse(JSON.stringify(data.orderStatus.status))
                 this.setState({
+                    selectedOrderId : data.id,
                     orderLines : data.orderLines,
                     orderDetialDescription : [
                         <View key={data.id}>
@@ -64,12 +80,70 @@ class OrderList extends Component {
                             </View>
                         </View>
                     ],
-                    orderStatusBar : [
-                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}} key={data.id}>
-                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
-                        </Footer>
-                    ]
                 })
+                switch(orderStatus){
+                    case 'ร้านยืนยันการรับฝากแล้ว' :
+                        this.setState(
+                            {
+                                orderStatusBar : [
+                                    <View key={data.id}>
+                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
+                                            <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                                        </Footer>
+                                        <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                            {cancelButton}
+                                        </Footer>
+                                    </View>
+                                ]
+                            }
+                        )
+                    break 
+                    case 'ร้านปฏิเสธการรับฝากแล้ว' :
+                        this.setState(
+                            {
+                                orderStatusBar : [
+                                    <View key={data.id}>
+                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
+                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                                        </Footer>
+                                        <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                            {approveButton}
+                                        </Footer>
+                                    </View>
+                                ]
+                            }
+                        ) 
+                    break
+                    case 'ลูกค้าปฏิเสธการฝากแล้ว' :
+                        this.setState(
+                            {
+                                orderStatusBar : [
+                                    <View key={data.id}>
+                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
+                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                                        </Footer>
+                                    </View>
+                                ]
+                            }
+                        ) 
+                    case 'รอร้านตอบรับ' : 
+                        this.setState(
+                            {
+                                orderStatusBar : [
+                                    <View key={data.id}>
+                                        <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
+                                                <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
+                                        </Footer>
+                                        <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                            {approveButton}
+                                            {cancelButton}
+                                        </Footer>
+                                    </View>
+                                ]
+                            }
+                        )
+                    break
+                }
             }
         )
     }
@@ -77,6 +151,20 @@ class OrderList extends Component {
     showOrderDetail = (data)=>{
         this.getOrderDetails(data.id)
         this.setModalVisible(!this.state.modalVisible)
+    }
+
+    updateStatus = (status)=>{
+        let orderID = this.state.selectedOrderId
+        Axios.put(API_URL+'/order/'+orderID,{
+            orderStatus:{
+                id: status
+            }
+        })
+        .then(
+            this.setState({
+                modalVisible: false
+            })
+        )
     }
 
     componentWillMount(){
@@ -162,18 +250,6 @@ class OrderList extends Component {
                                     </List>
                                 </Content>
                                 {orderStatusBar}
-                                <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                                    <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                                        <Button full style={{backgroundColor:'green',borderBottomLeftRadius:10}}>
-                                            <Text style={{color:'white'}}> ตอบรับการรับฝาก </Text>
-                                        </Button>
-                                    </FooterTab>
-                                    <FooterTab badge style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
-                                        <Button full style={{backgroundColor:'red',borderBottomRightRadius:10}}>
-                                            <Text style={{color:'white'}}> ปฏิเสธการรับฝาก </Text>
-                                        </Button>
-                                    </FooterTab>
-                                </Footer>
                             </Container>
                         </View>
                     </Modal>
