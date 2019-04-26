@@ -1,17 +1,30 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, HttpStatus, HttpException } from '@nestjs/common';
 import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import { OrderDTO } from './order.dto';
 import { OrderLine } from 'src/orderline/orderline.entity';
+import { Customer } from 'src/customer/customer.entity';
 @Injectable()
 export class OrderService {
     constructor(@InjectRepository(Order) private readonly orderRepository:Repository<Order>,
-        @InjectRepository(OrderLine) private readonly orderLineRepository:Repository<OrderLine>
+        @InjectRepository(OrderLine) private readonly orderLineRepository:Repository<OrderLine>,
+        @InjectRepository(Customer) private readonly customerRepository:Repository<Customer>
     ){}
 
+    private toResponseObject(order:Order){
+        return {...order, customer : order.customer.toResponObject(false)} 
+    }
+
+    private ensureOwnership(order:Order,userName:string){
+        if(order.customerUsername !== userName){
+            throw new HttpException('Incorect User',HttpStatus.UNAUTHORIZED)
+        }
+    }
+
     async showAll(){
-        return this.orderRepository.find({relations:['orderStatus']});
+        const orders =  await this.orderRepository.find({relations:['orderStatus']});
+        return orders
     }
 
     async showById(id:string){
@@ -24,10 +37,12 @@ export class OrderService {
         return {...order,orderLines,totalPrice,duration}
     }
 
-    async create(data:Partial<OrderDTO>){
+    async create(userName:string,data:Partial<OrderDTO>){
+        const user = await this.customerRepository.findOne({where:{userName:userName}})
         await this.orderLineRepository.save(data.orderLines);
-        const order = await this.orderRepository.save(data);
-        return order
+        const order = await this.orderRepository.create({...data,customer:user})
+        await this.orderRepository.save(order);
+        return this.toResponseObject(order)
     }
 
     async update(id:string,data:Partial<OrderDTO>){

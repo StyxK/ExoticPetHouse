@@ -25,8 +25,8 @@ export class Customer extends User {
     feedbacks: Feedback[];
 
     toResponObject(showToken:boolean = true):CustomerRO{
-        const {userName,firstName,lastName,email,token,address} = this
-        const responseObject = {userName,firstName,lastName,email,token,address}
+        const {userName,firstName,lastName,email,address,phoneNumber,token} = this
+        const responseObject = {userName,firstName,lastName,email,address,phoneNumber,token}
         if(showToken){
             responseObject.token = token
         }
