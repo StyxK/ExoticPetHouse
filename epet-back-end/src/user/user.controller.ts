@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, UsePipes, ValidationPipe, UseGuards, Logger } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('')
@@ -21,14 +21,15 @@ export class UserController {
     }
 
     @Get('/users')
+    @UsePipes(new ValidationPipe())
     async showAll(){
         return await this.userService.showAll();
     }
 
-    // @Get('user/:userName')
-    // async showById(@Param() userName){
-    //     return await this.userService.showById(userName);
-    // }
+    @Get('/:userName')
+    async showUser(@Param() userName){
+        return await this.userService.showUser(userName);
+    }
 
     @Put('user/:userName')
     async updateUser(@Param() userName,@Body() data){

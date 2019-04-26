@@ -13,6 +13,11 @@ export class UserService {
         return user.map( user => user.toResponObject(false))
     }
 
+    async showUser(userName:string):Promise<UserRO>{
+        const user =  await this.userRepository.findOne({where:userName})
+        return user.toResponObject(false)
+    }
+
     async login(data:Partial<UserDTO>):Promise<UserRO>{
         const {userName,password} = data
         const user = await this.userRepository.findOne({where:{userName}})
