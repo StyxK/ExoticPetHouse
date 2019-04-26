@@ -179,7 +179,9 @@ class OrderList extends Component {
                 break
             }
             return  <ListItem avatar key={data.id}>
-                        <Left/>
+                        <Left>
+                            <Thumbnail small source={{uri:PIC_URI}}/>
+                        </Left>
                         <Body style={{flex:2}}>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {data.customerUsername} </Text ></Text>
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
