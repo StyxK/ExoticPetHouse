@@ -26,6 +26,14 @@ class Store extends Component {
         }
     }
 
+    checkedCageIdForCheckBox=(dataId)=>{
+        if(this.state.orderLine.find(item => item.id === dataId)==dataId){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     setStoreId = () => {
         this.storeId = this.props.id
     }
@@ -42,9 +50,10 @@ class Store extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    setPetAndCageSelected = (pet,cage) => {
-        this.state.orderLine.push({petId:pet,
-        cageId:cage});
+    setPetAndCageSelected = (petId,cageId) => {
+        let order = {"pet":petId,
+        "cage":cageId};
+        this.state.orderLine.push(order);
         this.setModalVisible(false);
     }
 
@@ -96,7 +105,8 @@ class Store extends Component {
                         <CheckBox  
                                     color="green"
                                     onPress={()=>{this.setModalVisible(true),this.chooseCageFromStorePage(data.id)}}
-                                    checked={this.state.cageTemp == data.id}
+                                    checked={this.checkedCageIdForCheckBox(data.id)}
+                               
                         />
                         <Text note></Text>
                       </Right>

@@ -2,9 +2,12 @@ import { Container, Icon, Left, Body, Header, Title, Right, Content, Text, Card,
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import axios from "axios";
-import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { setPets } from "../actions";
+import Config from 'react-native-config';
 
-export default class Order extends Component {
+const API_URL = Config.API_URL;
+class Order extends Component {
 
     constructor(props) {
         super(props)
@@ -22,15 +25,37 @@ export default class Order extends Component {
         }
     }
 
-    setStateFromStore(){
+    setStoreDataToOrder(){
         this.stores = this.props.stores;
         this.address = this.props.address;
         this.startChosenDate = this.props.startChosenDate;
         this.endChosenDate = this.props.endChosenDate;
         this.token = this.props.token;
-        this.cage = this.props.cage;
+        this.state.cage = [...this.props.cage];
+        this.orderLine = this.props.orderLine;
     }
     
+    showCageName = (cageId) =>{
+        const cageArray = this.state.cage.find(item => item.id === cageId);
+        return cageArray.name+"";
+    }
+
+
+    showPetName = (petId) =>{
+        const { pets = [], setPets } = this.props;
+        const petArray = pets.find(item => item.id === petId);
+        return petArray.name+"";
+    }
+
+    componentWillMount() {
+        const { setPets } = this.props;
+        axios
+            .get("/pet")
+            .then(response => {
+                setPets(response.data);
+            });
+    }
+
     submitForm = () => {
         axios
             .post(API_URL + "/pet/", {
@@ -39,12 +64,7 @@ export default class Order extends Component {
                 startDate:this.startChosenDate,
                 endDate:this.endChosenDate,
                 store:this.stores.id,
-                orderLines:[
-                    {
-                        pet:"dc7931b3-df39-4848-abf9-37c6520ca5a4",
-                        cage:this.cageSelected.id
-                    },
-                ],
+                orderLines:this.orderLine,
                 customerUsername:"Vuttichai",
                 orderStatus: 1
             })
@@ -59,7 +79,27 @@ export default class Order extends Component {
     };
 
     render(){
-        this.setStateFromStore()
+        
+        this.setStoreDataToOrder();
+        let orderL = [];
+        orderL = [...this.orderLine];
+        this.state.orderLine = orderL;
+        let orderList = this.state.orderLine.map((data)=>{
+            return  <ListItem avatar key={data.cage}>
+                      <Left>
+                      <Icon name='paw' />
+                      </Left>
+                      <Body>
+                        <Text>Cage:{this.showCageName(data.cage)}</Text>
+                        <Text>Pet: {this.showPetName(data.pet)}</Text>
+                      </Body>
+                      <Right>
+                        
+                        
+                      </Right>
+                    </ListItem>
+        });
+
         return(
             <View style={styles.container}>
                 <Container>
@@ -83,10 +123,11 @@ export default class Order extends Component {
                                 <CardItem >
                                     <List>
                                         <Text>{this.stores.name}</Text>
-                                        <Text>กรงที่เลือก :
+                                        <Text>รายการฝาก : 
                                         </Text>
                                     </List>
                                 </CardItem>
+                                {orderList}
                                 <CardItem>
                                     <Text note>
                                                 วันที่ฝาก: {this.startChosenDate.toString().substr(4, 12)}
@@ -110,6 +151,21 @@ sendOrderToStore= () =>{
     alert("ส่งคำร้องเสร็จสิ้น");
     
 }
+
+const mapStateToProps = state => {
+    return { pets: state.pets };
+  };
+  
+const mapDispatchToProps = dispatch => {
+    return {
+      setPets: pets => dispatch(setPets(pets)),
+    };
+  };
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Order);
 
 const styles = StyleSheet.create({
     container: {
