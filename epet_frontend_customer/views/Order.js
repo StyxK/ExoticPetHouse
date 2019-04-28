@@ -9,23 +9,26 @@ export default class Order extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          stores: [],
-          address:{},
-          cage:[],
-          cageSelected:{},
-          startChosenDate: new Date(),
-          endChosenDate: new Date(),
-          transportation : "ส่งฝากโดยผู้ฝากเอง",
-          transportationPrice : 0
+            stores: [],
+            address:{},
+            cage:[],
+            orderLine:[],
+            startChosenDate: new Date(),
+            endChosenDate: new Date(),
+            modalVisible: false,
+            cageTemp: "cage",
+            token : "Epet ",
+            checked: false
         }
     }
 
     setStateFromStore(){
         this.stores = this.props.stores;
         this.address = this.props.address;
-        this.cageSelected = this.props.cage.find(item => item.id === this.props.cageSelected)
         this.startChosenDate = this.props.startChosenDate;
         this.endChosenDate = this.props.endChosenDate;
+        this.token = this.props.token;
+        this.cage = this.props.cage;
     }
     
     submitForm = () => {
@@ -56,7 +59,7 @@ export default class Order extends Component {
     };
 
     render(){
-        {this.setStateFromStore()}
+        this.setStateFromStore()
         return(
             <View style={styles.container}>
                 <Container>
@@ -80,9 +83,7 @@ export default class Order extends Component {
                                 <CardItem >
                                     <List>
                                         <Text>{this.stores.name}</Text>
-                                        <Text>กรงที่เลือก : {this.cageSelected.name}{" "} 
-                                        {this.cageSelected.type}{" "} 
-                                        {this.cageSelected.price} บาท/คืน
+                                        <Text>กรงที่เลือก :
                                         </Text>
                                     </List>
                                 </CardItem>

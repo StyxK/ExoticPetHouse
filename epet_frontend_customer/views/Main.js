@@ -7,7 +7,7 @@ import Search from "./Search";
 import Store from "./Store";
 import AddPet from "./AddPet.js";
 import PetDescription from "./PetDescription.js";
-import Order from "./Order";
+import Order from "./Order.js"
 import { createStore } from "redux";
 import petsReducer from "../reducers/petsReducer.js";
 

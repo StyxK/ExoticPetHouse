@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from "react-redux";
 import { setPets } from "../actions";
 import PetCard from "../components/PetCard";
-import MyPet from "../views/MyPet"
+
 const API_URL = Config.API_URL;
 class Store extends Component {
     
@@ -17,10 +17,12 @@ class Store extends Component {
           stores: [],
           address:{},
           cage:[],
-          cageSelected: "cageId",
+          orderLine:[],
           startChosenDate: new Date(),
           endChosenDate: new Date(),
-          modalVisible: false
+          modalVisible: false,
+          cageTemp: "cage",
+          token : "Epet ",
         }
     }
 
@@ -37,11 +39,24 @@ class Store extends Component {
     }
 
     setModalVisible = (visible) => {
-        this.setState({ modalVisible: visible })
+        this.setState({ modalVisible: visible });
     }
 
+    setPetAndCageSelected = (pet,cage) => {
+        this.state.orderLine.push({petId:pet,
+        cageId:cage});
+        this.setModalVisible(false);
+    }
+
+    chooseCageFromStorePage = (cageId) =>{
+        this.setModalVisible(true);
+        this.setState({cageTemp:cageId});
+    }
+
+    
     componentWillMount() {
         this.setStoreId();
+        const { setPets } = this.props;
         axios
           .get(API_URL + '/store/'+this.storeId)
           .then(response => {
@@ -52,13 +67,15 @@ class Store extends Component {
             })
             console.log(JSON.stringify(response))
           }).then(error => console.log(error))
+
         axios
-            .get(API_URL+ '/')
+            .get(API_URL+ '/');
+
         axios
-            .get(API_URL + "/pet/u/" + "Vuttichai").then(response => {
-            const { setPets } = this.props;
-            setPets(response.data);
-        });
+            .get("/pet")
+            .then(response => {
+                setPets(response.data);
+            });
     }
 
     
@@ -66,7 +83,7 @@ class Store extends Component {
     render() {
         const { pets = [], setPets, addPet } = this.props;
         let cageList = this.state.cage.map((data)=>{
-            return  <ListItem avatar key={data.id} onPress={()=>{this.setModalVisible(true)}}>
+            return  <ListItem avatar key={data.id} onPress={()=>{this.chooseCageFromStorePage(data.id)}}>
                       <Left>
                       <Icon name='paw' />
                       </Left>
@@ -76,10 +93,12 @@ class Store extends Component {
                         <Text style={{color:'#7A5032'}}>{data.price} บาท/คืน</Text>
                       </Body>
                       <Right>
-                        <CheckBox checked={false} 
+                        <CheckBox  
                                     color="green"
-                                    
+                                    onPress={()=>{this.setModalVisible(true),this.chooseCageFromStorePage(data.id)}}
+                                    checked={this.state.cageTemp == data.id}
                         />
+                        <Text note></Text>
                       </Right>
                     </ListItem>
         });
@@ -143,7 +162,7 @@ class Store extends Component {
                                             วันที่ฝาก: {this.state.startChosenDate.toString().substr(4, 12)}
                                             - {this.state.endChosenDate.toString().substr(4, 12)}
                                 </Text>
-                                <Text></Text> 
+                                <Text></Text>
                             </CardItem>
                         </Card>
                         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}
@@ -151,18 +170,28 @@ class Store extends Component {
                             Alert.alert('Modal Closed')
                             }}>
                             <View style={styles.modalContainer}>
-                                <Content style={styles.modal}>
-                                <Button onPress={()=>{this.setModalVisible(!this.state.modalVisible)}}>
-                                    <Text style={{color:'white'}}>ยืนยันสัตว์เลี้ยง</Text> 
-                                </Button>    
-
-                                {pets.map(pet => (
-                                    <PetCard pet={pet} />
-                                ))}
-
-                                </Content>
+                                <Container style={styles.modal}>
+                                    <Header translucent style={{borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:'#7A5032'}}>
+                                        <Button transparent style={{width:'100%',height:'100%',backgroundColor:'#7A5032'}}
+                                            onPress={()=>this.setModalVisible(false) }>
+                                            <Text>ปิดรายการ</Text>
+                                        </Button>
+                                    </Header>
+                                    <Content style={styles.modal}>
+                                    {pets.map(pet => (
+                                        <TouchableHighlight
+                                            key={pet.id}
+                                            onPress={() => {this.setPetAndCageSelected(pet.id,this.state.cageTemp)}}
+                                        >
+                                            <PetCard pet={pet} />
+                                    </TouchableHighlight>
+                                    ))}
+                                    
+                                    </Content>
+                                </Container>
                             </View>
                         </Modal>
+                        
                     </Content>
                     <Footer style={{height:'10%',backgroundColor:'#A37E63'}}>
                         <Left style={{marginTop:'2.5%',justifyContent:'center',alignItems:'center'}}>
@@ -201,23 +230,22 @@ class Store extends Component {
                         </Left>
                     </Footer>
                     <Footer style={{backgroundColor:'#A37E63'}}>
-                        <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={()=>{this.goToOrder}}>
+                        <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={this.goToOrder}>
                             <Text style={{color:'white'}}>ยืนยันคำสั่งฝาก</Text>
                         </Button>
+                        
                     </Footer>
                 </Container>
             </View>
         )
     }
-
-    goToOrder = () =>{
+    goToOrder= () =>{
         Actions.order(this.state);
     }
-
-    
     
 }
 
+ 
 const mapStateToProps = state => {
     return { pets: state.pets };
   };
@@ -226,7 +254,7 @@ const mapDispatchToProps = dispatch => {
     return {
       setPets: pets => dispatch(setPets(pets)),
     };
-};
+  };
   
 export default connect(
     mapStateToProps,
@@ -243,16 +271,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column-reverse',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 500
+        height: 500,
+        backgroundColor:'rgba(52, 52, 52, 0.8)'
       },
       modal: {
         borderRadius: 10,
-        borderWidth: 5,
-        borderColor: 'grey',
         marginBottom: 65,
         backgroundColor: 'white',
         opacity: 0.99,
         width: '85%',
-        marginTop: 40
+        marginTop: 40,
       }
 })
