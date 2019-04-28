@@ -101,11 +101,20 @@ export default class AddPet extends Component {
               >
                 <Picker.Item label="โปรดเลือกประเภทของสัตว์เลี้ยง" value="" />
                 <Picker.Item label="สัตว์เลื้อยคลาน" value="สัตว์เลื้อยคลาน" />
-                <Picker.Item label="สัตว์ครึ่งบกครึ่งน้ำ " value="สัตว์ครึ่งบกครึ่งน้ำ" />
-                <Picker.Item label="สัตว์ไม่มีกระดูกสันหลัง" value="สัตว์ไม่มีกระดูกสันหลัง" />
+                <Picker.Item
+                  label="สัตว์ครึ่งบกครึ่งน้ำ "
+                  value="สัตว์ครึ่งบกครึ่งน้ำ"
+                />
+                <Picker.Item
+                  label="สัตว์ไม่มีกระดูกสันหลัง"
+                  value="สัตว์ไม่มีกระดูกสันหลัง"
+                />
                 <Picker.Item label="สัตว์ปีก" value="สัตว์ปีก" />
                 <Picker.Item label="ปลาแปลก" value="ปลาแปลก" />
-                <Picker.Item label="เลี้ยงลูกด้วยนม  " value="เลี้ยงลูกด้วยนม" />
+                <Picker.Item
+                  label="เลี้ยงลูกด้วยนม  "
+                  value="เลี้ยงลูกด้วยนม"
+                />
               </Picker>
             </Item>
             <Label>อายุ</Label>
@@ -206,6 +215,7 @@ export default class AddPet extends Component {
       typeOfPet,
       gender
     } = this.state;
+    const{addPet,updatePet}= this.props
     if (!name) {
       return alert("Plese Enter your pet name");
     }
@@ -220,7 +230,7 @@ export default class AddPet extends Component {
     }
     if (id) {
       axios
-        .put(API_URL + "/pet/" + id, {
+        .put("/pet/" + id, {
           name,
           congenitalDisease,
           allergicDrugs,
@@ -229,15 +239,12 @@ export default class AddPet extends Component {
           hateThing,
           age: Number(age),
           typeOfPet,
-          gender,
-          owner: {
-            userName: "Vuttichai"
-          }
+          gender
         })
         .then(response => {
           alert("success");
-          console.log(JSON.stringify(response));
-          Actions.pop();
+          updatePet(response.data);
+          Actions.pop({ refresh: {pet:response.data} });
         })
         .catch(error => {
           alert("error" + error);
@@ -254,15 +261,12 @@ export default class AddPet extends Component {
           hateThing,
           age: Number(age),
           typeOfPet,
-          gender,
-          owner: {
-            userName: "Vuttichai"            
-          }
+          gender
         })
         .then(response => {
           alert("success");
-          console.log(JSON.stringify(response));
-          Actions.pop();
+          addPet(response.data);
+          Actions.pop({ refresh: {} });
         })
         .catch(error => {
           alert("error" + error);

@@ -18,7 +18,7 @@ import { StyleSheet, TouchableHighlight, View } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { addPet, setPets } from "../actions";
+import { addPet, setPets, updatePet } from "../actions";
 import PetCard from "../components/PetCard";
 import NavFooter from "../components/NavFooter";
 
@@ -26,8 +26,8 @@ const API_URL = Config.API_URL;
 
 class MyPet extends Component {
   componentWillMount() {
-    axios.get(API_URL + "/pet/u/" + "Vuttichai").then(response => {
-      const { setPets } = this.props;
+    const { setPets, user } = this.props;
+    axios.get("/pet").then(response => {
       setPets(response.data);
     });
   }
@@ -63,11 +63,13 @@ class MyPet extends Component {
     );
   }
   goToAddPet = () => {
-    Actions.addPet();
+    const { addPet } = this.props;
+    Actions.addPet({ addPet });
   };
 
   goToPetDescription = pet => () => {
-    Actions.petDescription({ pet });
+    const { updatePet } = this.props;
+    Actions.petDescription({ pet ,updatePet});
   };
 }
 
@@ -79,13 +81,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  return { pets: state.pets };
+  return { pets: state.pets, user: state.user };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setPets: pets => dispatch(setPets(pets)),
-    addPet: pet => dispatch(addPet(pet))
+    addPet: pet => dispatch(addPet(pet)),
+    updatePet: pet =>dispatch(updatePet(pet))
   };
 };
 

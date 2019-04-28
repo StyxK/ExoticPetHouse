@@ -30,14 +30,14 @@ export default class PetDescription extends Component {
   componentWillMount() {}
 
   render() {
-    const { pet } = this.props;
+    const { pet, updatePet } = this.props;
     return (
       <Container>
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 1 }}>
             <Icon
               name="ios-arrow-back"
-              onPress={Actions.pop}
+              onPress={() => Actions.pop({ refresh: {} })}
               style={{ color: "white", marginLeft: 10 }}
             />
           </Left>
@@ -124,7 +124,7 @@ export default class PetDescription extends Component {
               </Left>
             </CardItem>
           </Card>
-          <Button onPress={() => Actions.addPet({ pet: pet })}>
+          <Button onPress={() => Actions.addPet({ pet: pet, updatePet })}>
             <Text>edit</Text>
           </Button>
           <Button onPress={this.removePet}>
@@ -142,13 +142,13 @@ export default class PetDescription extends Component {
         .then(response => {
           alert("success");
           console.log(JSON.stringify(response));
-          Actions.pop();
+          Actions.pop({ refresh: {} });
         })
         .catch(error => {
           alert("error" + error);
           console.log(error);
         });
-    }else{
+    } else {
       return alert("Pet was Deposit");
     }
   };

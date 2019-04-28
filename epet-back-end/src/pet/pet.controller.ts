@@ -1,17 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { PetService } from './pet.service';
+import { AuthGuard } from 'src/shared/auth.gaurd';
+import { User } from 'src/user/user.decorator';
 
 @Controller('pet')
 export class PetController {
     constructor(private readonly petService: PetService) { }
 
     @Get('/')
-    async showAll() {
-        return this.petService.showAll();
-    }
-
-    @Get('/u/:userName')
-    async showByUser(@Param() userName) {
+    @UsePipes(new ValidationPipe())
+    @UseGuards(new AuthGuard())
+    async showAll(@User('userName') userName ) {
         return this.petService.showByuserName(userName);
     }
 
@@ -21,13 +20,17 @@ export class PetController {
     }
 
     @Post('/')
-    async createPet(@Body() data) {
-        return this.petService.create(data);
+    @UsePipes(new ValidationPipe())
+    @UseGuards(new AuthGuard())
+    async createPet(@User('userName') userName,@Body() data) {
+        return this.petService.create(userName, data);
     }
 
     @Put(':id')
-    async updatePet(@Param() id, @Body() data) {
-        return this.petService.update(id, data);
+    @UsePipes(new ValidationPipe())
+    @UseGuards(new AuthGuard())
+    async updatePet(@User('userName') userName,@Param() id, @Body() data) {
+        return this.petService.update(userName,id, data);
     }
 
     @Delete(':id')

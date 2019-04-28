@@ -1,3 +1,4 @@
+import { Customer } from './../customer/customer.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -20,20 +21,32 @@ export class PetService {
 
   async showByuserName(userName: string): Promise<Pet[]> {
     return this.petRepository.find({
-      where: { ownerUserName: userName }
+      where: { ownerUserName: userName },
     });
   }
 
-  async create(data: PetDTO): Promise<Pet> {
+  async create(userName: string, data: PetDTO): Promise<Pet> {
     data.wasDeposit = !!data.wasDeposit;
     data.orderLines = data.orderLines || [];
+    data.owner = {
+      userName,
+    } as Customer;
     await this.petRepository.create(data);
     const pet = await this.petRepository.save(data);
     return pet;
   }
 
-  async update(id: string, data: PetDTO): Promise<Pet> {
-    await this.petRepository.update(id, data);
+  async update(userName: string, id: string, data: PetDTO): Promise<Pet> {
+    const oldPet = await this.petRepository.findOne({
+      where: id,
+      relations: ['owner'],
+    });
+    if (oldPet.owner.userName === userName) {
+      data.owner = {
+        userName,
+      } as Customer;
+      await this.petRepository.update(id, data);
+    }
     return this.petRepository.findOne({ where: id });
   }
 
