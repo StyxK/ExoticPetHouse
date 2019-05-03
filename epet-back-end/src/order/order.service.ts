@@ -47,7 +47,7 @@ export class OrderService {
 
     async update(id:string,data:Partial<OrderDTO>){
         await this.orderRepository.update(id,data);
-        return this.orderRepository.findOne({where:id});
+        return this.orderRepository.findOne({where:id,relations:['orderStatus']});
     }
 
     async delete(id:string){

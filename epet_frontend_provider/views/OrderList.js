@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import update from 'immutability-helper'
 import {Container, Header, Body, Text, Left, Right, Content, ListItem, List, Icon, Button, Footer, FooterTab, Thumbnail} from 'native-base'
 import { StyleSheet, View , Modal} from 'react-native';
 import { connect } from 'react-redux'
@@ -123,6 +124,9 @@ class OrderList extends Component {
                                         <Footer style={{height:30,backgroundColor:'rgb(175, 175, 175)',color:'white'}}>
                                                 <Text style={{color:'white',marginTop:2}}> {orderStatus} </Text>
                                         </Footer>
+                                        <Footer style={{backgroundColor: 'rgba(52, 52, 52, 0)'}}>
+                                            {approveButton}
+                                        </Footer>
                                     </View>
                                 ]
                             }
@@ -143,7 +147,22 @@ class OrderList extends Component {
             orderStatus:{
                 id: status
             }
-        })
+        }).then(
+            (response) => {
+                newOrders = []
+                this.state.orders.map( data => {
+                    if(data.id == orderID){
+                        newOrders.push(response.data)
+                    }
+                    else{
+                        newOrders.push(data)
+                    }
+                })
+                this.setState({
+                    orders:newOrders
+                })
+            }
+        )
         .then(
             this.setState({
                 modalVisible: false
@@ -151,19 +170,24 @@ class OrderList extends Component {
         )
     }
 
-    componentWillMount(){
+
+    refreshOrder = ()=>{
         Axios.get(API_URL+'/order').then(
             (response)=>{
-                this.setState({
-                    orders : response.data
+                const newState = update(this.state,{
+                    orders : {$set : response.data}
                 })
+                this.setState(newState)
             }
         )
     }
 
+    componentWillMount(){
+        this.refreshOrder()
+    }
+
     render() {
         const { modalVisible , orders , orderLines , orderDetialDescription , orderStatusBar} = this.state
-
         let orderFlatList = orders.map((data)=>{
             let status = JSON.parse(JSON.stringify(data.orderStatus.status))
             let statusLabel = []
@@ -187,6 +211,7 @@ class OrderList extends Component {
                             <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
                             <Text style={{fontSize:15}}> สถานะการฝาก : </Text>
                             {statusLabel}
+                            <Text style={{fontSize:15}}> {data.id} </Text>
                         </Body>
                         <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
                             <Button style={{height:30,backgroundColor:'#7A5032'}} 
