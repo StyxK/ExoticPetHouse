@@ -1,6 +1,6 @@
 import { Container, Content, Card, CardItem,Button, Text, Icon, Left, Body, Right, ListItem, List, CheckBox, DatePicker, Header, Title, Footer , Picker} from 'native-base';
 import React, { Component } from 'react';
-import { View, StyleSheet, Modal, Alert, TouchableHighlight, TextInput, Dimensions } from 'react-native';
+import { View, StyleSheet, Modal, Alert, TouchableHighlight } from 'react-native';
 import axios from 'axios';
 import Config from 'react-native-config';
 import { Actions } from 'react-native-router-flux';
@@ -22,16 +22,12 @@ class Store extends Component {
           endChosenDate: new Date(),
           modalVisible: false,
           cageTemp: "cage",
-          token : "Epet ",
+          token : "Epet eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRhbmFwYXQiLCJwYXNzd29yZCI6IiQyYSQxMCRxNFRoOHdBV0hKOWJFUmNMYW1NSjlPaUFCTHFyanJiTnBjVjFoN2ptNTVIdTJsZnNIMzR1aSIsImlhdCI6MTU1NzA1MDY2NSwiZXhwIjoxNTU3NjU1NDY1fQ.hVQC_mJHGPvBjrHfZng_3AVQkFk0Zp0euz__gpF9x7U",
         }
     }
 
     checkedCageIdForCheckBox=(dataId)=>{
-        if(this.state.orderLine.find(item => item.id === dataId)==dataId){
-            return true;
-        }else{
-            return false;
-        }
+    
     }
 
     setStoreId = () => {
@@ -55,6 +51,7 @@ class Store extends Component {
         "cage":cageId};
         this.state.orderLine.push(order);
         this.setModalVisible(false);
+        
     }
 
     chooseCageFromStorePage = (cageId) =>{
@@ -78,7 +75,7 @@ class Store extends Component {
           }).then(error => console.log(error))
 
         axios
-            .get(API_URL+ '/');
+            .get(API_URL+ '/')
 
         axios
             .get("/pet")
@@ -105,7 +102,7 @@ class Store extends Component {
                         <CheckBox  
                                     color="green"
                                     onPress={()=>{this.setModalVisible(true),this.chooseCageFromStorePage(data.id)}}
-                                    checked={this.checkedCageIdForCheckBox(data.id)}
+                                    
                                
                         />
                         <Text note></Text>
@@ -254,7 +251,6 @@ class Store extends Component {
     }
     
 }
-
  
 const mapStateToProps = state => {
     return { pets: state.pets };

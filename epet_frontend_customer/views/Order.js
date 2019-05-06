@@ -21,7 +21,8 @@ class Order extends Component {
             modalVisible: false,
             cageTemp: "cage",
             token : "Epet ",
-            checked: false
+            checked: false,
+            totalPrice : 0
         }
     }
 
@@ -33,13 +34,32 @@ class Order extends Component {
         this.token = this.props.token;
         this.state.cage = [...this.props.cage];
         this.orderLine = this.props.orderLine;
+        let orderL = [];
+        orderL = [...this.orderLine];
+        this.state.orderLine = orderL;
     }
     
     showCageName = (cageId) =>{
         const cageArray = this.state.cage.find(item => item.id === cageId);
-        return cageArray.name+"";
+        return cageArray.name+" "+cageArray.price+"/คืน";
     }
 
+    showPriceDuringDeposit = (cageId) =>{
+        const cageArray = this.state.cage.find(item => item.id === cageId);
+        const totalPrice = this.showTotalPrice(cageArray.price);
+        this.state.totalPrice = totalPrice+this.state.totalPrice;   
+        return totalPrice;
+    }
+    showTotalPrice(price){
+        let totalPrice = 0;
+        const duration = this.calculateDate();
+        totalPrice = price*duration;
+        return totalPrice;
+    }
+    calculateDate(){
+        const diffTime = Math.abs(this.endChosenDate.getTime()-this.startChosenDate.getTime());
+        return Math.ceil(diffTime/(1000*60*60*24));
+    }
 
     showPetName = (petId) =>{
         const { pets = [], setPets } = this.props;
@@ -58,16 +78,19 @@ class Order extends Component {
 
     submitForm = () => {
         axios
-            .post(API_URL + "/pet/", {
+            .post(API_URL + "/order/", {
                 transportation:"kerry",
-                submitDate:new Date(),
+                submitDate: this.startChosenDate,
                 startDate:this.startChosenDate,
                 endDate:this.endChosenDate,
-                store:this.stores.id,
                 orderLines:this.orderLine,
-                customerUsername:"Vuttichai",
-                orderStatus: 1
-            })
+                customerUsername:"tanapat",
+                store:this.stores.id,
+                orderStatus:1
+                
+            },
+            {headers:{Authorization: this.token}}
+            )
             .then(response => {
                 alert("success");
                 console.log(JSON.stringify(response));
@@ -77,6 +100,8 @@ class Order extends Component {
                 console.log(error);
             });
     };
+
+    
 
     render(){
         
@@ -90,12 +115,11 @@ class Order extends Component {
                       <Icon name='paw' />
                       </Left>
                       <Body>
-                        <Text>Cage:{this.showCageName(data.cage)}</Text>
-                        <Text>Pet: {this.showPetName(data.pet)}</Text>
+                        <Text>กรง:{this.showCageName(data.cage)}</Text>
+                        <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
+                        <Text>ราคาตลอดการฝาก: {this.showPriceDuringDeposit(data.cage)}</Text>
                       </Body>
                       <Right>
-                        
-                        
                       </Right>
                     </ListItem>
         });
@@ -134,23 +158,30 @@ class Order extends Component {
                                                 - {this.endChosenDate.toString().substr(4, 12)}
                                     </Text>
                                 </CardItem>
+                                <CardItem>
+                                    <Text note>
+                                                ยอดชำระรวม: {this.state.totalPrice/2}
+                                    </Text>
+                                </CardItem>
                         </Card>
                     </Content>
-                    <Footer style={{backgroundColor:'#A37E63'}}>
+                    <Footer style={{backgroundColors:'#A37E63'}}>
                         <Button full style={{flex:2,marginTop:1,backgroundColor:'#7A5032'}} onPress={this.sendOrderToStore}>
                             <Text style={{color:'white'}}>ส่งคำร้องเสร็จสิ้น</Text>
                         </Button>
                     </Footer>
                 </Container>
             </View>
-        );
+        )
+    }
+
+    sendOrderToStore = () =>{
+        alert("ส่งคำร้องเสร็จสิ้น");
+        this.submitForm();
     }
 }
 
-sendOrderToStore= () =>{
-    alert("ส่งคำร้องเสร็จสิ้น");
-    
-}
+
 
 const mapStateToProps = state => {
     return { pets: state.pets };
