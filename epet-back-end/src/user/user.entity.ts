@@ -40,6 +40,6 @@ export abstract class User {
 
     protected get token(){
         const {userName,password} = this
-        return jwt.sign({userName,password},process.env.SECRET_KEY,{expiresIn:'7d'})
+        return jwt.sign({userName,password},process.env.SECRET_KEY,{expiresIn:'30d'})
     }
 }
