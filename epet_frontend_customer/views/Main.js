@@ -7,13 +7,21 @@ import Search from "./Search";
 import Store from "./Store";
 import AddPet from "./AddPet.js";
 import PetDescription from "./PetDescription.js";
-import Order from "./Order.js"
+import Order from "./Order.js";
 import { createStore } from "redux";
+import axios from "axios";
+import { setPets } from "../actions";
+import { connect } from "react-redux";
 import petsReducer from "../reducers/petsReducer.js";
 
 const store = createStore(petsReducer);
-
-export default class Main extends Component {
+class Main extends Component {
+  componentWillMount() {
+    const { setPets, user } = this.props;
+    axios.get("/pet").then(response => {
+      setPets(response.data);
+    });
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -42,3 +50,17 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   }
 });
+const mapStateToProps = state => {
+  return { pets: state.pets, user: state.user };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPets: pets => dispatch(setPets(pets))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);

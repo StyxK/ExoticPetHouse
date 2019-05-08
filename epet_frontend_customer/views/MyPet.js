@@ -25,12 +25,6 @@ import NavFooter from "../components/NavFooter";
 const API_URL = Config.API_URL;
 
 class MyPet extends Component {
-  componentWillMount() {
-    const { setPets, user } = this.props;
-    axios.get("/pet").then(response => {
-      setPets(response.data);
-    });
-  }
 
   render() {
     const { pets = [], setPets, addPet } = this.props;
@@ -86,7 +80,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPets: pets => dispatch(setPets(pets)),
     addPet: pet => dispatch(addPet(pet)),
     updatePet: pet =>dispatch(updatePet(pet))
   };
