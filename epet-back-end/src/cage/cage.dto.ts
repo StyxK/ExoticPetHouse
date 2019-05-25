@@ -1,4 +1,4 @@
-import { Store } from "src/store/store.entity";
+import { Store } from "../store/store.entity";
 
 export interface CageDTO{
     id:string

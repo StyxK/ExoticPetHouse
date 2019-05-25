@@ -1,6 +1,6 @@
 import { Store } from "../store/store.entity";
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { OrderLine } from "src/orderline/orderline.entity";
+import { OrderLine } from "../orderline/orderline.entity";
 
 @Entity()
 export class Cage {

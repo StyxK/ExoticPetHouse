@@ -1,5 +1,5 @@
-import { UserDTO, UserRO } from "src/user/user.dto";
-import { Address } from "src/address/address.entity";
+import { UserDTO, UserRO } from "../user/user.dto";
+import { Address } from "../address/address.entity";
 
 export interface CustomerDTO extends UserDTO{
 }

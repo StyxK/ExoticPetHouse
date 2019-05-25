@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from './employee.entity';
 import { Repository } from 'typeorm';
 import { EmployeeDTO } from './employee.dto';
-import { Store } from 'src/store/store.entity';
-import { User } from 'src/user/user.entity';
+import { Store } from '../store/store.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class EmployeeService extends UserService{

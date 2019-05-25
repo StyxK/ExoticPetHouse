@@ -3,8 +3,8 @@ import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import { OrderDTO } from './order.dto';
-import { OrderLine } from 'src/orderline/orderline.entity';
-import { Customer } from 'src/customer/customer.entity';
+import { OrderLine } from '../orderline/orderline.entity';
+import { Customer } from '../customer/customer.entity';
 @Injectable()
 export class OrderService {
     constructor(@InjectRepository(Order) private readonly orderRepository:Repository<Order>,

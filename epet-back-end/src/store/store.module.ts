@@ -3,8 +3,8 @@ import { StoreController } from './store.controller';
 import { StoreService } from './store.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Store } from './store.entity';
-import { Address } from 'src/address/address.entity';
-import { Cage } from 'src/cage/cage.entity';
+import { Address } from '../address/address.entity';
+import { Cage } from '../cage/cage.entity';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Store,Address,Cage])],

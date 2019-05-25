@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Cage } from './cage.entity';
 import { Repository } from 'typeorm';
 import { CageDTO } from './cage.dto';
-import { Store } from 'src/store/store.entity';
+import { Store } from '../store/store.entity';
 
 @Injectable()
 export class CageService {

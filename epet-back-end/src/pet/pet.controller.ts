@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe, UseGuards } from '@nestjs/common';
 import { PetService } from './pet.service';
-import { AuthGuard } from 'src/shared/auth.gaurd';
-import { User } from 'src/user/user.decorator';
+import { AuthGuard } from '../shared/auth.gaurd';
+import { User } from '../user/user.decorator';
 
 @Controller('pet')
 export class PetController {

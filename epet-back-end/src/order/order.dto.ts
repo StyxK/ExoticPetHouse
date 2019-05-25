@@ -1,6 +1,6 @@
-import { OrderLine } from "src/orderline/orderline.entity";
-import { Customer } from "src/customer/customer.entity";
-import { Store } from "src/store/store.entity";
+import { OrderLine } from "../orderline/orderline.entity";
+import { Customer } from "../customer/customer.entity";
+import { Store } from "../store/store.entity";
 import { OrderStatus } from "./order.status.entity";
 
 export interface OrderDTO {

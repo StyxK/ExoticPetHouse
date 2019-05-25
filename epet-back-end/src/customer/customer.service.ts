@@ -2,8 +2,8 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Customer } from './customer.entity';
 import { Repository } from 'typeorm';
-import { UserService } from 'src/user/user.service';
-import { Address } from 'src/address/address.entity';
+import { UserService } from '../user/user.service';
+import { Address } from '../address/address.entity';
 import { CustomerDTO, CustomerRO } from './customer.dto';
 
 @Injectable()

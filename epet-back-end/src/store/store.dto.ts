@@ -1,5 +1,5 @@
-import { Address } from "src/address/address.entity";
-import { StoreOwner } from "src/storeowner/storeowner.entity";
+import { Address } from "../address/address.entity";
+import { StoreOwner } from "../storeowner/storeowner.entity";
 
 export interface StoreDTO{
     id:string

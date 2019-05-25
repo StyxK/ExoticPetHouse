@@ -329,7 +329,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPets: pets => dispatch(setPets(pets))
   };
 };
 

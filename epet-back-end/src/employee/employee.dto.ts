@@ -1,5 +1,5 @@
-import { UserDTO } from "src/user/user.dto";
-import { Store } from "src/store/store.entity";
+import { UserDTO } from "../user/user.dto";
+import { Store } from "../store/store.entity";
 
 export interface EmployeeDTO extends UserDTO{
     store:Store

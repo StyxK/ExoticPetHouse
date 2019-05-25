@@ -3,7 +3,7 @@ import { CageService } from './cage.service';
 import { CageController } from './cage.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cage } from './cage.entity';
-import { Store } from 'src/store/store.entity';
+import { Store } from '../store/store.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Cage,Store])],

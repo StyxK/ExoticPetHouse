@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   }
 });
 const mapStateToProps = state => {
-  return { pets: state.pets, user: state.user };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {

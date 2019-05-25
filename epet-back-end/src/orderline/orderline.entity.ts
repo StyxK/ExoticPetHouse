@@ -2,7 +2,7 @@ import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Order } from "../order/order.entity";
 import { Pet } from "../pet/pet.entity";
 import { PetActivity } from "../petactivity/petactivity.entity";
-import { Cage } from "src/cage/cage.entity";
+import { Cage } from "../cage/cage.entity";
 
 @Entity()
 export class OrderLine {

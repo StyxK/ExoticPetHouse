@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FeedbackDTO } from './feedback.dto';
 import { Feedback } from './feedback.entity';
-import { Customer } from 'src/customer/customer.entity';
-import { Order } from 'src/order/order.entity';
+import { Customer } from '../customer/customer.entity';
+import { Order } from '../order/order.entity';
 
 @Injectable()
 export class FeedbackService {
