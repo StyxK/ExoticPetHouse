@@ -8,7 +8,7 @@ import Axios from 'axios'
 import Config from 'react-native-config'
 
 const API_URL = Config.API_URL;
-const PIC_URI = 'https://scontent.fbkk22-2.fna.fbcdn.net/v/t1.0-9/55939405_2308833056062946_4136779926751674368_n.jpg?_nc_cat=106&_nc_eui2=AeH5b-9CK5S_6JAA_ash6iAXc2SpheOGBTewp6Rq83gs-NrgCAcd_W0AWkRxIrEnTV4IuAkjk3Tp5E86LuNct1-OcaeNqoI04ZainbaFnbF8hA&_nc_ht=scontent.fbkk22-2.fna&oh=f0c597ef26cac129d249308ce2017371&oe=5D468406'
+const PIC_URI = 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'
 
 class OrderList extends Component {
 
@@ -202,22 +202,21 @@ class OrderList extends Component {
                     statusLabel  = <Text note key={'waiting'} style={{color:'#7A5032'}}> {status} </Text>
                 break
             }
-            return  <ListItem avatar key={data.id}>
-                        <Left>
-                            <Thumbnail small source={{uri:PIC_URI}}/>
-                        </Left>
+            return  <ListItem note key={data.id}>
                         <Body style={{flex:2}}>
+                            <Text style={{fontSize:15}}> เลขคำสั่งฝาก : <Text note> {data.id} </Text></Text>
                             <Text style={{fontSize:15}}> ผู้ฝาก : <Text note> {data.customerUsername} </Text ></Text>
-                            <Text style={{fontSize:15}}> การขนส่งสัตว์ : <Text note>{data.transportation} </Text></Text>
-                            <Text style={{fontSize:15}}> สถานะการฝาก : </Text>
-                            {statusLabel}
-                            <Text style={{fontSize:15}}> {data.id} </Text>
+                            <Text style={{fontSize:15}}> การขนส่ง : <Text note>{data.transportation} </Text></Text>
+                            <Text style={{fontSize:15}}> สถานะ : <Text note>{statusLabel}</Text></Text>
                         </Body>
-                        <Right style={{flex:1 , justifyContent:'center' , alignItems :'center'}}>
-                            <Button style={{height:30,backgroundColor:'#7A5032'}} 
-                                onPress={()=> this.showOrderDetail(data)}>
-                                <Text style={{fontSize:10}}> รายละเอียด </Text>
-                            </Button>
+                        <Right style={{flex:0.75,justifyContent:'center',alignItems:'center'}}>
+                            <View style={{flex:1,}}>
+                                <Thumbnail style={{alignSelf:'center'}} source={{uri:PIC_URI}}/>
+                                <Button rounded style={{backgroundColor:'#7A5032',alignSelf:'center',height:30,marginTop:10}} 
+                                    onPress={()=> this.showOrderDetail(data)}>
+                                    <Icon fontSize='15' name='search'/>
+                                </Button>
+                            </View>
                         </Right>
                     </ListItem>
         })
@@ -226,15 +225,15 @@ class OrderList extends Component {
             cage = JSON.parse(JSON.stringify(data.cage))
             petDetail = JSON.parse(JSON.stringify(data.pet))
             return  <ListItem key={data.id}>
-                        <Left style={{flex:0.75}}>
-                            <Thumbnail small source={{uri:PIC_URI}}/>
-                        </Left>
                         <Body style={{flex:3}}>
-                            <Text style={{fontSize:10}}> ชื่อสัตว์เลี้ยง <Text note> {petDetail.name} </Text></Text>
-                            <Text style={{fontSize:10}}> ประเภท <Text note> {petDetail.typeOfPet} </Text></Text>
-                            <Text style={{fontSize:10}}> กรง : <Text note> {cage.name} </Text></Text>
-                            <Text style={{fontSize:10}}> ค่าบริการกรง / วัน : <Text note> {cage.price} </Text> บาท </Text>
+                            <Text style={{fontSize:12}}> ชื่อสัตว์เลี้ยง <Text note style={{fontSize:15}}> {petDetail.name} </Text></Text>
+                            <Text style={{fontSize:12}}> ประเภท <Text note style={{fontSize:15}}> {petDetail.typeOfPet} </Text></Text>
+                            <Text style={{fontSize:12}}> กรง : <Text note style={{fontSize:15}}> {cage.name} </Text></Text>
+                            <Text style={{fontSize:12}}> ค่าบริการกรง / วัน : <Text note style={{fontSize:15}}> {cage.price} </Text> บาท </Text>
                         </Body>
+                        <Right style={{flex:0.75}}>
+                            <Thumbnail source={{uri:PIC_URI}}/>
+                        </Right>
                    </ListItem>
         })
 
