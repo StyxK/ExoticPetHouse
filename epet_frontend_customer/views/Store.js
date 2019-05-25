@@ -42,8 +42,6 @@ class Store extends Component {
       address: {},
       cage: [],
       orderLine: [],
-      startChosenDate: new Date(),
-      endChosenDate: new Date(),
       modalVisible: false,
       cageTemp: "cage",
       };
@@ -55,14 +53,6 @@ class Store extends Component {
     this.storeId = this.props.id;
   };
 
-  setStartDate = newDate => {
-    this.setState({ startChosenDate: newDate });
-  };
-
-  setEndDate = newDate => {
-    this.setState({ endChosenDate: newDate });
-  };
-
   setModalVisible = visible => {
     this.setState({ modalVisible: visible });
   };
@@ -71,6 +61,7 @@ class Store extends Component {
     let order = { pet: petId, cage: cageId };
     this.state.orderLine.push(order);
     this.setModalVisible(false);
+    
   };
 
   chooseCageFromStorePage = cageId => {
@@ -116,14 +107,6 @@ class Store extends Component {
             <Text style={{ color: "#7A5032" }}>{data.price} บาท/คืน</Text>
           </Body>
           <Right>
-            <CheckBox
-              color="green"
-              onPress={() => {
-                this.setModalVisible(true),
-                  this.chooseCageFromStorePage(data.id);
-              }}
-            />
-            <Text note />
           </Right>
         </ListItem>
       );
@@ -199,9 +182,7 @@ class Store extends Component {
               </Content>
               <CardItem>
                 <Text note>
-                  วันที่ฝาก:{" "}
-                  {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
-                  {this.state.endChosenDate.toString().substr(4, 12)}
+                  *** กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก
                 </Text>
                 <Text />
               </CardItem>
@@ -241,7 +222,7 @@ class Store extends Component {
                       <TouchableHighlight
                         key={pet.id}
                         onPress={() => {
-                          this.setPetAndCageSelected(
+                          this.goToOrder(
                             pet.id,
                             this.state.cageTemp
                           );
@@ -255,70 +236,12 @@ class Store extends Component {
               </View>
             </Modal>
           </Content>
-          <Footer style={{ height: "10%", backgroundColor: "#A37E63" }}>
-            <Left
-              style={{
-                marginTop: "2.5%",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "white" }}>ฝากตั้งแต่</Text>
-              <DatePicker
-                defaultDate={new Date().getDate}
-                locale={"th"}
-                minimumDate={new Date()}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"slide"}
-                androidMode={"default"}
-                placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
-                onDateChange={this.setStartDate}
-                disabled={false}
-              />
-            </Left>
-            <Left
-              style={{
-                marginTop: "2.5%",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Text style={{ fontSize: 15, color: "white" }}>
-                สิ้นสุดการฝาก
-              </Text>
-              <DatePicker
-                defaultDate={new Date().getDate}
-                locale={"th"}
-                minimumDate={this.state.startChosenDate}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"slide"}
-                androidMode={"calendar"}
-                placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
-                onDateChange={this.setEndDate}
-                disabled={false}
-              />
-            </Left>
-          </Footer>
-          <Footer style={{ backgroundColor: "#A37E63" }}>
-            <Button
-              full
-              style={{ flex: 2, marginTop: 1, backgroundColor: "#7A5032" }}
-              onPress={this.goToOrder}
-            >
-              <Text style={{ color: "white" }}>ยืนยันคำสั่งฝาก</Text>
-            </Button>
-          </Footer>
         </Container>
       </View>
     );
   }
-  goToOrder = () => {
+  goToOrder = (petId,cageId) => {
+    this.setPetAndCageSelected(petId,cageId);
     Actions.order(this.state);
   };
 }
