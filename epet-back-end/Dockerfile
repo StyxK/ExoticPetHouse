@@ -2,8 +2,6 @@ FROM node:10-alpine
 
 WORKDIR /app
 
-COPY . /app
+COPY ./dist /app
 
-RUN npm install
-
-CMD [ "npm", "start" ]
+CMD [ "node", "main.js" ]
