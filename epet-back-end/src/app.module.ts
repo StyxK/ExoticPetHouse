@@ -1,9 +1,16 @@
+import { User } from './user/user.decorator';
+import { Store } from './store/store.entity';
+import { PetActivity } from './petactivity/petactivity.entity';
+import { Feedback } from './feedback/feedback.entity';
+import { Customer } from './customer/customer.entity';
+import { Cage } from './cage/cage.entity';
+import { Address } from './address/address.entity';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StoreModule } from './store/store.module';
 import { AddressModule } from './address/address.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CageModule } from './cage/cage.module';
 import { OrderModule } from './order/order.module';
 import { StoreownerModule } from './storeowner/storeowner.module';
@@ -15,10 +22,55 @@ import { PetModule } from './pet/pet.module';
 import { OrderLineModule } from './orderline/orderline.module';
 import { PetActivityModule } from './petactivity/petactivity.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { Employee } from './employee/employee.entity';
+import { Order } from './order/order.entity';
+import { OrderLine } from './orderline/orderline.entity';
+import { Pet } from './pet/pet.entity';
+import { StoreOwner } from './storeowner/storeowner.entity';
+import { OrderStatus } from './order/order.status.entity';
+import 'dotenv/config';
+import 'reflect-metadata';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(),StoreModule,AddressModule, CageModule, OrderModule,StoreownerModule, EmployeeModule, CustomerModule, PetModule, OrderLineModule, PetActivityModule, FeedbackModule],
-  controllers: [AppController, PetController,],
-  providers: [AppService, PetService,],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: process.env.DATABASE_TYPE,
+      host: process.env.DATABASE_HOST,
+      port: process.env.DATABASE_PORT,
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      entities: [
+        Address,
+        Cage,
+        Customer,
+        Employee,
+        Feedback,
+        Order,
+        OrderStatus,
+        OrderLine,
+        Pet,
+        PetActivity,
+        Store,
+        StoreOwner,
+        User,
+      ],
+      synchronize: true,
+      logging: true,
+    } as TypeOrmModuleOptions),
+    StoreModule,
+    AddressModule,
+    CageModule,
+    OrderModule,
+    StoreownerModule,
+    EmployeeModule,
+    CustomerModule,
+    PetModule,
+    OrderLineModule,
+    PetActivityModule,
+    FeedbackModule,
+  ],
+  controllers: [AppController, PetController],
+  providers: [AppService, PetService],
 })
 export class AppModule {}
