@@ -65,7 +65,11 @@ class Order extends Component {
     const diffTime = Math.abs(
       this.state.endChosenDate.getTime() - this.state.startChosenDate.getTime()
     );
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    let totalDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    if(totalDay == 0){
+      totalDay = 1;
+    }
+    return totalDay;
   }
 
   showPetName = petId => {
@@ -128,10 +132,7 @@ class Order extends Component {
           </Left>
           <Body>
             <Text>กรง:{this.showCageName(data.cage)}</Text>
-            <Text>
-              สัตว์เลี้ยง: {this.showPetName(data.pet)}
-              {this.state.petIdTemp}
-            </Text>
+            <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
           <Right />
@@ -146,6 +147,9 @@ class Order extends Component {
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
+                onPress={() => {
+                  Actions.pop();
+                }}
                 style={{ color: "white", marginLeft: 10 }}
               />
             </Left>
@@ -174,6 +178,9 @@ class Order extends Component {
                 </List>
               </CardItem>
               {orderList}
+              <Button onPress={()=>Actions.pop()}>
+                <Text>เพิ่มรายการฝาก</Text>
+              </Button>
               <CardItem>
                 <Text note>
                   วันที่ฝาก:{" "}
