@@ -21,7 +21,7 @@ import { StyleSheet, View } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { setPets } from "../actions";
+import { addPet, setPets, updatePet } from "../actions";
 import Config from "react-native-config";
 
 const API_URL = Config.API_URL;
@@ -79,19 +79,21 @@ class Order extends Component {
     //this.setStoreDataToOrder();
   }
 
-  changPetStatusForm = () =>{
+  changPetStatusForm = () => {
+    const{updatePet} = this.props
     axios
       .put("/pet/" + this.state.petIdTemp, {
-        wasDeposit:true
+        wasDeposit: true
       })
       .then(response => {
         alert("success");
+        updatePet(response.data);
       })
       .catch(error => {
         alert("error" + error);
         console.log(error);
       });
-  }
+  };
 
   submitForm = () => {
     axios
@@ -103,7 +105,7 @@ class Order extends Component {
         orderLines: this.props.orderLine,
         store: this.props.stores.id,
         orderStatus: 1
-      })    
+      })
       .then(response => {
         alert("success");
         console.log(JSON.stringify(response));
@@ -126,7 +128,10 @@ class Order extends Component {
           </Left>
           <Body>
             <Text>กรง:{this.showCageName(data.cage)}</Text>
-            <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}{this.state.petIdTemp}</Text>
+            <Text>
+              สัตว์เลี้ยง: {this.showPetName(data.pet)}
+              {this.state.petIdTemp}
+            </Text>
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
           <Right />
@@ -157,7 +162,10 @@ class Order extends Component {
                 <Text style={{ fontSize: 20 }}> รหัส order </Text>
               </CardItem>
               <CardItem>
-                <Text> ที่อยู่ของผู้ฝาก: 200 ซอยบางแค13 บางแค กรุงเทพ 10160</Text>
+                <Text>
+                  {" "}
+                  ที่อยู่ของผู้ฝาก: 200 ซอยบางแค13 บางแค กรุงเทพ 10160
+                </Text>
               </CardItem>
               <CardItem>
                 <List>
@@ -168,7 +176,8 @@ class Order extends Component {
               {orderList}
               <CardItem>
                 <Text note>
-                  วันที่ฝาก: {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
+                  วันที่ฝาก:{" "}
+                  {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
                   {this.state.endChosenDate.toString().substr(4, 12)}
                 </Text>
               </CardItem>
@@ -254,7 +263,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    updatePet: pet => dispatch(updatePet(pet))
+  };
 };
 
 export default connect(
