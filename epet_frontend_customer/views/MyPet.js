@@ -48,7 +48,7 @@ class MyPet extends Component {
             ))}
           </Content>
 
-          <Fab position="bottomRight" onPress={this.goToAddPet}>
+          <Fab position="bottomRight" onPress={this.goToAddPet} >
             <Icon name="add" />
           </Fab>
         </Container>

@@ -79,7 +79,7 @@ export default class PetDescription extends Component {
               <Left>
                 <Text>เพศ</Text>
                 <Text note style={{ color: "#7A5032" }}>
-                  {pet.gender}
+                  {pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}
                 </Text>
               </Left>
             </CardItem>
@@ -123,13 +123,43 @@ export default class PetDescription extends Component {
                 </Text>
               </Left>
             </CardItem>
+            <CardItem>
+              <Left
+                style={{
+                  marginTop: "2.5%",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start"
+                }}
+              >
+                <Text>สถานะของสัตว์เลี้ยง</Text>
+                <Text note style={{ color: "#7A5032" }}>
+                  {pet.wasDeposit ? "กำลังถูกฝากอยู๋" : "ยังไม่ถูกฝาก"}
+                </Text>
+              </Left>
+            </CardItem>
           </Card>
-          <Button onPress={() => Actions.addPet({ pet: pet, updatePet })}>
-            <Text>edit</Text>
-          </Button>
-          <Button onPress={this.removePet}>
-            <Text>remove</Text>
-          </Button>
+          <Left
+            style={{
+              marginTop: "2.5%",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Button
+              style={{ backgroundColor: "#7A5032" }}
+              onPress={() => Actions.addPet({ pet: pet, updatePet })}
+            >
+              <Text>edit</Text>
+            </Button>
+          </Left>
+          <Right>
+            <Button
+              style={{ backgroundColor: "#7A5032"}}
+              onPress={this.removePet}
+            >
+              <Text>remove</Text>
+            </Button>
+          </Right>
         </Content>
       </Container>
     );
