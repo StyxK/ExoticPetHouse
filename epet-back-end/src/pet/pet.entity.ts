@@ -48,6 +48,9 @@ export class Pet {
   @Column({ nullable: true })
   ownerUserName = undefined;
 
+  @Column({ nullable: true })
+  deletedAt: Date;
+
   @ManyToOne(type => Customer, customer => customer.pets)
   @JoinColumn({
     name: 'ownerUserName',

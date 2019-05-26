@@ -18,14 +18,13 @@ import { StyleSheet, TouchableHighlight, View } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { addPet, setPets, updatePet } from "../actions";
+import { addPet, setPets, updatePet, removePet } from "../actions";
 import PetCard from "../components/PetCard";
 import NavFooter from "../components/NavFooter";
 
 const API_URL = Config.API_URL;
 
 class MyPet extends Component {
-
   render() {
     const { pets = [], setPets, addPet } = this.props;
     return (
@@ -48,7 +47,7 @@ class MyPet extends Component {
             ))}
           </Content>
 
-          <Fab position="bottomRight" onPress={this.goToAddPet} >
+          <Fab position="bottomRight" onPress={this.goToAddPet}>
             <Icon name="add" />
           </Fab>
         </Container>
@@ -62,8 +61,8 @@ class MyPet extends Component {
   };
 
   goToPetDescription = pet => () => {
-    const { updatePet } = this.props;
-    Actions.petDescription({ pet ,updatePet});
+    const { updatePet, removePet } = this.props;
+    Actions.petDescription({ pet, updatePet, removePet });
   };
 }
 
@@ -81,7 +80,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addPet: pet => dispatch(addPet(pet)),
-    updatePet: pet =>dispatch(updatePet(pet))
+    updatePet: pet => dispatch(updatePet(pet)),
+    removePet: pet => dispatch(removePet(pet))
   };
 };
 
