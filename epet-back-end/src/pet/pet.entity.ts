@@ -48,7 +48,7 @@ export class Pet {
   @Column({ nullable: true })
   ownerUserName = undefined;
 
-  @Column({ nullable: true })
+  @Column("timestamp with time zone",{ nullable: true })
   deletedAt: Date;
 
   @ManyToOne(type => Customer, customer => customer.pets)
