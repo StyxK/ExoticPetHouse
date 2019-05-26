@@ -21,7 +21,7 @@ export class PetService {
 
   async showByuserName(userName: string): Promise<Pet[]> {
     return this.petRepository.find({
-      where: { ownerUserName: userName },
+      where: { ownerUserName: userName, deletedAt: null },
     });
   }
 
@@ -50,8 +50,15 @@ export class PetService {
     return this.petRepository.findOne({ where: id });
   }
 
-  async delete(id: string): Promise<{ delete: boolean }> {
-    await this.petRepository.delete(id);
-    return { delete: true };
+  async delete(userName: string, id: string): Promise<{ delete: boolean }> {
+    const oldPet = await this.petRepository.findOne({
+      where: id,
+      relations: ['owner'],
+    });
+    if (oldPet.owner.userName === userName) {
+      await this.petRepository.update(id, { deletedAt: new Date() });
+      return { delete: true };
+    }
+    return { delete: false };
   }
 }

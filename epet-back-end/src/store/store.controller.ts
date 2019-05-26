@@ -12,6 +12,11 @@ export class StoreController {
         return await this.storesService.showAll()
     }
 
+    @Get('/search/:keyword')
+    async showByKeyword(@Param("keyword") keyword){
+        return await this.storesService.showByKeyword(keyword)
+    }
+
     @Get('/:id')
     async showById(@Param() id){
         return await this.storesService.showById(id)

@@ -154,7 +154,7 @@ export default class PetDescription extends Component {
           </Left>
           <Right>
             <Button
-              style={{ backgroundColor: "#7A5032"}}
+              style={{ backgroundColor: "#7A5032" }}
               onPress={this.removePet}
             >
               <Text>remove</Text>
@@ -165,14 +165,16 @@ export default class PetDescription extends Component {
     );
   }
   removePet = () => {
-    const { pet } = this.props;
+    const { pet, removePet } = this.props;
     if (!pet.wasDeposit) {
       axios
         .delete(API_URL + "/pet/" + pet.id)
         .then(response => {
-          alert("success");
-          console.log(JSON.stringify(response));
-          Actions.pop({ refresh: {} });
+          if (response.data.delete) {
+            alert("success");
+            removePet(pet);
+            Actions.pop({ refresh: {} });
+          }
         })
         .catch(error => {
           alert("error" + error);

@@ -129,7 +129,7 @@ export default class AddPet extends Component {
             <Label>เพศ</Label>
             <ListItem>
               <Left>
-                <Text>ชาย</Text>
+                <Text>เพศผู้</Text>
               </Left>
               <Right>
                 <Radio
@@ -140,7 +140,7 @@ export default class AddPet extends Component {
             </ListItem>
             <ListItem>
               <Left>
-                <Text>หญิง</Text>
+                <Text>เพศเมีย</Text>
               </Left>
               <Right>
                 <Radio
