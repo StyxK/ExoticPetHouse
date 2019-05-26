@@ -44,6 +44,7 @@ class Store extends Component {
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
+      petTemp:[],
       };
   }
 
@@ -111,6 +112,7 @@ class Store extends Component {
         </ListItem>
       );
     });
+    
 
     const { stores, address } = this.state;
     return (
@@ -187,6 +189,7 @@ class Store extends Component {
                 <Text />
               </CardItem>
             </Card>
+            
             <Modal
               animationType="slide"
               transparent={true}

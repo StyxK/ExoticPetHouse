@@ -103,7 +103,7 @@ class Order extends Component {
     axios
       .post(API_URL + "/order/", {
         transportation: "kerry",
-        submitDate: this.state.startChosenDate,
+        submitDate: new Date(),
         startDate: this.state.startChosenDate,
         endDate: this.state.endChosenDate,
         orderLines: this.props.orderLine,
@@ -186,6 +186,8 @@ class Order extends Component {
                   วันที่ฝาก:{" "}
                   {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
                   {this.state.endChosenDate.toString().substr(4, 12)}
+                  {this.state.startChosenDate.toString()}-{" "}
+                  {this.state.endChosenDate.toString()}
                 </Text>
               </CardItem>
               <CardItem>
