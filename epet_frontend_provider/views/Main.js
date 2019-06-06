@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View , Text } from 'react-native';
 import { Router, Scene, Actions} from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
+import Profile from '../views/Profile'
 import NavFooter from '../components/NavFooter';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
@@ -18,7 +19,8 @@ export default class Main extends Component {
                 <View style={styles.container}>
                     <Router>
                         <Scene key="root" hideNavBar={true} >
-                            <Scene key="home" component={OrderList} title="Home" initial={true} />
+                            <Scene key="home" component={OrderList} title="Home"  />
+                            <Scene key="profile" component={Profile} title="Profile" initial={true}/>
                         </Scene>
                     </Router>
                     <NavFooter/>
