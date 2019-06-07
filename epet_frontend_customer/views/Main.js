@@ -6,6 +6,7 @@ import MyPet from "./MyPet";
 import Search from "./Search";
 import Store from "./Store";
 import AddPet from "./AddPet.js";
+import History from "./History.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order.js";
 import { createStore } from "redux";
@@ -30,6 +31,7 @@ class Main extends Component {
             <Scene key="home" component={Search} title="Home" initial={true} />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
+            <Scene key="history" component={History} title="History" />
             <Scene key="addPet" component={AddPet} title="AddPet" />
             <Scene
               key="petDescription"
