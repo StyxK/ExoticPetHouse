@@ -6,29 +6,32 @@ import { OrderLine } from './orderline.entity';
 
 @Injectable()
 export class OrderLineService {
-    constructor(@InjectRepository(OrderLine) private readonly OrderLineRepository: Repository<OrderLine>) { }
+  constructor(
+    @InjectRepository(OrderLine)
+    private readonly OrderLineRepository: Repository<OrderLine>,
+  ) {}
 
-    async showAll(): Promise<OrderLine[]> {
-        return this.OrderLineRepository.find();
-    }
+  async showAll(): Promise<OrderLine[]> {
+    return this.OrderLineRepository.find();
+  }
 
-    async showById(id: string): Promise<OrderLine> {
-        return this.OrderLineRepository.findOne({ where: id });
-    }
+  async showById(id: string): Promise<OrderLine> {
+    return this.OrderLineRepository.findOne({ where: id });
+  }
 
-    async create(data: OrderLineDTO): Promise<OrderLine> {
-        const orderLine = await this.OrderLineRepository.create(data);
-        await this.OrderLineRepository.save(data);
-        return orderLine;
-    }
+  async create(data: OrderLineDTO): Promise<OrderLine> {
+    const orderLine = await this.OrderLineRepository.create(data);
+    await this.OrderLineRepository.save(data);
+    return orderLine;
+  }
 
-    async update(id: string, data: OrderLineDTO): Promise<OrderLine> {
-        await this.OrderLineRepository.update(id, data);
-        return this.OrderLineRepository.findOne({ where: id });
-    }
+  async update(id: string, data: OrderLineDTO): Promise<OrderLine> {
+    await this.OrderLineRepository.update(id, data);
+    return this.OrderLineRepository.findOne({ where: id });
+  }
 
-    async delete(id: string): Promise<{ delete: boolean }> {
-        await this.OrderLineRepository.delete(id);
-        return { delete: true };
-    }
+  async delete(id: string): Promise<{ delete: boolean }> {
+    await this.OrderLineRepository.delete(id);
+    return { delete: true };
+  }
 }

@@ -1,36 +1,10 @@
-import {
-  Container,
-  Content,
-  Card,
-  CardItem,
-  Button,
-  Text,
-  Icon,
-  Left,
-  Body,
-  Right,
-  ListItem,
-  List,
-  CheckBox,
-  DatePicker,
-  Header,
-  Title,
-  Footer,
-  Picker
-} from "native-base";
-import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  Modal,
-  Alert,
-  TouchableHighlight
-} from "react-native";
 import axios from "axios";
+import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from "native-base";
+import React, { Component } from "react";
+import { Alert, Modal, StyleSheet, TouchableHighlight, View } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { setPets } from "../actions";
 import PetCard from "../components/PetCard";
 
 const API_URL = Config.API_URL;
