@@ -8,6 +8,7 @@ import NavFooter from '../components/NavFooter';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import userReducer from '../src/reducer/UserReducer'
+import StoreManager from './StoreManager';
 
 const store = createStore(userReducer)
 
@@ -21,6 +22,7 @@ export default class Main extends Component {
                         <Scene key="root" hideNavBar={true} >
                             <Scene key="home" component={OrderList} title="Home"  />
                             <Scene key="profile" component={Profile} title="Profile" initial={true}/>
+                            <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                         </Scene>
                     </Router>
                     <NavFooter/>

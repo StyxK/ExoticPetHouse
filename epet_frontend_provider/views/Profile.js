@@ -3,6 +3,7 @@ import { Text, Container ,Left ,Body , Right , Header, Thumbnail, ListItem, List
 import {StyleSheet} from 'react-native'
 import Axios from 'axios'
 import Config from 'react-native-config'
+import { Actions } from 'react-native-router-flux';
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ildpc3NhbnVwb25nIiwicGFzc3dvcmQiOiIkMmEkMTAkUHNpVGlhcFV1Y00ybDJBZ0o2T0RWT2FzNkIzM09zNy5tU0M3ZDllSnZSVmdOVzFyLnlkQS4iLCJpYXQiOjE1NTk4MzQyMjksImV4cCI6MTU2MjQyNjIyOX0.l7YlzVY4vrkUvWYsZi4iNy8xrOq-lPjoHvI02G59yVs'
 const API_URL = Config.API_URL
@@ -67,13 +68,17 @@ export default class Profile extends Component{
                     })} }
                 >
                 <Icon name='add'/>
-                <Button style={{backgroundColor:'green'}}>
+                <Button style={{backgroundColor:'green'}} onPress={ ()=>goToStoreManager() }>
                     <Icon name='logo-whatsapp'/>
                 </Button>
                 </Fab>
             </Container>
         )
     }
+}
+
+goToStoreManager = ()=>{
+    Actions.storeManager()
 }
 
 const styles = StyleSheet.create({

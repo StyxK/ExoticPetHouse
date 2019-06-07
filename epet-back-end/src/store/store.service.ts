@@ -5,6 +5,7 @@ import { Store } from './store.entity';
 import { StoreDTO } from './store.dto';
 import { Address } from '../address/address.entity';
 import { Cage } from '../cage/cage.entity';
+import { StoreOwner } from 'src/storeowner/storeowner.entity';
 
 @Injectable()
 export class StoreService {
@@ -14,21 +15,30 @@ export class StoreService {
     @InjectRepository(Address)
     private readonly addressRepository: Repository<Address>,
     @InjectRepository(Cage) private readonly cageRepository: Repository<Cage>,
+    @InjectRepository(StoreOwner)
+    private readonly storeOwnerRepository: Repository<StoreOwner>
   ) {}
 
   async showAll() {
     return await this.storesRepository.find({ relations: ['address'] });
   }
 
-  async create(data: Partial<StoreDTO>) {
+  async showByOwner(userName:string){
+    Logger.log('searching .... '+userName)
+    // const stores = await this.storesRepository.find({where:{owner:userName}})
+    // return stores
+  }
+
+  async create(userName: string,data: Partial<StoreDTO>) {
+    const user = await this.storeOwnerRepository.findOne({where:{userName:userName}})
     await this.addressRepository.create(data.address);
     await this.addressRepository.save(data.address);
     const store = await this.storesRepository.create({
       ...data,
       address: data.address,
+      owner:user
     });
-    await this.storesRepository.save(data);
-    Logger.log(store);
+    await this.storesRepository.save(store);
     return { ...store, address: store.address };
   }
 
