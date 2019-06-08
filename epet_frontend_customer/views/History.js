@@ -43,7 +43,7 @@ class History extends Component {
             </Body>
           </Header>
           {history.map(item => {
-            const { id, orderStatus, orderLines = [], store } = item;
+            const { id, orderStatus, orderLines = [], store = [] } = item;
             let startDate = moment(item.startDate)
               .tz("Asia/Bangkok")
               .format("DD MMM YYYY HH:mm");
