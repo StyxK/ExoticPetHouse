@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import NavFooter from "../components/NavFooter";
 import axios from "axios";
 import moment from "moment-timezone";
+import { Actions } from "react-native-router-flux";
 
 const API_URL = Config.API_URL;
 
@@ -42,7 +43,7 @@ class History extends Component {
             </Body>
           </Header>
           {history.map(item => {
-            const { id, orderStatus, orderLines = [] } = item;
+            const { id, orderStatus, orderLines = [], store } = item;
             let startDate = moment(item.startDate)
               .tz("Asia/Bangkok")
               .format("DD MMM YYYY HH:mm");
@@ -53,7 +54,7 @@ class History extends Component {
               .tz("Asia/Bangkok")
               .format("DD MMM YYYY HH:mm");
             return (
-              <ListItem note key={id}>
+              <ListItem note key={id} onPress={this.goToHistoryDetail(item)}>
                 <Body style={{ flex: 2 }}>
                   <Text style={{ fontSize: 15 }}>
                     {" "}
@@ -61,7 +62,7 @@ class History extends Component {
                   </Text>
                   <Text style={{ fontSize: 15 }}>
                     {" "}
-                    วันที่ส่งคำขอ : <Text note> {submitDate} </Text>
+                    ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
                   </Text>
                   <Text style={{ fontSize: 15 }}>
                     {" "}
@@ -88,7 +89,7 @@ class History extends Component {
                     );
                   })} */}
                 </Body>
-                <Right
+                {/* <Right
                   style={{
                     flex: 0.75,
                     justifyContent: "center",
@@ -108,7 +109,7 @@ class History extends Component {
                       <Icon fontSize="15" name="search" />
                     </Button>
                   </View>
-                </Right>
+                </Right> */}
               </ListItem>
             );
           })}
@@ -119,6 +120,9 @@ class History extends Component {
       </Container>
     );
   }
+  goToHistoryDetail = item => () => {
+    Actions.historyDetail({ item });
+  };
 }
 
 const styles = StyleSheet.create({

@@ -23,7 +23,7 @@ export class OrderService {
     }
 
     async showAll(){
-        const orders =  await this.orderRepository.find({relations:['orderStatus','orderLines','orderLines.pet','orderLines.cage']});
+        const orders =  await this.orderRepository.find({relations:['store','orderStatus','orderLines','orderLines.pet','orderLines.cage']});
         return orders
     }
 
