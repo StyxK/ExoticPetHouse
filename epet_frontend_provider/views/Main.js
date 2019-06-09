@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import userReducer from '../src/reducer/UserReducer'
 import StoreManager from './StoreManager';
+import CreateStore from './CreateStore';
 
 const store = createStore(userReducer)
 
@@ -23,6 +24,7 @@ export default class Main extends Component {
                             <Scene key="home" component={OrderList} title="Home"  />
                             <Scene key="profile" component={Profile} title="Profile" initial={true}/>
                             <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
+                            <Scene key="createStore" component={CreateStore} title="CreateStore"/>
                         </Scene>
                     </Router>
                     <NavFooter/>

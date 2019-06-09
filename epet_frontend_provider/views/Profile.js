@@ -16,6 +16,7 @@ export default class Profile extends Component{
         super(props)
         this.state = {
             ownerProfile : {},
+            storeList : [] ,
             fabActivate : false
         }
     }
@@ -33,12 +34,44 @@ export default class Profile extends Component{
         )
     }
 
+    getStoreList = ()=>{
+        Axios.get(API_URL+'/store').then(
+            response =>{
+                data = response.data
+                this.setState({
+                    storeList : data
+                })
+            }
+        )
+    }
+
     componentWillMount(){
-        this.getProfile();
+        this.getProfile()
+        this.getStoreList()
     }
 
     render(){
-        const { ownerProfile , fabActivate } = this.state
+        const { ownerProfile , fabActivate , storeList} = this.state
+        
+        let storeFlatList = storeList.map(data => {
+            return(
+                <ListItem key = {data.id}>
+                    <Body>
+                        <Text note> ชื่อร้าน : <Text note style={{color:'black'}}> {data.name} </Text> </Text>
+                        <Text note> เบอร์โทรศัพท์ : <Text note style={{color:'black'}}> {data.phoneNumber} </Text> </Text>
+                        <Text note> คำอธิบาย : <Text note style={{color:'black'}}> {data.description} </Text> </Text>
+                        <Text note> จำนวนรับฝากสูงสุด : <Text note style={{color:'black'}}> {data.maxOfDeposit} </Text> </Text>
+                        <Text note> คะแนนร้าน : <Text note style={{color:'black'}}> {data.rating} </Text> </Text>
+                    </Body>
+                    <Right> 
+                        <Button rounded onPress={ () => goToStoreManager(data)}> 
+                            <Text style={{fontSize:10}}> จัดการ </Text> 
+                        </Button> 
+                    </Right>
+                </ListItem>
+            )
+        })
+
         return(
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
@@ -55,30 +88,25 @@ export default class Profile extends Component{
                         </Left>
                         <Body style={{flex:2}}>
                             <Text>คุณ {ownerProfile.firstName} {ownerProfile.lastName}</Text>
-                            <Text>e-mail : {ownerProfile.email}</Text>
                         </Body>
                     </ListItem>
+                    <ListItem noBorder itemDivider >
+                        <Text> การจัดการร้านรับฝาก </Text>
+                        <Button small rounded onPress={ ()=>{ goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
+                    </ListItem>
+                    {storeFlatList}
                 </List>
-                <Fab
-                    active = {fabActivate}
-                    direction = 'up'
-                    position = 'bottomRight'
-                    onPress = { ()=>{ this.setState({
-                        fabActivate:!fabActivate
-                    })} }
-                >
-                <Icon name='add'/>
-                <Button style={{backgroundColor:'green'}} onPress={ ()=>goToStoreManager() }>
-                    <Icon name='logo-whatsapp'/>
-                </Button>
-                </Fab>
             </Container>
         )
     }
 }
 
-goToStoreManager = ()=>{
-    Actions.storeManager()
+goToStoreManager = (store)=>{
+    Actions.storeManager({store})
+}
+
+goToCreateStore = ()=>{
+    Actions.createStore()
 }
 
 const styles = StyleSheet.create({
