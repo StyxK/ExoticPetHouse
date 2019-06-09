@@ -18,11 +18,10 @@ import {
 } from "native-base";
 import { StyleSheet, View, Modal } from "react-native";
 import { connect } from "react-redux";
-import Axios from "axios";
-import Config from "react-native-config";
+import axios from "axios";
 import moment from "moment-timezone";
+import NavFooter from '../components/NavFooter';
 
-const API_URL = Config.API_URL;
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
 
@@ -49,7 +48,7 @@ class OrderList extends Component {
   };
 
   getOrderDetails = orderId => {
-    Axios.get(API_URL + "/order/" + orderId).then(response => {
+    axios.get("/order/" + orderId).then(response => {
       data = response.data;
       const approveButton = [
         <FooterTab
@@ -203,7 +202,7 @@ class OrderList extends Component {
 
   updateStatus = status => {
     let orderID = this.state.selectedOrderId;
-    Axios.put(API_URL + "/order/" + orderID, {
+    axios.put("/order/" + orderID, {
       orderStatus: {
         id: status
       }
@@ -229,7 +228,7 @@ class OrderList extends Component {
   };
 
   refreshOrder = () => {
-    Axios.get(API_URL + "/order").then(response => {
+    axios.get("/order").then(response => {
       const newState = update(this.state, {
         orders: { $set: response.data }
       });
@@ -418,6 +417,7 @@ class OrderList extends Component {
             </Container>
           </View>
         </Modal>
+        <NavFooter/>
       </Container>
     );
   }

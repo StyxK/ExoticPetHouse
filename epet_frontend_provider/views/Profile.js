@@ -1,12 +1,11 @@
 import React,{Component} from 'react'
-import { Text, Container ,Left ,Body , Right , Header, Thumbnail, ListItem, List, Fab, Icon, Button} from 'native-base'
+import { Text, Container ,Left ,Body , Right , Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content} from 'native-base'
 import {StyleSheet} from 'react-native'
-import Axios from 'axios'
+import axios from 'axios'
 import Config from 'react-native-config'
 import { Actions } from 'react-native-router-flux';
+import NavFooter from '../components/NavFooter';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ildpc3NhbnVwb25nIiwicGFzc3dvcmQiOiIkMmEkMTAkUHNpVGlhcFV1Y00ybDJBZ0o2T0RWT2FzNkIzM09zNy5tU0M3ZDllSnZSVmdOVzFyLnlkQS4iLCJpYXQiOjE1NTk4MzQyMjksImV4cCI6MTU2MjQyNjIyOX0.l7YlzVY4vrkUvWYsZi4iNy8xrOq-lPjoHvI02G59yVs'
-const API_URL = Config.API_URL
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
 
@@ -22,7 +21,7 @@ export default class Profile extends Component{
     }
 
     getProfile = () => {
-        Axios.get(API_URL+'/storeowner/Wissanupong').then(
+        axios.get('/storeowner/Wissanupong').then(
             response => {
                 data = response.data
                 this.setState(
@@ -35,7 +34,7 @@ export default class Profile extends Component{
     }
 
     getStoreList = ()=>{
-        Axios.get(API_URL+'/store').then(
+        axios.get('/store').then(
             response =>{
                 data = response.data
                 this.setState({
@@ -81,21 +80,26 @@ export default class Profile extends Component{
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <List>
-                    <ListItem>
-                        <Left style={{flex:0.5}}>
-                            <Thumbnail source={{uri:PIC_URI}}/>
-                        </Left>
-                        <Body style={{flex:2}}>
-                            <Text>คุณ {ownerProfile.firstName} {ownerProfile.lastName}</Text>
-                        </Body>
-                    </ListItem>
-                    <ListItem noBorder itemDivider >
-                        <Text> การจัดการร้านรับฝาก </Text>
-                        <Button small rounded onPress={ ()=>{ goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
-                    </ListItem>
-                    {storeFlatList}
-                </List>
+                    <List>
+                        <ListItem noBorder>
+                            <Left style={{flex:0.5}}>
+                                <Thumbnail source={{uri:PIC_URI}}/>
+                            </Left>
+                            <Body style={{flex:2}}>
+                                <Text>คุณ {ownerProfile.firstName} {ownerProfile.lastName}</Text>
+                            </Body>
+                        </ListItem>
+                        <ListItem noBorder itemDivider >
+                            <Text> การจัดการร้านรับฝาก </Text>
+                            <Button small rounded onPress={ ()=>{ goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
+                        </ListItem>
+                    </List>
+                    <Content>
+                        <List>
+                            {storeFlatList}
+                        </List>
+                    </Content>
+                    <NavFooter/>
             </Container>
         )
     }
