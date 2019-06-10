@@ -261,9 +261,9 @@ class Order extends Component {
 
   sendOrderToStore = () => {
     alert("ส่งคำร้องเสร็จสิ้น");
-    this.submitForm();
-    this.changPetStatusForm();
-    Actions.home();
+    //this.submitForm();
+    //this.changPetStatusForm();
+    Actions.history();
   };
 }
 

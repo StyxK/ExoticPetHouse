@@ -52,7 +52,7 @@ class HistoryDetail extends Component {
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
-                onPress={Actions.pop}
+                onPress={()=>Actions.pop()}
                 style={{ color: "white", marginLeft: 10 }}
               />
             </Left>
