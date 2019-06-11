@@ -6,11 +6,12 @@ import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import userReducer from '../src/reducer/UserReducer'
+import {Field,reduxForm} from 'redux-form'
 import StoreManager from './StoreManager';
 import CreateStore from './CreateStore';
+import allReducers from '../src/reducer';
 
-const store = createStore(userReducer)
+const store = createStore(allReducers)
 
 export default class Main extends Component {
 

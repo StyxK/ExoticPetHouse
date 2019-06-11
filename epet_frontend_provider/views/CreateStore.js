@@ -1,10 +1,11 @@
 import React,{Component} from 'react'
 import { Container, Text , Header , Left , Right , Body, Form , Item, Label, Textarea, ListItem, View, Button, Input, Icon, FooterTab, Content, Footer} from 'native-base'
 import Config from 'react-native-config'
+import { Field,reduxForm} from 'redux-form'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 
-export default class CreateStore extends Component{
+class CreateStore extends Component{
 
     constructor(props){
         super(props)
@@ -35,6 +36,13 @@ export default class CreateStore extends Component{
                     <Form>
                         <ListItem itemDivider>
                             <Text>ข้อมูลทั่วไปของร้าน</Text>
+                        </ListItem>
+                            <Field name = 'name' component={renderInput} />
+                            <Field name = 'phoneNumber' component={renderInput} />
+                            <Field name = 'description' component={renderInput} />
+                            <Field name = 'maxOfDeposit' component={renderInput} />
+                        <ListItem itemDivider>
+                            <Text>ฟอร์มแบบเก่า (without redux-form)</Text>
                         </ListItem>
                         <Item stackedLabel>
                             <Label> ชื่อร้าน </Label>
@@ -133,6 +141,58 @@ export default class CreateStore extends Component{
     }
 }
 
+renderInput = ({input,label,type,meta:{ touched,error,warning}})=>{
+    let hashError = false;
+    if(error != undefined){
+        hashError = true
+    }
+    switch(input.name){
+        case 'phoneNumber': 
+        return(
+            <Item stackedLabel error = {hashError}>
+                <Input keyboardType='number-pad' {...input}/>
+                {hashError ? <Text>{error}</Text>:<Text/>}
+            </Item>
+        )
+        case 'maxOfDeposit': 
+        return(
+            <Item stackedLabel error = {hashError}>
+                <Input keyboardType='number-pad' {...input}/>
+                {hashError ? <Text>{error}</Text>:<Text/>}
+            </Item>
+        )
+        default : 
+    }
+    return(
+        <Item stackedLabel error = {hashError}>
+            <Input keyboardType='default' {...input}/>
+            {hashError ? <Text>{error}</Text>:<Text/>}
+        </Item>
+    )
+}
+
+const validate = (value) =>{
+    const error = {};
+    error.name = '';
+    error.phoneNumber = '';
+    error.description = '';
+    error.maxOfDeposit = '';
+    let {name,phoneNumber,description,maxOfDeposit} = value
+    if(name == undefined){
+        error.name = 'กรุณาใส่ชื่อร้าน'
+    }
+    if(phoneNumber == undefined){
+        error.phoneNumber = 'กรุณาใส่เบอร์ติดต่อร้าน'
+    }
+    if(description == undefined){
+        description = ''
+    }
+    if(maxOfDeposit == undefined){
+        error.maxOfDeposit = 'กรุณาระบุจำนวนที่รับฝากได้สูงสุด'
+    }
+    return error
+}
+
 createStore = (storeDetail)=>{
     axios.post('/store',storeDetail).then( response =>{
         alert(response.data)
@@ -143,3 +203,8 @@ createStore = (storeDetail)=>{
 goToProfile = ()=>{
     Actions.profile()
 }
+
+export default reduxForm({
+    form :  'createStore',
+    validate
+})(CreateStore)
