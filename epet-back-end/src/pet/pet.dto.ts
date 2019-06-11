@@ -12,6 +12,7 @@ export interface PetDTO {
     allergicFoods: string;
     favThing: string;
     hateThing: string;
+    image: string;
     wasDeposit: boolean;
     owner: Customer;
     orderLines: OrderLine[];

@@ -11,9 +11,7 @@ import {
   Thumbnail
 } from "native-base";
 
-
 export default class PetCard extends Component {
-
   render() {
     const { pet } = this.props;
     return (
@@ -23,8 +21,7 @@ export default class PetCard extends Component {
             <Left>
               <Thumbnail
                 source={{
-                  uri:
-                    "https://steoates.gallerycdn.vsassets.io/extensions/steoates/autoimport/1.5.3/1509707628747/Microsoft.VisualStudio.Services.Icons.Default"
+                  uri: pet.image
                 }}
               />
               <Body>

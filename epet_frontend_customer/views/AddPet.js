@@ -17,15 +17,17 @@ import {
   Radio,
   Text,
   List,
-  Body
+  Body,
+  View
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import Config from "react-native-config";
 import { connect } from "react-redux";
 import { addPet, setPets } from "../actions";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
+import ImagePicker from "react-native-image-picker";
 
 const API_URL = Config.API_URL;
 
@@ -40,15 +42,29 @@ export default class AddPet extends Component {
     hateThing: "",
     age: "",
     typeOfPet: "",
+    image: null,
     gender: ""
   };
   constructor(props) {
     super(props);
-    alert(JSON.stringify(props.pet));
     this.state = { ...this.state, ...props.pet };
   }
 
   componentWillMount() {}
+
+  handleChoosePhoto = () => {
+    const options = {
+      noData: false
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        //alert(JSON.stringify(response))
+      //alert(JSON.stringify('data:image/jpeg;base64,' + response.data))
+        this.setState({ image: 'data:image/jpeg;base64,' + response.data });
+      }
+    });
+  };
+   
 
   render() {
     const {
@@ -61,7 +77,8 @@ export default class AddPet extends Component {
       hateThing,
       age,
       typeOfPet,
-      gender
+      gender,
+      image
     } = this.state;
     return (
       <Container>
@@ -184,6 +201,20 @@ export default class AddPet extends Component {
                 defaultValue={hateThing}
               />
             </Item>
+            <View>
+              {image && (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 300, height: 300 }}
+                />
+              )}
+              <Button
+                style={{ backgroundColor: "#7A5032" }}
+                onPress={this.handleChoosePhoto}
+              >
+                <Text>Choose Photo</Text>
+              </Button>
+            </View>
             <Button
               style={{ backgroundColor: "#7A5032" }}
               onPress={this.submitForm}
@@ -213,9 +244,10 @@ export default class AddPet extends Component {
       hateThing,
       age,
       typeOfPet,
-      gender
+      gender,
+      image
     } = this.state;
-    const{addPet,updatePet}= this.props
+    const { addPet, updatePet } = this.props;
     if (!name) {
       return alert("Plese Enter your pet name");
     }
@@ -228,6 +260,9 @@ export default class AddPet extends Component {
     if (!typeOfPet) {
       return alert("Plese Enter your pet type");
     }
+    if (!image) {
+      return alert("Plese Enter your pet photo");
+    }
     if (id) {
       axios
         .put("/pet/" + id, {
@@ -239,12 +274,13 @@ export default class AddPet extends Component {
           hateThing,
           age: Number(age),
           typeOfPet,
-          gender
+          gender,
+          image
         })
         .then(response => {
           alert("success");
           updatePet(response.data);
-          Actions.pop({ refresh: {pet:response.data} });
+          Actions.pop({ refresh: { pet: response.data } });
         })
         .catch(error => {
           alert("error" + error);
@@ -261,7 +297,8 @@ export default class AddPet extends Component {
           hateThing,
           age: Number(age),
           typeOfPet,
-          gender
+          gender,
+          image
         })
         .then(response => {
           alert("success");

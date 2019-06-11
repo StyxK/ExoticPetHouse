@@ -16,7 +16,7 @@ import {
   CardItem
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -135,6 +135,12 @@ export default class PetDescription extends Component {
                 <Text note style={{ color: "#7A5032" }}>
                   {pet.wasDeposit ? "กำลังถูกฝากอยู๋" : "ยังไม่ถูกฝาก"}
                 </Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Image source={{ uri: pet.image }}
+                  style={{ width: 300, height: 300 }}></Image>
               </Left>
             </CardItem>
           </Card>
