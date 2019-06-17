@@ -10,7 +10,7 @@ import History from "./History.js";
 import HistoryDetail from "./HistoryDetail.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order.js";
-import OrderSummary from "./OrderSummary.js";
+
 import { createStore } from "redux";
 import axios from "axios";
 import { setPets } from "../actions";
@@ -33,7 +33,6 @@ class Main extends Component {
             <Scene key="home" component={Search} title="Home" initial={true} />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
-            <Scene key="orderSummary" component={OrderSummary} title="OrderSummary" />
             <Scene key="history" component={History} title="History" />
             <Scene
               key="historyDetail"
