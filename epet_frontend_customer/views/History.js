@@ -86,7 +86,7 @@ class History extends Component {
             />
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>รายการของฉัน</Title>
+            <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
           </Body>
           <Right />
         </Header>
@@ -95,7 +95,7 @@ class History extends Component {
             values={["รอร้านตอบรับ", "กำลังฝาก", "ยกเลิก", "สำเร็จ"]}
             selectedIndex={this.state.selectedIndex}
             onTabPress={this.handleIndexChange}
-            borderRadius={10}
+            borderRadius={0}
             tabsContainerStyle={{
               height: 40,
               backgroundColor: "white",
@@ -105,8 +105,7 @@ class History extends Component {
             activeTabStyle={{
               backgroundColor: "white",
               borderBottomWidth: 4,
-              borderColor: "#7A5032"
-              //borderRadius: 10
+              borderColor: "#a26c46"
             }}
             tabTextStyle={{
               color: "#a8a8a8",
@@ -114,7 +113,7 @@ class History extends Component {
               fontWeight: "500"
             }}
             activeTabTextStyle={{
-              color: "#000",
+              color: "#7A5032",
               fontSize: 13,
               fontWeight: "500"
             }}
