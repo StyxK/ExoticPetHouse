@@ -17,9 +17,10 @@ import {
   Icon,
   FooterTab,
   Content,
-  Footer
+  Footer,
+  Title
 } from "native-base";
-import { Dimensions } from "react-native";
+import { Dimensions, Modal } from "react-native";
 import { Field, reduxForm, reset } from "redux-form";
 import { Actions } from "react-native-router-flux";
 import { DispatchProp } from "react-redux";
@@ -41,7 +42,8 @@ class CreateStore extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      startPoint: undefined
+      startPoint: undefined,
+      modalVisible: false
     };
   }
 
@@ -64,6 +66,18 @@ class CreateStore extends Component {
       });
     });
   }
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible });
+  };
+  setLocation = l => {
+    const initialPoint = { ...this.state.initialPoint };
+    initialPoint.latitude = l.latitude;
+    initialPoint.longitude = l.longitude;
+    this.setState({
+      initialPoint: initialPoint,
+      startPoint: l
+    });
+  };
 
   render() {
     return (
@@ -83,7 +97,12 @@ class CreateStore extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        {storeForm(this.props, this.state)}
+        {storeForm(
+          this.props,
+          this.state,
+          this.setModalVisible,
+          this.setLocation
+        )}
       </Container>
     );
   }
@@ -138,8 +157,8 @@ renderInput = ({ input, label, type, meta: { touched, error, warning } }) => {
   );
 };
 
-const storeForm = (props, state) => {
-  const { initialPoint, startPoint } = state;
+const storeForm = (props, state, setModalVisible, setLocation) => {
+  const { initialPoint, startPoint, modalVisible } = state;
   const { handleSubmit } = props;
   return (
     <Content>
@@ -185,10 +204,56 @@ const storeForm = (props, state) => {
             width: "100%",
             height: 200
           }}
-          initialRegion={initialPoint}
+          region={initialPoint}
+          scrollEnabled={false}
+          zoomEnabled={false}
+          zoomTapEnabled={false}
+          minZoomLevel={18}
+          onPress={() => {
+            setModalVisible(true);
+          }}
         >
-          {startPoint && <Marker coordinate={ startPoint } />}
+          {startPoint && <Marker coordinate={startPoint} />}
         </MapView>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => {
+            alert("Modal has been closed.");
+          }}
+        >
+          <View>
+            <Header style={{ backgroundColor: "#7A5032" }}>
+              <Left style={{ flex: 1 }} />
+              <Body style={{ display: "flex", flex: 1, alignItems: "center" }}>
+                <Title style={{ color: "white", fontSize: 20 }}>
+                  เลือกตำแหน่งร้าน
+                </Title>
+              </Body>
+              <Right style={{ flex: 1 }}>
+                <Text
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}
+                  style={{ color: "white" }}
+                >
+                  ยืนยัน
+                </Text>
+              </Right>
+            </Header>
+            <MapView
+              style={{
+                width: "100%",
+                height: "100%"
+              }}
+              initialRegion={initialPoint}
+              onPress={l => setLocation(l.nativeEvent.coordinate)}
+            >
+              {startPoint && <Marker coordinate={startPoint} />}
+            </MapView>
+          </View>
+        </Modal>
       </View>
       <Footer>
         <FooterTab style={{ backgroundColor: "none" }}>
