@@ -10,6 +10,8 @@ import {Field,reduxForm} from 'redux-form'
 import StoreManager from './StoreManager';
 import CreateStore from './CreateStore';
 import allReducers from '../src/reducer';
+import Pet from './Pet';
+import Store from './Store';
 
 const store = createStore(allReducers)
 
@@ -21,8 +23,10 @@ export default class Main extends Component {
                 <View style={styles.container}>
                     <Router>
                         <Scene key="root" hideNavBar={true} >
-                            <Scene key="home" component={OrderList} title="Home"  />
-                            <Scene key="profile" component={Profile} title="Profile" initial={true}/>
+                            <Scene key="pet" component={Pet} title="Pet"/>
+                            <Scene key="store" component={Store} title="Store" initial="true"/>
+                            <Scene key="home" component={OrderList} title="Home"/>
+                            <Scene key="profile" component={Profile} title="Profile"/>
                             <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                             <Scene key="createStore" component={CreateStore} title="CreateStore"/>
                         </Scene>

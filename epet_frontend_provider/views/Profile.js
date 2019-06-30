@@ -58,8 +58,6 @@ export default class Profile extends Component{
                     <Body>
                         <Text note> ชื่อร้าน : <Text note style={{color:'black'}}> {data.name} </Text> </Text>
                         <Text note> เบอร์โทรศัพท์ : <Text note style={{color:'black'}}> {data.phoneNumber} </Text> </Text>
-                        <Text note> คำอธิบาย : <Text note style={{color:'black'}}> {data.description} </Text> </Text>
-                        <Text note> จำนวนรับฝากสูงสุด : <Text note style={{color:'black'}}> {data.maxOfDeposit} </Text> </Text>
                         <Text note> คะแนนร้าน : <Text note style={{color:'black'}}> {data.rating} </Text> </Text>
                     </Body>
                     <Right> 

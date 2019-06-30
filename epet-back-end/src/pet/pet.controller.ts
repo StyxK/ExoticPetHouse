@@ -18,6 +18,12 @@ import { User } from '../user/user.decorator';
 export class PetController {
   constructor(private readonly petService: PetService) {}
 
+  @Get('/fromStore/:id')
+  @UseGuards(new AuthGuard())
+  async showAllPet(@Param() id){
+    return this.petService.showByStoreId(id)
+  }
+
   @Get('/')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())

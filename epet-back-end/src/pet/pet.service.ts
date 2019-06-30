@@ -1,5 +1,5 @@
 import { Customer } from './../customer/customer.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PetDTO } from './pet.dto';
@@ -17,6 +17,19 @@ export class PetService {
 
   async showById(id: string): Promise<Pet> {
     return this.petRepository.findOne({ where: id });
+  }
+
+  async showByStoreId(storeId : string):Promise<Pet[]>{
+    const store = JSON.parse(JSON.stringify(storeId)).id
+    await Logger.log(`this is store => ${store}`)
+    const pet = await this.petRepository
+    .createQueryBuilder("pet")
+    .innerJoinAndSelect('pet.orderLines','orderLine')
+    .innerJoinAndSelect('orderLine.order','order')
+    .innerJoinAndSelect('order.store','store')
+    .where(`store.id::text = :id`,{id : store})
+    .getMany()  
+    return pet
   }
 
   async showByuserName(userName: string): Promise<Pet[]> {
