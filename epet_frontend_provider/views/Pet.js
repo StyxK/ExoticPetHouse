@@ -34,10 +34,14 @@ export default class Pet extends Component {
         const { petList } = this.state
 
         let petFlatList = petList.map(data => {
+            const orderLines = [...data.orderLines]
+            alert(JSON.stringify(orderLines))
             return (
                 <ListItem key={data.id}>
                     <Body>
                         <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
+                        <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>              
+                        <Text note> กรง :  <Text note style={{ color: 'black' }}> {'cage'} </Text> </Text>              
                     </Body>
                     <Right>
                         <Button rounded>

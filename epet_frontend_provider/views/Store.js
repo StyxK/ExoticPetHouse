@@ -30,14 +30,15 @@ export default class Store extends Component {
 
         let storeFlatList = storeList.map(data => {
             return (
-                <ListItem key={data.id}>
+                <ListItem button onPress={()=>{goToPetInStore(data.id)}} key={data.id}>
+                    <Left style={{maxWidth:10}}>
+                        <Icon name="home"/>
+                    </Left>
                     <Body>
                         <Text note> ชื่อร้าน : <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                     </Body>
                     <Right>
-                        <Button rounded onPress={() => { goToPetInStore(data.id) }}>
-                            <Icon name='arrow-back' style={{ fontSize: 10 }} />
-                        </Button>
+                        <Icon name='ios-arrow-forward' color='black' fontSize='20' />
                     </Right>
                 </ListItem>
             )
