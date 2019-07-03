@@ -23,6 +23,8 @@ import { Actions } from "react-native-router-flux";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import NavFooter from "../components/NavFooter";
 import HistoryList from "../components/HistoryList";
+import SegmentControl from "react-native-segment-control";
+import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
 
 const API_URL = Config.API_URL;
 
@@ -32,7 +34,8 @@ class History extends Component {
     this.state = {
       page: [],
       selectedIndex: 0,
-      history: []
+      history: [],
+      statuses: []
     };
   }
 
@@ -46,6 +49,9 @@ class History extends Component {
   componentWillMount() {
     axios.get("/order/").then(response => {
       this.setState({ history: response.data });
+    });
+    axios.get("/order/statuses").then(response => {
+      this.setState({ statuses: response.data });
     });
   }
 
@@ -74,9 +80,9 @@ class History extends Component {
   };
 
   render() {
-    const { page } = this.state;
+    const { page, statuses } = this.state;
     return (
-      <Container>
+      <Container style={{ display: "flex", height: "100%" }}>
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 1 }}>
             <Icon
@@ -90,7 +96,18 @@ class History extends Component {
           </Body>
           <Right />
         </Header>
-        <Content>
+        <View style={{ flex: 1 }}>
+          {statuses.length > 0 && (
+            // <SegmentControl
+            //   style={{ height: "100%" }}
+            //   segments={this.getSegments()}
+            // />
+            <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+              {this.getSegments()}
+            </ScrollableTabView>
+          )}
+        </View>
+        {/* <Content>
           <SegmentedControlTab
             values={["รอร้านตอบรับ", "กำลังฝาก", "ยกเลิก", "สำเร็จ"]}
             selectedIndex={this.state.selectedIndex}
@@ -120,11 +137,32 @@ class History extends Component {
           />
           {this.showSegment()}
           {page}
-        </Content>
+        </Content> */}
         <NavFooter />
       </Container>
     );
   }
+
+  getSegments = () => {
+    const { history, statuses } = this.state;
+
+    const segments = statuses.map(status => (
+      <View key={status.id} tabLabel={status.status}>
+        {history
+          .filter(item => item.orderStatus.id === status.id)
+          .map(item => {
+            return (
+              <HistoryList
+                key={item.id}
+                item={item}
+                onPress={this.goToHistoryDetail(item)}
+              />
+            );
+          })}
+      </View>
+    ));
+    return segments;
+  };
 }
 
 const styles = StyleSheet.create({
