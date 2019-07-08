@@ -13,6 +13,7 @@ import {
   Header,
   Title,
   Card,
+  View,
   CardItem
 } from "native-base";
 import React, { Component } from "react";
@@ -139,33 +140,40 @@ export default class PetDescription extends Component {
             </CardItem>
             <CardItem>
               <Left>
-                <Image source={{ uri: pet.image }}
-                  style={{ width: 300, height: 300 }}></Image>
+                <Image
+                  source={{ uri: pet.image }}
+                  style={{ width: 300, height: 300 }}
+                />
               </Left>
             </CardItem>
           </Card>
-          <Left
-            style={{
-              marginTop: "2.5%",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <Button
-              style={{ backgroundColor: "#7A5032" }}
-              onPress={() => Actions.addPet({ pet: pet, updatePet })}
-            >
-              <Text>edit</Text>
-            </Button>
-          </Left>
-          <Right>
-            <Button
-              style={{ backgroundColor: "#7A5032" }}
-              onPress={this.removePet}
-            >
-              <Text>remove</Text>
-            </Button>
-          </Right>
+
+          <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
+            <Left>
+              <Button
+                style={{
+                  backgroundColor: "#7A5032",
+                  flex: 1,
+                  borderRadius: 10
+                }}
+                onPress={() => Actions.addPet({ pet: pet, updatePet })}
+              >
+                <Text>edit</Text>
+              </Button>
+            </Left>
+            <Right>
+              <Button
+                style={{
+                  backgroundColor: "#7A5032",
+                  flex: 1,
+                  borderRadius: 10
+                }}
+                onPress={this.removePet}
+              >
+                <Text>remove</Text>
+              </Button>
+            </Right>
+          </View>
         </Content>
       </Container>
     );

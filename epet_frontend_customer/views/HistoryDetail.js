@@ -122,6 +122,7 @@ class HistoryDetail extends Component {
                     flex: 1,
                     borderRadius: 10
                   }}
+                  onPress={this.goToPetActivity}
                 >
                   <Text>pet activity</Text>
                 </Button>
@@ -144,10 +145,14 @@ class HistoryDetail extends Component {
       </Container>
     );
   }
+
   cancelOrder = () => {
     const { status } = this.props;
     if (status.id == 1 || status.id == 2) {
     }
+  };
+  goToPetActivity = () => {
+    Actions.petActivity({});
   };
 }
 
