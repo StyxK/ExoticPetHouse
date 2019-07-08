@@ -31,8 +31,10 @@ export class OrderController {
   }
 
   @Get('/')
-  async showAll() {
-    return this.orderService.showAll();
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  async showAll(@User('userName') userName) {
+    return this.orderService.showAll(userName);
   }
 
   @Get(':id')

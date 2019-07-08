@@ -52,7 +52,7 @@ class HistoryDetail extends Component {
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
-                onPress={()=>Actions.pop()}
+                onPress={() => Actions.pop()}
                 style={{ color: "white", marginLeft: 10 }}
               />
             </Left>
@@ -63,62 +63,92 @@ class HistoryDetail extends Component {
             </Body>
             <Right />
           </Header>
-          <View key={item.id}>
-            <View style={{ margin: 20 }}>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                เลขคำสั่งฝาก : <Text note> {id} </Text>
-              </Text>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
-              </Text>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                วันที่ส่งคำขอ : <Text note> {submitDate} </Text>
-              </Text>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                ฝากวันที่ : <Text note> {startDate} </Text>
-              </Text>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                ถึงวันที่ : <Text note> {endDate} </Text>
-              </Text>
+          <Content>
+            <View key={item.id}>
+              <View style={{ margin: 20 }}>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  เลขคำสั่งฝาก : <Text note> {id} </Text>
+                </Text>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
+                </Text>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  วันที่ส่งคำขอ : <Text note> {submitDate} </Text>
+                </Text>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  ฝากวันที่ : <Text note> {startDate} </Text>
+                </Text>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  ถึงวันที่ : <Text note> {endDate} </Text>
+                </Text>
+              </View>
             </View>
-          </View>
-          <Content style={styles.modal}>
-            <View style={{ marginLeft: 20 }}>
-              <Text style={{ fontSize: 15 }}>
-                {" "}
-                สัตว์เลี้ยงที่อยู่ในรายการฝาก
-              </Text>
+            <Content style={styles.modal}>
+              <View style={{ marginLeft: 20 }}>
+                <Text style={{ fontSize: 15 }}>
+                  {" "}
+                  สัตว์เลี้ยงที่อยู่ในรายการฝาก
+                </Text>
+              </View>
+              {orderLines.map(orderLine => {
+                const { id, pet, cage } = orderLine;
+                return (
+                  <ListItem key={pet.id}>
+                    <Text style={{ fontSize: 15 }}>
+                      {" "}
+                      <Text>
+                        {" "}
+                        ชนิดกรง : <Text note> {cage.name} </Text>
+                      </Text>
+                      <Text>
+                        {" "}
+                        สัตว์เลี้ยง : <Text note> {pet.name} </Text>
+                      </Text>
+                    </Text>
+                  </ListItem>
+                );
+              })}
+            </Content>
+            <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
+              <Left>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                >
+                  <Text>pet activity</Text>
+                </Button>
+              </Left>
+              <Right>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                >
+                  <Text>ยกเลิกคำสั่งฝาก</Text>
+                </Button>
+              </Right>
             </View>
-            {orderLines.map(orderLine => {
-              const { id, pet, cage } = orderLine;
-              return (
-                <ListItem key={pet.id}>
-                  <Text style={{ fontSize: 15 }}>
-                    {" "}
-                    <Text>
-                      {" "}
-                      ชนิดกรง : <Text note> {cage.name} </Text>
-                    </Text>
-                    <Text>
-                      {" "}
-                      สัตว์เลี้ยง : <Text note> {pet.name} </Text>
-                    </Text>
-                  </Text>
-                </ListItem>
-              );
-            })}
           </Content>
-          <Content />
         </Container>
         <NavFooter />
       </Container>
     );
   }
+  cancelOrder = () => {
+    const { status } = this.props;
+    if (status.id == 1 || status.id == 2) {
+    }
+  };
 }
 
 const styles = StyleSheet.create({

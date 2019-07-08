@@ -30,8 +30,9 @@ export class OrderService {
     }
   }
 
-  async showAll() {
+  async showAll(userName: string): Promise<Order[]>  {
     const orders = await this.orderRepository.find({
+      where: {customerUsername: userName},
       relations: [
         'store',
         'orderStatus',

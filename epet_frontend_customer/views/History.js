@@ -24,7 +24,9 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import NavFooter from "../components/NavFooter";
 import HistoryList from "../components/HistoryList";
 import SegmentControl from "react-native-segment-control";
-import ScrollableTabView, { ScrollableTabBar, } from 'react-native-scrollable-tab-view';
+import ScrollableTabView, {
+  ScrollableTabBar
+} from "react-native-scrollable-tab-view";
 
 const API_URL = Config.API_URL;
 
@@ -155,7 +157,7 @@ class History extends Component {
               <HistoryList
                 key={item.id}
                 item={item}
-                onPress={this.goToHistoryDetail(item)}
+                onPress={this.goToHistoryDetail(item, status)}
               />
             );
           })}
