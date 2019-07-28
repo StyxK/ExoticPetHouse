@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Container, ListItem, Content, List, Body, Right, Text, Button, Icon, Header, Left } from 'native-base'
-import NavFooter from '../components/NavFooter'
 import axios from 'axios'
 import {Actions} from 'react-native-router-flux'
 
@@ -34,8 +33,6 @@ export default class Pet extends Component {
         const { petList } = this.state
 
         let petFlatList = petList.map(data => {
-            const orderLines = [...data.orderLines]
-            alert(JSON.stringify(orderLines))
             return (
                 <ListItem key={data.id}>
                     <Body>
@@ -56,7 +53,9 @@ export default class Pet extends Component {
             <Container>
                 <Content>
                     <Header style={{ backgroundColor: "#7A5032" }}>
-                        <Left style={{ flex: 2 }} />
+                        <Left style={{ flex: 2 }} >
+                            <Icon style={{color:'white'}} onPress={()=>{ goToStore() }} name='arrow-back'/>
+                        </Left>
                         <Body style={{ flex: 2.5 }}>
                             <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
                         </Body>
@@ -66,8 +65,11 @@ export default class Pet extends Component {
                         {petFlatList}
                     </List>
                 </Content>
-                <NavFooter />
             </Container>
         )
     }
+}
+
+goToStore = ()=>{
+    Actions.store()
 }

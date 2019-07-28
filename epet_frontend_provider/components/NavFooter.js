@@ -15,10 +15,6 @@ export default class NavFooter extends Component {
                         <Icon name='chatbubbles' style={{ color: 'white' }} />
                         <Text style={{ fontSize: 7, color: 'white' }}>แชท</Text>
                     </Button>
-                    <Button Badge vertical onPress={this.goToHome}>
-                        <Icon name='list' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>รายการฝาก</Text>
-                    </Button>
                     <Button Badge vertical onPress={this.goToProfile}>
                         <Icon name='person' style={{ color: 'white' }} />
                         <Text style={{ fontSize: 8, color: 'white' }}>โปรไฟล์</Text>

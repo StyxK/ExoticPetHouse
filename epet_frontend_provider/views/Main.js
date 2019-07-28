@@ -25,7 +25,7 @@ export default class Main extends Component {
                         <Scene key="root" hideNavBar={true} >
                             <Scene key="pet" component={Pet} title="Pet"/>
                             <Scene key="store" component={Store} title="Store" initial="true"/>
-                            <Scene key="home" component={OrderList} title="Home"/>
+                            <Scene key="orderList" component={OrderList} title="orderList"/>
                             <Scene key="profile" component={Profile} title="Profile"/>
                             <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                             <Scene key="createStore" component={CreateStore} title="CreateStore"/>

@@ -20,7 +20,7 @@ import { StyleSheet, View, Modal } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios";
 import moment from "moment-timezone";
-import NavFooter from '../components/NavFooter';
+import { Actions } from "react-native-router-flux";
 
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -229,7 +229,7 @@ class OrderList extends Component {
   };
 
   refreshOrder = () => {
-    axios.get("/order").then(response => {
+    axios.get("/order/store/"+this.props.storeId).then(response => {
       const newState = update(this.state, {
         orders: { $set: response.data }
       });
@@ -379,7 +379,9 @@ class OrderList extends Component {
     return (
       <Container>
         <Header style={{ backgroundColor: "#7A5032" }}>
-          <Left style={{ flex: 1 }} />
+          <Left style={{ flex: 1 }} >
+            <Icon style={{color:'white'}} onPress={()=>{ goToStore() }} name='arrow-back'/>
+          </Left>
           <Body style={{ flex: 2.5 }}>
             <Text style={{ color: "white" }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
           </Body>
@@ -419,10 +421,13 @@ class OrderList extends Component {
             </Container>
           </View>
         </Modal>
-        <NavFooter/>
       </Container>
     );
   }
+}
+
+goToStore = () =>{
+  Actions.store()
 }
 
 const mapDispatchToProps = dispatch => {
