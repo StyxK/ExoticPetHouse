@@ -14,7 +14,7 @@ export default class Store extends Component {
     }
 
     getStoreList = async () => {
-        let response = await axios.get('/store')
+        let response = await axios.get('/store/list/owner')
         let data = await response.data
         await this.setState({
             storeList: data
@@ -65,6 +65,5 @@ export default class Store extends Component {
 }
 
 goToPetInStore = (storeId) => {
-    alert("Go to pet")
     Actions.pet({storeId})
 }

@@ -49,6 +49,7 @@ class OrderList extends Component {
 
   getOrderDetails = orderId => {
     axios.get("/order/" + orderId).then(response => {
+      console.log(response.data)
       data = response.data;
       const approveButton = [
         <FooterTab
@@ -233,6 +234,7 @@ class OrderList extends Component {
         orders: { $set: response.data }
       });
       this.setState(newState);
+      console.log(response.data)
     });
   };
 

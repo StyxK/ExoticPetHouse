@@ -24,9 +24,9 @@ export class StoreService {
   }
 
   async showByOwner(userName:string){
-    Logger.log('searching .... '+userName)
-    // const stores = await this.storesRepository.find({where:{owner:userName}})
-    // return stores
+    await console.log('searching .... '+userName)
+    const stores = await this.storesRepository.find({where:{owner:userName}})
+    return stores
   }
 
   async create(userName: string,data: Partial<StoreDTO>) {

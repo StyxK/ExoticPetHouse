@@ -31,6 +31,7 @@ export class OrderService {
   }
 
   async showAll(userName: string): Promise<Order[]>  {
+    await Logger.log(userName)
     const orders = await this.orderRepository.find({
       where: {customerUsername: userName},
       relations: [
@@ -42,6 +43,19 @@ export class OrderService {
       ],
     });
     return orders;
+  }
+
+  async showOrderOfStore(storeId: string): Promise<Order[]>{
+    const orders = await this.orderRepository.find({
+      where : {storeId},
+      relations: [
+        'orderStatus',
+        'orderLines',
+        'orderLines.pet',
+        'orderLines.cage'
+      ]
+    })
+    return orders
   }
 
   async showById(id: string) {

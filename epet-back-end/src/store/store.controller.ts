@@ -24,9 +24,10 @@ export class StoreController {
         return await this.storesService.showById(id)
     }
 
-    @Get('/owner')
+    @Get('/list/owner')
     @UseGuards(new AuthGuard())
     async showByOwner(@User('userName') user){
+        console.log(user)
         return await this.storesService.showByOwner(user)
     }
 

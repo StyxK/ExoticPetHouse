@@ -42,6 +42,12 @@ export class OrderController {
     return this.orderService.showById(id);
   }
 
+  @Get('/')
+  @UseGuards(new AuthGuard())
+  async showOrderOfStore(@Param() storeId){
+    return this.orderService.showOrderOfStore(storeId)
+  }
+
   @Post('/')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
