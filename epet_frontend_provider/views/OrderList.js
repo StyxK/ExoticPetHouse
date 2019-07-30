@@ -123,7 +123,7 @@ class OrderList extends Component {
         ]
       });
       switch (orderStatus) {
-        case "ร้านยืนยันการรับฝากแล้ว":
+        case "ร้านตอบรับการรับฝากแล้ว":
           this.setState({
             orderStatusBar: [
               <View key={data.id}>
@@ -165,6 +165,29 @@ class OrderList extends Component {
                 <Footer style={{ backgroundColor: "rgba(52, 52, 52, 0)" }}>
                   {approveButton}
                   {cancelButton}
+                </Footer>
+              </View>
+            ]
+          });
+          break;
+        case "ร้านปฏิเสธการรับฝาก":
+          this.setState({
+            orderStatusBar: [
+              <View key={data.id}>
+                <Footer
+                  style={{
+                    height: 30,
+                    backgroundColor: "rgb(175, 175, 175)",
+                    color: "white"
+                  }}
+                >
+                  <Text style={{ color: "white", marginTop: 2 }}>
+                    {" "}
+                    {orderStatus}{" "}
+                  </Text>
+                </Footer>
+                <Footer style={{ backgroundColor: "rgba(52, 52, 52, 0)" }}>
+                  {approveButton}
                 </Footer>
               </View>
             ]
@@ -252,33 +275,6 @@ class OrderList extends Component {
     } = this.state;
     let orderFlatList = orders.map(data => {
       let status = JSON.parse(JSON.stringify(data.orderStatus.status));
-      let statusLabel = [];
-      switch (status) {
-        case "ร้านยืนยันการรับฝากแล้ว":
-          statusLabel = (
-            <Text note key={"approve"} style={{ color: "green" }}>
-              {" "}
-              {status}{" "}
-            </Text>
-          );
-          break;
-        case "ร้านปฏิเสธการรับฝากแล้ว":
-          statusLabel = (
-            <Text note key={"cancel"} style={{ color: "red" }}>
-              {" "}
-              {status}{" "}
-            </Text>
-          );
-          break;
-        case "รอร้านตอบรับ":
-          statusLabel = (
-            <Text note key={"waiting"} style={{ color: "#7A5032" }}>
-              {" "}
-              {status}{" "}
-            </Text>
-          );
-          break;
-      }
       return (
         <ListItem note key={data.id}>
           <Body style={{ flex: 2 }}>
@@ -296,7 +292,7 @@ class OrderList extends Component {
             </Text>
             <Text style={{ fontSize: 15 }}>
               {" "}
-              สถานะ : <Text note>{statusLabel}</Text>
+              สถานะ : <Text note>{status}</Text>
             </Text>
           </Body>
           <Right

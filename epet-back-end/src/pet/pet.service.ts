@@ -28,6 +28,7 @@ export class PetService {
     .innerJoinAndSelect('order.store','store')
     .innerJoinAndSelect('orderLine.cage','cage')
     .where(`store.id::text = :id`,{id : store})
+    .andWhere(`order.orderStatus = 3`)
     .getMany()
     return pet
   }
