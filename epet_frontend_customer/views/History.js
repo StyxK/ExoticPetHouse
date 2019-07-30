@@ -49,13 +49,17 @@ class History extends Component {
   };
 
   componentWillMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
     axios.get("/order/").then(response => {
       this.setState({ history: response.data });
     });
     axios.get("/order/statuses").then(response => {
       this.setState({ statuses: response.data });
     });
-  }
+  };
 
   showSegment() {
     const { history, selectedIndex } = this.state;
@@ -77,8 +81,25 @@ class History extends Component {
     );
   }
 
+  cancelOrder = async order => {
+    if (order.orderStatus.id == 1 || order.orderStatus.id == 2) {
+      return axios
+        .put("/order/" + order.id, {
+          orderStatus: {
+            id: 4
+          }
+        })
+        .then(response => {
+          this.refresh();
+          return response;
+        });
+    } else {
+      return Promise.reject("ไม่สามรถยกเลิกได้");
+    }
+  };
+
   goToHistoryDetail = item => () => {
-    Actions.historyDetail({ item });
+    Actions.historyDetail({ item, cancelOrder: this.cancelOrder });
   };
 
   render() {

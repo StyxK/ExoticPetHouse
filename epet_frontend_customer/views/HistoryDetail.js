@@ -134,6 +134,7 @@ class HistoryDetail extends Component {
                     flex: 1,
                     borderRadius: 10
                   }}
+                  onPress={this.cancelOrder}
                 >
                   <Text>ยกเลิกคำสั่งฝาก</Text>
                 </Button>
@@ -147,10 +148,19 @@ class HistoryDetail extends Component {
   }
 
   cancelOrder = () => {
-    const { status } = this.props;
-    if (status.id == 1 || status.id == 2) {
-    }
+    const { item, cancelOrder } = this.props;
+
+    cancelOrder(item)
+      .then(response => {
+        alert("success");
+        Actions.pop();
+      })
+      .catch(error => {
+        alert("error" + error);
+        console.log(error);
+      });
   };
+
   goToPetActivity = () => {
     Actions.petActivity({});
   };
