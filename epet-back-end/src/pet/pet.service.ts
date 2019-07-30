@@ -21,7 +21,6 @@ export class PetService {
 
   async showByStoreId(storeId : string):Promise<Pet[]>{
     const store = JSON.parse(JSON.stringify(storeId)).id
-    await Logger.log(`this is store => ${store}`)
     const pet = await this.petRepository
     .createQueryBuilder("pet")
     .innerJoinAndSelect('pet.orderLines','orderLine')
@@ -29,7 +28,7 @@ export class PetService {
     .innerJoinAndSelect('order.store','store')
     .innerJoinAndSelect('orderLine.cage','cage')
     .where(`store.id::text = :id`,{id : store})
-    .getMany()  
+    .getMany()
     return pet
   }
 

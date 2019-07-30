@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Container, ListItem, Content, List, Body, Right, Text, Button, Icon, Header, Left } from 'native-base'
 import axios from 'axios'
 import {Actions} from 'react-native-router-flux'
+import moment from 'moment-timezone'
 
 export default class Pet extends Component {
 
@@ -38,7 +39,16 @@ export default class Pet extends Component {
                     <Body>
                         <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                         <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>              
-                        <Text note> กรง :  <Text note style={{ color: 'black' }}> {'cage'} </Text> </Text>              
+                        <Text note> กรง :  <Text note style={{ color: 'black' }}> {'cage'} </Text> </Text>
+                        {
+                            moment().unix() > moment(data.orderLines[0].order.endDate).unix() ?
+                            <Text note> สถานะ : <Text note style={{ color : 'black'}}> หมดระยะเวลาฝาก </Text></Text>
+                                :
+                            <Text note> สถานะ : <Text note style={{ color : 'black'}}> กำลังฝาก </Text></Text>
+                        }
+                        {
+                            console.log(data.orderLines[0].order.endDate,'now')
+                        }
                     </Body>
                     <Right>
                         <Button rounded>
