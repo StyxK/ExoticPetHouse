@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View } from "react-native";
-import { Router, Scene, Actions } from "react-native-router-flux";
+import { Actions } from "react-native-router-flux";
 import {
   Container,
   Card,
@@ -8,7 +8,9 @@ import {
   Body,
   Text,
   Left,
-  Thumbnail
+  Thumbnail,
+  Right,
+  Button
 } from "native-base";
 
 export default class PetCard extends Component {
@@ -29,11 +31,28 @@ export default class PetCard extends Component {
                 <Text note>{pet.typeOfPet}</Text>
               </Body>
             </Left>
+            <Right>
+              <Button
+                style={{
+                  backgroundColor: "#7A5032",
+                  flex: 1,
+                  borderRadius: 10,
+                  marginTop: 5,
+                  marginBottom: 5
+                }}
+                onPress={this.goToPetActivity}
+              >
+                <Text style={{ fontSize: 10 }}>pet activity</Text>
+              </Button>
+            </Right>
           </CardItem>
         </Card>
       </View>
     );
   }
+  goToPetActivity = () => {
+    Actions.petActivity({});
+  };
 }
 
 const styles = StyleSheet.create({
