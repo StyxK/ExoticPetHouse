@@ -12,6 +12,7 @@ import CreateStore from './CreateStore';
 import allReducers from '../src/reducer';
 import Pet from './Pet';
 import Store from './Store';
+import PetActivities from './PetActivities';
 
 const store = createStore(allReducers)
 
@@ -29,6 +30,7 @@ export default class Main extends Component {
                             <Scene key="profile" component={Profile} title="Profile"/>
                             <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                             <Scene key="createStore" component={CreateStore} title="CreateStore"/>
+                            <Scene key="petActivities" component={PetActivities} title="PetActivitis"/>
                         </Scene>
                     </Router>
                 </View>

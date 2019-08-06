@@ -123,7 +123,7 @@ class OrderList extends Component {
         ]
       });
       switch (orderStatus) {
-        case "ร้านตอบรับการรับฝากแล้ว":
+        case "ร้านตอบรับการฝากแล้ว":
           this.setState({
             orderStatusBar: [
               <View key={data.id}>

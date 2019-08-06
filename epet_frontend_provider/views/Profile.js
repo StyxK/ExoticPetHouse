@@ -34,7 +34,7 @@ export default class Profile extends Component{
     }
 
     getStoreList = ()=>{
-        axios.get('/store').then(
+        axios.get('/store/list/owner').then(
             response =>{
                 data = response.data
                 this.setState({

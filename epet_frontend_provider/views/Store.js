@@ -36,8 +36,9 @@ export default class Store extends Component {
         })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getStoreList()
+        console.log('mounted !')
     }
 
     render() {
