@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Image } from 'react-native'
-import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem } from 'native-base'
+import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 
@@ -54,7 +54,26 @@ export default class PetActivities extends Component {
                             </Left>
                         </CardItem>
                     </Card>
+                    <Card>
+                        <CardItem>
+                            <Left>
+                                <Text>สัตว์เลี้ยงจ้า</Text>
+                            </Left>
+                        </CardItem>
+                        <CardItem cardBody>
+                            <Image source={{uri:PIC_URL}} style={{height: 200, width: null, flex: 1}}/>
+                        </CardItem>
+                        <CardItem>
+                            <Left>
+                                <Icon active name='thumbs-up'/>
+                                <Text> 3000 Likes</Text>
+                            </Left>
+                        </CardItem>
+                    </Card>
                 </Content>
+                <Fab>
+                    <Icon name='person'/>
+                </Fab>
             </Container>
         )
     }
