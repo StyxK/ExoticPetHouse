@@ -3,6 +3,7 @@ import { Container, ListItem, Content, List, Body, Right, Text, Button, Icon, He
 import axios from 'axios'
 import {Actions} from 'react-native-router-flux'
 import moment from 'moment-timezone'
+import SegmentedControlTab from 'react-native-segmented-control-tab'
 
 export default class Pet extends Component {
 
@@ -10,7 +11,9 @@ export default class Pet extends Component {
         super(props)
         this.state = {
             storeId : props.storeId,
-            petList: []
+            selectedIndex : 0,
+            depositingPet : [],
+            expiredPet : []
         }
     }
 
@@ -18,8 +21,17 @@ export default class Pet extends Component {
         try{
             let response = await axios.get('/pet/fromStore/'+this.state.storeId)
             let data = await response.data
+            let depositing,expired = []
+            await data.map(data=>{
+                moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ? 
+                    depositing.push(data)
+                :
+                    expired.push(data)
+                
+            })
             await this.setState({
-                petList: data
+                depositingPet : depositing,
+                expiredPet : expired
             })
         }catch(err){
             alert(this.state.storeId)
@@ -30,24 +42,29 @@ export default class Pet extends Component {
         this.getPetList()
     }
 
-    render() {
-        const { petList } = this.state
+    handleIndexChange = index =>{
+        this.setState({
+            selectedIndex : index
+        })
+    }
 
-        let petFlatList = petList.map(data => {
-            return (
+    petCard =  (petList) => {
+        let list = []
+        console.log(petList)
+        petList !== undefined ?  
+        petList.map(data => {
+            list.push  (
                 <ListItem key={data.id}>
                     <Body>
                         <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                         <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>              
                         <Text note> กรง :  <Text note style={{ color: 'black' }}> {'cage'} </Text> </Text>
                         {
-                            moment().unix() > moment(data.orderLines[0].order.endDate).unix() ?
-                            <Text note> สถานะ : <Text note style={{ color : 'black'}}> หมดระยะเวลาฝาก </Text></Text>
-                                :
+                            moment().unix() <= moment(data.orderLines[0].order.endDate).unix()?
                             <Text note> สถานะ : <Text note style={{ color : 'black'}}> กำลังฝาก </Text></Text>
-                        }
-                        {
-                            console.log(data.orderLines[0].order.endDate,'now')
+                                :
+                            <Text note> สถานะ : <Text note style={{ color : 'black'}}> หมดระยะเวลาฝาก </Text></Text>
+                            
                         }
                     </Body>
                     <Right>
@@ -58,7 +75,15 @@ export default class Pet extends Component {
                 </ListItem>
             )
         })
+        :
+        null
 
+        return list
+    }
+
+    render() {
+        const { depositingPet,expiredPet,selectedIndex } = this.state
+        console.log(expiredPet)
         return (
             <Container>
                 <Content>
@@ -71,8 +96,20 @@ export default class Pet extends Component {
                         </Body>
                         <Right style={{ flex: 1 }} />
                     </Header>
+                    <Content style={{margin:10}}>
+                    <SegmentedControlTab
+                        values={['อยู่ระหว่างการฝาก','หมดระยะเวลาฝาก']}
+                        selectedIndex={selectedIndex}
+                        onTabPress={this.handleIndexChange}
+                    />
+                    </Content>
                     <List>
-                        {petFlatList}
+                        {
+                            selectedIndex == 0 ? 
+                            this.petCard(depositingPet)
+                            :
+                            this.petCard(expiredPet)
+                        }
                     </List>
                 </Content>
             </Container>
