@@ -16,12 +16,18 @@ export default class PetActivities extends Component {
         }
     }
 
+    getPetDetails = ()=>{
+        this.setState({
+            pet : this.props.pet
+        })
+    }
+
     componentDidMount() {
-        // axios.get('/')
+        this.getPetDetails()
     }
 
     render() {
-        const { storeId } = this.state
+        const { pet,storeId } = this.state
         return (
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
@@ -36,7 +42,7 @@ export default class PetActivities extends Component {
                 <Content>
                     <View style={{backgroundColor:'black',alignItems:'center'}}>
                         <Icon style={{color:'white' , fontSize:100}} name='person'/>
-                        <Text style={{color:'white'}}> {storeId} {this.props.petId} </Text>
+                        <Text style={{color:'white'}}> {pet.name} </Text>
                     </View>
                     <Card>
                         <CardItem>
@@ -47,31 +53,9 @@ export default class PetActivities extends Component {
                         <CardItem cardBody>
                             <Image source={{uri:PIC_URL}} style={{height: 200, width: null, flex: 1}}/>
                         </CardItem>
-                        <CardItem>
-                            <Left>
-                                <Icon active name='thumbs-up'/>
-                                <Text> 3000 Likes</Text>
-                            </Left>
-                        </CardItem>
-                    </Card>
-                    <Card>
-                        <CardItem>
-                            <Left>
-                                <Text>สัตว์เลี้ยงจ้า</Text>
-                            </Left>
-                        </CardItem>
-                        <CardItem cardBody>
-                            <Image source={{uri:PIC_URL}} style={{height: 200, width: null, flex: 1}}/>
-                        </CardItem>
-                        <CardItem>
-                            <Left>
-                                <Icon active name='thumbs-up'/>
-                                <Text> 3000 Likes</Text>
-                            </Left>
-                        </CardItem>
                     </Card>
                 </Content>
-                <Fab>
+                <Fab onPress={()=>goToPetPost(pet,storeId)}>
                     <Icon name='person'/>
                 </Fab>
             </Container>
@@ -81,4 +65,8 @@ export default class PetActivities extends Component {
 
 goToPets = (storeId) => {
     Actions.pet({ storeId })
+}
+
+goToPetPost = (pet,storeId) => {
+    Actions.petPost({pet,storeId})
 }

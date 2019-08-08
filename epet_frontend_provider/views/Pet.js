@@ -56,7 +56,7 @@ export default class Pet extends Component {
             petList.map(data => {
                 list.push(
                     <List>
-                        <ListItem onPress={()=>{goToPeActivities(data.id,this.state.storeId)}} key={data.id} >
+                        <ListItem onPress={()=>{goToPetActivities(data,this.state.storeId)}} key={data.id} >
                             <Body>
                                 <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                                 <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>
@@ -118,8 +118,8 @@ export default class Pet extends Component {
     }
 }
 
-goToPeActivities = (petId,storeId) => {
-    Actions.petActivities({petId,storeId})
+goToPetActivities = (pet,storeId) => {
+    Actions.petActivities({pet,storeId})
 }
 
 goToStore = () => {
