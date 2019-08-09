@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from "native-base";
+import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, Thumbnail } from "native-base";
 import React, { Component } from "react";
 import { Alert, Modal, StyleSheet, TouchableHighlight, View } from "react-native";
 import Config from "react-native-config";
@@ -18,11 +18,11 @@ class Store extends Component {
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
-      petTemp:[],
-      };
+      petTemp: [],
+    };
   }
 
-  checkedCageIdForCheckBox = dataId => {};
+  checkedCageIdForCheckBox = dataId => { };
 
   setStoreId = () => {
     this.storeId = this.props.id;
@@ -36,7 +36,21 @@ class Store extends Component {
     let order = { pet: petId, cage: cageId };
     this.state.orderLine.push(order);
     this.setModalVisible(false);
-    
+
+  };
+
+  petWasSelectedInOrder = petId => {
+    orderLineTemp = this.state.orderLine;
+    if(orderLineTemp.length >0){
+      for (i = 0; i < orderLineTemp.length; i++){
+        if(orderLineTemp[i].pet==petId){
+          return true;
+        }
+      }
+    }
+    else{
+      return false;
+    }
   };
 
   chooseCageFromStorePage = cageId => {
@@ -86,7 +100,41 @@ class Store extends Component {
         </ListItem>
       );
     });
-    
+
+    let selectPet = pets.map(pet => {
+      if (pet.wasDeposit == false&&this.petWasSelectedInOrder(pet.id)!=true) {
+        return (
+          <TouchableHighlight
+            key={pet.id}
+            onPress={() => {
+              this.goToOrder(
+                pet.id,
+                this.state.cageTemp
+              );
+            }}
+          >
+            <Card>
+              <Body>
+                <Left>
+                  <Thumbnail
+                    source={{
+                      uri: pet.image
+                    }}
+                  />
+                </Left>
+                <Text>{pet.name}</Text>
+                <Text note>{pet.typeOfPet}</Text>
+                <Text>{this.petWasSelectedInOrder(pet.id)+""}</Text>
+
+              </Body>
+            </Card>
+          </TouchableHighlight>
+
+        );
+      }
+      return;
+    });
+
 
     const { stores, address } = this.state;
     return (
@@ -163,7 +211,7 @@ class Store extends Component {
                 <Text />
               </CardItem>
             </Card>
-            
+
             <Modal
               animationType="slide"
               transparent={true}
@@ -195,19 +243,7 @@ class Store extends Component {
                     </Button>
                   </Header>
                   <Content style={styles.modal}>
-                    {pets.map(pet => (
-                      <TouchableHighlight
-                        key={pet.id}
-                        onPress={() => {
-                          this.goToOrder(
-                            pet.id,
-                            this.state.cageTemp
-                          );
-                        }}
-                      >
-                        <PetCard pet={pet} />
-                      </TouchableHighlight>
-                    ))}
+                    {selectPet}
                   </Content>
                 </Container>
               </View>
@@ -217,8 +253,8 @@ class Store extends Component {
       </View>
     );
   }
-  goToOrder = (petId,cageId) => {
-    this.setPetAndCageSelected(petId,cageId);
+  goToOrder = (petId, cageId) => {
+    this.setPetAndCageSelected(petId, cageId);
     Actions.order(this.state);
   };
 }
@@ -256,6 +292,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     opacity: 0.99,
     width: "85%",
-    marginTop: 40
+    marginTop: 40,
   }
 });
