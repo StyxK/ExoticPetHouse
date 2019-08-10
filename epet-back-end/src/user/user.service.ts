@@ -14,7 +14,7 @@ export class UserService {
     }
 
     async showUser(userName:string):Promise<UserRO>{
-        const user =  await this.userRepository.findOne({where:userName})
+        const user =  await this.userRepository.findOne({where:{userName:userName}})
         return user.toResponObject(false)
     }
 
