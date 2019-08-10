@@ -23,7 +23,7 @@ export default class NavFooter extends Component {
             <Icon name="list" style={{ color: "white" }} />
             <Text style={{ fontSize: 8, color: "white" }}>ประวัติ</Text>
           </Button>
-          <Button Badge vertical>
+          <Button Badge vertical onPress={this.goToProfile}>
             <Icon name="person" style={{ color: "white" }} />
             <Text style={{ fontSize: 8, color: "white" }}>โปรไฟล์</Text>
           </Button>
@@ -38,6 +38,9 @@ export default class NavFooter extends Component {
 
   goToMyPet = () => {
     Actions.myPet();
+  };
+  goToProfile = () => {
+    Actions.profile();
   };
   goToHistory = () => {
     Actions.history();

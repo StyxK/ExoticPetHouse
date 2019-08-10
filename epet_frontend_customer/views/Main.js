@@ -7,11 +7,11 @@ import Search from "./Search";
 import Store from "./Store";
 import AddPet from "./AddPet.js";
 import History from "./History.js";
+import Profile from "./Profile.js";
 import PetActivity from "./PetActivity.js";
 import HistoryDetail from "./HistoryDetail.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order.js";
-
 import { createStore } from "redux";
 import axios from "axios";
 import { setPets } from "../actions";
@@ -35,6 +35,7 @@ class Main extends Component {
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />
+            <Scene key="profile" component={Profile} title="Profile" />
             <Scene key="petActivity" component={PetActivity} title="PetActivity" />
             <Scene
               key="historyDetail"
