@@ -60,6 +60,7 @@ export default class PetActivities extends Component {
     }
 
     componentDidMount() {
+        console.log('petactivity mounted !')
         this.getPetDetails()
         this.getActivities()
     }

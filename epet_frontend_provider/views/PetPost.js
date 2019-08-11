@@ -35,7 +35,7 @@ export default class PetPost extends Component {
         console.log(topic,description)
         const data = await {topic,description,picture:picture.uri,orderLine:this.props.pet.orderLines[0].id}
         const upload = await axios.post('/petactivity',data)
-        await console.log(upload)
+        await goToPetActivities(this.props.pet,this.props.storeId)
     }
 
     componentDidMount(){
@@ -80,7 +80,7 @@ export default class PetPost extends Component {
                     </Fab>
                 </View>
                 <FooterTab style={{maxHeight : 50}}>
-                    <Button full onPress={()=>{ this.uploadActivity() ; goToPetActivities(this.props.pet,this.props.storeId) }}>
+                    <Button full onPress={()=>{ this.uploadActivity() }}>
                         <Text> โพสต์ </Text>
                     </Button>
                 </FooterTab>
