@@ -16,6 +16,9 @@ export class PetActivity {
     @Column({nullable : true})
     picture: string;
 
+    @Column()
+    date: Date;
+
     @ManyToOne(type => OrderLine,orderLine => orderLine.activitys , {nullable:false})
     orderLine: OrderLine;
 }

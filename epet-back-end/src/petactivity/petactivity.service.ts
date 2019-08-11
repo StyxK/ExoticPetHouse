@@ -16,9 +16,15 @@ export class PetActivityService {
         return this.PetActivityRepository.findOne({ where: id });
     }
 
+    async showByOrderId(id:string) : Promise<PetActivity[]>{
+        const activities = await this.PetActivityRepository.find({where:{orderLine:id},order:{date:'DESC'}})
+        return await activities
+    }
+
     async create(data: PetActivityDTO): Promise<PetActivity> {
-        const petActivity = await this.PetActivityRepository.create(data);
-        await this.PetActivityRepository.save(data);
+        const dataWithDate = await ({...data,date: new Date()})
+        const petActivity = await this.PetActivityRepository.create(dataWithDate);
+        await this.PetActivityRepository.save(dataWithDate);
         return petActivity;
     }
 

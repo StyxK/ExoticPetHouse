@@ -12,7 +12,7 @@ export class PetActivityController {
 
     @Get(':id')
     async showById(@Param() id) {
-        return this.petActivityService.showById(id);
+        return this.petActivityService.showByOrderId(id);
     }
 
     @Post('/')

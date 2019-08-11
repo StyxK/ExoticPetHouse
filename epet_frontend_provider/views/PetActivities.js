@@ -3,6 +3,7 @@ import { Image } from 'react-native'
 import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
+import moment from 'moment-timezone'
 
 const PIC_URL = 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Welchcorgipembroke.JPG'
 
@@ -12,7 +13,8 @@ export default class PetActivities extends Component {
         super(props)
         this.state = {
             storeId: props.storeId,
-            pet: {}
+            pet: {},
+            activities : []
         }
     }
 
@@ -22,12 +24,44 @@ export default class PetActivities extends Component {
         })
     }
 
-    // getActivities = ()=>{
-    //     axios.get('/petactivity/')
-    // }
+    getActivities = async ()=>{
+        const activities = await axios.get('/petactivity/'+this.props.pet.orderLines[0].id)
+        await this.setState({
+            activities : await activities.data
+        })
+    }
+
+    activitiesCard = ()=>{
+        let card = []
+        this.state.activities.map( data => {
+            card.push( <Card key={data.id}>
+                <CardItem>
+                    <Left>
+                        <Text>{data.topic}</Text>
+                    </Left>
+                    <Right>
+                        <Text> {moment(data.date).fromNow()} </Text>
+                    </Right>
+                </CardItem>
+                {
+                    data.picture ? 
+                        <CardItem cardBody>
+                            <Image source={{uri:data.picture}} style={{height: 200, width: null, flex: 1}}/>
+                        </CardItem>
+                    :
+                        null
+                }
+                <CardItem>
+                    <Text>{data.description}</Text>
+                </CardItem>
+            </Card> )
+        })
+        return card
+    }
 
     componentDidMount() {
         this.getPetDetails()
+        this.getActivities()
     }
 
     render() {
@@ -48,16 +82,7 @@ export default class PetActivities extends Component {
                         <Icon style={{color:'white' , fontSize:100}} name='person'/>
                         <Text style={{color:'white'}}> {pet.name} </Text>
                     </View>
-                    <Card>
-                        <CardItem>
-                            <Left>
-                                <Text>สัตว์เลี้ยงจ้า</Text>
-                            </Left>
-                        </CardItem>
-                        <CardItem cardBody>
-                            <Image source={{uri:PIC_URL}} style={{height: 200, width: null, flex: 1}}/>
-                        </CardItem>
-                    </Card>
+                    {this.activitiesCard()}
                 </Content>
                 <Fab onPress={()=>goToPetPost(pet,storeId)}>
                     <Icon name='person'/>
