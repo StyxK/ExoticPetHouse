@@ -22,6 +22,10 @@ export default class PetActivities extends Component {
         })
     }
 
+    // getActivities = ()=>{
+    //     axios.get('/petactivity/')
+    // }
+
     componentDidMount() {
         this.getPetDetails()
     }

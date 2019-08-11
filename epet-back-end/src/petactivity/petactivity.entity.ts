@@ -8,11 +8,14 @@ export class PetActivity {
     id: string;
 
     @Column()
-    description: string;
+    topic: string
 
     @Column()
+    description: string;
+
+    @Column({nullable : true})
     picture: string;
 
-    @ManyToOne(type => OrderLine,orderLine => orderLine.activitys)
+    @ManyToOne(type => OrderLine,orderLine => orderLine.activitys , {nullable:false})
     orderLine: OrderLine;
 }

@@ -55,8 +55,8 @@ export default class Pet extends Component {
         petList !== undefined ?
             petList.map(data => {
                 list.push(
-                    <List>
-                        <ListItem onPress={()=>{goToPetActivities(data,this.state.storeId)}} key={data.id} >
+                    <List key={data.id}>
+                        <ListItem onPress={()=>{goToPetActivities(data,this.state.storeId)}}>
                             <Body>
                                 <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                                 <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>

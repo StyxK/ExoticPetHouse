@@ -4,13 +4,14 @@ import { Image, View } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import ImagePicker from 'react-native-image-picker'
 import options from '../image-option.json'
+import axios from 'axios'
 
 export default class PetPost extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            imageSource : {},
+            picture : {},
             topic : '',
             description : '',
         }
@@ -24,9 +25,17 @@ export default class PetPost extends Component {
                 alert('error')
             else
                 this.setState({
-                    imageSource : {uri : 'data:image/jpeg;base64,'+ response.data}
+                    picture : {uri : 'data:image/jpeg;base64,'+ response.data}
                 })
         })
+    }
+
+    uploadActivity = async () => {
+        const {topic,picture,description} = await this.state
+        console.log(topic,description)
+        const data = await {topic,description,picture:picture.uri,orderLine:this.props.pet.orderLines[0].id}
+        const upload = await axios.post('/petactivity',data)
+        await console.log(upload)
     }
 
     componentDidMount(){
@@ -34,11 +43,9 @@ export default class PetPost extends Component {
     }
 
     render() {
-        const {topic,description,imageSource} = this.state
+        const {topic,description,picture} = this.state
         return (
             <Container>
-                {console.log(this.props.pet,this.props.storeId)}
-                {console.log(options)}
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { goToPetActivities(this.props.pet,this.props.storeId) }} name='arrow-back' />
@@ -64,7 +71,7 @@ export default class PetPost extends Component {
                         </Item>
                     </Form>
                     <View style={{justifyContent:"center",alignItems:"center",marginVertical:10}}>
-                        <Image source={imageSource} style={{width:300,height:300}}/>
+                        <Image source={picture} style={{width:300,height:300}}/>
                     </View>
                 </Content>
                 <View>
@@ -73,7 +80,7 @@ export default class PetPost extends Component {
                     </Fab>
                 </View>
                 <FooterTab style={{maxHeight : 50}}>
-                    <Button full onPress={()=>{ console.log(topic,description)}}>
+                    <Button full onPress={()=>{ this.uploadActivity() ; goToPetActivities(this.props.pet,this.props.storeId) }}>
                         <Text> โพสต์ </Text>
                     </Button>
                 </FooterTab>
