@@ -21,7 +21,7 @@ export default class Profile extends Component{
     }
 
     getProfile = () => {
-        axios.get('/storeowner/Wissanupong').then(
+        axios.get('/storeowner/Me').then(
             response => {
                 data = response.data
                 this.setState(

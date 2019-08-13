@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -14,7 +14,7 @@ export class UserService {
     }
 
     async showUser(userName:string):Promise<UserRO>{
-        const user =  await this.userRepository.findOne({where:{userName:userName}})
+        const user =  await this.userRepository.findOne({where:{userName}})
         return user.toResponObject(false)
     }
 
