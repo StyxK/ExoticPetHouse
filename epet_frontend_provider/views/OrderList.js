@@ -170,6 +170,26 @@ class OrderList extends Component {
             ]
           });
           break;
+        case "กำลังอยู่ระหว่างการฝาก":
+          this.setState({
+            orderStatusBar: [
+              <View key={data.id}>
+                <Footer
+                  style={{
+                    height: 30,
+                    backgroundColor: "rgb(175, 175, 175)",
+                    color: "white"
+                  }}
+                >
+                  <Text style={{ color: "white", marginTop: 2 }}>
+                    {" "}
+                    {orderStatus}{" "}
+                  </Text>
+                </Footer>
+              </View>
+            ]
+          });
+          break;
         case "ร้านปฏิเสธการรับฝาก":
           this.setState({
             orderStatusBar: [

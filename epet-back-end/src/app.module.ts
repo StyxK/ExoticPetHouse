@@ -30,6 +30,7 @@ import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
 import 'dotenv/config';
 import 'reflect-metadata';
+import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
@@ -70,7 +71,7 @@ import 'reflect-metadata';
     PetActivityModule,
     FeedbackModule,
   ],
-  controllers: [AppController, PetController],
-  providers: [AppService, PetService],
+  controllers: [AppController],
+  providers: [AppService,AppGateway],
 })
 export class AppModule {}
