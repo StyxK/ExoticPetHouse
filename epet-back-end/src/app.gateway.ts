@@ -20,11 +20,11 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
 
     @SubscribeMessage('message')
     handleMessage(client:Socket,text:string):void{
-        this.wss.emit('message',text)
+        client.emit('message',text)
     }
 
     @SubscribeMessage('shop')
     handleShopMessage(client:Socket,text:string):void{
-        this.logger.log("shop reply",text)
+        client.emit('customer',"สวัสดีครับ shop")
     }
 }

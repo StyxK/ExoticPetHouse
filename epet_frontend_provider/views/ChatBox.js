@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, FooterTab, Footer, Button } from 'native-base'
 import { Actions } from 'react-native-router-flux'
-import { shopReply, userReply } from '../src/actions/ChatActions'
+import { shopReply, userReply, getMessage } from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
 
 class ChatBox extends Component{
@@ -12,6 +12,13 @@ class ChatBox extends Component{
             message : ''
         }
     }
+
+    componentWillReceiveProps(nextProps){
+        console.log(this.props.chat,'message')
+        if(nextProps.chat.shop != this.props.chat.shop){
+            console.log(nextProps.chat.shop,'changed')
+        }
+    }   
 
     render(){
         const { message } = this.state
@@ -32,7 +39,9 @@ class ChatBox extends Component{
                     </Text>
                 </Content>
                 <Footer>
-                    <Input onChangeText={e => this.setState({massage:e})} placeholder='พิมพ์ข้อความในช่องนี้'/>
+                    <Input onChangeText={e => {
+                        this.setState({message : e})
+                    }} placeholder='พิมพ์ข้อความในช่องนี้'/>
                     <Button onPress={()=>{this.submitMessage()}}>
                         <Text> submit </Text> 
                     </Button>
@@ -43,16 +52,16 @@ class ChatBox extends Component{
 
     submitMessage = () => {
         this.props.shopReply(this.state.message,'user1','shopToken')
-        // console.log(this.state.massage)
     }
 
     goToChat = () => {
         Actions.chat()
     }
+
 }
 
 const mapStateToProps = (chatbox) => {
     return {...chatbox}
 }
 
-export default connect(mapStateToProps,{shopReply,userReply})(ChatBox)
+export default connect(mapStateToProps,{shopReply,userReply,getMessage})(ChatBox)
