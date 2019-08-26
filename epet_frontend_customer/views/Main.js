@@ -17,6 +17,7 @@ import axios from "axios";
 import { setPets } from "../actions";
 import { connect } from "react-redux";
 import petsReducer from "../reducers/petsReducer.js";
+import Chat from "./Chat.js";
 
 const store = createStore(petsReducer);
 class Main extends Component {
@@ -49,6 +50,7 @@ class Main extends Component {
               title="PetDescription"
             />
             <Scene key="order" component={Order} title="Order" />
+            <Scene key="chat" component={Chat} title="Chat" />
           </Scene>
         </Router>
       </View>

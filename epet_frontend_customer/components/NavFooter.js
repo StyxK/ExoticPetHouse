@@ -15,7 +15,7 @@ export default class NavFooter extends Component {
             <Icon name="paw" style={{ color: "white" }} />
             <Text style={{ fontSize: 8, color: "white" }}>สัตว์เลี้ยง</Text>
           </Button>
-          <Button Badge vertical>
+          <Button Badge vertical onPress={this.goToChat}>
             <Icon name="chatbubbles" style={{ color: "white" }} />
             <Text style={{ fontSize: 8, color: "white" }}>แชท</Text>
           </Button>
@@ -44,5 +44,8 @@ export default class NavFooter extends Component {
   };
   goToHistory = () => {
     Actions.history();
+  };
+  goToChat = () => {
+    Actions.chat();
   };
 }

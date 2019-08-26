@@ -11,7 +11,7 @@ export default class NavFooter extends Component {
                         <Icon name='home' style={{ color: 'white' }} />
                         <Text style={{ fontSize: 7, color: 'white' }}>หน้าร้าน</Text>
                     </Button>
-                    <Button Badge vertical>
+                    <Button Badge vertical onPress={this.goToChat}>
                         <Icon name='chatbubbles' style={{ color: 'white' }} />
                         <Text style={{ fontSize: 7, color: 'white' }}>แชท</Text>
                     </Button>
@@ -34,6 +34,10 @@ export default class NavFooter extends Component {
 
     goToStore = () => {
         Actions.store()
+    }
+
+    goToChat = () => {
+        Actions.chat()
     }
 
 }

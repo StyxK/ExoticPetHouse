@@ -92,7 +92,7 @@ export default class Pet extends Component {
                 <Content>
                     <Header style={{ backgroundColor: "#7A5032" }}>
                         <Left style={{ flex: 2 }} >
-                            <Icon style={{ color: 'white' }} onPress={() => { goToStore() }} name='arrow-back' />
+                            <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='arrow-back' />
                         </Left>
                         <Body style={{ flex: 2.5 }}>
                             <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
@@ -116,12 +116,13 @@ export default class Pet extends Component {
             </Container>
         )
     }
-}
 
-goToPetActivities = (pet,storeId) => {
-    Actions.petActivities({pet,storeId})
-}
-
-goToStore = () => {
-    Actions.store()
+    goToPetActivities = (pet,storeId) => {
+        Actions.petActivities({pet,storeId})
+    }
+    
+    goToStore = () => {
+        Actions.store()
+    }
+    
 }

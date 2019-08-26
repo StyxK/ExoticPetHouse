@@ -22,4 +22,9 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
     handleMessage(client:Socket,text:string):void{
         this.wss.emit('message',text)
     }
+
+    @SubscribeMessage('shop')
+    handleShopMessage(client:Socket,text:string):void{
+        this.logger.log("shop reply",text)
+    }
 }

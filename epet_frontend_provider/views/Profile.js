@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
 import NavFooter from '../components/NavFooter';
-import io from 'socket.io-client'
+import config from '../websocketConfig.json'
 
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -47,8 +47,6 @@ export default class Profile extends Component{
     componentWillMount(){
         this.getProfile()
         this.getStoreList()
-        const socket = io('http://10.26.248.46:3000')
-        console.log(socket,'socket')
     }
 
     render(){

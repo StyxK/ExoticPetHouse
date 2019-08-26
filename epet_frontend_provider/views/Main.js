@@ -5,7 +5,8 @@ import { Router, Scene, Actions} from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore , applyMiddleware} from 'redux';
+import thunk from 'redux-thunk'
 import {Field,reduxForm} from 'redux-form'
 import StoreManager from './StoreManager';
 import CreateStore from './CreateStore';
@@ -14,8 +15,10 @@ import Pet from './Pet';
 import Store from './Store';
 import PetActivities from './PetActivities';
 import PetPost from './PetPost';
+import Chat from './Chat';
+import ChatBox from './ChatBox'
 
-const store = createStore(allReducers)
+const store = createStore(allReducers,applyMiddleware(thunk))
 
 export default class Main extends Component {
 
@@ -33,6 +36,8 @@ export default class Main extends Component {
                             <Scene key="createStore" component={CreateStore} title="CreateStore"/>
                             <Scene key="petActivities" component={PetActivities} title="PetActivities"/>
                             <Scene key="petPost" component={PetPost} title="PetPost"/>
+                            <Scene key="chat" component={Chat} title="Chat" />
+                            <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
                         </Scene>
                     </Router>
                 </View>

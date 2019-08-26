@@ -57,6 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 ormconfig.json
+websocketConfig.json
 
 # next.js build output
 .next
