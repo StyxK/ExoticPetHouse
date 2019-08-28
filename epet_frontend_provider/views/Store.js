@@ -2,15 +2,18 @@ import React, { Component } from 'react'
 import { Container, ListItem, Content, List, ActionSheet , Body, Right, Text, Button, Icon, Header, Left, Root } from 'native-base'
 import NavFooter from '../components/NavFooter'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { shopReply, userReply, getMessage } from '../src/actions/ChatActions'
 import { Actions } from 'react-native-router-flux'
 
-export default class Store extends Component {
+class Store extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             storeList: [],
         }
+        this.props.userReply()
     }
 
     getStoreList = async () => {
@@ -82,6 +85,10 @@ export default class Store extends Component {
     }
 }
 
+const mapStateProps = (chat) => {
+    return {...chat}
+}
+
 goToPetInStore = (storeId) => {
     Actions.pet({storeId})
 }
@@ -89,3 +96,5 @@ goToPetInStore = (storeId) => {
 goToOrderList = (storeId) => {
     Actions.orderList({storeId})
 }
+
+export default connect(mapStateProps,{shopReply,userReply,getMessage})(Store)

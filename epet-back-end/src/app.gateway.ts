@@ -1,6 +1,7 @@
 import {WebSocketGateway,WebSocketServer, OnGatewayConnection, SubscribeMessage, OnGatewayInit} from '@nestjs/websockets'
 import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
+import { setInterval } from 'timers';
 
 @WebSocketGateway(4001)
 export class AppGateway implements OnGatewayConnection,OnGatewayInit{
@@ -15,7 +16,10 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
     }
 
     handleConnection(client:Socket){
-        this.logger.log(`Client Connected : ${client.id}`)
+        setInterval(()=>{
+            this.logger.log(`Client Connected : ${client.id}`)
+            client.emit('customer','always send every 5 sec')
+        },5000)
     }
 
     @SubscribeMessage('message')

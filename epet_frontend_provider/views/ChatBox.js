@@ -14,14 +14,12 @@ class ChatBox extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(this.props.chat,'message')
-        if(nextProps.chat.shop != this.props.chat.shop){
-            console.log(nextProps.chat.shop,'changed')
+        if(nextProps.chat != this.props.chat){
+            console.log(nextProps.chat,'changed')
         }
     }   
 
     render(){
-        const { message } = this.state
         return (
             <Container>
                 <Content>

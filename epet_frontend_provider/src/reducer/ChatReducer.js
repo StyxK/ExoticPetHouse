@@ -6,6 +6,7 @@ export default (state = INITIAL_STATE,action) => {
             return [...state,action.payload]
         } 
         case "CHAT/USER_REPLY" : {
+            console.log(state,"server reply")
             return [...state,action.payload]
         }
         default : {

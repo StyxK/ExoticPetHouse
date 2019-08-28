@@ -17,15 +17,28 @@ import PetActivities from './PetActivities';
 import PetPost from './PetPost';
 import Chat from './Chat';
 import ChatBox from './ChatBox'
+import {userReply} from '../src/actions/ChatActions'
 
 const store = createStore(allReducers,applyMiddleware(thunk))
 
 export default class Main extends Component {
 
+    constructor(props){
+        super(props)
+        store.dispatch(userReply)
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps != this.props){
+            console.log(nextProps,'change')
+        }
+    }
+
     render() {
         return (
             <Provider store={store}>
                 <View style={styles.container}>
+                {console.log(this.props.chat)}
                     <Router>
                         <Scene key="root" hideNavBar={true} >
                             <Scene key="pet" component={Pet} title="Pet"/>

@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-const socket = io.connect('http://10.5.47.18:4001')
+const socket = io.connect('http://10.5.13.216:4001')
 
 export const shopReply = (message,user,token) => dispatch => {
     socket.emit('shop',{message:message, customer:user, shop:token})
