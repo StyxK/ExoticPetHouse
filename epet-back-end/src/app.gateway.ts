@@ -16,10 +16,10 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
     }
 
     handleConnection(client:Socket){
-        setInterval(()=>{
-            this.logger.log(`Client Connected : ${client.id}`)
-            client.emit('customer','always send every 5 sec')
-        },5000)
+        // setInterval(()=>{
+        //     this.logger.log(`Client Connected : ${client.id}`)
+        //     client.emit('customer','always send every 1')
+        // },5000)
     }
 
     @SubscribeMessage('message')
