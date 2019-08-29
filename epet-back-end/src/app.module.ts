@@ -31,6 +31,7 @@ import { OrderStatus } from './order/order.status.entity';
 import 'dotenv/config';
 import 'reflect-metadata';
 import { AppGateway } from './app.gateway';
+import { Chat } from './chat/chat.entity';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { AppGateway } from './app.gateway';
       database: process.env.DATABASE_NAME,
       entities: [
         Address,
+        Chat,
         Cage,
         Customer,
         Employee,
