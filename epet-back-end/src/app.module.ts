@@ -47,6 +47,7 @@ import { Chat } from './chat/chat.entity';
       database: process.env.DATABASE_NAME,
       entities: [
         Address,
+        Chat,
         Cage,
         Customer,
         Employee,
