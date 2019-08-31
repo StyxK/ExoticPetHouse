@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from './chat.entity';
@@ -13,12 +13,20 @@ export class ChatService {
         return chat
     }
 
-    async showByRoom(userName:string,store:string){
-        const chat = await this.chatRepository.find({where:{customer:userName,store:store}})
+    async showByRoom(data:Partial<ChatDTO>){
+        const chat = await this.chatRepository.find({where:{customer:data.customer,store:data.store}})
         return chat
     }
 
-    async create(data:Partial<ChatDTO>){
+    async showChatListOfCustomer(userName:string){
+        return this.chatRepository.find({where:{customer:userName}})
+    }
+
+    async showChatListOfStore(id:string){
+        return this.chatRepository.find({where:{store:id}})
+    }
+    
+    async sendMessage(data:Partial<ChatDTO>){
         const chat = await this.chatRepository.create({...data})
         await this.chatRepository.save(chat)
         return chat
