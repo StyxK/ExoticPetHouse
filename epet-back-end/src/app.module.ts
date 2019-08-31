@@ -28,9 +28,13 @@ import { OrderLine } from './orderline/orderline.entity';
 import { Pet } from './pet/pet.entity';
 import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
+import { AppGateway } from './app.gateway';
+import { ChatService } from './chat/chat.service';
+import { ChatController } from './chat/chat.controller';
+import { ChatModule } from './chat/chat.module';
 import 'dotenv/config';
 import 'reflect-metadata';
-import { AppGateway } from './app.gateway';
+import { Chat } from './chat/chat.entity';
 
 @Module({
   imports: [
@@ -55,6 +59,7 @@ import { AppGateway } from './app.gateway';
         Store,
         StoreOwner,
         User,
+        Chat
       ],
       synchronize: true,
       logging: true,
@@ -70,6 +75,7 @@ import { AppGateway } from './app.gateway';
     OrderLineModule,
     PetActivityModule,
     FeedbackModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService,AppGateway],
