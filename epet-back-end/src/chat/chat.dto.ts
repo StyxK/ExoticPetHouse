@@ -6,4 +6,5 @@ export interface ChatDTO {
     message:string,
     customer:Customer
     store:Store
+    role:number
 }
