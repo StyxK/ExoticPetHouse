@@ -13,6 +13,7 @@ class ChatBox extends Component{
             message : '',
             messageList : []
         }
+        this.chatView = React.createRef()
     }
 
     componentDidMount(){
@@ -23,13 +24,20 @@ class ChatBox extends Component{
         })
     }
 
-    componentWillReceiveProps(nextProps){
+    async componentWillReceiveProps(nextProps){
         if(nextProps.chat != this.props.chat){
-            this.setState({
+            await this.setState({
                 messageList : nextProps.chat
             })
+            await console.log("update")
+            await this.scrollToBottom()
         }
     }   
+
+    scrollToBottom = () => {
+        this.chatView.current == null ? 
+        console.log('my content component is null'): this.chatView.current._root.scrollToEnd()
+    }
 
     messageDialog = () => {
         let list = []
@@ -72,14 +80,14 @@ class ChatBox extends Component{
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <Content>
+                <Content ref={this.chatView}>
                     {this.messageDialog()}
                 </Content>
                 <Footer>
                     <Input onChangeText={e => {
                         this.setState({message : e})
                     }} placeholder='พิมพ์ข้อความในช่องนี้'/>
-                    <Button onPress={()=>{this.submitMessage()}}>
+                    <Button onPress={()=>{ this.submitMessage() }}>
                         <Text> submit </Text> 
                     </Button>
                 </Footer>

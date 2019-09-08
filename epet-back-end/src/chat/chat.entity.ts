@@ -11,8 +11,11 @@ export class Chat {
     @Column({type:"character varying",nullable:false})
     message: string
 
-    @Column({type:"int",nullable:true})
+    @Column({type:"int"})
     role: number
+
+    @Column({type:"bigint"})
+    time: number
 
     @ManyToOne(type=>Customer,customer => customer.chats)
     customer:Customer

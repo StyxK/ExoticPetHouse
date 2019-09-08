@@ -7,4 +7,5 @@ export interface ChatDTO {
     customer:Customer
     store:Store
     role:number
+    time:number
 }

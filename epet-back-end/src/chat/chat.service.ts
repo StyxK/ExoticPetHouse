@@ -25,6 +25,10 @@ export class ChatService {
     async showChatListOfStore(id:string){
         return this.chatRepository.find({where:{store:id}})
     }
+
+    // async getCurrentMessage(id:string){
+    //     return this.chatRepository.find({where:{store:id}})
+    // }
     
     async sendMessage(data:Partial<ChatDTO>){
         const chat = await this.chatRepository.create({...data})
