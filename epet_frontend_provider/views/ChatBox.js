@@ -2,9 +2,8 @@ import React,{Component} from 'react'
 import { View } from 'react-native'
 import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, List, Footer, Button, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
-import { shopReply, userReply, getMessage } from '../src/actions/ChatActions'
+import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
-import axios from  'axios'
 
 class ChatBox extends Component{
 
@@ -18,19 +17,10 @@ class ChatBox extends Component{
 
     componentDidMount(){
         console.log(this.props.store.storeId,'props')
-        axios.post('chat/getMessageInRoom',
-            {
-                customer : "username",
-                store : this.props.store.storeId
-            }
-        ).then(
-            result => {
-                this.setState({
-                    messageList : result.data
-                })
-                console.log(result.data,"data")
-            }
-        )
+        this.props.getMessage(this.props.store.storeId,'username')
+        this.setState({
+            messageList: this.props.chat
+        })
     }
 
     componentWillReceiveProps(nextProps){
@@ -38,7 +28,6 @@ class ChatBox extends Component{
             this.setState({
                 messageList : nextProps.chat
             })
-            console.log(nextProps.chat,'changed')
         }
     }   
 
@@ -47,20 +36,27 @@ class ChatBox extends Component{
         this.state.messageList.map( data =>{
             list.push(
                 data.role == 0 ?
-                    <View key={data.id} style={{flexDirection:"row-reverse",backgroundColor:'blue',marginVertical:10}}>
-                        <Text>
-                            {data.message}
-                        </Text>
+                    <View key={data.id}>
+                        <View style={{flexDirection:"row-reverse",padding:5}}>
+                            <View style={{borderRadius:5,backgroundColor:'blue',padding:7}}>
+                                <Text style={{color:'white'}}>
+                                    {data.message}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
                     :
-                    <View key={data.id} style={{backgroundColor:'orange',marginVertical:10}}>
-                        <Text>
-                            {data.message}
-                        </Text>
+                    <View key={data.id}>
+                        <View style={{flexDirection:"row",padding:5}}>
+                            <View style={{borderRadius:5,backgroundColor:'green',padding:7}}>
+                                <Text style={{color:'white'}}>
+                                    {data.message}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
             )
         })
-        console.log(list,"list")
         return list
     }
 
@@ -92,10 +88,11 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,'user1','shopToken')
+        this.props.shopReply(this.state.message,'username',this.props.store.storeId)
     }
 
     goToChat = () => {
+        this.props.refreshChat()
         Actions.chat()
     }
 
@@ -105,4 +102,4 @@ const mapStateToProps = (chatbox) => {
     return {...chatbox}
 }
 
-export default connect(mapStateToProps,{shopReply,userReply,getMessage})(ChatBox)
+export default connect(mapStateToProps,{shopReply,userReply,getMessage,refreshChat})(ChatBox)

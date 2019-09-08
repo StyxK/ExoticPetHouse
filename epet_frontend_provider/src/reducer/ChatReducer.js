@@ -9,6 +9,13 @@ export default (state = INITIAL_STATE,action) => {
             console.log(state,"server reply")
             return [...state,action.payload]
         }
+        case "CHAT/GET_MESSAGE" : {
+            return [...state,...action.payload]
+        }
+        case "CHAT/REFRESH_CHAT" : {
+            console.log("refresh")
+            return []
+        }
         default : {
             return INITIAL_STATE
         }

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text } from 'react-native'
+import { Text , StyleSheet } from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
