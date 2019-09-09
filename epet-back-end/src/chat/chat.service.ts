@@ -3,32 +3,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from './chat.entity';
 import { ChatDTO } from './chat.dto';
+import { Order } from 'src/order/order.entity';
 
 @Injectable()
 export class ChatService {
-    constructor(@InjectRepository(Chat) private readonly chatRepository : Repository<Chat>){}
+    constructor(
+        @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>,
+        @InjectRepository(Order) private readonly orderRepository : Repository<Order>
+    ){}
 
     async showAllChat(){
         const chat = await this.chatRepository.find()
         return chat
     }
 
+    async chatRoom(storeId:string){
+        const store = JSON.parse(JSON.stringify(storeId)).storeId
+        const chatRooms =  await this.orderRepository
+        .createQueryBuilder('order')
+        .where(`"order"."storeId"::text = :id`,{id:store})
+        .andWhere(`order.orderStatus != 7`)
+        .getMany()
+        return chatRooms
+    }
+
     async showByRoom(data:Partial<ChatDTO>){
-        const chat = await this.chatRepository.find({where:{customer:data.customer,store:data.store}})
+        const chat = await this.chatRepository.find({where:{order:data.order}})
         return chat
     }
-
-    async showChatListOfCustomer(userName:string){
-        return this.chatRepository.find({where:{customer:userName}})
-    }
-
-    async showChatListOfStore(id:string){
-        return this.chatRepository.find({where:{store:id}})
-    }
-
-    // async getCurrentMessage(id:string){
-    //     return this.chatRepository.find({where:{store:id}})
-    // }
     
     async sendMessage(data:Partial<ChatDTO>){
         const chat = await this.chatRepository.create({...data})

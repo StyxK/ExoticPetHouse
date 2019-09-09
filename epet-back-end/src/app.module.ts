@@ -28,9 +28,9 @@ import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
 import { AppGateway } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
+import { Chat } from './chat/chat.entity';
 import 'dotenv/config';
 import 'reflect-metadata';
-import { Chat } from './chat/chat.entity';
 
 @Module({
   imports: [
@@ -43,8 +43,8 @@ import { Chat } from './chat/chat.entity';
       database: process.env.DATABASE_NAME,
       entities: [
         Address,
-        Chat,
         Cage,
+        Chat,
         Customer,
         Employee,
         Feedback,
@@ -56,7 +56,6 @@ import { Chat } from './chat/chat.entity';
         Store,
         StoreOwner,
         User,
-        Chat
       ],
       synchronize: true,
       logging: true,

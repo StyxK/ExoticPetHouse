@@ -16,9 +16,12 @@ class ChatBox extends Component{
         this.chatView = React.createRef()
     }
 
+    componentDidUpdate(){
+        this.scrollToBottom()
+    }
+    
     componentDidMount(){
-        console.log(this.props.store.storeId,'props')
-        this.props.getMessage(this.props.store.storeId,'username')
+        this.props.getMessage(this.props.order)
         this.setState({
             messageList: this.props.chat
         })
@@ -96,7 +99,7 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,'username',this.props.store.storeId)
+        this.props.shopReply(this.state.message,this.props.order)
     }
 
     goToChat = () => {

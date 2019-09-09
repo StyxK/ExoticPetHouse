@@ -13,17 +13,9 @@ export class ChatController {
         return this.chatService.showAllChat()
     }
 
-    @Get('/chatListOfCustomer/')
-    @UseGuards(new AuthGuard())
-    async showChatListOfCustomer(@User('username') userName){
-        return this.chatService.showChatListOfCustomer(userName)
-    }
-
-    @Get('/chatListOfStore/:id')
-    @UseGuards(new AuthGuard())
-    async showChatListOfStore(@Param() id){
-        Logger.log(id.id)
-        return this.chatService.showChatListOfStore(id.id)
+    @Get('/chatRoom/:storeId')
+    async chatRoom(@Param() storeId:string){
+        return this.chatService.chatRoom(storeId)
     }
     
     @Post('/getMessageInRoom')

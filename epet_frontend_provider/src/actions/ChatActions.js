@@ -1,11 +1,11 @@
 import io from 'socket.io-client'
 import axios from 'axios';
 import moment from 'moment-timezone'
-const socket = io.connect('http://172.20.10.3:4001')
+const socket = io.connect('http://10.17.249.78:4001').emit('shop')
 
 
-export const shopReply = (message,user,token) => async dispatch => {
-    await socket.emit('shop',{message:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquet purus eget efficitur finibus. Integer id libero a velit semper consectetur id sed nisi. Mauris suscipit euismod purus, in commodo ante feugiat nec. Sed nec diam nunc. Morbi fringilla enim vitae posuere eleifend. Nullam est sem, consectetur a posuere in, posuere eu libero. Interdum et malesuada fames ac ante ipsum primis in faucibus.', customer:user, store:token,role:0,time: moment().unix()})
+export const shopReply = (message,order) => async dispatch => {
+    await socket.emit('shop',{message:message,order:order,role:0,time: moment().unix()})
     await console.log(moment().unix(),'mili')
     await socket.once('shopSend',async data=>{
         await dispatch( { type : "CHAT/SHOP_REPLY" , payload: data} )
@@ -25,11 +25,10 @@ export const refreshChat = () => dispatch => {
     dispatch({type : "CHAT/REFRESH_CHAT"})
 }
 
-export const getMessage = (storeId,customer) => dispatch => {
+export const getMessage = (order) => dispatch => {
     axios.post('chat/getMessageInRoom',
             {
-                customer : customer,
-                store : storeId
+                order : order 
             }
         ).then(
             result => {

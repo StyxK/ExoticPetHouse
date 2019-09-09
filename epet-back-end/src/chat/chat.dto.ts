@@ -1,11 +1,9 @@
-import {Customer} from '../customer/customer.entity'
-import {Store} from '../store/store.entity'
+import { Order } from 'src/order/order.entity';
 
 export interface ChatDTO {
     id:string,
     message:string,
-    customer:Customer
-    store:Store
+    order:Order
     role:number
     time:number
 }

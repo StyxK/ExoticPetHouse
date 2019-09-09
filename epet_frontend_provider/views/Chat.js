@@ -17,11 +17,37 @@ class Chat extends Component{
     componentDidMount(){
         const store = this.props.store.storeId
         console.log(store)
-        axios.get('/chat/chatListOfStore/' + store).then(
+        axios.get('/chat/chatRoom/' + store).then(
             result => {
+                this.setState({
+                    chatList:result.data
+                })
                 console.log(result.data,"chatList")
             }
         )
+    }
+
+    chatRooms = () =>{
+        let list = []
+        this.state.chatList.map( data => {
+            list.push(
+                <ListItem key={data.id} onPress={() => this.goToChatBox(data.id)}>
+                    <Left style={{ flex : 0.5}}>
+                        <Icon name="person"/>
+                    </Left>
+                    <Body style={{flex : 3}}>
+                        <Label>
+                            {data.customerUsername}
+                            <Text> {  } </Text>
+                            <Text note style={{fontSize:10}}>
+                                order : {data.id}
+                            </Text>
+                        </Label>
+                    </Body>
+                </ListItem>
+            )
+        })
+        return list
     }
 
     render(){
@@ -38,19 +64,7 @@ class Chat extends Component{
                         <Right style={{ flex: 1 }} />
                     </Header>
                     <List>
-                        <ListItem onPress={() => this.goToChatBox()}>
-                            <Left style={{ flex : 0.5}}>
-                                <Icon name="person"/>
-                            </Left>
-                            <Body style={{flex : 1.5}}>
-                                <Text>
-                                    user 1
-                                </Text>
-                                <Label>
-                                    hello
-                                </Label>
-                            </Body>
-                        </ListItem>
+                        {this.chatRooms()}
                     </List>
                 </Content>
             </Container>
@@ -61,8 +75,8 @@ class Chat extends Component{
         Actions.store()
     }
 
-    goToChatBox = () => {
-        Actions.chatbox()
+    goToChatBox = (order) => {
+        Actions.chatbox({order:order})
     }
 
 }

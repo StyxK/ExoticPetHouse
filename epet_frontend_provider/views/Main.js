@@ -17,7 +17,7 @@ import PetActivities from './PetActivities';
 import PetPost from './PetPost';
 import Chat from './Chat';
 import ChatBox from './ChatBox'
-import {userReply} from '../src/actions/ChatActions'
+import {userReply, newConnection} from '../src/actions/ChatActions'
 import logger from 'redux-logger'
 
 const store = createStore(allReducers,applyMiddleware(thunk,logger))
