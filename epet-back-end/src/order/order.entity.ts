@@ -36,7 +36,10 @@ export class Order {
   endDate: Date;
 
   @ManyToOne(type => Store, store => store.orders)
+  @JoinColumn({ name: 'storeId'})
   store: Store;
+  @Column()
+  storeId : string
 
   @ManyToOne(type => Customer, customer => customer.orders)
   @JoinColumn({ name: 'customerUsername' })

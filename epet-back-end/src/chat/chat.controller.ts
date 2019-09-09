@@ -13,9 +13,14 @@ export class ChatController {
         return this.chatService.showAllChat()
     }
 
-    @Get('/chatRoom/:storeId')
-    async chatRoom(@Param() storeId:string){
-        return this.chatService.chatRoom(storeId)
+    @Get('/storeChatRoom/:storeId')
+    async storeChatRoom(@Param() storeId:string){
+        return this.chatService.storeChatRoom(storeId)
+    }
+
+    @Get('/customerChatRoom/:username')
+    async customerChatRoom(@Param() username:string){
+        return this.chatService.customerChatRoom(username)
     }
     
     @Post('/getMessageInRoom')

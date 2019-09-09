@@ -17,7 +17,7 @@ class Chat extends Component{
     componentDidMount(){
         const store = this.props.store.storeId
         console.log(store)
-        axios.get('/chat/chatRoom/' + store).then(
+        axios.get('/chat/storeChatRoom/' + store).then(
             result => {
                 this.setState({
                     chatList:result.data

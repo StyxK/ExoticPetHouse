@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Not } from 'typeorm';
 import { Chat } from './chat.entity';
 import { ChatDTO } from './chat.dto';
 import { Order } from 'src/order/order.entity';
@@ -17,7 +17,13 @@ export class ChatService {
         return chat
     }
 
-    async chatRoom(storeId:string){
+    async customerChatRoom(username:string){
+        const customer = JSON.parse(JSON.stringify(username)).username
+        const chatRooms = await this.orderRepository.find({where:{customerUsername:customer,orderStatus:Not(7)}})
+        return chatRooms
+    }
+
+    async storeChatRoom(storeId:string){
         const store = JSON.parse(JSON.stringify(storeId)).storeId
         const chatRooms =  await this.orderRepository
         .createQueryBuilder('order')

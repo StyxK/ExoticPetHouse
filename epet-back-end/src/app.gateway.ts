@@ -23,15 +23,25 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
         this.logger.log(`Client Connected : ${client.id}`)
     }
 
+    @SubscribeMessage('customer')
+    async handleCustomerMessage(client:Socket,text:string){
+        client.once('customer',data=>{
+            this.logger.log(data)
+            this.chat.sendMessage(data).then( (result) => {
+                client.emit('customerSend',result)
+            })
+        })
+    }
+
     @SubscribeMessage('shop')
     async handleShopMessage(client:Socket,text:string){
         client.once('shop',data=> {
             this.logger.log(data)
             this.chat.sendMessage(data).then( (result) => {
                 client.emit('shopSend',result)
-                client.off('shop',()=>{
-                    Logger.log('unsubscribe')
-                })
+                // client.off('shop',()=>{
+                //     Logger.log('unsubscribe')
+                // })
             })
         })
     }
