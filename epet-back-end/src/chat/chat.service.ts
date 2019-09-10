@@ -19,7 +19,12 @@ export class ChatService {
 
     async customerChatRoom(username:string){
         const customer = JSON.parse(JSON.stringify(username)).username
-        const chatRooms = await this.orderRepository.find({where:{customerUsername:customer,orderStatus:Not(7)}})
+        const chatRooms = await this.orderRepository.find({
+            relations : ["store"],
+            where:{
+                customerUsername:customer,orderStatus:Not(7)
+            }
+        })
         return chatRooms
     }
 

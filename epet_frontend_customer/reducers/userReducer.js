@@ -1,4 +1,4 @@
-const initialUser = {};
+const initialUser = {username:"tanapat"};
 
 export default (user = initialUser, action) => {
   switch (action.type) {
