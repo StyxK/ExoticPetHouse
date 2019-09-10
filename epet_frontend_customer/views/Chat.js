@@ -4,6 +4,7 @@ import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, La
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import {connect} from 'react-redux'
+import NavFooter from '../components/NavFooter';
 
 class Chat extends Component{
 
@@ -54,9 +55,7 @@ class Chat extends Component{
             <Container>
                 <Content>
                     <Header style={{ backgroundColor: "#7A5032" }}>
-                        <Left style={{ flex: 2 }} >
-                            <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='arrow-back' />
-                        </Left>
+                        <Left style={{ flex: 2 }} />
                         <Body style={{ flex: 2.5 }}>
                             <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
                         </Body>
@@ -66,12 +65,9 @@ class Chat extends Component{
                         {this.chatRooms()}
                     </List>
                 </Content>
+                <NavFooter/>
             </Container>
         )
-    }
-
-    goToStore = () => {
-        Actions.store()
     }
 
     goToChatBox = (order) => {
