@@ -16,6 +16,7 @@ import { setPets } from "../actions";
 import { connect } from "react-redux";
 import Chat from "./Chat.js";
 import ChatBox from "./ChatBox.js";
+import Payment from "./Payment";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
@@ -50,6 +51,7 @@ class Main extends Component {
             <Scene key="order" component={Order} title="Order" />
             <Scene key="chat" component={Chat} title="Chat" />
             <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
+            <Scene key="payment" component={Payment} title="Payment"/>
           </Scene>
         </Router>
       </View>
