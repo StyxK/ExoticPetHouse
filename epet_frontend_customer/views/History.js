@@ -130,37 +130,6 @@ class History extends Component {
             </ScrollableTabView>
           )}
         </View>
-        {/* <Content>
-          <SegmentedControlTab
-            values={["รอร้านตอบรับ", "กำลังฝาก", "ยกเลิก", "สำเร็จ"]}
-            selectedIndex={this.state.selectedIndex}
-            onTabPress={this.handleIndexChange}
-            borderRadius={0}
-            tabsContainerStyle={{
-              height: 40,
-              backgroundColor: "white",
-              borderRadius: 10
-            }}
-            tabStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-            activeTabStyle={{
-              backgroundColor: "white",
-              borderBottomWidth: 4,
-              borderColor: "#a26c46"
-            }}
-            tabTextStyle={{
-              color: "#a8a8a8",
-              fontSize: 13,
-              fontWeight: "500"
-            }}
-            activeTabTextStyle={{
-              color: "#7A5032",
-              fontSize: 13,
-              fontWeight: "500"
-            }}
-          />
-          {this.showSegment()}
-          {page}
-        </Content> */}
         <NavFooter />
       </Container>
     );

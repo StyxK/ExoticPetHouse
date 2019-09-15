@@ -10,10 +10,10 @@ export class Chat {
     @Column({type:"character varying",nullable:false})
     message: string
 
-    @Column({type:"int"})
+    @Column({type:"int",nullable:true})
     role: number
 
-    @Column({type:"bigint"})
+    @Column({type:"bigint",nullable:true})
     time: number
 
     @ManyToOne(type=>Order,order=>order.chats)
