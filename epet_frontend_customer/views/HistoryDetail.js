@@ -54,7 +54,7 @@ class HistoryDetail extends Component {
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
-                onPress={() => Actions.pop()}
+                onPress={() => Actions.history()}
                 style={{ color: "white", marginLeft: 10 }}
               />
             </Left>
@@ -183,7 +183,7 @@ class HistoryDetail extends Component {
   };
 
   payment = () => {
-    Actions.payment({item:this.props.item,status:this.props.status});
+    Actions.payment({item:this.props.item});
   }
 
 }

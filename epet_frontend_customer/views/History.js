@@ -81,25 +81,25 @@ class History extends Component {
     );
   }
 
-  cancelOrder = async order => {
-    if (order.orderStatus.id == 1 || order.orderStatus.id == 2) {
-      return axios
-        .put("/order/" + order.id, {
-          orderStatus: {
-            id: 4
-          }
-        })
-        .then(response => {
-          this.refresh();
-          return response;
-        });
-    } else {
-      return Promise.reject("ไม่สามรถยกเลิกได้");
-    }
-  };
+  // cancelOrder = async order => {
+  //   if (order.orderStatus.id == 1 || order.orderStatus.id == 2) {
+  //     return axios
+  //       .put("/order/" + order.id, {
+  //         orderStatus: {
+  //           id: 4
+  //         }
+  //       })
+  //       .then(response => {
+  //         this.refresh();
+  //         return response;
+  //       });
+  //   } else {
+  //     return Promise.reject("ไม่สามรถยกเลิกได้");
+  //   }
+  // };
 
   goToHistoryDetail = item => () => {
-    Actions.historyDetail({ item, cancelOrder: this.cancelOrder });
+    Actions.historyDetail({ item });
   };
 
   render() {
@@ -178,7 +178,7 @@ class History extends Component {
               <HistoryList
                 key={item.id}
                 item={item}
-                onPress={this.goToHistoryDetail(item, status)}
+                onPress={this.goToHistoryDetail(item)}
               />
             );
           })}

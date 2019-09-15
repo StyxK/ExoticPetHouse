@@ -161,6 +161,6 @@ export default class Payment extends Component {
     }
 
     goToHistoryDetail = () => {
-        Actions.historyDetail()
+        Actions.historyDetail({item:this.props.item})
     }
 }
