@@ -1,9 +1,11 @@
 import React,{ Component } from 'react'
 import Omise from 'omise-react-native'
 import { View } from 'react-native';
-import { ListItem, CheckBox, Body, Text, List, Right, Left, Container, Input, Form, Item, Label, DatePicker, FooterTab, Footer, Button, Picker } from 'native-base';
+import { CheckBox, Body, Text, Left, Right, Container, Input, Form, Item, Label, Header, FooterTab, Footer, Button, Picker, Icon } from 'native-base';
+import {Actions} from 'react-native-router-flux'
+import axios from 'axios';
 
-Omise.config('pkey_test_5h6bc0k9vn43x8y9mld', '2015-11-17');
+Omise.config('pkey_test_5h6bc0k9vn43x8y9mld');
 
 export default class Payment extends Component {
 
@@ -16,6 +18,8 @@ export default class Payment extends Component {
             expiration_year:undefined,
             cvv:undefined
         }
+        console.log('status',this.props.status)
+        console.log('item',this.props.item)
     }
 
     monthList = () => {
@@ -43,9 +47,23 @@ export default class Payment extends Component {
     render(){
         return (
             <Container>
-                <ListItem itemDivider>
-                    <Text>ชำระค่าบริการผ่านบัตรเครดิต</Text>
-                </ListItem>
+                <Header style={{ backgroundColor: "#7A5032" }}>
+                    <Left style={{ flex: 2 }} >
+                        <Icon name='arrow-back' style={{color:'white'}} onPress={()=>this.goToHistoryDetail()}/>
+                    </Left>
+                    <Body style={{ flex: 2.5 }}>
+                        <Text style={{ color: "white" }}> ชำระค่าบริการ </Text>
+                    </Body>
+                    <Right style={{ flex: 1 }} />
+                </Header>
+                <View style={{flexDirection:"row",height:50,backgroundColor:'green',justifyContent:'center'}}>
+                    <Left style={{justifyContent:'center'}}>
+                        <Text style={{color:'white'}}> ค่าบริการทั้งหมด </Text>
+                    </Left>
+                    <Right style={{justifyContent:'center'}}>
+                        <Text style={{color:'white'}}> 300 บาท </Text>
+                    </Right>
+                </View>
                 <View style={{flex:1,flexDirection:'row'}}>
                     <View style={{flex:1,backgroundColor:'blue',flexDirection:'row'}}>
                         <Left style={{flex:0.5}}>
@@ -112,21 +130,15 @@ export default class Payment extends Component {
                             </Item>
                         </View>
                     </View>
-                    <Body style={{justifyContent:'center',alignItems:'center'}}>
-                        <Text>secure payment by Omise</Text>
-                    </Body>
-                    <View style={{flexDirection:"row",height:50,backgroundColor:'green',justifyContent:'center'}}>
-                        <Left style={{justifyContent:'center'}}>
-                            <Text style={{color:'white'}}> ค่าบริการทั้งหมด </Text>
-                        </Left>
-                        <Right style={{justifyContent:'center'}}>
-                            <Text style={{color:'white'}}> 300 บาท </Text>
-                        </Right>
+                    <View style={{flexDirection:"row",height:30,justifyContent:'center'}}>
+                        <Body style={{justifyContent:'center',alignItems:'center'}}>
+                            <Text>secure payment by Omise</Text>
+                        </Body>
                     </View>
                 </Form>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={()=>{ this.pay() }}>
+                        <Button onPress={()=>{ this.pay(300) }}>
                             <Text style={{color:'white',fontSize:15}}> ชำระค่าบริการ </Text>
                         </Button>
                     </FooterTab>
@@ -135,19 +147,20 @@ export default class Payment extends Component {
         )
     }
 
-    pay = () => {
+    pay = (amount) => {
         console.log(this.state,'ข้อมูลบัตร')
         Omise.createToken({
-            'card' : 
-                this.state
-                // 'name' : name,
-                // 'number': number,
-                // 'expiration_month': exp_month,
-                // 'expiration_year': exp_year,
-                // 'security_code': cvv
+            'card' : this.state
         }).then(data => {
-            console.log(data.id,"data")
-            alert('token ของบัตรคุณคือ : '+data.id)
+            axios.post('/charge',{
+                token:data.id,
+                amount:amount
+            })
         })
+        
+    }
+
+    goToHistoryDetail = () => {
+        Actions.historyDetail()
     }
 }
