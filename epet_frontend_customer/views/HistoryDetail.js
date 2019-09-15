@@ -98,35 +98,37 @@ class HistoryDetail extends Component {
               {orderLines.map(orderLine => {
                 const { id, pet, cage } = orderLine;
                 return (
-                  <ListItem key={pet.id}>
-                    <Text style={{ fontSize: 15 }}>
-                      {" "}
-                      <Text>
+                  <ListItem key={pet.id} style={{ display: "flex", flexDirection: "column"}}>
+                    <View>
+                      <Text style={{ fontSize: 15 }}>
                         {" "}
-                        ชนิดกรง : <Text note> {cage.name} </Text>
+                        <Text>
+                          {" "}
+                          ชนิดกรง : <Text note> {cage.name} </Text>
+                        </Text>
+                        <Text>
+                          {" "}
+                          สัตว์เลี้ยง : <Text note> {pet.name} </Text>
+                        </Text>
                       </Text>
-                      <Text>
-                        {" "}
-                        สัตว์เลี้ยง : <Text note> {pet.name} </Text>
-                      </Text>
-                    </Text>
+                    </View>
+                    <View>
+                      <Button
+                        style={{
+                          backgroundColor: "#7A5032",
+                          borderRadius: 10
+                        }}
+                        onPress={this.goToPetActivity(orderLine)}
+                      >
+                        <Text>pet activity</Text>
+                      </Button>
+                    </View>
                   </ListItem>
                 );
               })}
             </Content>
             <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-              <Left>
-                <Button
-                  style={{
-                    backgroundColor: "#7A5032",
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.goToPetActivity}
-                >
-                  <Text>pet activity</Text>
-                </Button>
-              </Left>
+              <Left></Left>
               <Right>
                 <Button
                   style={{
@@ -161,8 +163,8 @@ class HistoryDetail extends Component {
       });
   };
 
-  goToPetActivity = () => {
-    Actions.petActivity({});
+  goToPetActivity = orderLine => () => {
+    Actions.petActivity({ orderLine });
   };
 }
 
