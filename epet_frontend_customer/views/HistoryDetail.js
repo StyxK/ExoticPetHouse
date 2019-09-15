@@ -28,23 +28,24 @@ const API_URL = Config.API_URL;
 
 class HistoryDetail extends Component {
   state = {
-    history: []
+    history: {}
   };
   componentWillMount() {
-    axios.get("/order").then(response => {
+    axios.get("/order/"+this.props.item.id).then(response => {
       this.setState({ history: response.data });
+      console.log(response.data,'data from api')
     });
   }
   render() {
-    const { item } = this.props;
-    const { id, orderStatus, orderLines = [], store } = item;
-    let startDate = moment(item.startDate)
+    const { history } = this.state;
+    const { id, orderLines = [] ,store={}} = history;
+    let startDate = moment(history.startDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
-    let endDate = moment(item.endDate)
+    let endDate = moment(history.endDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
-    let submitDate = moment(item.submitDate)
+    let submitDate = moment(history.submitDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
     return (
@@ -66,7 +67,7 @@ class HistoryDetail extends Component {
             <Right />
           </Header>
           <Content>
-            <View key={item.id}>
+            <View key={history.id}>
               <View style={{ margin: 20 }}>
                 <Text style={{ fontSize: 15 }}>
                   {" "}
@@ -74,6 +75,7 @@ class HistoryDetail extends Component {
                 </Text>
                 <Text style={{ fontSize: 15 }}>
                   {" "}
+                  {console.log(store.name,'store')}
                   ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
                 </Text>
                 <Text style={{ fontSize: 15 }}>
@@ -98,7 +100,7 @@ class HistoryDetail extends Component {
                 </Text>
               </View>
               {orderLines.map(orderLine => {
-                const { id, pet, cage } = orderLine;
+                const { pet, cage } = orderLine;
                 return (
                   <ListItem
                     key={pet.id}
@@ -133,7 +135,18 @@ class HistoryDetail extends Component {
               })}
             </Content>
             <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-              <Left></Left>
+              <Left>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                  onPress={this.payment}
+                >
+                  <Text>ชำระค่าบริการ</Text>
+                </Button>
+              </Left>
               <Right>
                 <Button
                   style={{
@@ -146,22 +159,6 @@ class HistoryDetail extends Component {
                   <Text>ยกเลิกคำสั่งฝาก</Text>
                 </Button>
               </Right>
-            </View>
-            <View>
-              <Right style={{ flex: 1 }} />
-              <Body style={{ flex: 2 }}>
-                <Button
-                  style={{
-                    backgroundColor: "#7A5032",
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.payment}
-                >
-                  <Text>ชำระค่าบริการ</Text>
-                </Button>
-              </Body>
-              <Left style={{ flex: 1 }} />
             </View>
           </Content>
         </Container>
@@ -197,7 +194,7 @@ class HistoryDetail extends Component {
   };
 
   payment = () => {
-    Actions.payment({item:this.props.item});
+    Actions.payment({item:this.props.item,price:this.state.history.totalPrice});
   }
 
 }

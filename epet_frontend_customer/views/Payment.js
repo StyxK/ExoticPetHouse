@@ -18,8 +18,8 @@ export default class Payment extends Component {
             expiration_year:undefined,
             cvv:undefined
         }
-        console.log('status',this.props.status)
         console.log('item',this.props.item)
+        console.log('price',this.props.price)
     }
 
     monthList = () => {
@@ -61,7 +61,7 @@ export default class Payment extends Component {
                         <Text style={{color:'white'}}> ค่าบริการทั้งหมด </Text>
                     </Left>
                     <Right style={{justifyContent:'center'}}>
-                        <Text style={{color:'white'}}> 300 บาท </Text>
+                        <Text style={{color:'white'}}> {this.props.price} บาท </Text>
                     </Right>
                 </View>
                 <View style={{flex:1,flexDirection:'row'}}>
@@ -138,7 +138,7 @@ export default class Payment extends Component {
                 </Form>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={()=>{ this.pay(300) }}>
+                        <Button onPress={()=>{ this.pay(this.props.price) }}>
                             <Text style={{color:'white',fontSize:15}}> ชำระค่าบริการ </Text>
                         </Button>
                     </FooterTab>

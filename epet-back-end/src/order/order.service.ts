@@ -61,7 +61,7 @@ export class OrderService {
   async showById(id: string) {
     const order = await this.orderRepository.findOne({
       where: id,
-      relations: ['orderStatus'],
+      relations: ['orderStatus','store'],
     });
     const orderLines = await this.orderLineRepository.find({
       relations: ['pet', 'cage'],
