@@ -16,7 +16,8 @@ export default class Payment extends Component {
             name:undefined,
             expiration_month:undefined,
             expiration_year:undefined,
-            cvv:undefined
+            cvv:undefined,
+            alert:null
         }
         console.log('item',this.props.item)
         console.log('price',this.props.price)
@@ -130,6 +131,11 @@ export default class Payment extends Component {
                             </Item>
                         </View>
                     </View>
+                    <View style={{flexDirection:"row",justifyContent:'center'}}>
+                        <Body style={{justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{color:'red',textAlign:'center'}}>{this.state.alert}</Text>
+                        </Body>
+                    </View>
                     <View style={{flexDirection:"row",height:30,justifyContent:'center'}}>
                         <Body style={{justifyContent:'center',alignItems:'center'}}>
                             <Text>secure payment by Omise</Text>
@@ -138,7 +144,7 @@ export default class Payment extends Component {
                 </Form>
                 <Footer>
                     <FooterTab>
-                        <Button onPress={()=>{ this.pay(this.props.price) }}>
+                        <Button onPress={()=>{ this.pay(this.props.price)}}>
                             <Text style={{color:'white',fontSize:15}}> ชำระค่าบริการ </Text>
                         </Button>
                     </FooterTab>
@@ -151,10 +157,17 @@ export default class Payment extends Component {
         console.log(this.state,'ข้อมูลบัตร')
         Omise.createToken({
             'card' : this.state
-        }).then(data => {
-            axios.post('/charge',{
+        }).then(async data => {
+            await axios.post('/charge',{
                 token:data.id,
                 amount:amount
+            })
+            alert('การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ')
+            Actions.home()
+        }).catch( err => {
+            console.log(err._55)
+            this.setState({
+                alert:"กรุณาตรวจสอบข้อมูลที่กรอก,บัตรเครดิตของท่าน และทำรายการอีกครั้ง"
             })
         })
         
