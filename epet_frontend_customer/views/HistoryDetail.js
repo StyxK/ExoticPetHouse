@@ -100,7 +100,10 @@ class HistoryDetail extends Component {
               {orderLines.map(orderLine => {
                 const { id, pet, cage } = orderLine;
                 return (
-                  <ListItem key={pet.id} style={{ display: "flex", flexDirection: "column"}}>
+                  <ListItem
+                    key={pet.id}
+                    style={{ display: "flex", flexDirection: "column" }}
+                  >
                     <View>
                       <Text style={{ fontSize: 15 }}>
                         {" "}
@@ -145,20 +148,20 @@ class HistoryDetail extends Component {
               </Right>
             </View>
             <View>
-                <Right style={{flex:1}}/>
-                <Body style={{flex:2}}>
-                  <Button
-                    style={{
-                      backgroundColor: "#7A5032",
-                      flex: 1,
-                      borderRadius: 10
-                    }}
-                    onPress={this.payment}
-                  >
-                    <Text>ชำระค่าบริการ</Text>
-                  </Button>
-                </Body>
-                <Left style={{flex:1}}/>
+              <Right style={{ flex: 1 }} />
+              <Body style={{ flex: 2 }}>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                  onPress={this.payment}
+                >
+                  <Text>ชำระค่าบริการ</Text>
+                </Button>
+              </Body>
+              <Left style={{ flex: 1 }} />
             </View>
           </Content>
         </Container>
@@ -167,17 +170,26 @@ class HistoryDetail extends Component {
   }
 
   cancelOrder = () => {
-    const { item, cancelOrder } = this.props;
-
-    cancelOrder(item)
-      .then(response => {
-        alert("success");
-        Actions.pop();
-      })
-      .catch(error => {
-        alert("error" + error);
-        console.log(error);
-      });
+    const { item ,refresh } = this.props;
+    if (item.orderStatus.id == 1 || item.orderStatus.id == 2) {
+      axios
+        .put("/order/" + item.id, {
+          orderStatus: {
+            id: 4
+          }
+        })
+        .then(response => {
+          alert("success");
+          refresh&&refresh();
+          Actions.pop();
+        })
+        .catch(error => {
+          alert("error" + error);
+          console.log(error);
+        });
+    }else{
+      alert("ไม่สามารถยกเลิกได้")
+    }
   };
 
   goToPetActivity = orderLine => () => {
@@ -185,9 +197,8 @@ class HistoryDetail extends Component {
   };
 
   payment = () => {
-    Actions.payment({item:this.props.item,status:this.props.status});
-  }
-
+    Actions.payment({ item: this.props.item, status: this.props.status });
+  };
 }
 
 const styles = StyleSheet.create({
