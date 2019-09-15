@@ -32,6 +32,7 @@
     "class-validator": "^0.9.1",
     "dotenv": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
+    "omise": "^0.5.7",
     "pg": "^7.9.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^2.6.2",

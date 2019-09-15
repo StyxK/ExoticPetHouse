@@ -1,23 +1,23 @@
 import io from 'socket.io-client'
 import axios from 'axios';
 import moment from 'moment-timezone'
-const socket = io.connect('http://10.17.249.78:4001').emit('shop')
+const socket = io.connect('http://10.0.110.217:4001').emit('customer')
 
 
-export const shopReply = (message,order) => async dispatch => {
-    await socket.emit('shop',{message:message,order:order,role:0,time: moment().unix()})
+export const userReply = (message,order) => async dispatch => {
+    await socket.emit('customer',{message:message,order:order,role:1,time: moment().unix()})
     await console.log(moment().unix(),'mili')
-    await socket.once('shopSend',async data=>{
-        await dispatch( { type : "CHAT/SHOP_REPLY" , payload: data} )
-        await console.log(data,'shopSend')
+    await socket.once('customerSend',async data=>{
+        await dispatch( { type : "CHAT/USER_REPLY" , payload: data} )
+        await console.log(data,'customerSend')
     })
 }
 
 
-export const userReply = () => dispatch => {
+export const shopReply = () => dispatch => {
     socket.on('customer', data=> {
         console.log(data,'from server')
-        dispatch( { type : "CHAT/USER_REPLY" ,payload: { user : data }} )
+        dispatch( { type : "CHAT/SHOP_REPLY" ,payload: { user : data }} )
     })
 }
 

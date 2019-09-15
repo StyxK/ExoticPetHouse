@@ -5,7 +5,6 @@ import { Feedback } from "../feedback/feedback.entity";
 import { User } from "../user/user.entity";
 import { Entity, Column, ManyToOne, OneToMany, BeforeInsert, JoinTable } from "typeorm";
 import { CustomerRO } from "./customer.dto";
-import { Chat } from "src/chat/chat.entity";
 
 @Entity()
 export class Customer extends User {
@@ -24,9 +23,6 @@ export class Customer extends User {
 
     @OneToMany(type => Feedback,feedbacks => feedbacks.customer)
     feedbacks: Feedback[];
-
-    @OneToMany(type => Chat,chats=> chats.store)
-    chats: Chat[];
 
     toResponObject(showToken:boolean = true):CustomerRO{
         const {userName,firstName,lastName,email,address,phoneNumber,token} = this

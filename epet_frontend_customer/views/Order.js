@@ -186,8 +186,6 @@ class Order extends Component {
                   วันที่ฝาก:{" "}
                   {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
                   {this.state.endChosenDate.toString().substr(4, 12)}
-                  {this.state.startChosenDate.toString()}-{" "}
-                  {this.state.endChosenDate.toString()}
                 </Text>
               </CardItem>
               <CardItem>
@@ -261,8 +259,8 @@ class Order extends Component {
 
   sendOrderToStore = () => {
     alert("ส่งคำร้องเสร็จสิ้น");
-    //this.submitForm();
-    //this.changPetStatusForm();
+    this.submitForm();
+    this.changPetStatusForm();
     Actions.history();
   };
 }

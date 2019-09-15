@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import { View } from 'react-native'
-import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, List, Footer, Button, Label } from 'native-base'
+import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Footer, Button } from 'native-base'
 import { Actions } from 'react-native-router-flux'
-import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
+import { shopReply, userReply, getMessage, refreshChat} from '../actions/ChatActions'
 import { connect } from 'react-redux'
 
 class ChatBox extends Component{
@@ -46,7 +46,7 @@ class ChatBox extends Component{
         let list = []
         this.state.messageList.map( data =>{
             list.push(
-                data.role == 0 ?
+                data.role == 1 ?
                     <View key={data.id}>
                         <View style={{flexDirection:"row-reverse",padding:5}}>
                             <View style={{borderRadius:5,backgroundColor:'blue',padding:7}}>
@@ -99,7 +99,8 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,this.props.order)
+        console.log('event')
+        this.props.userReply(this.state.message,this.props.order)
     }
 
     goToChat = () => {

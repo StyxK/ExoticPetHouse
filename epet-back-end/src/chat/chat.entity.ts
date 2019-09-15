@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, ManyToOne } from 'typeorm'
-import { Store } from 'src/store/store.entity';
-import { Customer } from 'src/customer/customer.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
+import { Order } from 'src/order/order.entity';
 
 @Entity()
 export class Chat {
@@ -11,9 +10,13 @@ export class Chat {
     @Column({type:"character varying",nullable:false})
     message: string
 
-    @ManyToOne(type=>Customer,customer => customer.chats)
-    customer:Customer
-    
-    @ManyToOne(type=>Store,store=>store.chats)
-    store:Store
+    @Column({type:"int"})
+    role: number
+
+    @Column({type:"bigint"})
+    time: number
+
+    @ManyToOne(type=>Order,order=>order.chats)
+    order:Order
+
 }

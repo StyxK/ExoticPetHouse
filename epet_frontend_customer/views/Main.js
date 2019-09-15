@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Router, Scene, Actions } from "react-native-router-flux";
-import NavFooter from "../components/NavFooter.js";
 import MyPet from "./MyPet";
 import Search from "./Search";
 import Store from "./Store";
@@ -12,14 +11,14 @@ import PetActivity from "./PetActivity.js";
 import HistoryDetail from "./HistoryDetail.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order.js";
-import { createStore } from "redux";
 import axios from "axios";
 import { setPets } from "../actions";
 import { connect } from "react-redux";
-import petsReducer from "../reducers/petsReducer.js";
 import Chat from "./Chat.js";
+import ChatBox from "./ChatBox.js";
+import Payment from "./Payment";
 
-const store = createStore(petsReducer);
+// const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
   componentWillMount() {
     const { setPets, user } = this.props;
@@ -51,6 +50,8 @@ class Main extends Component {
             />
             <Scene key="order" component={Order} title="Order" />
             <Scene key="chat" component={Chat} title="Chat" />
+            <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
+            <Scene key="payment" component={Payment} title="Payment"/>
           </Scene>
         </Router>
       </View>

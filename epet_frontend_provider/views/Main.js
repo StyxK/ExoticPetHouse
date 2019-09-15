@@ -7,7 +7,6 @@ import Profile from '../views/Profile'
 import {Provider} from 'react-redux';
 import {createStore , applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
-import {Field,reduxForm} from 'redux-form'
 import StoreManager from './StoreManager';
 import CreateStore from './CreateStore';
 import allReducers from '../src/reducer';

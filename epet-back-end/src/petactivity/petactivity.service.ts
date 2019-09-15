@@ -16,7 +16,7 @@ export class PetActivityService {
         return this.PetActivityRepository.findOne({ where: id });
     }
 
-    async showByOrderId(id:string) : Promise<PetActivity[]>{
+    async showByOrderLineId(id:string) : Promise<PetActivity[]>{
         const activities = await this.PetActivityRepository.find({where:{orderLine:id},order:{date:'DESC'}})
         return await activities
     }

@@ -13,8 +13,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { OrderStatus } from './order.status.entity';
+import { Chat } from 'src/chat/chat.entity';
 
 @Entity()
 export class Order {
@@ -34,7 +36,10 @@ export class Order {
   endDate: Date;
 
   @ManyToOne(type => Store, store => store.orders)
+  @JoinColumn({ name: 'storeId'})
   store: Store;
+  @Column()
+  storeId : string
 
   @ManyToOne(type => Customer, customer => customer.orders)
   @JoinColumn({ name: 'customerUsername' })
@@ -50,4 +55,7 @@ export class Order {
 
   @ManyToOne(type => OrderStatus, orderStatus => orderStatus.orders)
   orderStatus: OrderStatus;
+
+  @OneToMany(type=> Chat , chats => chats.order)
+  chats:Chat[]
 }

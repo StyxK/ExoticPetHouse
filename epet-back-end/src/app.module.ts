@@ -16,8 +16,6 @@ import { OrderModule } from './order/order.module';
 import { StoreownerModule } from './storeowner/storeowner.module';
 import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
-import { PetService } from './pet/pet.service';
-import { PetController } from './pet/pet.controller';
 import { PetModule } from './pet/pet.module';
 import { OrderLineModule } from './orderline/orderline.module';
 import { PetActivityModule } from './petactivity/petactivity.module';
@@ -28,10 +26,14 @@ import { OrderLine } from './orderline/orderline.entity';
 import { Pet } from './pet/pet.entity';
 import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
+import { AppGateway } from './app.gateway';
+import { ChatModule } from './chat/chat.module';
+import { Chat } from './chat/chat.entity';
+import { ChargeController } from './charge/charge.controller';
+import { ChargeService } from './charge/charge.service';
+import { ChargeModule } from './charge/charge.module';
 import 'dotenv/config';
 import 'reflect-metadata';
-import { AppGateway } from './app.gateway';
-import { Chat } from './chat/chat.entity';
 
 @Module({
   imports: [
@@ -44,8 +46,8 @@ import { Chat } from './chat/chat.entity';
       database: process.env.DATABASE_NAME,
       entities: [
         Address,
-        Chat,
         Cage,
+        Chat,
         Customer,
         Employee,
         Feedback,
@@ -72,8 +74,10 @@ import { Chat } from './chat/chat.entity';
     OrderLineModule,
     PetActivityModule,
     FeedbackModule,
+    ChatModule,
+    ChargeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService,AppGateway],
+  controllers: [AppController, ChargeController],
+  providers: [AppService,AppGateway, ChargeService],
 })
 export class AppModule {}

@@ -2,48 +2,84 @@ import React,{Component} from 'react'
 import { Text } from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
+import axios from 'axios'
+import {connect} from 'react-redux'
+import NavFooter from '../components/NavFooter'
 
-export default class Chat extends Component{
+
+class Chat extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            chatList : []
+        }
+    }
+
+    componentDidMount(){
+        const store = this.props.store.storeId
+        console.log(store)
+        axios.get('/chat/storeChatRoom/' + store).then(
+            result => {
+                this.setState({
+                    chatList:result.data
+                })
+                console.log(result.data,"chatList")
+            }
+        )
+    }
+
+    chatRooms = () =>{
+        let list = []
+        this.state.chatList.map( data => {
+            list.push(
+                <ListItem key={data.id} onPress={() => this.goToChatBox(data.id)}>
+                    <Left style={{ flex : 0.5}}>
+                        <Icon name="person"/>
+                    </Left>
+                    <Body style={{flex : 3}}>
+                        <Label>
+                            {data.customerUsername}
+                            <Text> {  } </Text>
+                            <Text note style={{fontSize:10}}>
+                                order : {data.id}
+                            </Text>
+                        </Label>
+                    </Body>
+                </ListItem>
+            )
+        })
+        return list
+    }
 
     render(){
         return(
             <Container>
                 <Content>
                     <Header style={{ backgroundColor: "#7A5032" }}>
-                        <Left style={{ flex: 2 }} >
-                            <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='arrow-back' />
-                        </Left>
+                        <Left style={{ flex: 2 }} />
                         <Body style={{ flex: 2.5 }}>
                             <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
                         </Body>
                         <Right style={{ flex: 1 }} />
                     </Header>
                     <List>
-                        <ListItem onPress={() => this.goToChatBox()}>
-                            <Left style={{ flex : 0.5}}>
-                                <Icon name="person"/>
-                            </Left>
-                            <Body style={{flex : 1.5}}>
-                                <Text>
-                                    user 1
-                                </Text>
-                                <Label>
-                                    hello
-                                </Label>
-                            </Body>
-                        </ListItem>
+                        {this.chatRooms()}
                     </List>
                 </Content>
+                <NavFooter/>
             </Container>
         )
     }
 
-    goToStore = () => {
-        Actions.store()
-    }
-
-    goToChatBox = () => {
-        Actions.chatbox()
+    goToChatBox = (order) => {
+        Actions.chatbox({order:order})
     }
 
 }
+
+const mapStateToProps = (state)=>{
+    return {...state}
+}
+
+export default connect(mapStateToProps)(Chat)

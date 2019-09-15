@@ -11,7 +11,9 @@ import {
   Thumbnail,
   Button,
   Icon,
-  Left
+  Left,
+  Footer,
+  FooterTab
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
@@ -142,9 +144,24 @@ class HistoryDetail extends Component {
                 </Button>
               </Right>
             </View>
+            <View>
+                <Right style={{flex:1}}/>
+                <Body style={{flex:2}}>
+                  <Button
+                    style={{
+                      backgroundColor: "#7A5032",
+                      flex: 1,
+                      borderRadius: 10
+                    }}
+                    onPress={this.payment}
+                  >
+                    <Text>ชำระค่าบริการ</Text>
+                  </Button>
+                </Body>
+                <Left style={{flex:1}}/>
+            </View>
           </Content>
         </Container>
-        <NavFooter />
       </Container>
     );
   }
@@ -166,6 +183,11 @@ class HistoryDetail extends Component {
   goToPetActivity = orderLine => () => {
     Actions.petActivity({ orderLine });
   };
+
+  payment = () => {
+    Actions.payment({item:this.props.item,status:this.props.status});
+  }
+
 }
 
 const styles = StyleSheet.create({
