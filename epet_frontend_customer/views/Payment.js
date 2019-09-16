@@ -50,7 +50,7 @@ export default class Payment extends Component {
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
-                        <Icon name='arrow-back' style={{color:'white'}} onPress={()=>this.goToHistoryDetail()}/>
+                        <Icon name='ios-arrow-back' style={{color:'white'}} onPress={()=>this.goToHistoryDetail()}/>
                     </Left>
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}> ชำระค่าบริการ </Text>

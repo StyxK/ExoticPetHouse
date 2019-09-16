@@ -108,11 +108,6 @@ class History extends Component {
       <Container style={{ display: "flex", height: "100%" }}>
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 1 }}>
-            <Icon
-              name="ios-arrow-back"
-              onPress={() => Actions.home()}
-              style={{ color: "white", marginLeft: 10 }}
-            />
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
             <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>

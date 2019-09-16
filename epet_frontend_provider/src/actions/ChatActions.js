@@ -1,7 +1,7 @@
 import io from 'socket.io-client'
 import axios from 'axios';
 import moment from 'moment-timezone'
-const socket = io.connect('http://10.17.249.78:4001').emit('shop')
+const socket = io.connect('http://10.0.3.2:4001').emit('shop')
 
 
 export const shopReply = (message,order) => async dispatch => {

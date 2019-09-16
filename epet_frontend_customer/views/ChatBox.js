@@ -13,6 +13,7 @@ class ChatBox extends Component{
             message : '',
             messageList : []
         }
+        this.chatBox = React.createRef()
         this.chatView = React.createRef()
     }
 
@@ -25,6 +26,7 @@ class ChatBox extends Component{
         this.setState({
             messageList: this.props.chat
         })
+        console.log(this.chatBox.current,'chat box ref')
     }
 
     async componentWillReceiveProps(nextProps){
@@ -76,7 +78,7 @@ class ChatBox extends Component{
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='arrow-back' />
+                        <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
                     </Left>
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
@@ -87,10 +89,10 @@ class ChatBox extends Component{
                     {this.messageDialog()}
                 </Content>
                 <Footer>
-                    <Input onChangeText={e => {
+                    <Input ref={this.chatBox} onChangeText={e => {
                         this.setState({message : e})
-                    }} placeholder='พิมพ์ข้อความในช่องนี้'/>
-                    <Button onPress={()=>{ this.submitMessage() }}>
+                    }} placeholder='พิมพ์ข้อความในช่องนี้' style={{color:'white'}}/>
+                    <Button onPress={()=>{ this.submitMessage()}}>
                         <Text> submit </Text> 
                     </Button>
                 </Footer>
@@ -101,6 +103,12 @@ class ChatBox extends Component{
     submitMessage = () => {
         console.log('event')
         this.props.userReply(this.state.message,this.props.order)
+        this.setState({
+            message:null
+        })
+        this.chatBox.current.props.onChangeText(e=>{
+            null
+        })
     }
 
     goToChat = () => {
