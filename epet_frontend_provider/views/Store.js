@@ -49,15 +49,15 @@ class Store extends Component {
 
         let storeFlatList = storeList.map(data => {
             return (
-                <ListItem button onPress={()=>{ this.showMenu(data.name,data.id) }} key={data.id}>
-                    <Left style={{maxWidth:10}}>
-                        <Icon name="home"/>
+                <ListItem style={{borderTopColor:'black',borderBottomColor:'black',borderRadius:10}} button onPress={()=>{ this.showMenu(data.name,data.id) }} key={data.id}>
+                    <Left style={{maxWidth:10,paddingLeft:5}}>
+                        <Icon name="home" style={{ color : 'white' }}/>
                     </Left>
                     <Body>
-                        <Text note> ชื่อร้าน : <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
+                        <Text note style={{ color: 'white' }}> {data.name} </Text>
                     </Body>
                     <Right>
-                        <Icon name='ios-arrow-forward' fontSize='20' />
+                        <Icon name='ios-arrow-forward' style={{ color : 'white',fontSize : 20 }}/>
                     </Right>
                 </ListItem>
             )
@@ -74,7 +74,7 @@ class Store extends Component {
                             </Body>
                             <Right style={{ flex: 1 }} />
                         </Header>
-                        <List>
+                        <List style={{backgroundColor:'#A78B45'}}>
                             {storeFlatList}
                         </List>
                     </Content>

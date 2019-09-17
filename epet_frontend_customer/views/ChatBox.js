@@ -4,6 +4,7 @@ import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Foote
 import { Actions } from 'react-native-router-flux'
 import { shopReply, userReply, getMessage, refreshChat} from '../actions/ChatActions'
 import { connect } from 'react-redux'
+import { duration } from 'moment'
 
 class ChatBox extends Component{
 
@@ -56,6 +57,22 @@ class ChatBox extends Component{
                                     {data.message}
                                 </Text>
                             </View>
+                                <View style={{marginRight:4,justifyContent:'flex-end'}}>
+                                    <Text note style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                                    {
+                                        console.log(duration(parseInt(data.time),'seconds'),'duration')
+                                    }
+                                    {
+                                        7+duration(parseInt(data.time),'seconds').hours() + ':' + 
+                                        (
+                                            duration(parseInt(data.time),'seconds').minutes() < 10 ?
+                                                '0'+duration(parseInt(data.time),'seconds').minutes()
+                                                :
+                                                duration(parseInt(data.time),'seconds').minutes()
+                                        )
+                                    }
+                                    </Text>
+                                </View>
                         </View>
                     </View>
                     :
@@ -66,6 +83,20 @@ class ChatBox extends Component{
                                     {data.message}
                                 </Text>
                             </View>
+                                <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                                {
+                                    console.log(duration(parseInt(data.time),'seconds'),'duration')
+                                }
+                                {
+                                    7+duration(parseInt(data.time),'seconds').hours() + ':' + 
+                                    (
+                                        duration(parseInt(data.time),'seconds').minutes() < 10 ?
+                                            '0'+duration(parseInt(data.time),'seconds').minutes()
+                                            :
+                                            duration(parseInt(data.time),'seconds').minutes()
+                                    )
+                                }
+                                </Text>
                         </View>
                     </View>
             )

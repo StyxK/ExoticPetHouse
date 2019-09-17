@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Image } from 'react-native' 
 import { Container, ListItem, Content, List, Body, Right, Text, Button, Icon, Header, Left, View } from 'native-base'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
@@ -33,6 +34,7 @@ export default class Pet extends Component {
                 depositingPet: depositing,
                 expiredPet: expired
             })
+            await console.log(data,'pet')
         } catch (err) {
             alert(this.state.storeId)
         }
@@ -55,18 +57,24 @@ export default class Pet extends Component {
         petList !== undefined ?
             petList.map(data => {
                 list.push(
-                    <List key={data.id}>
+                    <List key={data.id} style={{backgroundColor:'#A78B45',borderColor:'#7A5032',marginBottom:10,borderWidth:2,borderRadius:10,marginLeft:10,marginRight:10}}>
                         <ListItem onPress={()=>{goToPetActivities(data,this.state.storeId)}}>
-                            <Body>
-                                <Text note> ชื่อ :  <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
-                                <Text note> ประเภท :  <Text note style={{ color: 'black' }}> {data.typeOfPet} </Text> </Text>
-                                <Text note> กรง :  <Text note style={{ color: 'black' }}> {'cage'} </Text> </Text>
+                            <Left style={{flex:1}}>
+                                {data.image ? 
+                                    <Image style={{width:100,height:100}} source={data.image}/> 
+                                    :
+                                    <Image style={{width:100,height:100}} source={require('../assets/no_image_available.jpeg')}/>
+                                }
+                            </Left>
+                            <Body style={{flex:2}}>
+                                <Text note style={{color:'#84f542'}}> ชื่อ :  <Text note style={{ color: 'white' }}> {data.name} </Text> </Text>
+                                <Text note style={{color:'#84f542'}}> ประเภท :  <Text note style={{ color: 'white' }}> {data.typeOfPet} </Text> </Text>
+                                <Text note style={{color:'#84f542'}}> กรง :  <Text note style={{ color: 'white' }}> {'cage'} </Text> </Text>
                                 {
                                     moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ?
-                                        <Text note> สถานะ : <Text note style={{ color: 'black' }}> กำลังฝาก </Text></Text>
+                                        <Text note style={{color:'#84f542'}}> สถานะ : <Text note style={{ color: 'white' }}> กำลังฝาก </Text></Text>
                                         :
-                                        <Text note> สถานะ : <Text note style={{ color: 'black' }}> หมดระยะเวลาฝาก </Text></Text>
-
+                                        <Text note style={{color:'#84f542'}}> สถานะ : <Text note style={{ color: 'white' }}> หมดระยะเวลาฝาก </Text></Text>
                                 }
                             </Body>
                         </ListItem>
@@ -76,12 +84,11 @@ export default class Pet extends Component {
             :
             list.push(
                 <View key={list.values} style={{alignItems:'center',alignContent:'center'}}>
-                    <Text key={"null"}> 
-                        ไม่มีสัตว์เลี้ยงที่อยู่ในระยะเวลาการฝากขณะนี้ 
-                    </Text>
+                        <Text key={"null"}> 
+                            ไม่มีสัตว์เลี้ยงที่อยู่ในระยะเวลาการฝากขณะนี้ 
+                        </Text>
                 </View>
             )
-
         return list
     }
 
@@ -89,29 +96,32 @@ export default class Pet extends Component {
         const { depositingPet, expiredPet, selectedIndex } = this.state
         return (
             <Container>
+                <Header style={{ backgroundColor: "#7A5032" }}>
+                    <Left style={{ flex: 2 }} >
+                        <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='ios-arrow-back' />
+                    </Left>
+                    <Body style={{ flex: 2.5 }}>
+                        <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
+                    </Body>
+                    <Right style={{ flex: 1 }} />
+                </Header>
+                <View style={{ margin: 10 }}>
+                    <SegmentedControlTab
+                        tabStyle={{borderColor:'#7A5032'}}
+                        tabTextStyle={{color:'#7A5032'}}
+                        activeTabStyle={{backgroundColor:'#7A5032'}}
+                        values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
+                        selectedIndex={selectedIndex}
+                        onTabPress={this.handleIndexChange}
+                    />
+                </View>
                 <Content>
-                    <Header style={{ backgroundColor: "#7A5032" }}>
-                        <Left style={{ flex: 2 }} >
-                            <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='arrow-back' />
-                        </Left>
-                        <Body style={{ flex: 2.5 }}>
-                            <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
-                        </Body>
-                        <Right style={{ flex: 1 }} />
-                    </Header>
-                    <Content style={{ margin: 10 }}>
-                        <SegmentedControlTab
-                            values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
-                            selectedIndex={selectedIndex}
-                            onTabPress={this.handleIndexChange}
-                        />
-                    </Content>
-                        {
-                            selectedIndex == 0 ?
-                                this.petCard(depositingPet)
-                                :
-                                this.petCard(expiredPet)
-                        }
+                    {
+                        selectedIndex == 0 ?
+                            this.petCard(depositingPet)
+                            :
+                            this.petCard(expiredPet)
+                    }
                 </Content>
             </Container>
         )

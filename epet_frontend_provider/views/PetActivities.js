@@ -34,13 +34,14 @@ export default class PetActivities extends Component {
     activitiesCard = ()=>{
         let card = []
         this.state.activities.map( data => {
-            card.push( <Card key={data.id}>
-                <CardItem>
+            card.push( 
+            <Card key={data.id} style={{marginHorizontal:4}}>
+                <CardItem style={{ backgroundColor: "#7A5032" }}>
                     <Left>
-                        <Text>{data.topic}</Text>
+                        <Text style={{color:'white'}}>{data.topic}</Text>
                     </Left>
                     <Right>
-                        <Text> {moment(data.date).fromNow()} </Text>
+                        <Text style={{color:'white'}}> {moment(data.date).fromNow()} </Text>
                     </Right>
                 </CardItem>
                 {
@@ -71,14 +72,14 @@ export default class PetActivities extends Component {
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { goToPets(storeId) }} name='arrow-back' />
+                        <Icon style={{ color: 'white' }} onPress={() => { goToPets(storeId) }} name='ios-arrow-back' />
                     </Left>
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}>สัตว์เลี้ยงจ้า</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <Content>
+                <Content style={{ backgroundColor: 'grey' }}>
                     <View style={{backgroundColor:'black',alignItems:'center'}}>
                         <Icon style={{color:'white' , fontSize:100}} name='person'/>
                         <Text style={{color:'white'}}> {pet.name} </Text>

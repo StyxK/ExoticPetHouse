@@ -35,20 +35,40 @@ class Chat extends Component {
             data.chats.map( (chat,i) => {
                 if(data.chats.length === i+1){
                     time = (
-                    <Text style={{ fontSize: 12.5 }}>
-                        {
-                            (chat.role == 0 ? 'ร้าน :' : 'คุณ : ')+chat.message+"  "
-                            + duration(parseInt(chat.time),"milliseconds").hours() + ':' 
-                            + duration(parseInt(chat.time),"milliseconds").minutes()
-                        }
-                    </Text>
+                    <View style={{flexDirection:'row',marginTop:5}}>
+                        <Left>      
+                            <Text style={{ fontSize: 12.5 }}>
+                                {
+                                    (chat.role == 0 ? 'ร้าน :' : 'คุณ : ')+chat.message+"  "
+                                }
+                            </Text>
+                        </Left>
+                        <Right>
+                            <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                            {
+                                console.log(duration(parseInt(chat.time),'seconds'),'duration')
+                            }
+                            {
+                                7+duration(parseInt(chat.time),'seconds').hours() + ':' + 
+                                (
+                                    duration(parseInt(chat.time),'seconds').minutes() < 10 ?
+                                        '0'+duration(parseInt(chat.time),'seconds').minutes()
+                                        :
+                                        duration(parseInt(chat.time),'seconds').minutes()
+                                )
+                            }
+                            </Text>
+                        </Right>
+                    </View>
                     )
                 }
             })
             if(data.chats.length == 0){
                 console.log('lasttime')
                 time = (
-                    <Text style={{ fontSize: 12.5 }}>เริ่มต้นสนทนาได้เลย</Text>
+                    <Label style={{marginTop:5}}>
+                        <Text style={{ fontSize: 12.5 }}>เริ่มต้นสนทนาได้เลย</Text>
+                    </Label>
                 )
             }
             list.push(
@@ -64,9 +84,7 @@ class Chat extends Component {
                                     order : {data.id}
                                 </Text>
                             </Label>
-                            <Label style={{marginTop:5}}>
-                                {time}
-                            </Label>
+                            {time}
                         </Body>
                     </ListItem>
                 )
