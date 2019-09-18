@@ -36,20 +36,22 @@ export default class StoreManager extends Component{
 
         let cagesList = cages.map( data => {
             return (
-                <ListItem key={data.id}>
-                    <Body>
-                        <Text style={{color:'black'}}> {data.name}</Text>
-                        <Text> ราคาต่อวัน : {data.price}</Text>
-                    </Body>
-                    <Right style={{flexDirection:'row',flex:1}}>
-                        <Button style={{flex:0.5,marginRight:10,backgroundColor:'red',justifyContent:'center'}} rounded onPress={ () => this.deleteCage(data)}> 
-                            <Label style={{fontSize:14,textAlign:'center',color:'white'}}> ลบ </Label> 
-                        </Button>
-                        <Button style={{flex:1,justifyContent:'center'}} rounded onPress={ () => this.goToEditCage(data)}> 
-                            <Label style={{fontSize:14,textAlign:'center',color:'white'}}> แก้ไขข้อมูล </Label> 
-                        </Button>
-                    </Right>
-                </ListItem>
+                <List style={{backgroundColor:'#7A5032'}} key={data.id}>
+                    <ListItem style={{backgroundColor:'#A78B45',borderBottomWidth:3,borderBottomColor:'#7A5032'}} >
+                        <Body>
+                            <Text style={{color:'white'}}> {data.name}</Text><Text/>
+                            <Text style={{color:'white'}}> ราคาต่อวัน : {data.price}</Text>
+                        </Body>
+                        <Right style={{flexDirection:'row',flex:1}}>
+                            <Button style={{flex:0.5,marginRight:10,backgroundColor:'red',justifyContent:'center'}} rounded onPress={ () => this.deleteCage(data)}> 
+                                <Label style={{fontSize:14,textAlign:'center',color:'white'}}> ลบ </Label> 
+                            </Button>
+                            <Button style={{flex:1,justifyContent:'center',backgroundColor:'#84f542'}} rounded onPress={ () => this.goToEditCage(data)}> 
+                                <Label style={{fontSize:14,textAlign:'center',color:'green'}}> แก้ไขข้อมูล </Label> 
+                            </Button>
+                        </Right>
+                    </ListItem>
+                </List>
             )
         })
 
@@ -83,18 +85,22 @@ export default class StoreManager extends Component{
                         </Text>
                     </Body>
                 </View>
-                <View style={{flex:2}}>
-                    <ListItem itemDivider>
-                        <Label>
-                            กรงภายในร้าน
-                            {" "}{" "}{" "}{" "}
-                        </Label>
-                        <Button small rounded onPress={ ()=>{ this.goToCreateCage() }}><Text> เพิ่มกรง </Text></Button>
+                <View style={{flex:2,backgroundColor:'#A78B45'}}>
+                    <ListItem style={{backgroundColor:'#7A5032'}} itemDivider>
+                        <Left>
+                            <Label style={{color:'white'}}>
+                                กรงภายในร้าน
+                                {" "}{" "}{" "}{" "}
+                            </Label>
+                        </Left>
+                        <Right>
+                            <Button small rounded onPress={ ()=>{ this.goToCreateCage() }} style={{height:40,width:90,justifyContent:'center',backgroundColor:'#84f542'}}>
+                                <Label style={{color:'green'}}> เพิ่มกรง </Label>
+                            </Button>
+                        </Right>
                     </ListItem>
                     <Content>
-                        <List>
-                            {cagesList}
-                        </List>
+                        {cagesList}
                     </Content>
                 </View>
             </Container>
