@@ -18,6 +18,7 @@ import Chat from './Chat';
 import ChatBox from './ChatBox'
 import {userReply} from '../src/actions/ChatActions'
 import logger from 'redux-logger'
+import Cage from './Cage';
 
 const store = createStore(allReducers,applyMiddleware(thunk,logger))
 
@@ -51,6 +52,7 @@ export default class Main extends Component {
                             <Scene key="petPost" component={PetPost} title="PetPost"/>
                             <Scene key="chat" component={Chat} title="Chat" />
                             <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
+                            <Scene key="cage" component={Cage} title="Cage"/>
                         </Scene>
                     </Router>
                 </View>

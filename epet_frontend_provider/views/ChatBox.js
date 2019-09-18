@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
 import { View } from 'react-native'
-import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, List, Footer, Button, Label } from 'native-base'
+import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Footer, Button } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
+import { duration } from 'moment-timezone'
 
 class ChatBox extends Component{
 

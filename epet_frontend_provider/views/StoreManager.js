@@ -55,7 +55,7 @@ export default class StoreManager extends Component{
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
-                        <Icon name='ios-arrow-back' style={{marginLeft:10,color:'white'}} onPress={ () => { goToProfile()}}/>
+                        <Icon name='ios-arrow-back' style={{marginLeft:10,color:'white'}} onPress={ () => { this.goToProfile()}}/>
                     </Left>
                     <Body style={{ flex: 2 }}>
                         <Text style={{ color: "white" }}>{store.name}</Text>
@@ -87,7 +87,7 @@ export default class StoreManager extends Component{
                             กรงภายในร้าน
                             {" "}{" "}{" "}{" "}
                         </Label>
-                        <Button small rounded onPress={ ()=>{ goToCreateCage() }}><Text> เพิ่มกรง </Text></Button>
+                        <Button small rounded onPress={ ()=>{ this.goToCreateCage() }}><Text> เพิ่มกรง </Text></Button>
                     </ListItem>
                     <Content>
                         <List>
@@ -99,12 +99,13 @@ export default class StoreManager extends Component{
             </Container>
         )
     }
+
+    goToCreateCage = ()=>{
+        Actions.cage({store:this.props.store})
+    }
+
+    goToProfile = ()=>{
+        Actions.profile()
+    }
 }
 
-goToProfile = ()=>{
-    Actions.profile()
-}
-
-goToCreateCage = ()=>{
-
-}

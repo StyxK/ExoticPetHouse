@@ -8,8 +8,6 @@ import {
   Body,
   Form,
   Item,
-  Label,
-  Textarea,
   ListItem,
   View,
   Button,
@@ -21,9 +19,8 @@ import {
   Title
 } from "native-base";
 import { Dimensions, Modal } from "react-native";
-import { Field, reduxForm, reset } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import { Actions } from "react-native-router-flux";
-import { DispatchProp } from "react-redux";
 import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
 
