@@ -27,67 +27,48 @@ class Chat extends Component {
         )
     }
 
-    chatRooms = () => {
+    chatRooms = () =>{
         let list = []
-        this.state.chatList.map(data => {
-            console.log(data.chats)
-            let time
-            data.chats.map( (chat,i) => {
-                if(data.chats.length === i+1){
-                    time = (
-                    <View style={{flexDirection:'row',marginTop:5}}>
-                        <Left>      
-                            <Text style={{ fontSize: 12.5 }}>
-                                {
-                                    (chat.role == 0 ? 'ร้าน :' : 'คุณ : ')+chat.message+"  "
-                                }
-                            </Text>
-                        </Left>
-                        <Right>
-                            <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
-                            {
-                                console.log(duration(parseInt(chat.time),'seconds'),'duration')
-                            }
-                            {
-                                7+duration(parseInt(chat.time),'seconds').hours() + ':' + 
-                                (
-                                    duration(parseInt(chat.time),'seconds').minutes() < 10 ?
-                                        '0'+duration(parseInt(chat.time),'seconds').minutes()
-                                        :
-                                        duration(parseInt(chat.time),'seconds').minutes()
-                                )
-                            }
-                            </Text>
-                        </Right>
-                    </View>
-                    )
-                }
-            })
-            if(data.chats.length == 0){
-                console.log('lasttime')
-                time = (
-                    <Label style={{marginTop:5}}>
-                        <Text style={{ fontSize: 12.5 }}>เริ่มต้นสนทนาได้เลย</Text>
-                    </Label>
-                )
-            }
+        this.state.chatList.map( data => {
             list.push(
-                    <ListItem key={data.id} onPress={() => this.goToChatBox(data.id)}>
-                        <Left style={{ flex: 0.5 }}>
-                            <Icon name="person" />
-                        </Left>
-                        <Body style={{ flex: 4 }}>
-                            <Label>
-                                {data.store.name}
-                                <Text> {} </Text>
-                                <Text note style={{ fontSize: 10 }}>
-                                    order : {data.id}
+                <ListItem key={data.chat_id} onPress={() => this.goToChatBox(data.chat_customerUsername,data.chat_storeId)}>
+                    <Left style={{ flex : 0.5}}>
+                        <Icon name="person"/>
+                    </Left>
+                    <Body style={{flex : 3}}>
+                        <Label>
+                            {data.store_name}
+                            <Text> {  } </Text>
+                        </Label>
+                        <View style={{flexDirection:'row'}}>
+                            <Left style={{flex:2}}>
+                                <Text note style={{fontSize:15}}>
+                                    {
+                                        data.chat_role == 1 ? 'คุณ : ' : `ร้าน : `
+                                    }
+                                    { data.chat_message }
                                 </Text>
-                            </Label>
-                            {time}
-                        </Body>
-                    </ListItem>
-                )
+                            </Left>
+                            <Right style={{flex:1}}>
+                                <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                                {
+                                    console.log(duration(parseInt(data.chat_time),'seconds'),'duration')
+                                }
+                                {
+                                    7+duration(parseInt(data.chat_time),'seconds').hours() + ':' + 
+                                    (
+                                        duration(parseInt(data.chat_time),'seconds').minutes() < 10 ?
+                                            '0'+duration(parseInt(data.chat_time),'seconds').minutes()
+                                            :
+                                            duration(parseInt(data.chat_time),'seconds').minutes()
+                                    )
+                                }
+                                </Text>
+                            </Right>
+                        </View>
+                    </Body>
+                </ListItem>
+            )
         })
         return list
     }
@@ -99,7 +80,7 @@ class Chat extends Component {
                     <Header style={{ backgroundColor: "#7A5032" }}>
                         <Left style={{ flex: 2 }} />
                         <Body style={{ flex: 2.5 }}>
-                            <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
+                            <Text style={{ color: "white" }}> แชทกับร้านรับฝาก </Text>
                         </Body>
                         <Right style={{ flex: 1 }} />
                     </Header>
@@ -112,8 +93,8 @@ class Chat extends Component {
         )
     }
 
-    goToChatBox = (order) => {
-        Actions.chatbox({ order: order })
+    goToChatBox = (customer,store) => {
+        Actions.chatbox({customer:customer,storeId:store})
     }
 
 }

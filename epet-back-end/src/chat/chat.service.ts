@@ -16,14 +16,26 @@ export class ChatService {
     }
 
     async customerChatRoom(username:string){
-        const customer = JSON.parse(JSON.stringify(username)).username
-        const chatRooms = await this.chatRepository.find({
-            where:{
-                customerUsername:customer
-            },
-            relations:['store','customer']
-        })
-        return chatRooms
+        const user = JSON.parse(JSON.stringify(username)).username
+        const subquery = await this.chatRepository
+        .createQueryBuilder('chat')
+        .select('chat.customerUsername')
+        .addSelect('chat.store')
+        .addSelect('max(chat.time)')
+        .addGroupBy('chat.customerUsername')
+        .addGroupBy('chat.store')
+        .where(`chat.customerUsername = '${user}'`)
+        .getQuery()
+        const message = await this.chatRepository
+        .createQueryBuilder('chat')
+        .innerJoin(`(${subquery})`,'subtable',`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
+        .leftJoin('store','store','chat.store = store.id')
+        .addSelect('store.name')
+        .where(`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
+        .where(`"chat"."time" = "subtable"."max"`)
+        .orderBy(`"chat"."time"`,'DESC')
+        .getRawMany()
+        return message
     }
 
     async storeChatRoom(storeId:string){
