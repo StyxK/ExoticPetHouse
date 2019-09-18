@@ -4,8 +4,8 @@ import moment from 'moment-timezone'
 const socket = io.connect('http://10.0.3.2:4001').emit('shop')
 
 
-export const shopReply = (message,order) => async dispatch => {
-    await socket.emit('shop',{message:message,order:order,role:0,time: moment().unix()})
+export const shopReply = (message,customer,store) => async dispatch => {
+    await socket.emit('shop',{message:message,customerUsername:customer,store:store,role:0,time: moment().unix()})
     await console.log(moment().unix(),'mili')
     await socket.once('shopSend',async data=>{
         await dispatch( { type : "CHAT/SHOP_REPLY" , payload: data} )
@@ -25,10 +25,11 @@ export const refreshChat = () => dispatch => {
     dispatch({type : "CHAT/REFRESH_CHAT"})
 }
 
-export const getMessage = (order) => dispatch => {
+export const getMessage = (customer,store) => dispatch => {
     axios.post('chat/getMessageInRoom',
             {
-                order : order 
+                customer : customer ,
+                store : store
             }
         ).then(
             result => {

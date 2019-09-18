@@ -1,10 +1,11 @@
 import React,{Component} from 'react'
 import { Text } from 'react-native'
-import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, Label } from 'native-base'
+import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, Label, View } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import NavFooter from '../components/NavFooter'
+import {duration} from 'moment-timezone'
 
 
 class Chat extends Component{
@@ -33,18 +34,41 @@ class Chat extends Component{
         let list = []
         this.state.chatList.map( data => {
             list.push(
-                <ListItem key={data.id} onPress={() => this.goToChatBox(data.id)}>
+                <ListItem key={data.chat_id} onPress={() => this.goToChatBox(data.chat_customerUsername,data.chat_storeId)}>
                     <Left style={{ flex : 0.5}}>
                         <Icon name="person"/>
                     </Left>
                     <Body style={{flex : 3}}>
                         <Label>
-                            {data.customerUsername}
+                            {data.chat_customerUsername}
                             <Text> {  } </Text>
-                            <Text note style={{fontSize:10}}>
-                                order : {data.id}
-                            </Text>
                         </Label>
+                        <View style={{flexDirection:'row'}}>
+                            <Left style={{flex:2}}>
+                                <Text note style={{fontSize:15}}>
+                                    {
+                                        data.chat_role == 0 ? 'คุณ : ' : `${data.chat_customerUsername} : `
+                                    }
+                                    { data.chat_message }
+                                </Text>
+                            </Left>
+                            <Right style={{flex:1}}>
+                                <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                                {
+                                    console.log(duration(parseInt(data.chat_time),'seconds'),'duration')
+                                }
+                                {
+                                    7+duration(parseInt(data.chat_time),'seconds').hours() + ':' + 
+                                    (
+                                        duration(parseInt(data.chat_time),'seconds').minutes() < 10 ?
+                                            '0'+duration(parseInt(data.chat_time),'seconds').minutes()
+                                            :
+                                            duration(parseInt(data.chat_time),'seconds').minutes()
+                                    )
+                                }
+                                </Text>
+                            </Right>
+                        </View>
                     </Body>
                 </ListItem>
             )
@@ -71,9 +95,8 @@ class Chat extends Component{
             </Container>
         )
     }
-
-    goToChatBox = (order) => {
-        Actions.chatbox({order:order})
+    goToChatBox = (customer,store) => {
+        Actions.chatbox({customer:customer,storeId:store})
     }
 
 }

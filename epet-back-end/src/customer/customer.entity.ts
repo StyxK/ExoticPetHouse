@@ -5,6 +5,7 @@ import { Feedback } from "../feedback/feedback.entity";
 import { User } from "../user/user.entity";
 import { Entity, Column, ManyToOne, OneToMany, BeforeInsert, JoinTable } from "typeorm";
 import { CustomerRO } from "./customer.dto";
+import { Chat } from "src/chat/chat.entity";
 
 @Entity()
 export class Customer extends User {
@@ -17,6 +18,9 @@ export class Customer extends User {
 
     @ManyToOne(type => Address)
     address: Address;
+
+    @OneToMany(type => Chat,chats => chats.customer)
+    chats:Chat[]
 
     @OneToMany(type => Order,order => order.customer)
     orders: Order[];

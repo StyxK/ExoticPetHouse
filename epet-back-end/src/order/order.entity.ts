@@ -16,7 +16,6 @@ import {
   OneToOne,
 } from 'typeorm';
 import { OrderStatus } from './order.status.entity';
-import { Chat } from 'src/chat/chat.entity';
 
 @Entity()
 export class Order {
@@ -55,7 +54,4 @@ export class Order {
 
   @ManyToOne(type => OrderStatus, orderStatus => orderStatus.orders)
   orderStatus: OrderStatus;
-
-  @OneToMany(type=> Chat , chats => chats.order)
-  chats:Chat[]
 }

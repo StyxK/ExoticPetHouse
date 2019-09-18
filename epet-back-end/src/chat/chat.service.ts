@@ -3,13 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Not } from 'typeorm';
 import { Chat } from './chat.entity';
 import { ChatDTO } from './chat.dto';
-import { Order } from 'src/order/order.entity';
 
 @Injectable()
 export class ChatService {
     constructor(
-        @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>,
-        @InjectRepository(Order) private readonly orderRepository : Repository<Order>
+        @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>
     ){}
 
     async showAllChat(){
@@ -19,28 +17,39 @@ export class ChatService {
 
     async customerChatRoom(username:string){
         const customer = JSON.parse(JSON.stringify(username)).username
-        const chatRooms = await this.orderRepository.find({
-            relations : ["store","chats"],
+        const chatRooms = await this.chatRepository.find({
             where:{
-                customerUsername:customer,
-                orderStatus:Not(7)
-            }
+                customerUsername:customer
+            },
+            relations:['store','customer']
         })
         return chatRooms
     }
 
     async storeChatRoom(storeId:string){
         const store = JSON.parse(JSON.stringify(storeId)).storeId
-        const chatRooms =  await this.orderRepository
-        .createQueryBuilder('order')
-        .where(`"order"."storeId"::text = :id`,{id:store})
-        .andWhere(`order.orderStatus != 7`)
-        .getMany()
-        return chatRooms
+        const subquery = await this.chatRepository
+        .createQueryBuilder('chat')
+        .select('chat.customerUsername')
+        .addSelect('max(chat.time)')
+        .addGroupBy('chat.customerUsername')
+        .where(`chat.store = '${store}'`)
+        .getQuery()
+        const message = await this.chatRepository
+        .createQueryBuilder('chat')
+        .innerJoin(`(${subquery})`,'subtable',`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
+        .where(`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
+        .where(`"chat"."time" = "subtable"."max"`)
+        .getRawMany()
+        return message
     }
-
+    
     async showByRoom(data:Partial<ChatDTO>){
-        const chat = await this.chatRepository.find({where:{order:data.order}})
+        Logger.log('')
+        const chat = await this.chatRepository.find({where:{
+            customerUsername:data.customer,
+            store:data.store
+        }})
         return chat
     }
     

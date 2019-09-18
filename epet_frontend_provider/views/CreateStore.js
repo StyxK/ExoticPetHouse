@@ -85,7 +85,7 @@ class CreateStore extends Component {
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 2 }}>
             <Icon
-              name="arrow-back"
+              name="ios-arrow-back"
               style={{ marginLeft: 10, color: "white" }}
               onPress={() => {
                 goToProfile();
@@ -163,7 +163,7 @@ const storeForm = (props, state, setModalVisible, setLocation) => {
   return (
     <Content>
       <Form>
-        <ListItem style={{ backgroundColor: "#7A5032" }} itemDivider>
+        <ListItem style={{ backgroundColor: '#A78B45' }} itemDivider>
           <Text style={{ color: "white" }}>ข้อมูลทั่วไปของร้าน</Text>
         </ListItem>
         <Field name="name" component={renderInput} label="ชื่อร้าน" />
@@ -182,7 +182,7 @@ const storeForm = (props, state, setModalVisible, setLocation) => {
           component={renderInput}
           label="จำนวนรับฝากสูงสุด"
         />
-        <ListItem style={{ backgroundColor: "#7A5032" }} itemDivider>
+        <ListItem style={{ backgroundColor: '#A78B45' }} itemDivider>
           <Text style={{ color: "white" }}>ตำแหน่งที่ตั้งของร้าน</Text>
         </ListItem>
         <Field name="street" component={renderInput} label="ถนน" />

@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
-import { Order } from 'src/order/order.entity';
+import { Customer } from 'src/customer/customer.entity';
+import { Store } from 'src/store/store.entity';
 
 @Entity()
 export class Chat {
@@ -16,7 +17,13 @@ export class Chat {
     @Column({type:"bigint",nullable:true})
     time: number
 
-    @ManyToOne(type=>Order,order=>order.chats)
-    order:Order
+    @ManyToOne(type=>Store,store=>store.chats)
+    store:Store
+
+    @ManyToOne(type=>Customer,customer=>customer.chats)
+    @JoinColumn({name:"customerUsername"})
+    customer:Customer
+    @Column()
+    customerUsername:string
 
 }

@@ -21,7 +21,7 @@ class ChatBox extends Component{
     }
     
     componentDidMount(){
-        this.props.getMessage(this.props.order)
+        this.props.getMessage(this.props.customer,this.props.storeId)
         this.setState({
             messageList: this.props.chat
         })
@@ -76,7 +76,7 @@ class ChatBox extends Component{
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='arrow-back' />
+                        <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
                     </Left>
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
