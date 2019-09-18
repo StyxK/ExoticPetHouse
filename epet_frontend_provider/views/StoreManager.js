@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Image} from 'react-native'
+import {Image,Alert} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import { Container, Text , Header , Left , Body , Right , Fab , Icon , Button, ListItem, List, Label, Content, View} from 'native-base'
 import axios from 'axios';
@@ -41,9 +41,12 @@ export default class StoreManager extends Component{
                         <Text style={{color:'black'}}> {data.name}</Text>
                         <Text> ราคาต่อวัน : {data.price}</Text>
                     </Body>
-                    <Right>
-                        <Button rounded onPress={ () => this.goToEditCage(data)}> 
-                                <Text style={{fontSize:10}}> จัดการ </Text> 
+                    <Right style={{flexDirection:'row',flex:1}}>
+                        <Button style={{flex:0.5,marginRight:10,backgroundColor:'red',justifyContent:'center'}} rounded onPress={ () => this.deleteCage(data)}> 
+                            <Label style={{fontSize:14,textAlign:'center',color:'white'}}> ลบ </Label> 
+                        </Button>
+                        <Button style={{flex:1,justifyContent:'center'}} rounded onPress={ () => this.goToEditCage(data)}> 
+                            <Label style={{fontSize:14,textAlign:'center',color:'white'}}> แก้ไขข้อมูล </Label> 
                         </Button>
                     </Right>
                 </ListItem>
@@ -95,6 +98,26 @@ export default class StoreManager extends Component{
                     </Content>
                 </View>
             </Container>
+        )
+    }
+
+    deleteCage = async (data) => {
+        Alert.alert(`ยืนยันการลบกรง`,`ต้องการลบ ${data.name} หรือไม่ ?`,
+            [
+                { text:'ยืนยัน',onPress: 
+                    ()=>{ 
+                        axios.delete('/cage/'+data.id)
+                        .then(alert(`ทำรายการเสร็จสิ้น`))
+                        .then(this.getCages())
+                        .catch(err=> {
+                            console.log(err)
+                            alert('ไม่สามารถทำรายการได้ กรุณาตรวจสอบว่ามีการรับฝากในกรงนี้อยู่หรือไม่ แล้วทำรายการอีกครั้ง')
+                        }) 
+                    } 
+                },
+                { text:'ยกเลิก',style:'cancel'}
+            ],
+            {cancelable:true}
         )
     }
 
