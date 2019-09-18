@@ -99,7 +99,7 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,this.props.order)
+        this.props.shopReply(this.state.message,this.props.customer,this.props.storeId)
     }
 
     goToChat = () => {

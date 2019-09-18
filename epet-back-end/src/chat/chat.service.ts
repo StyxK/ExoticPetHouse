@@ -31,8 +31,10 @@ export class ChatService {
         const subquery = await this.chatRepository
         .createQueryBuilder('chat')
         .select('chat.customerUsername')
+        .addSelect('chat.store')
         .addSelect('max(chat.time)')
         .addGroupBy('chat.customerUsername')
+        .addGroupBy('chat.store')
         .where(`chat.store = '${store}'`)
         .getQuery()
         const message = await this.chatRepository
@@ -40,6 +42,7 @@ export class ChatService {
         .innerJoin(`(${subquery})`,'subtable',`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
         .where(`"chat"."customerUsername" = "subtable"."chat_customerUsername"`)
         .where(`"chat"."time" = "subtable"."max"`)
+        .orderBy(`"chat"."time"`,'DESC')
         .getRawMany()
         return message
     }
@@ -54,6 +57,7 @@ export class ChatService {
     }
     
     async sendMessage(data:Partial<ChatDTO>){
+        Logger.log(data,'data')
         const chat = await this.chatRepository.create({...data})
         await this.chatRepository.save(chat)
         return chat
