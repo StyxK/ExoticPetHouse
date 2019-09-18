@@ -15,6 +15,18 @@ export default class Cage extends Component{
         }
     }
 
+    componentDidMount(){
+        if(this.props.cage){
+            const cage = this.props.cage
+            this.setState({
+                name:cage.name,
+                type:cage.type,
+                description:cage.description,
+                price:cage.price+''
+            })
+        }
+    }
+
     render(){
         const {name,type,description,price} = this.state
         return(
@@ -60,7 +72,7 @@ export default class Cage extends Component{
                             </Text>
                             <Item style={{flexDirection:'row-reverse'}} rounded>
                                 <Label style={{marginRight:5}}> บาท / วัน </Label> 
-                                <Input value={price} onChangeText={e=>this.setState({ price : e})} />
+                                <Input keyboardType='numeric' value={price} onChangeText={e=>this.setState({ price : e})} />
                             </Item>
                         </View>
                     </Form>
@@ -68,20 +80,43 @@ export default class Cage extends Component{
                 </Content>
                 <Footer>
                     <FooterTab style={{ backgroundColor: "none" }}>
-                    <Button
-                        style={{ backgroundColor: "green" }}
-                        full
-                        onPress={ ()=> this.handleSubmit() }
-                    >
-                        <Text> ลงทะเบียนร้านรับฝาก </Text>
-                    </Button>
+                    {
+                        this.props.cage ? 
+                            <Button
+                                style={{ backgroundColor: "green" }}
+                                full
+                                onPress={ ()=> this.handleSubmit_Edit() }
+                            >
+                                <Text> ยืนยันการแก้ไขข้อมูลกรง </Text>
+                            </Button>
+                            :
+                            <Button
+                                style={{ backgroundColor: "green" }}
+                                full
+                                onPress={ ()=> this.handleSubmit_Create() }
+                            >
+                                <Text> ยืนยันการเพิ่มกรง </Text>
+                            </Button>
+                    }
                     </FooterTab>
                 </Footer>
             </Container>
         )
     }
 
-    handleSubmit = async () =>{
+    handleSubmit_Edit = async () =>{
+        try{
+            await console.log(this.state,'state')
+            await axios.put('/cage/'+this.props.cage.id,this.state)
+            await alert('แก้ไขข้อมูลกรงสำเร็จ')
+            Actions.storeManager({store:this.props.store})
+        }catch(err){
+            await console.log(err)
+            await alert('กรุณาตรวจสอบข้อมูล แล้วทำรายการใหม่อีกครั้ง')
+        }
+    }
+
+    handleSubmit_Create = async () =>{
         try{
             await console.log(this.state,'state')
             await axios.post('/cage/'+this.props.store.id,this.state)

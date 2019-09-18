@@ -5,6 +5,14 @@ import { Container, Text , Header , Left , Body , Right , Fab , Icon , Button, L
 import axios from 'axios';
 
 export default class StoreManager extends Component{
+    
+    constructor(props){
+        super(props)
+        this.state = {
+            cages : [] ,
+            createActivate : false
+        }
+    }
 
     getCages = ()=>{
         axios.get('/store/'+this.props.store.id).then(
@@ -21,13 +29,6 @@ export default class StoreManager extends Component{
         this.getCages()
     }
 
-    constructor(props){
-        super(props)
-        this.state = {
-            cages : [] ,
-            createActivate : false
-        }
-    }
 
     render(){
         const { store } = this.props
@@ -38,12 +39,10 @@ export default class StoreManager extends Component{
                 <ListItem key={data.id}>
                     <Body>
                         <Text style={{color:'black'}}> {data.name}</Text>
-                        {/* <Text> ประเภทกรง : {data.type}</Text>
-                        <Text> รายละเอียดกรง : {data.description}</Text> */}
                         <Text> ราคาต่อวัน : {data.price}</Text>
                     </Body>
                     <Right>
-                        <Button rounded onPress={ () => goToProfile()}> 
+                        <Button rounded onPress={ () => this.goToEditCage(data)}> 
                                 <Text style={{fontSize:10}}> จัดการ </Text> 
                         </Button>
                     </Right>
@@ -92,12 +91,15 @@ export default class StoreManager extends Component{
                     <Content>
                         <List>
                             {cagesList}
-                            {/* {createCage} */}
                         </List>
                     </Content>
                 </View>
             </Container>
         )
+    }
+
+    goToEditCage = (data) => {
+        Actions.cage({store:this.props.store,cage:data})
     }
 
     goToCreateCage = ()=>{
