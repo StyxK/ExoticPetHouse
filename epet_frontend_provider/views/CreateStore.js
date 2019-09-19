@@ -20,7 +20,7 @@ import {
   Label
 } from "native-base";
 import { Dimensions, Modal } from "react-native";
-import { Field, reduxForm, change } from "redux-form";
+import { Field, reduxForm, change, destroy} from "redux-form";
 import { Actions } from "react-native-router-flux";
 import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
@@ -88,7 +88,7 @@ class CreateStore extends Component {
               name="ios-arrow-back"
               style={{ marginLeft: 10, color: "white" }}
               onPress={() => {
-                goToProfile();
+                this.goToProfile();
               }}
             />
           </Left>
@@ -106,6 +106,12 @@ class CreateStore extends Component {
       </Container>
     );
   }
+
+  goToProfile = () => {
+    this.props.dispatch(destroy('createStore'))
+    Actions.profile();
+  };
+
 }
 
 renderInput = ({ state ,input, label, type, meta: { touched, error, warning } }) => {
@@ -365,10 +371,6 @@ submit = value => {
     alert(response.data);
   });
   goToProfile();
-};
-
-goToProfile = () => {
-  Actions.profile();
 };
 
 export default reduxForm({
