@@ -16,10 +16,11 @@ import {
   FooterTab,
   Content,
   Footer,
-  Title
+  Title,
+  Label
 } from "native-base";
 import { Dimensions, Modal } from "react-native";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, change } from "redux-form";
 import { Actions } from "react-native-router-flux";
 import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
@@ -74,6 +75,8 @@ class CreateStore extends Component {
       initialPoint: initialPoint,
       startPoint: l
     });
+    this.props.dispatch(change('createStore','latitude',initialPoint.latitude+''))
+    this.props.dispatch(change('createStore','longitude',initialPoint.longitude+''))
   };
 
   render() {
@@ -105,15 +108,36 @@ class CreateStore extends Component {
   }
 }
 
-renderInput = ({ input, label, type, meta: { touched, error, warning } }) => {
+renderInput = ({ state ,input, label, type, meta: { touched, error, warning } }) => {
+  console.log(state,'state ja')
   switch (input.name) {
     case "phoneNumber":
     case "maxOfDeposit":
     case "postcode":
-    case "latitude":
-    case "longitude":
       return (
         <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
+          <Text style={{ marginHorizontal: 15, marginVertical: 2 }}>
+            {label}
+            <Text>{"     "}</Text>
+            {touched &&
+              (error ? (
+                <Text note style={{ color: "red" }}>
+                  {error}
+                </Text>
+              ) : (
+                <Text />
+                ))}
+          </Text>
+          <Item bordered rounded>
+            <Input keyboardType="number-pad" {...input} />
+          </Item>
+        </View>
+      );
+      case "latitude":
+      case "longitude":
+      return (
+        <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
+          { console.log(input,'what da heck is input') }
           <Text style={{ marginHorizontal: 15, marginVertical: 2 }}>
             {label}
             <Text>{"     "}</Text>
@@ -127,7 +151,7 @@ renderInput = ({ input, label, type, meta: { touched, error, warning } }) => {
               ))}
           </Text>
           <Item bordered rounded>
-            <Input keyboardType="number-pad" {...input} />
+            <Input keyboardType="number-pad" {...input} disabled/>
           </Item>
         </View>
       );
@@ -187,7 +211,7 @@ const storeForm = (props, state, setModalVisible, setLocation) => {
         <Field name="province" component={renderInput} label="จังหวัด" />
         <Field name="postcode" component={renderInput} label="รหัสไปรษณีย์" />
         <Field name="latitude" component={renderInput} label="ละติจูด" />
-        <Field name="longitude" component={renderInput} label="ลองจิจูด" />
+        <Field name="longitude" component={renderInput} label="ลองจิจูด"/>
       </Form>
       <View
         style={{
