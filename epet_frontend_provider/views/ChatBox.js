@@ -58,10 +58,11 @@ class ChatBox extends Component{
                             <View style={{marginRight:4,justifyContent:'flex-end'}}>
                                 <Text note style={{alignSelf:'flex-end',fontSize: 12.5}}>
                                 {
-                                    console.log(duration(parseInt(data.time),'seconds'),'duration')
-                                }
-                                {
-                                    7+duration(parseInt(data.time),'seconds').hours() + ':' + 
+                                    (
+                                        7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
+                                            '0'+(7+duration(parseInt(data.time),'seconds').hours() - 24) : 7+duration(parseInt(data.time),'seconds').hours() 
+                                    )
+                                    + ':' + 
                                     (
                                         duration(parseInt(data.time),'seconds').minutes() < 10 ?
                                             '0'+duration(parseInt(data.time),'seconds').minutes()
@@ -84,10 +85,11 @@ class ChatBox extends Component{
                             <View style={{marginRight:4,justifyContent:'flex-end'}}>
                                 <Text note style={{alignSelf:'flex-end',fontSize: 12.5}}>
                                 {
-                                    console.log(duration(parseInt(data.time),'seconds'),'duration')
-                                }
-                                {
-                                    7+duration(parseInt(data.time),'seconds').hours() + ':' + 
+                                    (
+                                        7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
+                                            '0'+(7+duration(parseInt(data.time),'seconds').hours() - 24) : 7+duration(parseInt(data.time),'seconds').hours() 
+                                    )
+                                    + ':' + 
                                     (
                                         duration(parseInt(data.time),'seconds').minutes() < 10 ?
                                             '0'+duration(parseInt(data.time),'seconds').minutes()

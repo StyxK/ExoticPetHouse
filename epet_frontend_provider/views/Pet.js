@@ -24,7 +24,8 @@ class Pet extends Component {
         try {
             let response = await axios.get('/pet/fromStore/' + this.props.store.storeId)
             let data = await response.data
-            let depositing, expired = []
+            let depositing = []
+            let expired = []
             await data.map(data => {
                 moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ?
                     depositing.push(data)
@@ -36,7 +37,6 @@ class Pet extends Component {
                 depositingPet: depositing,
                 expiredPet: expired
             })
-            await console.log(data,'pet')
         } catch (err) {
             alert(this.props.store.storeId)
         }
@@ -56,10 +56,10 @@ class Pet extends Component {
 
     petCard = (petList) => {
         let list = []
-        petList !== undefined ?
+        petList.length !== 0 ?
             petList.map(data => {
                 list.push(
-                    <List key={data.id} style={{backgroundColor:'#A78B45',borderColor:'#7A5032',marginBottom:10,borderWidth:2,borderRadius:10,marginLeft:10,marginRight:10}}>
+                    <List key={data.id} style={{backgroundColor:'#A78B45',borderColor:'#7A5032',marginTop:5,marginBottom:5,borderWidth:2,borderRadius:10,marginLeft:10,marginRight:10}}>
                         <ListItem onPress={()=>{goToPetActivities(data,this.props.store.storeId)}}>
                             <Left style={{flex:1}}>
                                 {data.image ? 
@@ -71,7 +71,7 @@ class Pet extends Component {
                             <Body style={{flex:2}}>
                                 <Text note style={{color:'#84f542'}}> ชื่อ :  <Text note style={{ color: 'white' }}> {data.name} </Text> </Text>
                                 <Text note style={{color:'#84f542'}}> ประเภท :  <Text note style={{ color: 'white' }}> {data.typeOfPet} </Text> </Text>
-                                <Text note style={{color:'#84f542'}}> กรง :  <Text note style={{ color: 'white' }}> {'cage'} </Text> </Text>
+                                <Text note style={{color:'#84f542'}}> กรง :  <Text note style={{ color: 'white' }}> {data.orderLines[0].cage.name} </Text> </Text>
                                 {
                                     moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ?
                                         <Text note style={{color:'#84f542'}}> สถานะ : <Text note style={{ color: 'white' }}> กำลังฝาก </Text></Text>
@@ -85,9 +85,9 @@ class Pet extends Component {
             })
             :
             list.push(
-                <View key={list.values} style={{alignItems:'center',alignContent:'center'}}>
+                <View key={list.values} style={{alignItems:'center',alignContent:'center',marginTop:50}}>
                         <Text key={"null"}> 
-                            ไม่มีสัตว์เลี้ยงที่อยู่ในระยะเวลาการฝากขณะนี้ 
+                            ไม่มีสัตว์เลี้ยงที่อยู่ในการฝากขณะนี้
                         </Text>
                 </View>
             )
@@ -98,6 +98,8 @@ class Pet extends Component {
         const { depositingPet, expiredPet, selectedIndex } = this.state
         return (
             <Container>
+                {console.log(depositingPet,'ฝาก')}
+                {console.log(expiredPet,'ไม่ฝาก')}
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 2 }} />
                     <Body style={{ flex: 2.5 }}>
@@ -105,15 +107,17 @@ class Pet extends Component {
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <View style={{ margin: 10 }}>
-                    <SegmentedControlTab
-                        tabStyle={{borderColor:'#7A5032'}}
-                        tabTextStyle={{color:'#7A5032'}}
-                        activeTabStyle={{backgroundColor:'#7A5032'}}
-                        values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
-                        selectedIndex={selectedIndex}
-                        onTabPress={this.handleIndexChange}
-                    />
+                <View style={{backgroundColor:'#7A5032'}}>
+                    <View style={{ marginHorizontal: 10 ,marginBottom: 10 }}>
+                        <SegmentedControlTab
+                            tabStyle={{borderColor:'#A78B45'}}
+                            tabTextStyle={{color:'#A78B45'}}
+                            activeTabStyle={{backgroundColor:'#A78B45'}}
+                            values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
+                            selectedIndex={selectedIndex}
+                            onTabPress={this.handleIndexChange}
+                        />
+                    </View>
                 </View>
                 <Content>
                     {

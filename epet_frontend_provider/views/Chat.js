@@ -54,10 +54,11 @@ class Chat extends Component{
                             <Right style={{flex:1}}>
                                 <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
                                 {
-                                    console.log(duration(parseInt(data.chat_time),'seconds'),'duration')
-                                }
-                                {
-                                    7+duration(parseInt(data.chat_time),'seconds').hours() + ':' + 
+                                    (
+                                        7+duration(parseInt(data.chat_time),'seconds').hours() > 24 ? 
+                                            '0'+(7+duration(parseInt(data.chat_time),'seconds').hours() - 24) : 7+duration(parseInt(data.chat_time),'seconds').hours() 
+                                    )
+                                    + ':' + 
                                     (
                                         duration(parseInt(data.chat_time),'seconds').minutes() < 10 ?
                                             '0'+duration(parseInt(data.chat_time),'seconds').minutes()
