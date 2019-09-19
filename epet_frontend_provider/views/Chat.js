@@ -87,9 +87,18 @@ class Chat extends Component{
                         </Body>
                         <Right style={{ flex: 1 }} />
                     </Header>
-                    <List>
-                        {this.chatRooms()}
-                    </List>
+                    {
+                        this.state.chatList.length !== 0 ?
+                            <List>
+                                {this.chatRooms()}
+                            </List>
+                            :
+                            <View style={{alignItems:'center',alignContent:'center',marginTop:50}}>
+                                <Text> 
+                                    ไม่มีการพูดคุยกับลูกค้าในขณะนี้
+                                </Text>
+                            </View>
+                    }
                 </Content>
                 <NavFooter/>
             </Container>

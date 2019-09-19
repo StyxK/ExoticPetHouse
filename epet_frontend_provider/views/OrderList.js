@@ -402,7 +402,16 @@ class OrderList extends Component {
           <Right style={{ flex: 1 }} />
         </Header>
         <Content>
-          <List>{orderFlatList}</List>
+          {
+            this.state.orders.length !== 0 ? 
+              <List>{orderFlatList}</List> 
+              : 
+              <View style={{alignItems:'center',alignContent:'center',marginTop:50}}>
+                <Text> 
+                    ไม่มีสัตว์เลี้ยงที่อยู่ในการฝากขณะนี้
+                </Text>
+              </View>
+          }
         </Content>
         <Modal animationType="slide" visible={modalVisible} transparent={true}>
           <View style={styles.modalContainer}>
