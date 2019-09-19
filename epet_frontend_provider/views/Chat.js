@@ -4,9 +4,8 @@ import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, La
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import {connect} from 'react-redux'
-import NavFooter from '../components/NavFooter'
 import {duration} from 'moment-timezone'
-
+import NavFooter from '../components/NavFooter'
 
 class Chat extends Component{
 

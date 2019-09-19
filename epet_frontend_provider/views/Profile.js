@@ -1,15 +1,16 @@
 import React,{Component} from 'react'
-import { Text, Container ,Left ,Body , Right , Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content} from 'native-base'
+import { Text, Container ,Left ,Body , Right , Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label} from 'native-base'
 import {StyleSheet} from 'react-native'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
-import NavFooter from '../components/NavFooter';
-import config from '../websocketConfig.json'
+import {connect} from 'react-redux'
+import {setStore} from '../src/actions/StoreAction'
+import NavFooter from '../components/NavFooter'
 
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
 
-export default class Profile extends Component{
+class Profile extends Component{
     
     constructor(props){
         super(props)
@@ -50,20 +51,30 @@ export default class Profile extends Component{
     }
 
     render(){
-        const { ownerProfile , fabActivate , storeList} = this.state
+        const { ownerProfile,storeList } = this.state
         
         let storeFlatList = storeList.map(data => {
             return(
                 <ListItem key = {data.id}>
-                    <Body>
+                    <Body style={{flex:3}}>
                         <Text note onPress={()=>{alert(data.name)}}> ชื่อร้าน : <Text note style={{color:'black'}}> {data.name} </Text> </Text>
                         <Text note> เบอร์โทรศัพท์ : <Text note style={{color:'black'}}> {data.phoneNumber} </Text> </Text>
                         <Text note> คะแนนร้าน : <Text note style={{color:'black'}}> {data.rating} </Text> </Text>
                     </Body>
-                    <Right> 
-                        <Button rounded onPress={ () => goToStoreManager(data)}> 
-                            <Text style={{fontSize:10}}> จัดการ </Text> 
+                    <Right style={{flex:2,flexDirection:'row-reverse'}}>
+                        <Button style={{flex:1}} rounded onPress={ () => goToStoreManager(data)}> 
+                            <Label style={{fontSize:10,color:'white'}}> จัดการ </Label> 
                         </Button> 
+                    {
+                        data.id == this.props.store.storeId ?
+                            <Button style={{flex:2,marginRight:5}} disabled rounded> 
+                                <Label style={{fontSize:10,color:'white'}}> เลือกร้านนี้อยู่ </Label> 
+                            </Button> 
+                        :
+                            <Button style={{flex:2,marginRight:5}} rounded onPress={ () => {this.props.setStore(data.id)}}> 
+                                <Label style={{fontSize:10,color:'white'}}> เลือกร้าน </Label> 
+                            </Button> 
+                    }
                     </Right>
                 </ListItem>
             )
@@ -133,3 +144,9 @@ const styles = StyleSheet.create({
       marginTop: 40
     }
   });
+
+  const mapStateToProps = (store) => {
+      return {...store}
+  }
+
+export default connect(mapStateToProps,{setStore})(Profile)

@@ -1,43 +1,56 @@
 import React, { Component } from 'react';
-import { Footer, FooterTab, Button, Icon, Text } from 'native-base';
+import { Footer, FooterTab, Button, Icon, Text, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux'
 
 export default class NavFooter extends Component {
+
+    constructor(props){
+        super(props)
+    }
+
     render() {
         return (
             <Footer>
                 <FooterTab style={{ backgroundColor: '#7A5032' }}>
-                    <Button Badge vertical onPress={this.goToStore}>
-                        <Icon name='home' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>หน้าร้าน</Text>
+                    <Button Badge vertical onPress={this.goToPet}>
+                        <Icon name='paw' style={{ color: 'white' }} />
+                        <Label style={{ fontSize: 7, color: 'white' }}>สัตว์เลี้ยงที่อยู่ในการฝาก</Label>
+                    </Button>
+                    <Button Badge vertical onPress={this.goToOrderList}>
+                        <Icon name='list' style={{ color: 'white' }} />
+                        <Label style={{ fontSize: 7, color: 'white' }}>รายการฝาก</Label>
                     </Button>
                     <Button Badge vertical onPress={this.goToChat}>
                         <Icon name='chatbubbles' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 7, color: 'white' }}>แชท</Text>
+                        <Label style={{ fontSize: 7, color: 'white' }}>แชท</Label>
                     </Button>
                     <Button Badge vertical onPress={this.goToProfile}>
                         <Icon name='person' style={{ color: 'white' }} />
-                        <Text style={{ fontSize: 8, color: 'white' }}>โปรไฟล์</Text>
+                        <Label style={{ fontSize: 8, color: 'white' }}>โปรไฟล์</Label>
                     </Button>
                 </FooterTab>
             </Footer>
         )
     }
 
-    goToHome = () => {
-        Actions.home()
+    goToPet = () => {
+        Actions.reset('pet')
+    }
+
+    goToOrderList = () => {
+        Actions.reset('orderList')
     }
 
     goToProfile = () => {
-        Actions.profile()
+        Actions.reset('profile')
     }
 
     goToStore = () => {
-        Actions.store()
+        Actions.reset('store')
     }
 
     goToChat = () => {
-        Actions.chat()
+        Actions.reset('chat')
     }
 
 }

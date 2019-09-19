@@ -5,8 +5,10 @@ import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment-timezone'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
+import {connect} from 'react-redux'
+import NavFooter from '../components/NavFooter'
 
-export default class Pet extends Component {
+class Pet extends Component {
 
     constructor(props) {
         super(props)
@@ -20,7 +22,7 @@ export default class Pet extends Component {
 
     getPetList = async () => {
         try {
-            let response = await axios.get('/pet/fromStore/' + this.state.storeId)
+            let response = await axios.get('/pet/fromStore/' + this.props.store.storeId)
             let data = await response.data
             let depositing, expired = []
             await data.map(data => {
@@ -36,7 +38,7 @@ export default class Pet extends Component {
             })
             await console.log(data,'pet')
         } catch (err) {
-            alert(this.state.storeId)
+            alert(this.props.store.storeId)
         }
     }
 
@@ -58,7 +60,7 @@ export default class Pet extends Component {
             petList.map(data => {
                 list.push(
                     <List key={data.id} style={{backgroundColor:'#A78B45',borderColor:'#7A5032',marginBottom:10,borderWidth:2,borderRadius:10,marginLeft:10,marginRight:10}}>
-                        <ListItem onPress={()=>{goToPetActivities(data,this.state.storeId)}}>
+                        <ListItem onPress={()=>{goToPetActivities(data,this.props.store.storeId)}}>
                             <Left style={{flex:1}}>
                                 {data.image ? 
                                     <Image style={{width:100,height:100}} source={data.image}/> 
@@ -97,9 +99,7 @@ export default class Pet extends Component {
         return (
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { this.goToStore() }} name='ios-arrow-back' />
-                    </Left>
+                    <Left style={{ flex: 2 }} />
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
                     </Body>
@@ -123,6 +123,7 @@ export default class Pet extends Component {
                             this.petCard(expiredPet)
                     }
                 </Content>
+                <NavFooter/>
             </Container>
         )
     }
@@ -134,5 +135,11 @@ export default class Pet extends Component {
     goToStore = () => {
         Actions.store()
     }
-    
+ 
 }
+
+const mapStateToProps = (store) => {
+    return {...store}
+}
+
+export default connect(mapStateToProps)(Pet)

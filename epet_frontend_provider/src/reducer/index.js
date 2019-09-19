@@ -7,7 +7,7 @@ const reducers = {
   form: formReducer,
   user: userReducer,
   chat: ChatReducer,
-  store: storeReducer
+  store: storeReducer,
 }
 const allReducers= combineReducers(reducers);
 export default allReducers;

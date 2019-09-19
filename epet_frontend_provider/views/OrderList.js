@@ -20,7 +20,7 @@ import { StyleSheet, View, Modal } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios";
 import moment from "moment-timezone";
-import { Actions } from "react-native-router-flux";
+import NavFooter from '../components/NavFooter'
 
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -272,7 +272,7 @@ class OrderList extends Component {
   };
 
   refreshOrder = () => {
-    axios.get("/order/store/"+this.props.storeId).then(response => {
+    axios.get("/order/store/"+this.props.store.storeId).then(response => {
       const newState = update(this.state, {
         orders: { $set: response.data }
       });
@@ -395,9 +395,7 @@ class OrderList extends Component {
     return (
       <Container>
         <Header style={{ backgroundColor: "#7A5032" }}>
-          <Left style={{ flex: 1 }} >
-            <Icon style={{color:'white'}} onPress={()=>{ goToStore() }} name='arrow-back'/>
-          </Left>
+          <Left style={{ flex: 1 }} />
           <Body style={{ flex: 2.5 }}>
             <Text style={{ color: "white" }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
           </Body>
@@ -437,28 +435,18 @@ class OrderList extends Component {
             </Container>
           </View>
         </Modal>
+        <NavFooter/>
       </Container>
     );
   }
 }
 
-goToStore = () =>{
-  Actions.store()
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    login: () => dispatch({ type: "LOGIN", payload: "developer" }),
-    logout: () => dispatch({ type: "LOGOUT", payload: "annonymous" })
-  };
-};
-
 const mapStateToProps = state => {
   return state;
 };
+
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(OrderList);
 
 const styles = StyleSheet.create({
