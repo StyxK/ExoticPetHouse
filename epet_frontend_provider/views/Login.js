@@ -1,9 +1,35 @@
 import React,{Component} from 'react'
 import { ImageBackground, Image } from 'react-native'
-import { Container, Content, Form, Input, Item, Label, View, Icon, Left, Body, Button } from 'native-base'
+import { Input, Item, Label, View, Icon, Left, Body, Button } from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import {connect} from 'react-redux'
+import axios from 'axios'
+import { login } from '../src/actions/UserActions';
+
 class Login extends Component{
+
+    constructor(props){
+        super(props)
+        this.state = {
+            userName : undefined,
+            password : undefined
+        }
+    }
+
+    logIn = async ()=>{
+        try{
+            const user = await axios.post('/storeowner/login',{
+                userName:this.state.userName,
+                password: this.state.password
+            })
+            await console.log(user.data.token,'จาก user')
+            await this.props.login(user.data.token)
+            await Actions.profile()
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     render(){
         return(
             <ImageBackground
@@ -18,16 +44,18 @@ class Login extends Component{
                         <Left style={{borderRightWidth:3,flex:1,alignItems:'center',borderColor:'white'}}>
                             <Icon name='person' style={{color:'white'}}/>
                         </Left>
-                        <Input style={{flex:5,marginLeft:20,color:'white'}} placeholder='ชื่อผู้ใช้' placeholderTextColor='white'/>
+                        <Input style={{flex:5,marginLeft:20,color:'white'}} placeholder='ชื่อผู้ใช้' placeholderTextColor='white' onChangeText={e=>this.setState({userName:e})}/>
                     </Item>
                     <Item rounded style={{marginTop:10,marginRight:30,marginLeft:30,backgroundColor: "rgba(192,192,192, .4)"}}>
                         <Left style={{borderRightWidth:3,alignItems:'center',borderColor:'white'}}>
                             <Icon name='key' style={{color:'white'}}/>
                         </Left>
-                        <Input style={{flex:5,marginLeft:20,color:'white'}} placeholder='รหัสผ่าน' placeholderTextColor='white'/>
+                        <Input style={{flex:5,marginLeft:20,color:'white'}} placeholder='รหัสผ่าน' placeholderTextColor='white' onChangeText={e=>this.setState({password:e})}/>
                     </Item>
                     <View style={{flexDirection:'row',flex:1,justifyContent:'center',marginTop:10}}>
-                        <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: "#7A5032"}}>
+                        <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: "#7A5032"}}
+                            onPress={ ()=> this.logIn()  }
+                        >
                             <Label style={{color:'white'}}>
                                 ลงชื่อเข้าใช้
                             </Label>
@@ -43,4 +71,4 @@ const mapStateToProps = state => {
     return {...state}
 }
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps,{login})(Login)

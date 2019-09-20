@@ -20,7 +20,7 @@ class Profile extends Component{
             fabActivate : false
         }
     }
-
+    
     getProfile = () => {
         axios.get('/storeowner/Me').then(
             response => {
@@ -29,23 +29,25 @@ class Profile extends Component{
                     {
                         ownerProfile : data
                     }
+                    )
+                }
                 )
             }
-        )
-    }
-
-    getStoreList = ()=>{
-        axios.get('/store/list/owner').then(
-            response =>{
-                data = response.data
-                this.setState({
-                    storeList : data
-                })
-            }
-        )
-    }
-
+            
+            getStoreList = ()=>{
+                axios.get('/store/list/owner').then(
+                    response =>{
+                        data = response.data
+                        this.setState({
+                            storeList : data
+                        })
+                    }
+                    )
+                }
+                
     componentWillMount(){
+        console.log(this.props.user.token,'token')
+        axios.defaults.headers.common['Authorization'] = this.props.user.token;
         this.getProfile()
         this.getStoreList()
     }
