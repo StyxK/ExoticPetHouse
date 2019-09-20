@@ -12,7 +12,8 @@ class Login extends Component{
         super(props)
         this.state = {
             userName : undefined,
-            password : undefined
+            password : undefined,
+            error: undefined
         }
     }
 
@@ -26,6 +27,9 @@ class Login extends Component{
             await this.props.login(user.data.token)
             await Actions.profile()
         }catch(error){
+            this.setState({
+                error:'ชื่อผู้ใช้ / รหัสผ่าน ของท่านไม่ถูกต้อง'
+            })
             console.log(error)
         }
     }
@@ -60,6 +64,11 @@ class Login extends Component{
                                 ลงชื่อเข้าใช้
                             </Label>
                         </Button>
+                    </View>
+                    <View style={{flexDirection:'row',flex:2.5,justifyContent:'center'}}>
+                        <Label style={{color:'red'}}>
+                            {this.state.error}
+                        </Label>
                     </View>
                 </View>
             </ImageBackground>

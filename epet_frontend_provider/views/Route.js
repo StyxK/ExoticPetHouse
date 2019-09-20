@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View , Text } from 'react-native';
-import { Router, Scene, Actions} from 'react-native-router-flux';
+import { StyleSheet, View , AsyncStorage } from 'react-native';
+import { Router, Scene } from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
 import StoreManager from './StoreManager';
@@ -21,6 +21,24 @@ export default class Route extends Component {
         this.state = {
             visible:true,
             page:'pet'
+        }
+    }
+
+    componentDidMount(){
+        this._retrieveData()
+    }
+
+    _retrieveData = async ()=> {
+        try {
+            const value = await AsyncStorage.getItem('persist:root');
+            if(value !== null){
+                console.log(value,'value')
+                console.log(
+                    JSON.parse(JSON.parse(value).user).token
+                ,'user')
+            }
+        }catch(error){
+            console.log(error,'error')
         }
     }
 

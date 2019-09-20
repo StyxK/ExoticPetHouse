@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View , Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {Provider} from 'react-redux';
-import {createStore , applyMiddleware} from 'redux';
-import thunk from 'redux-thunk'
-import allReducers from '../src/reducer';
-import {userReply} from '../src/actions/ChatActions'
-import logger from 'redux-logger'
+import { PersistGate } from 'redux-persist/integration/react'
+import { store,persistor } from '../src/configStore'
 import Route from './Route'
-const store = createStore(allReducers,applyMiddleware(thunk,logger))
+import { userReply } from '../src/actions/ChatActions'
 
 export default class Main extends Component {
 
@@ -25,9 +22,11 @@ export default class Main extends Component {
     render() {
         return (
             <Provider store={store}>
-                <View style={styles.container}>
-                    <Route/>
-                </View>
+                <PersistGate loading={null} persistor={persistor}>
+                    <View style={styles.container}>
+                        <Route/>
+                    </View>
+                </PersistGate>
             </Provider>
         )
     }
