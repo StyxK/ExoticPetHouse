@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import moment from "moment-timezone";
 import NavFooter from '../components/NavFooter'
+import { Actions } from "react-native-router-flux";
 
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -327,18 +328,33 @@ class OrderList extends Component {
                 style={{ alignSelf: "center" }}
                 source={{ uri: PIC_URI }}
               />
-              <Button
-                rounded
-                style={{
-                  backgroundColor: "#7A5032",
-                  alignSelf: "center",
-                  height: 30,
-                  marginTop: 10
-                }}
-                onPress={() => this.showOrderDetail(data)}
-              >
-                <Icon fontSize="15" name="search" />
-              </Button>
+              <View style={{flexDirection:"row"}}>
+                <Button
+                  rounded
+                  style={{
+                    backgroundColor: "#7A5032",
+                    alignSelf: "center",
+                    height: 30,
+                    marginTop: 10,
+                    marginRight: 10
+                  }}
+                  onPress={() => this.showOrderDetail(data)}
+                >
+                  <Icon fontSize="15" name="search" />
+                </Button>
+                <Button
+                  rounded
+                  style={{
+                    backgroundColor: "#7A5032",
+                    alignSelf: "center",
+                    height: 30,
+                    marginTop: 10
+                  }}
+                  onPress={()=>{Actions.chatbox({customer:data.customerUsername})}}
+                >
+                  <Icon fontSize="15" name="ios-chatbubbles" />
+                </Button>
+              </View>
             </View>
           </Right>
         </ListItem>

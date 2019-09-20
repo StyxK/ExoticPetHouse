@@ -12,6 +12,7 @@ import PetPost from './PetPost';
 import Chat from './Chat';
 import ChatBox from './ChatBox'
 import Cage from './Cage';
+import Login from './Login';
 
 export default class Route extends Component {
 
@@ -29,7 +30,8 @@ export default class Route extends Component {
                 {console.log(this.state.visible,'visible')}
                 <Router>
                     <Scene key="root" hideNavBar={true}>
-                        <Scene type='replace' key="pet" component={Pet} title="Pet" initial={true}/>
+                        <Scene key="login" component={Login} title="login" initial={true}/>
+                        <Scene type='replace' key="pet" component={Pet} title="Pet"/>
                         <Scene key="orderList" component={OrderList} title="orderList"/>
                         <Scene key="profile" component={Profile} title="Profile"/>
                         <Scene key="storeManager" component={StoreManager} title="StoreManager"/>

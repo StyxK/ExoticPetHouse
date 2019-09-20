@@ -1,7 +1,8 @@
-import {PrimaryColumn, Column, BeforeInsert} from "typeorm";
+import {PrimaryColumn, Column, BeforeInsert, BeforeUpdate} from "typeorm";
 import * as bcrypt from 'bcryptjs'
 import * as jwt from 'jsonwebtoken'
 import { UserRO } from "./user.dto";
+import { Logger } from "@nestjs/common";
 
 export abstract class User {
 
@@ -23,6 +24,7 @@ export abstract class User {
     @BeforeInsert()
     async hasPassword(){
         this.password = await bcrypt.hash(this.password,10)
+        await Logger.log(this.password,'password')
     }
 
     toResponObject(showToken:boolean = true):UserRO{

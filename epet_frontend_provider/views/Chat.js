@@ -33,7 +33,7 @@ class Chat extends Component{
         let list = []
         this.state.chatList.map( data => {
             list.push(
-                <ListItem key={data.chat_id} onPress={() => this.goToChatBox(data.chat_customerUsername,data.chat_storeId)}>
+                <ListItem key={data.chat_id} onPress={() => this.goToChatBox(data.chat_customerUsername)}>
                     <Left style={{ flex : 0.5}}>
                         <Icon name="person"/>
                     </Left>
@@ -104,8 +104,8 @@ class Chat extends Component{
             </Container>
         )
     }
-    goToChatBox = (customer,store) => {
-        Actions.chatbox({customer:customer,storeId:store})
+    goToChatBox = (customer) => {
+        Actions.chatbox({customer:customer})
     }
 
 }

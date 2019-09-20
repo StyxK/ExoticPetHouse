@@ -22,7 +22,7 @@ class ChatBox extends Component{
     }
     
     componentDidMount(){
-        this.props.getMessage(this.props.customer,this.props.storeId)
+        this.props.getMessage(this.props.customer,this.props.store.storeId)
         this.setState({
             messageList: this.props.chat
         })
@@ -134,12 +134,12 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,this.props.customer,this.props.storeId)
+        this.props.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
     }
 
     goToChat = () => {
         this.props.refreshChat()
-        Actions.chat()
+        Actions.pop()
     }
 
 }
