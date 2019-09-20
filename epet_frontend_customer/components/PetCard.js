@@ -12,6 +12,8 @@ import {
   Right,
   Button
 } from "native-base";
+const PIC_URI =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfiuC5vvlmbrzuvAPJ1c6DHsmVnNeNvN8-791Tr5SpxS7Io3LLOg";
 
 export default class PetCard extends Component {
   render() {
@@ -23,12 +25,12 @@ export default class PetCard extends Component {
             <Left>
               <Thumbnail
                 source={{
-                  uri: pet.image
+                  uri: pet.image||PIC_URI
                 }}
               />
-              <Body>
+              <Body style={{marginLeft: 15,width: "100%"}}>
                 <Text>{pet.name}</Text>
-                <Text note>{pet.typeOfPet}</Text>
+                <Text style={{width: "100%"}} note>{pet.typeOfPet}</Text>
               </Body>
             </Left>
             <Right>
