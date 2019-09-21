@@ -1,7 +1,8 @@
 import io from 'socket.io-client'
 import axios from 'axios';
 import moment from 'moment-timezone'
-const socket = io.connect('http://10.0.3.2:4001').emit('shop')
+import Config from 'react-native-config'
+const socket = io.connect(Config.SOCKET_URL).emit('shop')
 
 
 export const shopReply = (message,customer,store) => async dispatch => {
