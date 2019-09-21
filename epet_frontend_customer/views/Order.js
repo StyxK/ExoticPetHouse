@@ -17,7 +17,7 @@ import {
   DatePicker
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -79,6 +79,33 @@ class Order extends Component {
     return petArray.name + "";
   };
 
+  removeOrderline = petId =>{
+    let confirm = 0;
+    Alert.alert(
+      "ลบรายการ",
+      "คุณแน่ใจว่าต้องการลบหรือไม่",
+      [
+        {
+          text: "Cancel",
+          onPress:()=> {},
+          style: 'cancel',
+        },
+        {text: "OK", onPress:()=> remove()},
+      ],
+      {cancelable: false},
+    );
+
+    remove=()=>{
+      let orderLine = this.props.orderLine;
+      for( let i = 0; i < orderLine.length; i++){ 
+        if ( orderLine[i].pet == petId) {
+          orderLine.splice(i, 1); 
+        }
+      }
+      this.props.orderLine = orderLine;
+      Actions.refresh({});
+    }
+  }
   componentWillMount() {
     //this.setStoreDataToOrder();
   }
@@ -135,7 +162,9 @@ class Order extends Component {
             <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
-          <Right />
+          <Right>
+            <Icon type="FontAwesome" name="trash-o" onPress={()=>{this.removeOrderline(data.pet)}}/>
+          </Right>
         </ListItem>
       );
     });
@@ -162,9 +191,6 @@ class Order extends Component {
           </Header>
           <Content>
             <Card style={{ flex: 0 }}>
-              <CardItem header>
-                <Text style={{ fontSize: 20 }}> รหัส order </Text>
-              </CardItem>
               <CardItem>
                 <Text>
                   {" "}
