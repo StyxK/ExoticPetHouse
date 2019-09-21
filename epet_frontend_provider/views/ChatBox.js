@@ -138,8 +138,8 @@ class ChatBox extends Component{
     }
 
     goToChat = () => {
-        this.props.refreshChat()
         Actions.pop()
+        this.props.refreshChat()
     }
 
 }

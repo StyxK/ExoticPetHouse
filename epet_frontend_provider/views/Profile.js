@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { setStore,resetStore } from '../src/actions/StoreAction'
 import { logout } from '../src/actions/UserActions'
 import NavFooter from '../components/NavFooter'
+import { persistor } from '../src/configStore'
 
 const PIC_URI =
     "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -47,9 +48,9 @@ class Profile extends Component {
     }
 
     logout = async () => {
-        await this.props.logout()
+        await persistor.purge()
         await this.props.resetStore()
-        Actions.reset('login')
+        await Actions.reset('login')
     }
 
     componentWillMount() {

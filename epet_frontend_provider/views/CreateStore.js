@@ -45,7 +45,7 @@ class CreateStore extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
       lat = parseFloat(position.coords.latitude);
       long = parseFloat(position.coords.longitude);

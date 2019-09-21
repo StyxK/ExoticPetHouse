@@ -5,10 +5,11 @@ import { persistReducer,persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import rootReducer from './reducer'
 
-
 const persistConfig = {
     key : 'root',
-    storage
+    storage,
+    whitelist : ['user','store'],
+    blacklist : ['form','chat']
 }
 
 const persistedReducer = persistReducer(persistConfig,rootReducer)

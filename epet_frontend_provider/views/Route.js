@@ -24,28 +24,16 @@ class Route extends Component {
         }
     }
 
-    componentDidMount(){
-        this._retrieveData()
-    }
-
-    _retrieveData = async ()=> {
-        try {
-            const value = await AsyncStorage.getItem('persist:root');
-            if(value !== null){
-                console.log(value,'value')
-                console.log(
-                    JSON.parse(JSON.parse(value).user).token
-                ,'user')
-            }
-        }catch(error){
-            console.log(error,'error')
+    shouldComponentUpdate(nextProps){
+        if(this.props.user.token != nextProps.user.token){
+            return true
         }
+        return false
     }
 
     render() {
         return (
             <View style={styles.container}>
-                {console.log(this.props.user.token,'token')}
                 <Router>
                     <Scene key="root" hideNavBar={true}>
                         <Scene key="login" component={Login} title="login" initial={!this.state.loggedIn}/>
@@ -74,7 +62,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-    return {...state}
+    return {user:state.user}
 }
 
 export default connect(mapStateToProps)(Route)
