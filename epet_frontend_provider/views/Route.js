@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import { StyleSheet, View , AsyncStorage } from 'react-native';
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Actions } from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
 import StoreManager from './StoreManager';
@@ -13,14 +13,14 @@ import Chat from './Chat';
 import ChatBox from './ChatBox'
 import Cage from './Cage';
 import Login from './Login';
+import {connect} from 'react-redux'
 
-export default class Route extends Component {
+class Route extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            visible:true,
-            page:'pet'
+            loggedIn : this.props.user.token ? true : false
         }
     }
 
@@ -45,13 +45,13 @@ export default class Route extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {console.log(this.state.visible,'visible')}
+                {console.log(this.props.user.token,'token')}
                 <Router>
                     <Scene key="root" hideNavBar={true}>
-                        <Scene key="login" component={Login} title="login" initial={true}/>
-                        <Scene type='replace' key="pet" component={Pet} title="Pet"/>
+                        <Scene key="login" component={Login} title="login" initial={!this.state.loggedIn}/>
+                        <Scene key="pet" component={Pet} title="Pet"/>
                         <Scene key="orderList" component={OrderList} title="orderList"/>
-                        <Scene key="profile" component={Profile} title="Profile"/>
+                        <Scene key="profile" component={Profile} title="Profile" initial={this.state.loggedIn}/>
                         <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                         <Scene key="createStore" component={CreateStore} title="CreateStore"/>
                         <Scene key="petActivities" component={PetActivities} title="PetActivities"/>
@@ -72,3 +72,9 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
 })
+
+const mapStateToProps = state => {
+    return {...state}
+}
+
+export default connect(mapStateToProps)(Route)
