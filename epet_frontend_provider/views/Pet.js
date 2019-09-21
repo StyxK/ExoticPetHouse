@@ -101,8 +101,8 @@ class Pet extends Component {
                 {console.log(depositingPet,'ฝาก')}
                 {console.log(expiredPet,'ไม่ฝาก')}
                 <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} />
-                    <Body style={{ flex: 2.5 }}>
+                    <Left style={{ flex: 1 }} />
+                    <Body style={{ flex: 3 ,alignItems:'center'}}>
                         <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />

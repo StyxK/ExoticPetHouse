@@ -71,11 +71,11 @@ export default class PetActivities extends Component {
         return (
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} >
+                    <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { goToPets(storeId) }} name='ios-arrow-back' />
                     </Left>
-                    <Body style={{ flex: 2.5 }}>
-                        <Text style={{ color: "white" }}>สัตว์เลี้ยงจ้า</Text>
+                    <Body style={{ flex: 3 ,alignItems:'center'}}>
+                        <Text style={{ color: "white" }}>กิจกรรมระหว่างการฝาก</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
@@ -86,7 +86,7 @@ export default class PetActivities extends Component {
                     </View>
                     {this.activitiesCard()}
                 </Content>
-                <Fab onPress={()=>goToPetPost(pet,storeId)}>
+                <Fab onPress={()=>goToPetPost(pet,storeId)} style={{backgroundColor:'green'}}>
                     <Icon name='person'/>
                 </Fab>
             </Container>

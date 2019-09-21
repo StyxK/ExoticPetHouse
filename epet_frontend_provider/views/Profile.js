@@ -49,7 +49,6 @@ class Profile extends Component {
 
     logout = async () => {
         await persistor.purge()
-        await this.props.resetStore()
         await Actions.reset('login')
     }
 

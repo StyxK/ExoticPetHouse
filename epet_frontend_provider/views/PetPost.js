@@ -47,10 +47,10 @@ export default class PetPost extends Component {
         return (
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { goToPetActivities(this.props.pet,this.props.storeId) }} name='arrow-back' />
+                    <Left style={{ flex: 1 }} >
+                        <Icon style={{ color: 'white' }} onPress={() => { goToPetActivities(this.props.pet,this.props.storeId) }} name='ios-arrow-back' />
                     </Left>
-                    <Body style={{ flex: 3.5 }}>
+                    <Body style={{ flex: 3 ,alignItems:'center'}}>
                         <Text style={{ color: "white" }}>อัปเดตความเคลื่อนไหว</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
