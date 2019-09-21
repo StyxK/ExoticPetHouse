@@ -59,12 +59,11 @@ export default class AddPet extends Component {
     ImagePicker.launchImageLibrary(options, response => {
       if (response.uri) {
         //alert(JSON.stringify(response))
-      //alert(JSON.stringify('data:image/jpeg;base64,' + response.data))
-        this.setState({ image: 'data:image/jpeg;base64,' + response.data });
+        //alert(JSON.stringify('data:image/jpeg;base64,' + response.data))
+        this.setState({ image: "data:image/jpeg;base64," + response.data });
       }
     });
   };
-   
 
   render() {
     const {
@@ -201,26 +200,46 @@ export default class AddPet extends Component {
                 defaultValue={hateThing}
               />
             </Item>
-            <View>
+            <View style={{ display: "flex", justifyContent: "center" }}>
               {image && (
                 <Image
                   source={{ uri: image }}
-                  style={{ width: 300, height: 300 }}
+                  style={{
+                    width: 300,
+                    height: 300,
+                    borderColor: "#7A5032",
+                    borderWidth: 1,
+                    borderRadius: 5
+                  }}
                 />
               )}
-              <Button
-                style={{ backgroundColor: "#7A5032" }}
-                onPress={this.handleChoosePhoto}
-              >
-                <Text>Choose Photo</Text>
-              </Button>
             </View>
-            <Button
-              style={{ backgroundColor: "#7A5032" }}
-              onPress={this.submitForm}
-            >
-              <Text>{id ? "Edit" : "Add Pet"}</Text>
-            </Button>
+            <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
+              <Left>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                  onPress={this.handleChoosePhoto}
+                >
+                  <Text>Choose Photo</Text>
+                </Button>
+              </Left>
+              <Right>
+                <Button
+                  style={{
+                    backgroundColor: "#7A5032",
+                    flex: 1,
+                    borderRadius: 10
+                  }}
+                  onPress={this.submitForm}
+                >
+                  <Text>{id ? "Edit" : "Add Pet"}</Text>
+                </Button>
+              </Right>
+            </View>
           </Form>
         </Content>
       </Container>

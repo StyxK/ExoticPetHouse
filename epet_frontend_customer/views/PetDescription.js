@@ -24,6 +24,8 @@ import { connect } from "react-redux";
 import { addPet, setPets, removePet } from "../actions";
 
 const API_URL = Config.API_URL;
+const PIC_URI =
+  "https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67";
 
 export default class PetDescription extends Component {
   state = {};
@@ -50,79 +52,79 @@ export default class PetDescription extends Component {
         <Content>
           <Card style={{ flex: 0 }}>
             <CardItem header>
-              <Text style={{ fontSize: 25 }}> {pet.name} </Text>
+              <Text style={{ fontSize: 25 ,color: "#7A5032", fontWeight:"bold"}}> {pet.name} </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>ชื่อ</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.name}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.name}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>ประเภท</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.typeOfPet}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.typeOfPet}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>อายุ</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.age}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.age}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>เพศ</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>โรคประจำตัว</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.congenitalDisease || "-"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.congenitalDisease || "-"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>ยาที่แพ้</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.allergicDrugs || "-"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.allergicDrugs || "-"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>อาหารที่แพ้</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.allergicFoods || "-"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.allergicFoods || "-"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>สิ่งที่ชอบ</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.favThing || "-"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.favThing || "-"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
                 <Text>สิ่งที่ไม่ชอบ</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.hateThing || "-"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.hateThing || "-"}
+              </Text>
             </CardItem>
             <CardItem>
               <Left
@@ -133,18 +135,22 @@ export default class PetDescription extends Component {
                 }}
               >
                 <Text>สถานะของสัตว์เลี้ยง</Text>
-                <Text note style={{ color: "#7A5032" }}>
-                  {pet.wasDeposit ? "กำลังถูกฝากอยู๋" : "ยังไม่ถูกฝาก"}
-                </Text>
               </Left>
+              <Text note style={styles.container}>
+                {pet.wasDeposit ? "กำลังถูกฝากอยู๋" : "ยังไม่ถูกฝาก"}
+              </Text>
             </CardItem>
-            <CardItem>
-              <Left>
-                <Image
-                  source={{ uri: pet.image }}
-                  style={{ width: 300, height: 300 }}
-                />
-              </Left>
+            <CardItem style={{ display: "flex", justifyContent: "center" }}>
+              <Image
+                source={{ uri: pet.image||PIC_URI }}
+                style={{
+                  width: 300,
+                  height: 300,
+                  borderColor: "#7A5032",
+                  borderWidth: 1,
+                  borderRadius: 5
+                }}
+              />
             </CardItem>
           </Card>
 
@@ -202,7 +208,13 @@ export default class PetDescription extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column"
+    color: "#7A5032",
+    borderColor: "#7A5032",
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    width: "50%",
+    textAlign: "center",
+    fontWeight: "bold"
   }
 });
