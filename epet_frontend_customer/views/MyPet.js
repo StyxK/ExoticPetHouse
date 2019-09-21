@@ -47,7 +47,7 @@ class MyPet extends Component {
             ))}
           </Content>
 
-          <Fab position="bottomRight" onPress={this.goToAddPet}>
+          <Fab style={{ backgroundColor: "#7A5032" }} position="bottomRight" onPress={this.goToAddPet}>
             <Icon name="add"  />
           </Fab>
         </Container>
