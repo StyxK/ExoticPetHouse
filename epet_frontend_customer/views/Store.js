@@ -242,8 +242,10 @@ class Store extends Component {
                       <Text>ปิดรายการ</Text>
                     </Button>
                   </Header>
-                  <Content style={styles.modal}>
+                  <Content style={styles.modal} padder>
+                    
                     {selectPet}
+                    
                   </Content>
                 </Container>
               </View>
@@ -293,5 +295,6 @@ const styles = StyleSheet.create({
     opacity: 0.99,
     width: "85%",
     marginTop: 40,
+    marginLeft:35
   }
 });
