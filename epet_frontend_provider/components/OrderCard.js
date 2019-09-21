@@ -1,4 +1,4 @@
-import { Body, ListItem, Text, Icon, Right, View, Thumbnail, Button } from "native-base";
+import { Body, ListItem, Text, Icon, Right, View, Thumbnail, Button, Card, CardItem } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import moment from "moment-timezone";
@@ -23,47 +23,38 @@ class OrderCard extends Component {
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
     return (
-      <ListItem note>
-        <Body style={{ flex: 2 }}>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            เลขคำสั่งฝาก : <Text note> {id} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            ฝากวันที่ : <Text note> {startDate} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            ถึงวันที่ : <Text note> {endDate} </Text>
-          </Text>
-        </Body>
-        <Right
-            style={{
-              flex: 0.75,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              <Thumbnail
-                style={{ alignSelf: "center" }}
-                source={{ uri: PIC_URI }}
-              />
-              <View style={{flexDirection:"row"}}>
-                <Button
-                  rounded
-                  style={{
-                    backgroundColor: "#7A5032",
-                    alignSelf: "center",
-                    height: 30,
-                    marginTop: 10,
-                    marginRight: 10
-                  }}
-                  // onPress={() => this.showOrderDetail(data)}
-                >
-                  <Icon fontSize="15" name="search" />
-                </Button>
+      <Card style={{marginLeft:10,marginRight:10,borderRadius:5}}>
+        <CardItem button activeOpacity={0.8} style={{backgroundColor:'#A78B45',borderRadius:5}} onPress={() => this.orderDetail()}>
+          <Body style={{ flex: 2 ,justifyContent:'center'}}>
+            <Text numberOfLines={1} style={{ fontSize: 15,color:'white',fontWeight:"bold",width:250 }}>
+              {" "}
+              เลขคำสั่งฝาก : <Text style={{ fontSize: 15,color:'#66ff2e' }}> {id} </Text>
+            </Text>
+            <Text style={{ fontSize: 15,color:'white',fontWeight:"bold" }}>
+              {" "}
+              ผู้ฝาก : <Text style={{ fontSize: 15,color:'#66ff2e' }}> {item.customerUsername} </Text>
+            </Text>
+            <Text style={{ fontSize: 15,color:'white',fontWeight:"bold" }}>
+              {" "}
+              ฝากวันที่ : <Text style={{ fontSize: 15,color:'#66ff2e' }}> {startDate} </Text>
+            </Text>
+            <Text style={{ fontSize: 15,color:'white',fontWeight:"bold" }}>
+              {" "}
+              ถึงวันที่ : <Text style={{ fontSize: 15,color:'#66ff2e' }}> {endDate} </Text>
+            </Text>
+          </Body>
+          <Right
+              style={{
+                flex: 0.5,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Thumbnail
+                  style={{ alignSelf: "center" }}
+                  source={{ uri: PIC_URI }}
+                />
                 <Button
                   rounded
                   style={{
@@ -77,11 +68,16 @@ class OrderCard extends Component {
                   <Icon fontSize="15" name="ios-chatbubbles" />
                 </Button>
               </View>
-            </View>
-          </Right>
-      </ListItem>
+            </Right>
+        </CardItem>
+      </Card>
     );
   }
+
+  orderDetail = () => {
+    Actions.orderDetail({item:this.props.item})
+  }
+
 }
 
 const styles = StyleSheet.create({

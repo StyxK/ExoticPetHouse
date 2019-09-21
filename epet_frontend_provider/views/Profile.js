@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Container, Left, Body, Right, Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label } from 'native-base'
+import { Text, Container, Left, Body, Right, Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label, CardItem, Card } from 'native-base'
 import { StyleSheet } from 'react-native'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
@@ -49,11 +49,11 @@ class Profile extends Component {
 
     logout = async () => {
         await persistor.purge()
+        await this.props.resetStore()
         await Actions.reset('login')
     }
 
     componentWillMount() {
-        console.log(this.props.user.token, 'token')
         axios.defaults.headers.common['Authorization'] = this.props.user.token;
         this.getProfile()
         this.getStoreList()
@@ -64,37 +64,39 @@ class Profile extends Component {
 
         let storeFlatList = storeList.map(data => {
             return (
-                <ListItem key={data.id}>
-                    <Body style={{ flex: 3 }}>
-                        <Text note onPress={() => { alert(data.name) }}> ชื่อร้าน : <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
-                        <Text note> เบอร์โทรศัพท์ : <Text note style={{ color: 'black' }}> {data.phoneNumber} </Text> </Text>
-                        <Text note> คะแนนร้าน : <Text note style={{ color: 'black' }}> {data.rating} </Text> </Text>
-                    </Body>
-                    <Right style={{ flex: 2, flexDirection: 'row-reverse' }}>
-                        <Button style={{ flex: 1 }} rounded onPress={() => goToStoreManager(data)}>
-                            <Label style={{ fontSize: 10, color: 'white' }}> จัดการ </Label>
-                        </Button>
-                        {
-                            data.id == this.props.store.storeId ?
-                                <Button style={{ flex: 2, marginRight: 5 }} disabled rounded>
-                                    <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้านนี้อยู่ </Label>
-                                </Button>
-                                :
-                                <Button style={{ flex: 2, marginRight: 5 }} rounded onPress={() => { this.props.setStore(data.id) }}>
-                                    <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้าน </Label>
-                                </Button>
-                        }
-                    </Right>
-                </ListItem>
+                <Card key={data.id}>
+                    <CardItem>
+                        <Body style={{ flex: 3 }}>
+                            <Text note> ชื่อร้าน : <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
+                            <Text note> เบอร์โทรศัพท์ : <Text note style={{ color: 'black' }}> {data.phoneNumber} </Text> </Text>
+                            <Text note> คะแนนร้าน : <Text note style={{ color: 'black' }}> {data.rating} </Text> </Text>
+                        </Body>
+                        <Right style={{ flex: 2, flexDirection: 'row-reverse' }}>
+                            <Button style={{ flex: 1 }} rounded onPress={() => goToStoreManager(data)}>
+                                <Label style={{ fontSize: 10, color: 'white' }}> จัดการ </Label>
+                            </Button>
+                            {
+                                data.id == this.props.store.storeId ?
+                                    <Button style={{ flex: 2, marginRight: 5 }} disabled rounded>
+                                        <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้านนี้อยู่ </Label>
+                                    </Button>
+                                    :
+                                    <Button style={{ flex: 2, marginRight: 5 }} rounded onPress={() => { this.props.setStore(data.id) }}>
+                                        <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้าน </Label>
+                                    </Button>
+                            }
+                        </Right>
+                    </CardItem>
+                </Card>
             )
         })
 
         return (
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} />
-                    <Body style={{ flex: 2.5 }}>
-                        <Text style={{ color: "white" }}>ข้อมูลส่วนตัว</Text>
+                <Header style={{ backgroundColor: "#7A5032"}}>
+                    <Left style={{ flex: 1 }} />
+                    <Body style={{ flex: 3 , alignItems:'center' }}>
+                        <Text style={{ color: "white" }}>สวัสดี</Text>
                     </Body>
                     <Right style={{ flex: 1 }} >
                         <Icon name='exit' style={{color:'white'}} onPress={()=>this.logout()}/>
@@ -107,17 +109,17 @@ class Profile extends Component {
                         </Left>
                         <Body style={{ flex: 2 }}>
                             <Text>คุณ {ownerProfile.firstName} {ownerProfile.lastName}</Text>
+                            <Text/>
+                            <Text>ID : {ownerProfile.userName}</Text>
                         </Body>
                     </ListItem>
-                    <ListItem noBorder itemDivider >
-                        <Text> การจัดการร้านรับฝาก </Text>
-                        <Button small rounded onPress={() => { goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
-                    </ListItem>
                 </List>
+                <ListItem noBorder itemDivider style={{backgroundColor: "#7A5032"}}>
+                    <Text style={{color:'white'}}> การจัดการร้านรับฝาก </Text>
+                    <Button small rounded onPress={() => { goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
+                </ListItem>
                 <Content>
-                    <List>
-                        {storeFlatList}
-                    </List>
+                    {storeFlatList}
                 </Content>
                 <NavFooter />
             </Container>
@@ -132,29 +134,6 @@ goToStoreManager = (store) => {
 goToCreateStore = () => {
     Actions.createStore()
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column"
-    },
-    modalContainer: {
-        flex: 1,
-        flexDirection: "column-reverse",
-        justifyContent: "center",
-        alignItems: "center",
-        height: 500,
-        backgroundColor: "rgba(52, 52, 52, 0.8)"
-    },
-    modal: {
-        borderRadius: 10,
-        marginBottom: 65,
-        backgroundColor: "white",
-        opacity: 0.99,
-        width: "85%",
-        marginTop: 40
-    }
-});
 
 const mapStateToProps = (store) => {
     return { ...store }

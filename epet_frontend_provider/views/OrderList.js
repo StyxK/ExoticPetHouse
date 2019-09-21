@@ -53,11 +53,9 @@ class OrderList extends Component {
 
   refresh = () => {
     axios.get("/order/store/"+this.props.store.storeId).then(response => {
-      console.log(response.data,'order')
       this.setState({ history: response.data });
     });
     axios.get("/order/statuses").then(response => {
-      console.log(response.data,'status')
       this.setState({ statuses: response.data });
     });
   };
@@ -75,7 +73,7 @@ class OrderList extends Component {
         </Header>
         <View style={{flex:1}}>
           {statuses.length > 0 && (
-            <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+            <ScrollableTabView tabBarUnderlineStyle={{backgroundColor:"#7A5032"}} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
                   {this.getSegments()}
             </ScrollableTabView>
           )}
@@ -88,11 +86,10 @@ class OrderList extends Component {
   getSegments = () => {
     const { history, statuses } = this.state;
     const segments = statuses.map(status => (
-      <Content key={status.id} tabLabel={status.status}>
+      <Content key={status.id} tabLabel={status.status} style={{marginTop:5,marginBottom:5}}>
         {history
           .filter(item => item.orderStatus.id === status.id)
           .map(item => {
-            console.log(item,'what the heck is item ?')
             return (
               <OrderCard
                 key={item.id}

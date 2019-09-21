@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Image } from 'react-native' 
-import { Container, ListItem, Content, List, Body, Right, Text, Button, Icon, Header, Left, View } from 'native-base'
+import { Container, ListItem, Content, List, Body, Right, Text, Thumbnail, Header, Left, View, Root, Card, CardItem } from 'native-base'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment-timezone'
@@ -59,13 +59,14 @@ class Pet extends Component {
         petList.length !== 0 ?
             petList.map(data => {
                 list.push(
-                    <List key={data.id} style={{backgroundColor:'#A78B45',borderColor:'#7A5032',marginTop:5,marginBottom:5,borderWidth:2,borderRadius:10,marginLeft:10,marginRight:10}}>
-                        <ListItem onPress={()=>{goToPetActivities(data,this.props.store.storeId)}}>
+                    <Card key={data.id} style={{borderColor:'#7A5032',marginTop:5,marginBottom:5,borderWidth:2,marginLeft:10,marginRight:10,borderRadius:5}}>
+                        <CardItem button activeOpacity={0.8} style={{backgroundColor:'#A78B45',borderRadius:5}} onPress={()=>{goToPetActivities(data,this.props.store.storeId)}}>
                             <Left style={{flex:1}}>
+                                {console.log(data.image)}
                                 {data.image ? 
-                                    <Image style={{width:100,height:100}} source={data.image}/> 
+                                    <Thumbnail style={{width:80,height:80}} source={{uri:data.image}}/> 
                                     :
-                                    <Image style={{width:100,height:100}} source={require('../assets/no_image_available.jpeg')}/>
+                                    <Thumbnail style={{width:80,height:80}} source={require('../assets/no_image_available.jpeg')}/>
                                 }
                             </Left>
                             <Body style={{flex:2}}>
@@ -79,8 +80,8 @@ class Pet extends Component {
                                         <Text note style={{color:'#84f542'}}> สถานะ : <Text note style={{ color: 'white' }}> หมดระยะเวลาฝาก </Text></Text>
                                 }
                             </Body>
-                        </ListItem>
-                    </List>
+                        </CardItem>
+                    </Card>
                 )
             })
             :
@@ -98,8 +99,6 @@ class Pet extends Component {
         const { depositingPet, expiredPet, selectedIndex } = this.state
         return (
             <Container>
-                {console.log(depositingPet,'ฝาก')}
-                {console.log(expiredPet,'ไม่ฝาก')}
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 1 }} />
                     <Body style={{ flex: 3 ,alignItems:'center'}}>
