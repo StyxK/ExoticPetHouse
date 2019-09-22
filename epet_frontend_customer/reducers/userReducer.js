@@ -1,5 +1,5 @@
-const initialUser = {username:"tanapat"};
-
+const initialUser = {};
+import axios from "axios";
 export default (user = initialUser, action) => {
   switch (action.type) {
     case "user/set": {
