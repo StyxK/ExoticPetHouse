@@ -17,26 +17,29 @@ import { connect } from "react-redux";
 import Chat from "./Chat.js";
 import ChatBox from "./ChatBox.js";
 import Payment from "./Payment";
+import Login from "./Login";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
   componentWillMount() {
     const { setPets, user } = this.props;
-    axios.get("/pet").then(response => {
-      setPets(response.data);
-    });
   }
   render() {
     return (
       <View style={styles.container}>
         <Router>
           <Scene key="root" hideNavBar={true}>
-            <Scene key="home" component={Search} title="Home" initial={true} />
+            <Scene key="login" component={Login} title="login" initial={true} />
+            <Scene key="home" component={Search} title="Home" />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />
             <Scene key="profile" component={Profile} title="Profile" />
-            <Scene key="petActivity" component={PetActivity} title="PetActivity" />
+            <Scene
+              key="petActivity"
+              component={PetActivity}
+              title="PetActivity"
+            />
             <Scene
               key="historyDetail"
               component={HistoryDetail}
@@ -50,8 +53,8 @@ class Main extends Component {
             />
             <Scene key="order" component={Order} title="Order" />
             <Scene key="chat" component={Chat} title="Chat" />
-            <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
-            <Scene key="payment" component={Payment} title="Payment"/>
+            <Scene key="chatbox" component={ChatBox} title="ChatBox" />
+            <Scene key="payment" component={Payment} title="Payment" />
           </Scene>
         </Router>
       </View>
@@ -70,9 +73,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    setPets: pets => dispatch(setPets(pets))
-  };
+  return {};
 };
 
 export default connect(
