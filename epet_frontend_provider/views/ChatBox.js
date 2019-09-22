@@ -33,14 +33,13 @@ class ChatBox extends Component{
             await this.setState({
                 messageList : nextProps.chat
             })
-            await console.log("update")
             await this.scrollToBottom()
         }
     }   
 
     scrollToBottom = () => {
         this.chatView.current == null ? 
-        console.log('my content component is null'): this.chatView.current._root.scrollToEnd()
+        null: this.chatView.current._root.scrollToEnd()
     }
 
     messageDialog = () => {
@@ -110,11 +109,11 @@ class ChatBox extends Component{
         return (
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 2 }} >
+                    <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
                     </Left>
-                    <Body style={{ flex: 2.5 }}>
-                        <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
+                    <Body style={{ flex: 3 ,alignItems:'center'}}>
+                        <Text style={{ color: "white" }}> {this.props.customer} </Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>

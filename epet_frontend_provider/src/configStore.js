@@ -8,7 +8,6 @@ import rootReducer from './reducer'
 const persistConfig = {
     key : 'root',
     storage,
-    whitelist : ['user','store'],
     blacklist : ['form','chat']
 }
 

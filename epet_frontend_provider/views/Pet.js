@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Image } from 'react-native' 
-import { Container, ListItem, Content, List, Body, Right, Text, Thumbnail, Header, Left, View, Root, Card, CardItem } from 'native-base'
+import { Container, Content, Body, Right, Text, Thumbnail, Header, Left, View, Card, CardItem } from 'native-base'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux'
 import moment from 'moment-timezone'
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import {connect} from 'react-redux'
 import NavFooter from '../components/NavFooter'
+import {loading} from '../components/Loading'
 
 class Pet extends Component {
 
@@ -16,7 +16,8 @@ class Pet extends Component {
             storeId: props.storeId,
             selectedIndex: 0,
             depositingPet: [],
-            expiredPet: []
+            expiredPet: [],
+            load : true
         }
     }
 
@@ -37,13 +38,15 @@ class Pet extends Component {
                 depositingPet: depositing,
                 expiredPet: expired
             })
-        } catch (err) {
-            alert(this.props.store.storeId)
-        }
+        } catch (err) {}
     }
 
     componentDidMount() {
-        this.getPetList()
+        this.getPetList().then(
+            this.setState({
+                load : false
+            })
+        )
     }
 
     handleIndexChange = index => {
@@ -62,7 +65,6 @@ class Pet extends Component {
                     <Card key={data.id} style={{borderColor:'#7A5032',marginTop:5,marginBottom:5,borderWidth:2,marginLeft:10,marginRight:10,borderRadius:5}}>
                         <CardItem button activeOpacity={0.8} style={{backgroundColor:'#A78B45',borderRadius:5}} onPress={()=>{goToPetActivities(data,this.props.store.storeId)}}>
                             <Left style={{flex:1}}>
-                                {console.log(data.image)}
                                 {data.image ? 
                                     <Thumbnail style={{width:80,height:80}} source={{uri:data.image}}/> 
                                     :
@@ -96,38 +98,41 @@ class Pet extends Component {
     }
 
     render() {
-        const { depositingPet, expiredPet, selectedIndex } = this.state
+        const { depositingPet, expiredPet, selectedIndex,load } = this.state
         return (
-            <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
-                    <Left style={{ flex: 1 }} />
-                    <Body style={{ flex: 3 ,alignItems:'center'}}>
-                        <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
-                    </Body>
-                    <Right style={{ flex: 1 }} />
-                </Header>
-                <View style={{backgroundColor:'#7A5032'}}>
-                    <View style={{ marginHorizontal: 10 ,marginBottom: 10 }}>
-                        <SegmentedControlTab
-                            tabStyle={{borderColor:'#A78B45'}}
-                            tabTextStyle={{color:'#A78B45'}}
-                            activeTabStyle={{backgroundColor:'#A78B45'}}
-                            values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
-                            selectedIndex={selectedIndex}
-                            onTabPress={this.handleIndexChange}
-                        />
-                    </View>
-                </View>
-                <Content>
-                    {
-                        selectedIndex == 0 ?
-                            this.petCard(depositingPet)
-                            :
-                            this.petCard(expiredPet)
-                    }
-                </Content>
-                <NavFooter/>
-            </Container>
+                load ?
+                    loading()
+                :
+                    <Container>
+                        <Header style={{ backgroundColor: "#7A5032" }}>
+                            <Left style={{ flex: 1 }} />
+                            <Body style={{ flex: 3 ,alignItems:'center'}}>
+                                <Text style={{ color: "white" }}>รายการสัตว์เลี้ยง</Text>
+                            </Body>
+                            <Right style={{ flex: 1 }} />
+                        </Header>
+                        <View style={{backgroundColor:'#7A5032'}}>
+                            <View style={{ marginHorizontal: 10 ,marginBottom: 10 }}>
+                                <SegmentedControlTab
+                                    tabStyle={{borderColor:'#A78B45'}}
+                                    tabTextStyle={{color:'#A78B45'}}
+                                    activeTabStyle={{backgroundColor:'#A78B45'}}
+                                    values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
+                                    selectedIndex={selectedIndex}
+                                    onTabPress={this.handleIndexChange}
+                                />
+                            </View>
+                        </View>
+                        <Content>
+                            {
+                                selectedIndex == 0 ?
+                                    this.petCard(depositingPet)
+                                    :
+                                    this.petCard(expiredPet)
+                            }
+                        </Content>
+                        <NavFooter/>
+                    </Container>
         )
     }
 

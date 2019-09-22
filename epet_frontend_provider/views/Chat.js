@@ -6,25 +6,26 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import {duration} from 'moment-timezone'
 import NavFooter from '../components/NavFooter'
+import { loading } from '../components/Loading'
 
 class Chat extends Component{
 
     constructor(props){
         super(props)
         this.state = {
-            chatList : []
+            chatList : [],
+            load : true
         }
     }
 
     componentDidMount(){
         const store = this.props.store.storeId
-        console.log(store)
         axios.get('/chat/storeChatRoom/' + store).then(
             result => {
                 this.setState({
-                    chatList:result.data
+                    chatList:result.data,
+                    load:false
                 })
-                console.log(result.data,"chatList")
             }
         )
     }
@@ -98,6 +99,9 @@ class Chat extends Component{
                                     ไม่มีการพูดคุยกับลูกค้าในขณะนี้
                                 </Text>
                             </View>
+                    }
+                    {
+                        this.state.load ? loading() : null
                     }
                 </Content>
                 <NavFooter/>

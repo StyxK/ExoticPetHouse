@@ -61,7 +61,6 @@ export default class PetActivities extends Component {
     }
 
     componentDidMount() {
-        console.log('petactivity mounted !')
         this.getPetDetails()
         this.getActivities()
     }
@@ -72,7 +71,7 @@ export default class PetActivities extends Component {
             <Container>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 1 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { goToPets(storeId) }} name='ios-arrow-back' />
+                        <Icon style={{ color: 'white' }} onPress={() => { goToPets() }} name='ios-arrow-back' />
                     </Left>
                     <Body style={{ flex: 3 ,alignItems:'center'}}>
                         <Text style={{ color: "white" }}>กิจกรรมระหว่างการฝาก</Text>
@@ -94,8 +93,8 @@ export default class PetActivities extends Component {
     }
 }
 
-goToPets = (storeId) => {
-    Actions.pet({ storeId })
+goToPets = () => {
+    Actions.pop()
 }
 
 goToPetPost = (pet,storeId) => {

@@ -16,7 +16,6 @@ export default class OrderDetail extends Component{
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
             this.setState({ order: response.data });
-            console.log(response.data,'data from api')
         });
     }
 
@@ -53,7 +52,6 @@ export default class OrderDetail extends Component{
                             </Text>
                             <Text style={{ fontSize: 15 }}>
                             {" "}
-                            {console.log(store.name,'store')}
                             ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
                             </Text>
                             <Text style={{ fontSize: 15 }}>

@@ -23,14 +23,12 @@ class Login extends Component{
                 userName:this.state.userName,
                 password: this.state.password
             })
-            await console.log(user.data.token,'จาก user')
             await this.props.login(user.data.token)
             await Actions.profile()
         }catch(error){
             this.setState({
                 error:'ชื่อผู้ใช้ / รหัสผ่าน ของท่านไม่ถูกต้อง'
             })
-            console.log(error)
         }
     }
 

@@ -12,7 +12,6 @@ class OrderCard extends Component {
   render() {
     const { item } = this.props;
     const { id } = item;
-    console.log(item,'item in historyList')
     let startDate = moment(item.startDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");

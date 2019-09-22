@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store,persistor } from '../src/configStore'
 import Route from './Route'
 import { userReply } from '../src/actions/ChatActions'
+import { initialLoad } from '../components/Loading'
 
 export default class Main extends Component {
 
@@ -13,16 +14,10 @@ export default class Main extends Component {
         store.dispatch(userReply)
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps != this.props){
-            console.log(nextProps,'change')
-        }
-    }
-
     render() {
         return (
             <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
+                <PersistGate loading={initialLoad()} persistor={persistor}>
                     <View style={styles.container}>
                         <Route/>
                     </View>

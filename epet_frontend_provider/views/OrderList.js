@@ -14,7 +14,8 @@ import {
   Button,
   Footer,
   FooterTab,
-  Thumbnail
+  Thumbnail,
+  Label
 } from "native-base";
 import { StyleSheet, View, Modal } from "react-native";
 import { connect } from "react-redux";
