@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Router, Scene, Actions } from "react-native-router-flux";
+import { StyleSheet, View } from "react-native";
+import { Router, Scene } from "react-native-router-flux";
 import MyPet from "./MyPet";
 import Search from "./Search";
 import Store from "./Store";
@@ -11,8 +11,6 @@ import PetActivity from "./PetActivity.js";
 import HistoryDetail from "./HistoryDetail.js";
 import PetDescription from "./PetDescription.js";
 import Order from "./Order.js";
-import axios from "axios";
-import { setPets } from "../actions";
 import { connect } from "react-redux";
 import Chat from "./Chat.js";
 import ChatBox from "./ChatBox.js";
@@ -21,6 +19,11 @@ import Login from "./Login";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
+
+  constructor(props){
+    super(props)
+  }
+
   componentWillMount() {
     const { setPets, user } = this.props;
   }
@@ -78,5 +81,5 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Main);

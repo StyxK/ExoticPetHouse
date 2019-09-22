@@ -17,9 +17,10 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        const user = this.props.user.username
+        const user = this.props.user.userName
         axios.get('/chat/customerChatRoom/' + user).then(
             result => {
+                console.log(result)
                 this.setState({
                     chatList: result.data
                 })

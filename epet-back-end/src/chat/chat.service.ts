@@ -17,6 +17,7 @@ export class ChatService {
 
     async customerChatRoom(username:string){
         const user = JSON.parse(JSON.stringify(username)).username
+        Logger.log(user)
         const subquery = await this.chatRepository
         .createQueryBuilder('chat')
         .select('chat.customerUsername')
