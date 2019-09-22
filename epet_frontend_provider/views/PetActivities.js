@@ -35,7 +35,7 @@ export default class PetActivities extends Component {
         let card = []
         this.state.activities.map( data => {
             card.push( 
-            <Card key={data.id} style={{marginHorizontal:4}}>
+            <Card key={data.id} style={{marginLeft:10,marginRight:10}}>
                 <CardItem style={{ backgroundColor: "#7A5032" }}>
                     <Left>
                         <Text style={{color:'white'}}>{data.topic}</Text>

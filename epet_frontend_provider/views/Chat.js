@@ -89,19 +89,19 @@ class Chat extends Component{
                         <Right style={{ flex: 1 }} />
                     </Header>
                     {
-                        this.state.chatList.length !== 0 ?
-                            <List>
-                                {this.chatRooms()}
-                            </List>
-                            :
-                            <View style={{alignItems:'center',alignContent:'center',marginTop:50}}>
-                                <Text> 
-                                    ไม่มีการพูดคุยกับลูกค้าในขณะนี้
-                                </Text>
-                            </View>
-                    }
-                    {
-                        this.state.load ? loading() : null
+                        this.state.load ? loading() :
+                        (
+                            this.state.chatList.length !== 0 ?
+                                <List>
+                                    {this.chatRooms()}
+                                </List>
+                                :
+                                <View style={{alignItems:'center',alignContent:'center',marginTop:50}}>
+                                    <Text> 
+                                        ไม่มีการพูดคุยกับลูกค้าในขณะนี้
+                                    </Text>
+                                </View>
+                        )
                     }
                 </Content>
                 <NavFooter/>
