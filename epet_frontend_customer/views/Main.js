@@ -17,15 +17,12 @@ import { connect } from "react-redux";
 import Chat from "./Chat.js";
 import ChatBox from "./ChatBox.js";
 import Payment from "./Payment";
-import Login from "./Login"
+import Login from "./Login";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
   componentWillMount() {
     const { setPets, user } = this.props;
-    axios.get("/pet").then(response => {
-      setPets(response.data);
-    });
   }
   render() {
     return (
@@ -76,9 +73,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    setPets: pets => dispatch(setPets(pets))
-  };
+  return {};
 };
 
 export default connect(

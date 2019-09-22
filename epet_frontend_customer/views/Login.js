@@ -13,7 +13,7 @@ import {
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { setUser } from "../actions";
+import { setUser,setPets } from "../actions";
 
 class Login extends Component {
   constructor(props) {
@@ -26,14 +26,17 @@ class Login extends Component {
   }
 
   logIn = async () => {
-    const { setUser } = this.props;
+    const { setUser,setPets } = this.props;
     try {
       const user = await axios.post("/customer/login", {
         userName: this.state.userName,
         password: this.state.password
       });
       setUser(user.data);
-      Actions.home();
+      axios.get("/pet").then(response => {
+        setPets(response.data);
+        Actions.home();
+      });
     } catch (error) {
       this.setState({
         error: "ชื่อผู้ใช้ / รหัสผ่าน ของท่านไม่ถูกต้อง"
@@ -152,7 +155,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: user => dispatch(setUser(user))
+    setUser: user => dispatch(setUser(user)),
+    setPets: pets => dispatch(setPets(pets))
   };
 };
 
