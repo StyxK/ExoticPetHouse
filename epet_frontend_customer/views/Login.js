@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ImageBackground, Image } from "react-native";
+import { ImageBackground, Image, AsyncStorage } from "react-native";
 import {
   Input,
   Item,
@@ -23,6 +23,10 @@ class Login extends Component {
       password: undefined,
       error: undefined
     };
+  }
+
+  async componentDidMount(){
+    await console.log(this.props.user.token)
   }
 
   logIn = async () => {

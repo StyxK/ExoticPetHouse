@@ -27,7 +27,7 @@ class Login extends Component{
             })
             await this.props.login(user.data.token)
             await view.current.fadeOut()
-            await Actions.profile()
+            Actions.profile()
         }catch(error){
             this.setState({
                 error:'ชื่อผู้ใช้ / รหัสผ่าน ของท่านไม่ถูกต้อง'
@@ -68,6 +68,7 @@ class Login extends Component{
                             </Button>
                         </View>
                         <View style={{flexDirection:'row',flex:2.5,justifyContent:'center'}}>
+                            {/* <> */}
                             <Label style={{color:'red'}}>
                                 {this.state.error}
                             </Label>

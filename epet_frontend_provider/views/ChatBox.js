@@ -122,7 +122,6 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        console.log(this.chatView.current)
         this.props.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
     }
 

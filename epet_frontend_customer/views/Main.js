@@ -22,6 +22,9 @@ class Main extends Component {
 
   constructor(props){
     super(props)
+    this.state = {
+      initial : this.props.user.token ? true:false
+    }
   }
 
   componentWillMount() {
@@ -32,8 +35,8 @@ class Main extends Component {
       <View style={styles.container}>
         <Router>
           <Scene key="root" hideNavBar={true}>
-            <Scene key="login" component={Login} title="login" initial={true} />
-            <Scene key="home" component={Search} title="Home" />
+            <Scene key="login" component={Login} title="login" initial={!this.state.initial} />
+            <Scene key="home" component={Search} title="Home" initial={this.state.initial}/>
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
   }
 });
 const mapStateToProps = state => {
-  return {};
+  return {user:state.user};
 };
 
 const mapDispatchToProps = dispatch => {

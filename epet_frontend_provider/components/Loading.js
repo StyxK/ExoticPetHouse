@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
-import {ActivityIndicator} from 'react-native'
-import {View, Label} from 'native-base'
+import {ActivityIndicator,View} from 'react-native'
+import {Label} from 'native-base'
 
 export const initialLoad = () => {
     return(
