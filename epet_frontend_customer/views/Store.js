@@ -293,8 +293,6 @@ const styles = StyleSheet.create({
     marginBottom: 65,
     backgroundColor: "white",
     opacity: 0.99,
-    width: "85%",
     marginTop: 40,
-    marginLeft:35
   }
 });
