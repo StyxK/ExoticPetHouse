@@ -8,7 +8,6 @@ import logger from "redux-logger"
 import {userReply} from './actions/ChatActions'
 
 const store = createStore(rootReducer,applyMiddleware(thunk,logger));
-// store.dispatch(userReply())
 export default () => (
   <Provider store={store}>
     <Main />
