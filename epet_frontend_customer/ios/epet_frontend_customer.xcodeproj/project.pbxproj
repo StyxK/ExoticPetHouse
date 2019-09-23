@@ -62,7 +62,11 @@
 		F2C3449F3BBE4B778ACF2877 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 186189DB08CA4B4D8FEFED31 /* libRNGestureHandler.a */; };
 		CB49800F9181474382F3A61A /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31735E55D9344324AE9A5A40 /* libRNGestureHandler-tvOS.a */; };
 		57070D558B074D49961005A5 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 638A9AF245E24FB3BCC45B84 /* libRNImagePicker.a */; };
+<<<<<<< HEAD
 		C9501808A19A450298552E3E /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D200BA15D69649A3BFC8F230 /* libRNCAsyncStorage.a */; };
+=======
+		E33436E1464949068512AF36 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF145B07C2E14E02BBDEB6A1 /* libRNCAsyncStorage.a */; };
+>>>>>>> dbb4007e41a5e95a59c432867d1b42ffa9a14d00
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -396,8 +400,13 @@
 		31735E55D9344324AE9A5A40 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; name = "libRNGestureHandler-tvOS.a"; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		D0954160EC3743F58BCBDF8D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		638A9AF245E24FB3BCC45B84 /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+<<<<<<< HEAD
 		6B8F26ECD1DC48E3B4D2C46A /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; name = "RNCAsyncStorage.xcodeproj"; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		D200BA15D69649A3BFC8F230 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; name = "libRNCAsyncStorage.a"; path = "libRNCAsyncStorage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+=======
+		3590A8E4842846418CB8794F /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; name = "RNCAsyncStorage.xcodeproj"; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FF145B07C2E14E02BBDEB6A1 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; name = "libRNCAsyncStorage.a"; path = "libRNCAsyncStorage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+>>>>>>> dbb4007e41a5e95a59c432867d1b42ffa9a14d00
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -429,7 +438,11 @@
 				417CDFFB44684939AACA4140 /* libReactNativeConfig.a in Frameworks */,
 				F2C3449F3BBE4B778ACF2877 /* libRNGestureHandler.a in Frameworks */,
 				57070D558B074D49961005A5 /* libRNImagePicker.a in Frameworks */,
+<<<<<<< HEAD
 				C9501808A19A450298552E3E /* libRNCAsyncStorage.a in Frameworks */,
+=======
+				E33436E1464949068512AF36 /* libRNCAsyncStorage.a in Frameworks */,
+>>>>>>> dbb4007e41a5e95a59c432867d1b42ffa9a14d00
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +637,11 @@
 				AC15CD38462C48E5B42083A0 /* ReactNativeConfig.xcodeproj */,
 				57C42068D71E4E66A93B2B67 /* RNGestureHandler.xcodeproj */,
 				D0954160EC3743F58BCBDF8D /* RNImagePicker.xcodeproj */,
+<<<<<<< HEAD
 				6B8F26ECD1DC48E3B4D2C46A /* RNCAsyncStorage.xcodeproj */,
+=======
+				3590A8E4842846418CB8794F /* RNCAsyncStorage.xcodeproj */,
+>>>>>>> dbb4007e41a5e95a59c432867d1b42ffa9a14d00
 			);
 			name = Libraries;
 			sourceTree = "<group>";
