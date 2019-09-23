@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux'
 import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
 import { duration } from 'moment-timezone'
-
+import AutoScroll from 'react-native-auto-scroll'
 class ChatBox extends Component{
 
     constructor(props){
@@ -14,11 +14,6 @@ class ChatBox extends Component{
             message : '',
             messageList : []
         }
-        this.chatView = React.createRef()
-    }
-
-    componentDidUpdate(){
-        this.scrollToBottom()
     }
     
     componentDidMount(){
@@ -33,15 +28,9 @@ class ChatBox extends Component{
             await this.setState({
                 messageList : nextProps.chat
             })
-            await this.scrollToBottom()
         }
     }   
-
-    scrollToBottom = () => {
-        this.chatView.current == null ? 
-        null: this.chatView.current._root.scrollToEnd()
-    }
-
+    
     messageDialog = () => {
         let list = []
         this.state.messageList.map( data =>{
@@ -117,9 +106,9 @@ class ChatBox extends Component{
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <Content ref={this.chatView}>
+                <AutoScroll>
                     {this.messageDialog()}
-                </Content>
+                </AutoScroll>
                 <Footer>
                     <Input onChangeText={e => {
                         this.setState({message : e})
@@ -133,6 +122,7 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
+        console.log(this.chatView.current)
         this.props.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
     }
 
