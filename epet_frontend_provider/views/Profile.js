@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, Container, Left, Body, Right, Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label, CardItem, Card } from 'native-base'
-import { StyleSheet } from 'react-native'
 import axios from 'axios'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
@@ -64,8 +63,8 @@ class Profile extends Component {
 
         let storeFlatList = storeList.map(data => {
             return (
-                <Card key={data.id}>
-                    <CardItem>
+                <List key={data.id}>
+                    <ListItem noBorder>
                         <Body style={{ flex: 3 }}>
                             <Text note> ชื่อร้าน : <Text note style={{ color: 'black' }}> {data.name} </Text> </Text>
                             <Text note> เบอร์โทรศัพท์ : <Text note style={{ color: 'black' }}> {data.phoneNumber} </Text> </Text>
@@ -86,8 +85,8 @@ class Profile extends Component {
                                     </Button>
                             }
                         </Right>
-                    </CardItem>
-                </Card>
+                    </ListItem>
+                </List>
             )
         })
 
