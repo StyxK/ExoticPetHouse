@@ -14,6 +14,7 @@ import ChatBox from './ChatBox'
 import Cage from './Cage';
 import Login from './Login';
 import OrderDetail from './OrderDetail'
+import Register from './Register'
 import {connect} from 'react-redux'
 
 class Route extends Component {
@@ -38,10 +39,11 @@ class Route extends Component {
                 <Router>
                     <Scene key="root" hideNavBar={true}>
                         <Scene key="login" component={Login} title="login" initial={!this.state.loggedIn}/>
+                        <Scene key="profile" component={Profile} title="Profile" initial={this.state.loggedIn}/>
                         <Scene key="pet" component={Pet} title="Pet"/>
+                        <Scene key="register" component={Register} title="Register"/>
                         <Scene key="orderList" component={OrderList} title="orderList"/>
                         <Scene key="orderDetail" component={OrderDetail} title="orderDetail"/>
-                        <Scene key="profile" component={Profile} title="Profile" initial={this.state.loggedIn}/>
                         <Scene key="storeManager" component={StoreManager} title="StoreManager"/>
                         <Scene key="createStore" component={CreateStore} title="CreateStore"/>
                         <Scene key="petActivities" component={PetActivities} title="PetActivities"/>
