@@ -1,10 +1,6 @@
 rootProject.name = 'epet_frontend_customer'
 include ':@react-native-community_async-storage'
-<<<<<<< HEAD
 project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '..\\node_modules\\@react-native-community\\async-storage\\android')
-=======
-project(':@react-native-community_async-storage').projectDir = new File(rootProject.projectDir, '..\node_modules\@react-native-community\async-storage\android')
->>>>>>> dbb4007e41a5e95a59c432867d1b42ffa9a14d00
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '..\\node_modules\\react-native-image-picker\\android')
 include ':react-native-gesture-handler'
