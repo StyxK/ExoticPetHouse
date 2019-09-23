@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Text } from 'react-native'
+import { Text , RefreshControl} from 'react-native'
 import { Container, Content, Header, Left, Right, Body, Icon, List, ListItem, Label, View } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
@@ -14,11 +14,13 @@ class Chat extends Component{
         super(props)
         this.state = {
             chatList : [],
-            load : true
+            load : true,
+            refreshing : false,
+            setRefreshing : false
         }
     }
 
-    componentDidMount(){
+    getChat = () => {
         const store = this.props.store.storeId
         axios.get('/chat/storeChatRoom/' + store).then(
             result => {
@@ -30,11 +32,18 @@ class Chat extends Component{
         )
     }
 
+    componentDidMount(){
+        this.getChat()
+    }
+
     chatRooms = () =>{
         let list = []
         this.state.chatList.map( data => {
             list.push(
-                <ListItem key={data.chat_id} onPress={() => this.goToChatBox(data.chat_customerUsername)}>
+                <ListItem 
+                    key={data.chat_id} 
+                    onPress={() => this.goToChatBox(data.chat_customerUsername)}
+                >
                     <Left style={{ flex : 0.5}}>
                         <Icon name="person"/>
                     </Left>
@@ -80,14 +89,16 @@ class Chat extends Component{
     render(){
         return(
             <Container>
-                <Content>
-                    <Header style={{ backgroundColor: "#7A5032" }}>
-                        <Left style={{ flex: 2 }} />
-                        <Body style={{ flex: 2.5 }}>
-                            <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
-                        </Body>
-                        <Right style={{ flex: 1 }} />
-                    </Header>
+                <Header style={{ backgroundColor: "#7A5032" }}>
+                    <Left style={{ flex: 2 }} />
+                    <Body style={{ flex: 2.5 }}>
+                        <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
+                    </Body>
+                    <Right style={{ flex: 1 }} />
+                </Header>
+                <Content refreshControl={
+                    <RefreshControl colors={['#7A5032']} refreshing={this.state.refreshing} onRefresh={()=>{ this.getChat() }}/>
+                }>
                     {
                         this.state.load ? loading() :
                         (

@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import NavFooter from '../components/NavFooter';
-import moment,{duration} from 'moment'
+import {duration} from 'moment'
 
 class Chat extends Component {
 
