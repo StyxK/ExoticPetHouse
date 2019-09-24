@@ -145,8 +145,8 @@ export default class Search extends Component {
                 km.
               </Text>
             ) : (
-              <Text note>N/A</Text>
-            )}
+                <Text note>N/A</Text>
+              )}
           </Right>
         </ListItem>
       );

@@ -7,13 +7,13 @@ import thunk from "redux-thunk"
 import logger from "redux-logger"
 import { userReply } from './actions/ChatActions'
 import { PersistGate } from 'redux-persist/integration/react'
-import { store,persistor } from "./configStore"
+// import { store,persistor } from "./configStore"
 
-// const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 export default () => (
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <Main />
-    </PersistGate>
+    {/* <PersistGate persistor={persistor}> */}
+    <Main />
+    {/* </PersistGate> */}
   </Provider>
 );

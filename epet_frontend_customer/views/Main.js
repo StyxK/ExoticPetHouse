@@ -16,27 +16,29 @@ import Chat from "./Chat.js";
 import ChatBox from "./ChatBox.js";
 import Payment from "./Payment";
 import Login from "./Login";
+import { setUser, setPets } from "../actions";
+import axios from "axios";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      initial : this.props.user.token ? true:false
+      // initial: this.props.user.token ? true : false
     }
   }
 
   componentWillMount() {
-    const { setPets, user } = this.props;
+    
   }
   render() {
     return (
       <View style={styles.container}>
         <Router>
           <Scene key="root" hideNavBar={true}>
-            <Scene key="login" component={Login} title="login" initial={!this.state.initial} />
-            <Scene key="home" component={Search} title="Home" initial={this.state.initial}/>
+            <Scene key="login" component={Login} title="login" initial={true} />
+            <Scene key="home" component={Search} title="Home" />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />
@@ -75,11 +77,12 @@ const styles = StyleSheet.create({
   }
 });
 const mapStateToProps = state => {
-  return {user:state.user};
+  return { user: state.user };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+  };
 };
 
 export default connect(
