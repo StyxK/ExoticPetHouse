@@ -55,16 +55,22 @@ export class OrderController {
     return this.orderService.create(user, data);
   }
 
-  @Get('/storeAccept/:orderId')
+  @Put('/storeAccept/:orderId')
   @UseGuards(new AuthGuard())
   async storeAcceptance(@Param() orderId){
     return this.orderService.storeAcceptance(orderId)
   }
 
-  @Put(':id')
-  async updateOrder(@Param() id, @Body() data) {
-    return this.orderService.update(id, data);
+  @Put('/orderBegin/:orderId')
+  @UseGuards(new AuthGuard())
+  async orderBegin(@Param() orderId){
+    return this.orderService.orderBegin(orderId)
   }
+
+  // @Put(':id')
+  // async updateOrder(@Param() id, @Body() data) {
+  //   return this.orderService.update(id, data);
+  // }
 
   @Delete(':id')
   async deleteOrder(@Param() id) {

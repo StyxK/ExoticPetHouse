@@ -78,13 +78,13 @@ export class OrderService {
     return { ...order, orderLines, totalPrice, duration };
   }
 
-  async update(id: string, data: Partial<OrderDTO>) {
-    await this.orderRepository.update(id, data);
-    return this.orderRepository.findOne({
-      where: id,
-      relations: ['orderStatus'],
-    });
-  }
+  // async update(id: string, data: Partial<OrderDTO>) {
+  //   await this.orderRepository.update(id, data);
+  //   return this.orderRepository.findOne({
+  //     where: id,
+  //     relations: ['orderStatus'],
+  //   });
+  // }
 
   async delete(id: string) {
     await this.orderRepository.delete(id);
@@ -98,6 +98,11 @@ export class OrderService {
 
   async getAllStatuses() {
     return await this.orderStatusRepository.find();
+  }
+
+  async getStatus(order){
+    const id = await order.orderId
+    return await this.orderRepository.findOne({where:{id:id},relations:['orderStatus']})
   }
 
   // route for manage order
@@ -132,12 +137,24 @@ export class OrderService {
   // order acceptance by store --> ร้านตอบรับการฝาก
   async storeAcceptance(order){
     try{
-      const id = await order.orderId
-      const data = await this.orderRepository.findOne({where:{id:id},relations:['orderStatus']})
+      const data = await this.getStatus(order)
       if(await data.orderStatus.id != 1){
-        throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะร้านตอบรับ')
+        throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
       }
-      this.orderRepository.update(id,{orderStatus:{id:2}})
+      this.orderRepository.update(data.id,{orderStatus:{id:2}})
+    }catch(error){
+      return error.message
+    }
+  }
+
+  // order Begin --> สัตว์เลี้ยงอยู่ระหว่างการฝาก
+  async orderBegin(order){
+    try{
+      const data = await this.getStatus(order)
+      if(await data.orderStatus.id != 2){
+        throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะร้านตอบรับแล้ว')
+      }
+      this.orderRepository.update(data.id,{orderStatus:{id:3}})
     }catch(error){
       return error.message
     }
