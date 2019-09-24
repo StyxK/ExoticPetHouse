@@ -6,6 +6,7 @@ import { OrderDTO } from './order.dto';
 import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
+import { Pet } from 'src/pet/pet.entity';
 
 @Injectable()
 export class OrderService {
@@ -18,6 +19,9 @@ export class OrderService {
     private readonly customerRepository: Repository<Customer>,
     @InjectRepository(OrderStatus)
     private readonly orderStatusRepository: Repository<OrderStatus>,
+    @InjectRepository(Pet)
+    private readonly petRepository: Repository<Pet>,
+  
   ) {}
 
   private toResponseObject(order: Order) {
@@ -74,19 +78,6 @@ export class OrderService {
     return { ...order, orderLines, totalPrice, duration };
   }
 
-  async create(userName: string, data: Partial<OrderDTO>) {
-    const user = await this.customerRepository.findOne({
-      where: { userName: userName },
-    });
-    await this.orderLineRepository.save(data.orderLines);
-    const order = await this.orderRepository.create({
-      ...data,
-      customer: user,
-    });
-    await this.orderRepository.save(order);
-    return this.toResponseObject(order);
-  }
-
   async update(id: string, data: Partial<OrderDTO>) {
     await this.orderRepository.update(id, data);
     return this.orderRepository.findOne({
@@ -108,4 +99,48 @@ export class OrderService {
   async getAllStatuses() {
     return await this.orderStatusRepository.find();
   }
+
+  // route for manage order
+
+  // createOrder --> สร้าง order รอร้านตอบรับ
+  async create(userName: string, data: Partial<OrderDTO>) {
+    try{
+      const user = await this.customerRepository.findOne({
+        where: { userName: userName },
+      });
+      const checkPets = await data.orderLines.map( async result =>{
+        const pet = await this.petRepository.findOne({where:{id:result.pet}})
+        if(pet.wasDeposit)
+          throw new Error('สัตว์เลี้ยงยังอยู่ในการฝาก')
+        else
+          return true
+      })
+      await Promise.all(checkPets)
+      await this.orderLineRepository.save(data.orderLines);
+      const order = this.orderRepository.create({
+        ...data,
+        orderStatus:{id:1},
+        customer: user,
+      });
+      await this.orderRepository.save(order);
+      return this.toResponseObject(order);
+    }catch(error){
+      return error.message
+    }
+  }
+
+  // order acceptance by store --> ร้านตอบรับการฝาก
+  async storeAcceptance(order){
+    try{
+      const id = await order.orderId
+      const data = await this.orderRepository.findOne({where:{id:id},relations:['orderStatus']})
+      if(await data.orderStatus.id != 1){
+        throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะร้านตอบรับ')
+      }
+      this.orderRepository.update(id,{orderStatus:{id:2}})
+    }catch(error){
+      return error.message
+    }
+  }
+
 }

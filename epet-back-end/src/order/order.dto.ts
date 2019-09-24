@@ -4,6 +4,7 @@ import { Store } from "../store/store.entity";
 import { OrderStatus } from "./order.status.entity";
 
 export interface OrderDTO {
+    id:string
     transportation:string
     submitDate:Date
     store:Store
