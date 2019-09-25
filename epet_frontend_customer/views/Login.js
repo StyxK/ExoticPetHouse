@@ -13,7 +13,8 @@ import {
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import axios from "axios";
-import { setUser,setPets } from "../actions";
+import { setUser, setPets } from "../actions";
+import { storage } from "../Storage";
 
 class Login extends Component {
   constructor(props) {
@@ -25,23 +26,30 @@ class Login extends Component {
     };
   }
 
-  async componentDidMount(){
-    await console.log(this.props.user.token)
-  }
-
   logIn = async () => {
-    const { setUser,setPets } = this.props;
+    const { setUser, setPets } = this.props;
     try {
-      const user = await axios.post("/customer/login", {
+      const response = await axios.post("/customer/login", {
         userName: this.state.userName,
         password: this.state.password
       });
-      setUser(user.data);
+      const user = response.data;
+      setUser(user);
+      try {
+        storage.save({
+          key: "user",
+          data: user
+        });
+        alert("success");
+      } catch (e) {
+        alert(JSON.stringify(e));
+      }
       axios.get("/pet").then(response => {
         setPets(response.data);
         Actions.home();
       });
     } catch (error) {
+      alert(JSON.stringify(error));
       this.setState({
         error: "ชื่อผู้ใช้ / รหัสผ่าน ของท่านไม่ถูกต้อง"
       });
@@ -50,6 +58,7 @@ class Login extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     return (
       <ImageBackground
         source={{
@@ -70,6 +79,7 @@ class Login extends Component {
             source={require("../assets/epet_logo.png")}
           />
         </View>
+
         <View style={{ flex: 2 }}>
           <Item
             rounded
