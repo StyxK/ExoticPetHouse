@@ -29,14 +29,15 @@ import { OrderStatus } from './order/order.status.entity';
 import { AppGateway } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
-import { ChargeController } from './charge/charge.controller';
-import { ChargeService } from './charge/charge.service';
 import { ChargeModule } from './charge/charge.module';
 import 'dotenv/config';
 import 'reflect-metadata';
+import { ScheduleModule } from 'nest-schedule'
+import { ScheduleService } from './app.schedule';
 
 @Module({
   imports: [
+    ScheduleModule.register(),
     TypeOrmModule.forRoot({
       type: process.env.DATABASE_TYPE,
       host: process.env.DATABASE_HOST,
@@ -77,7 +78,7 @@ import 'reflect-metadata';
     ChatModule,
     ChargeModule,
   ],
-  controllers: [AppController, ChargeController],
-  providers: [AppService,AppGateway, ChargeService],
+  controllers: [AppController],
+  providers: [AppService,AppGateway,ScheduleService],
 })
 export class AppModule {}

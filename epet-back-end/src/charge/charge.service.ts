@@ -1,9 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ChargeDTO } from './charge.dto';
 
 @Injectable()
 export class ChargeService {
 
-    async chargeFromToken(data){
+    async chargeFromToken(data:Partial<ChargeDTO>){
         require('omise')({
             'secretKey' : process.env.OMISE_SECRET_KEY,
             'omiseVersion' : '2015-09-10'
@@ -13,7 +14,7 @@ export class ChargeService {
             'card' : data.token
         },(err,charge)=>{
             if(err){
-                return('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
+                throw new Error('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
             }
             else if (charge){
                 return('การชำระเงินเสร็จสิ้น ของคุณที่ใช้บริการ')

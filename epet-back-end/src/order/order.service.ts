@@ -7,6 +7,9 @@ import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
 import { Pet } from 'src/pet/pet.entity';
+import  * as moment from 'moment'
+import { InjectSchedule , Schedule } from 'nest-schedule'
+import { ChargeService } from 'src/charge/charge.service';
 
 @Injectable()
 export class OrderService {
@@ -21,6 +24,9 @@ export class OrderService {
     private readonly orderStatusRepository: Repository<OrderStatus>,
     @InjectRepository(Pet)
     private readonly petRepository: Repository<Pet>,
+    @InjectSchedule()
+    private readonly schedule: Schedule,
+    private chargeService : ChargeService
   
   ) {}
 
@@ -72,19 +78,18 @@ export class OrderService {
       where: { order: id },
     });
     let totalPrice: number = 0;
-    const duration = await this.calculateDate(order.startDate, order.endDate);
+    let endDate
+    if(moment(order.endDate).fromNow().match('ago')){
+      endDate = new Date()
+    }
+    else{
+      endDate = order.endDate
+    }
+    const duration = await this.calculateDate(order.startDate, endDate);
     for (let orderLine in orderLines)
       totalPrice += orderLines[orderLine].cage.price * duration;
-    return { ...order, orderLines, totalPrice, duration };
+    return { ...order, orderLines, totalPrice, warning:`ท่านได้ค้างชำระเป็นเวลา ${duration} วัน` };
   }
-
-  // async update(id: string, data: Partial<OrderDTO>) {
-  //   await this.orderRepository.update(id, data);
-  //   return this.orderRepository.findOne({
-  //     where: id,
-  //     relations: ['orderStatus'],
-  //   });
-  // }
 
   async delete(id: string) {
     await this.orderRepository.delete(id);
@@ -102,7 +107,7 @@ export class OrderService {
 
   async getStatus(order){
     const id = await order.orderId
-    return await this.orderRepository.findOne({where:{id:id},relations:['orderStatus']})
+    return await this.orderRepository.findOne({where:{id:id},relations:['orderStatus','orderLines']})
   }
 
   // route for manage order
@@ -115,10 +120,15 @@ export class OrderService {
       });
       const checkPets = await data.orderLines.map( async result =>{
         const pet = await this.petRepository.findOne({where:{id:result.pet}})
-        if(pet.wasDeposit)
+        if(pet.wasDeposit){
           throw new Error('สัตว์เลี้ยงยังอยู่ในการฝาก')
-        else
-          return true
+        }
+        else if(pet.deletedAt != null){
+          throw new Error('สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว')
+        }
+        else{
+          return 'nothing happend'
+        }
       })
       await Promise.all(checkPets)
       await this.orderLineRepository.save(data.orderLines);
@@ -151,13 +161,54 @@ export class OrderService {
   async orderBegin(order){
     try{
       const data = await this.getStatus(order)
+      const orderLines = await this.orderLineRepository.find({where:{order:data.id},relations:['pet']})
       if(await data.orderStatus.id != 2){
         throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะร้านตอบรับแล้ว')
       }
-      this.orderRepository.update(data.id,{orderStatus:{id:3}})
+      await this.orderRepository.update(data.id,{orderStatus:{id:3}})
+      const setPetWasDeposit = await orderLines.map( async pet => {
+        await this.petRepository.update(pet.pet.id,{wasDeposit:true})
+      })
+      await Promise.all(setPetWasDeposit)
+      return 'สัตว์เลี้ยงได้อยู่ในการรับฝากแล้ว'
     }catch(error){
       return error.message
     }
   }
+
+  // order out of time   --> ออร์เดอร์หมดเวลาฝาก
+  async outOfTime() {
+    try{
+      await this.orderRepository
+      .createQueryBuilder()
+      .update(`order`)
+      .set({ orderStatus : {id:6} })
+      .where(`endDate < :now`,{now:moment().utc()})
+      .execute()
+      return await this.orderRepository.find()
+    }catch(error){
+      return error.message
+    }
+  }
+
+  // charge order --> จ่ายค่าบริการ
+  async charge(orderId,charge){
+    try{
+      const data = await this.getStatus(orderId)
+      if(await data.orderStatus.id != 6){
+        throw new Error('ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
+      }
+      let totalPrice
+      const duration = await this.calculateDate(data.startDate, new Date());
+      data.orderLines.map(orderLine=>{
+        totalPrice += orderLine.cage.price * duration;
+      })
+      await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
+      await this.orderRepository.update(data.id,{orderStatus:{id:9}})
+    }catch(error){
+      return error.message
+    }
+  }
+
 
 }

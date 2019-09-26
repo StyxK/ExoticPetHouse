@@ -7,11 +7,12 @@ import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
 import { Pet } from 'src/pet/pet.entity';
+import { ChargeService } from 'src/charge/charge.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet])],
     controllers: [OrderController],
-    providers: [OrderService],
+    providers: [OrderService,ChargeService],
     exports: [OrderService],
 })
 export class OrderModule {}

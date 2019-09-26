@@ -48,29 +48,30 @@ export class OrderController {
     return this.orderService.showOrderOfStore(id)
   }
 
-  @Post('/')
+  @Post('/') //ลูกค้าฝากสัตว์เลี้ยง
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
   async createOrder(@User('userName') user, @Body() data) {
     return this.orderService.create(user, data);
   }
 
-  @Put('/storeAccept/:orderId')
+  @Put('/storeAccept/:orderId') //ร้านตอบรับ order
   @UseGuards(new AuthGuard())
   async storeAcceptance(@Param() orderId){
     return this.orderService.storeAcceptance(orderId)
   }
 
-  @Put('/orderBegin/:orderId')
+  @Put('/orderBegin/:orderId') //กำลังฝากที่ร้าน
   @UseGuards(new AuthGuard())
   async orderBegin(@Param() orderId){
     return this.orderService.orderBegin(orderId)
   }
 
-  // @Put(':id')
-  // async updateOrder(@Param() id, @Body() data) {
-  //   return this.orderService.update(id, data);
-  // }
+  @Put('/charge/:orderId') //จ่ายเงิน
+  @UseGuards(new AuthGuard())
+  async charge(@Param() orderId,@Body() charge){
+    return this.orderService.charge(orderId,charge)
+  }
 
   @Delete(':id')
   async deleteOrder(@Param() id) {
