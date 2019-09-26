@@ -194,7 +194,7 @@ class HistoryDetail extends Component {
   };
 
   payment = () => {
-    Actions.payment({item:this.props.item,price:this.state.history.totalPrice});
+    Actions.payment({item:this.props.item,price:this.state.history.totalPrice,order:this.props.item.id});
   }
 
 }

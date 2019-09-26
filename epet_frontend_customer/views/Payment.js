@@ -21,6 +21,7 @@ export default class Payment extends Component {
         }
         console.log('item',this.props.item)
         console.log('price',this.props.price)
+        console.log('order',this.props.order)
     }
 
     monthList = () => {
@@ -154,16 +155,16 @@ export default class Payment extends Component {
     }
 
     pay = (amount) => {
-        console.log(this.state,'ข้อมูลบัตร')
         Omise.createToken({
             'card' : this.state
         }).then(async data => {
-            await axios.post('/charge',{
+            await axios.put('/order/charge/'+this.props.order,{
                 token:data.id,
                 amount:amount
+            }).then(()=>{
+                alert('การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ')
+                // Actions.home()
             })
-            alert('การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ')
-            Actions.home()
         }).catch( err => {
             console.log(err._55)
             this.setState({

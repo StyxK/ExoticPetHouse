@@ -70,6 +70,7 @@ export class OrderController {
   @Put('/charge/:orderId') //จ่ายเงิน
   @UseGuards(new AuthGuard())
   async charge(@Param() orderId,@Body() charge){
+    Logger.log('มันเข้ามาปะวะ')
     return this.orderService.charge(orderId,charge)
   }
 

@@ -25,7 +25,6 @@ export class OrderService {
     @InjectRepository(Pet)
     private readonly petRepository: Repository<Pet>,
     @InjectSchedule()
-    private readonly schedule: Schedule,
     private chargeService : ChargeService
   
   ) {}
@@ -194,18 +193,24 @@ export class OrderService {
   // charge order --> จ่ายค่าบริการ
   async charge(orderId,charge){
     try{
+      console.log('อิหยังวะ')
       const data = await this.getStatus(orderId)
       if(await data.orderStatus.id != 6){
         throw new Error('ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
       }
-      let totalPrice
+      let totalPrice : number = 0
       const duration = await this.calculateDate(data.startDate, new Date());
-      data.orderLines.map(orderLine=>{
+      const calculatePrice =  await data.orderLines.map( async result=>{
+        const orderLine = await this.orderLineRepository.findOne({where:{id:result.id},relations:['cage']})
         totalPrice += orderLine.cage.price * duration;
+        console.log(totalPrice,'price')
+        console.log(orderLine.cage.price,'price origin')
       })
+      await Promise.all(calculatePrice)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
     }catch(error){
+      Logger.log(error.message,'error ไรวะ')
       return error.message
     }
   }
