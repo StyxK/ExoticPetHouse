@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN ["chmod", "+x", "start.sh"]
+RUN ["npm", "install"]
 
-CMD [ "sh", "-c", "./start.sh" ]
+RUN ["npm", "run", "build"]
+
+CMD [ "node", "dist/main.js" ]
