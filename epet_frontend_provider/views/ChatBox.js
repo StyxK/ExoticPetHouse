@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import { View } from 'react-native'
-import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Footer, Button } from 'native-base'
+import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Footer, Button, Card, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
@@ -38,13 +38,13 @@ class ChatBox extends Component{
                 data.role == 0 ?
                     <View key={data.id}>
                         <View style={{flexDirection:"row-reverse",padding:5}}>
-                            <View style={{borderRadius:5,backgroundColor:'blue',padding:7}}>
-                                <Text style={{color:'white'}}>
+                            <Card style={{borderRadius:5,backgroundColor:'blue',padding:7}}>
+                                <Label style={{color:'white'}}>
                                     {data.message}
-                                </Text>
-                            </View>
+                                </Label>
+                            </Card>
                             <View style={{marginRight:4,justifyContent:'flex-end'}}>
-                                <Text note style={{alignSelf:'flex-end',fontSize: 12.5}}>
+                                <Text note style={{alignSelf:'flex-end',fontSize: 12.5,color:'white'}}>
                                 {
                                     (
                                         7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
@@ -96,7 +96,7 @@ class ChatBox extends Component{
 
     render(){
         return (
-            <Container>
+            <Container style={{backgroundColor:"rgba(128,128,128,.5)"}}>
                 <Header style={{ backgroundColor: "#7A5032" }}>
                     <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
@@ -109,13 +109,17 @@ class ChatBox extends Component{
                 <AutoScroll>
                     {this.messageDialog()}
                 </AutoScroll>
-                <Footer>
-                    <Input onChangeText={e => {
-                        this.setState({message : e})
-                    }} placeholder='พิมพ์ข้อความในช่องนี้'/>
-                    <Button onPress={()=>{ this.submitMessage() }}>
-                        <Text> submit </Text> 
-                    </Button>
+                <Footer style={{backgroundColor:'white'}}>
+                    <Body style={{flex:3}}>
+                        <Input onChangeText={e => {
+                            this.setState({message : e})
+                        }} placeholder='พิมพ์ข้อความ'/>
+                    </Body>
+                    <Right style={{flex:0.5}}>
+                        <Button full onPress={()=>{ this.submitMessage() }} style={{alignItems:'center',marginRight:5}}>
+                            <Icon name="md-send"/>
+                        </Button>
+                    </Right>
                 </Footer>
             </Container>
         )

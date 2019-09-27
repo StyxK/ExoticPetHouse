@@ -100,7 +100,12 @@ class Chat extends Component{
                     <RefreshControl colors={['#7A5032']} refreshing={this.state.refreshing} onRefresh={()=>{ this.getChat() }}/>
                 }>
                     {
-                        this.state.load ? loading() :
+                        this.state.load ? 
+                            <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
+                                {loading()}
+                                <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
+                            </View>
+                         :
                         (
                             this.state.chatList.length !== 0 ?
                                 <List>

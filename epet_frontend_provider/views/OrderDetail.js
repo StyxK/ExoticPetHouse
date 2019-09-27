@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Container, Content, Header, Text, Left, Body, Right, Icon, View, Button, ListItem } from 'native-base'
+import { Container, Content, Header, Text, Left, Body, Right, Icon, View, Button, ListItem, Card,Thumbnail } from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
@@ -9,13 +9,14 @@ export default class OrderDetail extends Component{
     constructor(props){
         super(props)
         this.state = {
-            order: {}
+            order: {},
+            loading: true
         }
     }
 
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
-            this.setState({ order: response.data });
+            this.setState({ order: response.data , loading:false});
         });
         console.log(this.props.item.orderStatus.id,'item')
     }
@@ -37,6 +38,15 @@ export default class OrderDetail extends Component{
                     </Button>
                 </View>
             )
+            case 9 : buttonList.push(
+                <View style={{ display: "flex",flex:1}}>
+                    <Button full style={{margin:10,backgroundColor: "green",borderRadius: 10,justifyContent:'center'}}
+                        onPress={()=>this.acceptOrder()}
+                    >
+                        <Text>ส่งคืนสัตว์เลี้ยงให้เจ้าของ</Text>
+                    </Button>
+                </View>
+            )
             default : null
         }
         return buttonList
@@ -48,6 +58,10 @@ export default class OrderDetail extends Component{
 
     denyOrder = () => {
         axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.pop('orderList') )
+    }
+
+    returnPets = () => {
+        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.pop('orderList') )
     }
     
     render(){
@@ -100,30 +114,36 @@ export default class OrderDetail extends Component{
                         </View>
                     </View>
                     <Content>
-                        <View style={{ marginLeft: 20 }}>
-                            <Text style={{ fontSize: 15 }}>
-                            {" "}
+                        <ListItem itemDivider style={{ justifyContent:'center',backgroundColor:'#7A5032' }}>
+                            <Text style={{ fontSize: 15,color:'white' }}>
                             สัตว์เลี้ยงที่อยู่ในรายการฝาก
                             </Text>
-                        </View>
+                        </ListItem>
                         {orderLines.map(orderLine => {
                             const { pet, cage } = orderLine;
                             return (
-                            <ListItem key={pet.id} style={{ display: "flex", flexDirection: "column" }}>
-                                <View>
+                            <Card key={pet.id} style={{ display: "flex", flexDirection: "row", alignItems:'center',marginLeft:10,marginRight:10,borderBottomLeftRadius:20,borderTopRightRadius:20 }}>
+                                <Left style={{flex:1,alignItems:'center'}}>
+                                    {pet.image ?
+                                        <Thumbnail style={{ width: 40, height: 40 }} source={{ uri: pet.image }} />
+                                        :
+                                        <Thumbnail style={{ width: 40, height: 40 }} source={require('../assets/no_image_available.jpeg')} />
+                                    }
+                                </Left>
+                                <Body style={{flex:2}}>
                                     <Text style={{ fontSize: 15 }}>
-                                        {" "}
-                                        <Text>
-                                        {" "}
                                         ชนิดกรง : <Text note> {cage.name} </Text>
-                                        </Text>
-                                        <Text>
-                                        {" "}
-                                        สัตว์เลี้ยง : <Text note> {pet.name} </Text>
-                                        </Text>
                                     </Text>
-                                </View>
-                            </ListItem>
+                                    <Text>
+                                        สัตว์เลี้ยง : <Text note> {pet.name} </Text>
+                                    </Text>
+                                </Body>
+                                <Right>
+                                    <Button style={{borderTopEndRadius:20}}>
+                                        <Icon name="search"/>
+                                    </Button>
+                                </Right>
+                            </Card>
                             );
                         })}
                         </Content>

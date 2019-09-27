@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Text, Container, Left, Body, Right, Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label, CardItem, Card } from 'native-base'
+import { Text, Container, Left, Body, Right, Header, Thumbnail, ListItem, List, Fab, Icon, Button, Content, Label } from 'native-base'
 import axios from 'axios'
+import { Alert } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux'
 import { setStore,resetStore } from '../src/actions/StoreAction'
@@ -47,9 +48,19 @@ class Profile extends Component {
     }
 
     logout = async () => {
-        await persistor.purge()
-        // await this.props.resetStore()
-        await Actions.reset('login')
+        Alert.alert('','ยืนยันการออกจากระบบ',[
+            {
+                text:'ยืนยัน',
+                onPress:async ()=>{
+                    await persistor.purge()
+                    await Actions.reset('login')
+                },
+            },
+            {
+                text:'ยกเลิก',
+                style:'cancel'
+            }
+        ])
     }
 
     componentWillMount() {

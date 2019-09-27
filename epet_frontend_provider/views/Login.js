@@ -17,7 +17,7 @@ class Login extends Component{
             password : undefined,
             error: undefined,
             login:true,
-            submitRegister:false
+            submitRegister:false,
         }
         view = React.createRef()
         loginComponent = React.createRef()

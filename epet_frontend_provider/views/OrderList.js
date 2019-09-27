@@ -8,27 +8,16 @@ import {
   Left,
   Right,
   Content,
-  ListItem,
-  List,
-  Icon,
-  Button,
-  Footer,
-  FooterTab,
-  Thumbnail,
   Label
 } from "native-base";
-import { StyleSheet, View, Modal } from "react-native";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios";
-import moment from "moment-timezone";
 import NavFooter from '../components/NavFooter'
-import { Actions } from "react-native-router-flux";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view"
-
-const PIC_URI =
-  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
+import {loading} from '../components/Loading'
 
 class OrderList extends Component {
   constructor(props) {
@@ -38,6 +27,7 @@ class OrderList extends Component {
       selectedIndex : 0,
       history : [],
       statuses: [],
+      load : true
     };
   }
 
@@ -58,7 +48,7 @@ class OrderList extends Component {
     });
     axios.get("/order/statuses").then(response => {
       this.setState({ statuses: response.data });
-    });
+    }).then(this.setState({load:false}))
   };
 
   render() {
@@ -73,11 +63,19 @@ class OrderList extends Component {
           <Right style={{ flex: 1 }} />
         </Header>
         <View style={{flex:1}}>
-          {statuses.length > 0 && (
-            <ScrollableTabView tabBarUnderlineStyle={{backgroundColor:"#7A5032"}} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
-                  {this.getSegments()}
-            </ScrollableTabView>
-          )}
+          {
+            this.state.load ?
+            <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
+                {loading()}
+                <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
+            </View>
+            :
+            (statuses.length > 0 && (
+              <ScrollableTabView tabBarUnderlineStyle={{backgroundColor:"#7A5032"}} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
+                    {this.getSegments()}
+              </ScrollableTabView>
+            ))
+          }
         </View>
         <NavFooter/>
       </Container>
@@ -97,7 +95,8 @@ class OrderList extends Component {
                 item={item}
               />
             );
-          })}
+          })
+        }
       </Content>
     ));
     return segments;
