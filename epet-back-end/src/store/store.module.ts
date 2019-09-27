@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Store } from './store.entity';
 import { Address } from '../address/address.entity';
 import { Cage } from '../cage/cage.entity';
-import { StoreOwner } from 'src/storeowner/storeowner.entity';
+import { StoreOwner } from '../storeowner/storeowner.entity';
 
 @Module({
   imports:[TypeOrmModule.forFeature([Store,Address,Cage,StoreOwner])],

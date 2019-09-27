@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
-import { Customer } from 'src/customer/customer.entity';
-import { Store } from 'src/store/store.entity';
+import { Customer } from '../customer/customer.entity';
+import { Store } from '../store/store.entity';
 
 @Entity()
 export class Chat {

@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Post, Body, Put, Delete, UseGuards } from '@nestjs/common';
 import { StoreService } from './store.service';
-import { AuthGuard } from 'src/shared/auth.gaurd';
-import { User } from 'src/user/user.decorator';
+import { AuthGuard } from '../shared/auth.gaurd';
+import { User } from '../user/user.decorator';
 
 @Controller('store')
 export class StoreController {

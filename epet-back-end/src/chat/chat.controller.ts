@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Post, Body, Delete, UseGuards, Logger } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { ChatDTO } from './chat.dto';
-import { AuthGuard } from 'src/shared/auth.gaurd';
-import { User } from 'src/user/user.decorator';
+import { AuthGuard } from '../shared/auth.gaurd';
+import { User } from '../user/user.decorator';
 
 @Controller('chat')
 export class ChatController {

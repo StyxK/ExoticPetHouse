@@ -6,8 +6,8 @@ import { Order } from './order.entity';
 import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
-import { Pet } from 'src/pet/pet.entity';
-import { ChargeService } from 'src/charge/charge.service';
+import { Pet } from '../pet/pet.entity';
+import { ChargeService } from '../charge/charge.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet])],

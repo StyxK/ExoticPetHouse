@@ -6,10 +6,10 @@ import { OrderDTO } from './order.dto';
 import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
-import { Pet } from 'src/pet/pet.entity';
+import { Pet } from '../pet/pet.entity';
 import  * as moment from 'moment'
 import { InjectSchedule , Schedule } from 'nest-schedule'
-import { ChargeService } from 'src/charge/charge.service';
+import { ChargeService } from '../charge/charge.service';
 
 @Injectable()
 export class OrderService {

@@ -5,7 +5,7 @@ import { Store } from './store.entity';
 import { StoreDTO } from './store.dto';
 import { Address } from '../address/address.entity';
 import { Cage } from '../cage/cage.entity';
-import { StoreOwner } from 'src/storeowner/storeowner.entity';
+import { StoreOwner } from '../storeowner/storeowner.entity';
 
 @Injectable()
 export class StoreService {

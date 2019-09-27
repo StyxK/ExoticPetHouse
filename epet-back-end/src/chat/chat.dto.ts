@@ -1,5 +1,5 @@
-import { Customer } from 'src/customer/customer.entity';
-import { Store } from 'src/store/store.entity';
+import { Customer } from '../customer/customer.entity';
+import { Store } from '../store/store.entity';
 
 export interface ChatDTO {
     id:string,
