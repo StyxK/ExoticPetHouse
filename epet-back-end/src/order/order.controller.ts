@@ -61,6 +61,18 @@ export class OrderController {
     return this.orderService.storeAcceptance(orderId)
   }
 
+  @Put('/denyByCustomer/:orderId') //ลูกค้ายกเลิก order
+  @UseGuards(new AuthGuard())
+  async denyByCustomer(@Param() orderId){
+    return this.orderService.denyByCustomer(orderId)
+  }
+
+  @Put('/denyByStore/:orderId') //ร้านยกเลิก
+  @UseGuards(new AuthGuard())
+  async denyByStore(@Param() orderId){
+    return this.orderService.denyByStore(orderId)
+  }
+
   @Put('/orderBegin/:orderId') //กำลังฝากที่ร้าน
   @UseGuards(new AuthGuard())
   async orderBegin(@Param() orderId){

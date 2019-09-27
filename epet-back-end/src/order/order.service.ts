@@ -1,4 +1,4 @@
-import { Injectable, Logger, HttpStatus, HttpException } from '@nestjs/common';
+import { Injectable, Logger, HttpStatus, HttpException, InternalServerErrorException } from '@nestjs/common';
 import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -156,6 +156,32 @@ export class OrderService {
     }
   }
 
+  // deny order by customer --> ลูกค้ายกเลิกการฝาก
+  async denyByCustomer(order){
+    try{
+      const data = await this.getStatus(order)
+      if(await data.orderStatus.id != 1 && await data.orderStatus.id != 2){
+        throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
+      }
+      this.orderRepository.update(data.id,{orderStatus:{id:4}})
+    }catch(error){
+      return error.message
+    }
+  }
+
+  // deny order by store  --> ลูกค้ายกเลิกการฝาก
+  async denyByStore(order){
+    try{
+      const data = await this.getStatus(order)
+      if(await data.orderStatus.id != 1){
+        throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
+      }
+      this.orderRepository.update(data.id,{orderStatus:{id:5}})
+    }catch(error){
+      return error.message
+    }
+  }
+  
   // order Begin --> สัตว์เลี้ยงอยู่ระหว่างการฝาก
   async orderBegin(order){
     try{

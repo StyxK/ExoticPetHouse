@@ -17,8 +17,39 @@ export default class OrderDetail extends Component{
         axios.get("/order/"+this.props.item.id).then(response => {
             this.setState({ order: response.data });
         });
+        console.log(this.props.item.orderStatus.id,'item')
     }
 
+    renderButton(){
+        let buttonList = []
+        switch(this.props.item.orderStatus.id){
+            case 1 : buttonList.push(
+                <View style={{ display: "flex",flex:1}}>
+                    <Button full style={{margin:10,backgroundColor: "green",borderRadius: 10,justifyContent:'center'}}
+                        onPress={()=>this.acceptOrder()}
+                    >
+                        <Text>ยอมรับคำขอฝาก</Text>
+                    </Button>
+                    <Button full style={{margin:10,backgroundColor: "red",borderRadius: 10,justifyContent:'center'}}
+                        onPress={()=>this.denyOrder()}
+                    >
+                        <Text>ปฏิเสธคำขอฝาก</Text>
+                    </Button>
+                </View>
+            )
+            default : null
+        }
+        return buttonList
+    }
+
+    acceptOrder = () => {
+        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.pop('orderList') )
+    }
+
+    denyOrder = () => {
+        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.pop('orderList') )
+    }
+    
     render(){
         const { order } = this.state
         const { orderLines = [] ,store={}} = order
@@ -96,19 +127,10 @@ export default class OrderDetail extends Component{
                             );
                         })}
                         </Content>
-                        <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-                        <Left>
-                            <Button style={{backgroundColor: "#7A5032",flex: 1,borderRadius: 10}}>
-                            <Text>ชำระค่าบริการ</Text>
-                            </Button>
-                        </Left>
-                        <Right>
-                            <Button style={{backgroundColor: "#7A5032",flex: 1,borderRadius: 10 }}>
-                                <Text>ยกเลิกคำสั่งฝาก</Text>
-                            </Button>
-                        </Right>
-                    </View>
                 </Content>
+                <View style={{flex:0.5,flexDirection:'row'}}>
+                    {this.renderButton()}  
+                </View>                      
             </Container>
         )
     }
