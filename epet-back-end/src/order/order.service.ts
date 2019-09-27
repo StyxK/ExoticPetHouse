@@ -193,7 +193,6 @@ export class OrderService {
   // charge order --> จ่ายค่าบริการ
   async charge(orderId,charge){
     try{
-      console.log('อิหยังวะ')
       const data = await this.getStatus(orderId)
       if(await data.orderStatus.id != 6){
         throw new Error('ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
@@ -215,5 +214,36 @@ export class OrderService {
     }
   }
 
+  // return Pets in order --> ร้านคืนสัตว์เลี้ยง
+  async returnPetOrder(order){
+    try{
+      const data = await this.getStatus(order)
+      if(data.orderStatus.id != 9){
+        throw new Error('ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
+      }
+      await this.orderRepository.update(data.id,{orderStatus:{id:8}})
+      return this.orderRepository.findOne({id:data.id})
+    }catch(error){
+      return error.message
+    }
+  }
+
+  // get pets back --> เจ้าของร้านรับสัตว์เลี้ยง
+  async getPetsBack(order){
+    try{
+      const data = await this.getStatus(order)
+      if(data.orderStatus.id != 8){
+        throw new Error('กรุณาติดต่อร้านเพื่อรับสัตว์เลี้ยงคืน')
+      }
+      const pet = await data.orderLines.map(async data=>{
+        await this.petRepository.update(data.id,{wasDeposit:false})
+      })
+      await Promise.all(await pet)
+      await this.orderRepository.update(data.id,{orderStatus:{id:7}})
+      return await this.orderRepository.findOne({where:{id:data.id}})
+    }catch(error){
+      return error.message
+    }
+  }
 
 }

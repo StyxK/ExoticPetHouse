@@ -70,12 +70,24 @@ export class OrderController {
   @Put('/charge/:orderId') //จ่ายเงิน
   @UseGuards(new AuthGuard())
   async charge(@Param() orderId,@Body() charge){
-    Logger.log('มันเข้ามาปะวะ')
     return this.orderService.charge(orderId,charge)
+  }
+
+  @Put('/returnPets/:orderId') //คืนสัตว์เลี้ยง
+  @UseGuards(new AuthGuard())
+  async returnPetOrder(@Param() orderId){
+    return this.orderService.returnPetOrder(orderId)
+  }
+
+  @Put('/getPetsBack/:orderId') //คืนสัตว์เลี้ยง
+  @UseGuards(new AuthGuard())
+  async getPetsBack(@Param() orderId){
+    return this.orderService.getPetsBack(orderId)
   }
 
   @Delete(':id')
   async deleteOrder(@Param() id) {
     return this.orderService.delete(id);
   }
+
 }
