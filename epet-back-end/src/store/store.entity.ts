@@ -5,7 +5,7 @@ import { Feedback } from "../feedback/feedback.entity";
 import { Cage } from "../cage/cage.entity";
 import { Address } from "../address/address.entity";
 import { Entity, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn, JoinColumn, ManyToMany, JoinTable } from "typeorm";
-import { Chat } from "src/chat/chat.entity";
+import { Chat } from "../chat/chat.entity";
 @Entity()
 export class Store {
 
