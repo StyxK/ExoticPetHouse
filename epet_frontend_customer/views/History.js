@@ -99,7 +99,7 @@ class History extends Component {
   // };
 
   goToHistoryDetail = item => () => {
-    Actions.historyDetail({ item });
+    Actions.historyDetail({ item, refresh: this.refresh });
   };
 
   render() {
@@ -107,8 +107,7 @@ class History extends Component {
     return (
       <Container style={{ display: "flex", height: "100%" }}>
         <Header style={{ backgroundColor: "#7A5032" }}>
-          <Left style={{ flex: 1 }}>
-          </Left>
+          <Left style={{ flex: 1 }}></Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
             <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
           </Body>

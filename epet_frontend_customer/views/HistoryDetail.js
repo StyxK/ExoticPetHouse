@@ -16,7 +16,7 @@ import {
   FooterTab
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import Config from "react-native-config";
 import { connect } from "react-redux";
 import NavFooter from "../components/NavFooter";
@@ -31,14 +31,14 @@ class HistoryDetail extends Component {
     history: {}
   };
   componentWillMount() {
-    axios.get("/order/"+this.props.item.id).then(response => {
+    axios.get("/order/" + this.props.item.id).then(response => {
       this.setState({ history: response.data });
-      console.log(response.data,'data from api')
+      console.log(response.data, "data from api");
     });
   }
   render() {
     const { history } = this.state;
-    const { id, orderLines = [] ,store={}} = history;
+    const { id, orderLines = [], store = {} } = history;
     let startDate = moment(history.startDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
@@ -75,7 +75,7 @@ class HistoryDetail extends Component {
                 </Text>
                 <Text style={{ fontSize: 15 }}>
                   {" "}
-                  {console.log(store.name,'store')}
+                  {console.log(store.name, "store")}
                   ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
                 </Text>
                 <Text style={{ fontSize: 15 }}>
@@ -154,7 +154,7 @@ class HistoryDetail extends Component {
                     flex: 1,
                     borderRadius: 10
                   }}
-                  onPress={this.cancelOrder}
+                  onPress={this.confirmCancelOrder}
                 >
                   <Text>ยกเลิกคำสั่งฝาก</Text>
                 </Button>
@@ -165,27 +165,43 @@ class HistoryDetail extends Component {
       </Container>
     );
   }
+  confirmCancelOrder = () => {
+    const { item } = this.props;
+    if (item.orderStatus.id == 1 || item.orderStatus.id == 2) {
+      Alert.alert(
+        "ยกเลิกออเดอร์",
+        "คุณแน่ใจว่าต้องการยกเลิกออเดอร์หรือไม่",
+        [
+          {
+            text: "Cancel",
+            onPress: () => {},
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => this.cancelOrder() }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      alert("ออร์เดอร์นี้ไม่สามารถยกเลิกได้");
+    }
+  };
 
   cancelOrder = () => {
-    const { item ,refresh } = this.props;
+    const { item, refresh } = this.props;
     if (item.orderStatus.id == 1 || item.orderStatus.id == 2) {
       axios
-        .put("/order/" + item.id, {
-          orderStatus: {
-            id: 4
-          }
-        })
+        .put("/order/denyByCustomer/" + item.id)
         .then(response => {
-          alert("success");
-          refresh&&refresh();
+          alert("ยกเลิกออร์เดอร์สำเร็จ");
+          refresh && refresh();
           Actions.pop();
         })
         .catch(error => {
           alert("error" + error);
           console.log(error);
         });
-    }else{
-      alert("ไม่สามารถยกเลิกได้")
+    } else {
+      alert("ออร์เดอร์นี้ไม่สามารถยกเลิกได้");
     }
   };
 
@@ -194,9 +210,12 @@ class HistoryDetail extends Component {
   };
 
   payment = () => {
-    Actions.payment({item:this.props.item,price:this.state.history.totalPrice,order:this.props.item.id});
-  }
-
+    Actions.payment({
+      item: this.props.item,
+      price: this.state.history.totalPrice,
+      order: this.props.item.id
+    });
+  };
 }
 
 const styles = StyleSheet.create({
