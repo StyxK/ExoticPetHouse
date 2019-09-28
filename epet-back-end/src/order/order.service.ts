@@ -209,6 +209,7 @@ export class OrderService {
       .update(`order`)
       .set({ orderStatus : {id:6} })
       .where(`endDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 3`)
       .execute()
       return await this.orderRepository.find()
     }catch(error){

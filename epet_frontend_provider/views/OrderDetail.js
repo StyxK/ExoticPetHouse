@@ -37,7 +37,7 @@ export default class OrderDetail extends Component{
                         <Text>ปฏิเสธคำขอฝาก</Text>
                     </Button>
                 </View>
-            )
+            );break
             case 9 : buttonList.push(
                 <View style={{ display: "flex",flex:1}}>
                     <Button full style={{margin:10,backgroundColor: "green",borderRadius: 10,justifyContent:'center'}}
@@ -46,22 +46,22 @@ export default class OrderDetail extends Component{
                         <Text>ส่งคืนสัตว์เลี้ยงให้เจ้าของ</Text>
                     </Button>
                 </View>
-            )
+            );break
             default : null
         }
         return buttonList
     }
 
     acceptOrder = () => {
-        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.pop('orderList') )
+        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
 
     denyOrder = () => {
-        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.pop('orderList') )
+        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
 
     returnPets = () => {
-        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.pop('orderList') )
+        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
     
     render(){
@@ -122,7 +122,7 @@ export default class OrderDetail extends Component{
                         {orderLines.map(orderLine => {
                             const { pet, cage } = orderLine;
                             return (
-                            <Card key={pet.id} style={{ display: "flex", flexDirection: "row", alignItems:'center',marginLeft:10,marginRight:10,borderBottomLeftRadius:20,borderTopRightRadius:20 }}>
+                            <Card key={pet.id} style={{ display: "flex", flexDirection: "row", alignItems:'center',margin:10,marginLeft:10,marginRight:10,borderRadius:10 }}>
                                 <Left style={{flex:1,alignItems:'center'}}>
                                     {pet.image ?
                                         <Thumbnail style={{ width: 40, height: 40 }} source={{ uri: pet.image }} />
@@ -139,7 +139,7 @@ export default class OrderDetail extends Component{
                                     </Text>
                                 </Body>
                                 <Right>
-                                    <Button style={{borderTopEndRadius:20}}>
+                                    <Button style={{borderTopRightRadius:10,borderBottomRightRadius:10}}>
                                         <Icon name="search"/>
                                     </Button>
                                 </Right>

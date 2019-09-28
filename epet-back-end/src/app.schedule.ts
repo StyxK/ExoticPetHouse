@@ -17,4 +17,11 @@ export class ScheduleService extends NestSchedule{
         console.log('job working')
     }
 
+    @Interval(2000)
+    async testing(){
+        this.orderService.outOfTime()
+        console.log('job working')
+        return true
+    }
+
 }
