@@ -84,7 +84,7 @@ class orderButton extends Component {
   };
 
   getPetsBack = () => {
-    axios.put("/order/returnPets/" + this.props.item.id).then(() => {
+    axios.put("/order/getPetsBack/" + this.props.item.id).then(() => {
       const { setPets } = this.props;
       axios.get("/pet").then(response => {
         setPets(response.data);
