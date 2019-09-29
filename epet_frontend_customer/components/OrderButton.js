@@ -24,19 +24,7 @@ class orderButton extends Component {
           <Label>ยกเลิกคำสั่งฝาก</Label>
         </Button>
       );
-    } else if (orderStatus == 2) {
-      list.push(
-        <Button
-          full
-          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
-          onPress={() => {
-            this.cancelOrder();
-          }}
-        >
-          <Label>ยกเลิกคำสั่งฝาก</Label>
-        </Button>
-      );
-    } else if (orderStatus == 6) {
+    }  else if (orderStatus == 6) {
       list.push(
         <Button
           full
@@ -48,7 +36,7 @@ class orderButton extends Component {
           <Label>ชำระค่าบริการ</Label>
         </Button>
       );
-    } else if (orderStatus == 3) {
+    } else if (orderStatus == 2) {
       list.push(
         <Button
           full
