@@ -48,7 +48,19 @@ class orderButton extends Component {
           <Label>ชำระค่าบริการ</Label>
         </Button>
       );
-    } else if (orderStatus == 9) {
+    } else if (orderStatus == 3) {
+      list.push(
+        <Button
+          full
+          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
+          onPress={() => {
+            this.orderBegin();
+          }}
+        >
+          <Label>เริ่มการฝาก</Label>
+        </Button>
+      );
+    } else if (orderStatus == 8) {
       list.push(
         <Button
           full
@@ -80,6 +92,16 @@ class orderButton extends Component {
       item: this.props.item,
       price: this.props.item.totalPrice,
       order: this.props.item.id
+    });
+  };
+
+  orderBegin = () => {
+    axios.put("/order/orderBegin/" + this.props.item.id).then(() => {
+      const { setPets } = this.props;
+      axios.get("/pet").then(response => {
+        setPets(response.data);
+        Actions.history();
+      });
     });
   };
 
