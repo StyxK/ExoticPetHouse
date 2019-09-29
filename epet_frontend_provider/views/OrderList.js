@@ -17,17 +17,17 @@ import NavFooter from '../components/NavFooter'
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view"
-import {loading} from '../components/Loading'
+import { loading } from '../components/Loading'
 
 class OrderList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       page: [],
-      selectedIndex : 0,
-      history : [],
+      selectedIndex: 0,
+      history: [],
       statuses: [],
-      load : true
+      load: true
     };
   }
 
@@ -38,17 +38,17 @@ class OrderList extends Component {
     });
   };
 
-  componentWillMount(){
+  componentWillMount() {
     this.refresh();
   }
 
   refresh = () => {
-    axios.get("/order/store/"+this.props.store.storeId).then(response => {
+    axios.get("/order/store/" + this.props.store.storeId).then(response => {
       this.setState({ history: response.data });
     });
     axios.get("/order/statuses").then(response => {
       this.setState({ statuses: response.data });
-    }).then(this.setState({load:false}))
+    }).then(this.setState({ load: false }))
   };
 
   render() {
@@ -57,27 +57,22 @@ class OrderList extends Component {
       <Container>
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 1 }} />
-          <Body style={{ flex: 3 , alignItems:'center' }}>
+          <Body style={{ flex: 3, alignItems: 'center' }}>
             <Text style={{ color: "white" }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
+          {console.log(this.state.load,'load')}
           {
-            this.state.load ?
-            <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
-                {loading()}
-                <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
-            </View>
-            :
             (statuses.length > 0 && (
-              <ScrollableTabView tabBarUnderlineStyle={{backgroundColor:"#7A5032"}} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
-                    {this.getSegments()}
+              <ScrollableTabView tabBarUnderlineStyle={{ backgroundColor: "#7A5032" }} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
+                {this.getSegments()}
               </ScrollableTabView>
             ))
           }
         </View>
-        <NavFooter/>
+        <NavFooter />
       </Container>
     );
   }
@@ -85,21 +80,22 @@ class OrderList extends Component {
   getSegments = () => {
     const { history, statuses } = this.state;
     const segments = statuses.map(status => (
-      <Content key={status.id} tabLabel={status.status} style={{marginTop:5,marginBottom:5}}>
-        {history
-          .filter(item => item.orderStatus.id === status.id)
-          .map(item => {
-            return (
-              <OrderCard
-                key={item.id}
-                item={item}
-              />
-            );
-          })
+      <Content key={status.id} tabLabel={status.status} style={{ marginTop: 5, marginBottom: 5 }}>
+        {history.filter(item => {
+          return item.orderStatus.id === status.id
+        }).map(item => {
+          return (
+            <OrderCard
+              key={item.id}
+              item={item}
+            />
+          );
+        })
         }
       </Content>
     ));
-    return segments;
+    console.log(segments,'list')
+    return segments
   };
 }
 

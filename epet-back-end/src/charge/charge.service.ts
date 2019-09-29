@@ -14,10 +14,10 @@ export class ChargeService {
             'card' : data.token
         },(err,charge)=>{
             if(err){
-                console.log(err,'error')
                 throw new Error('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
             }
             else if (charge){
+                console.log(charge,'ชาจ')
                 return('การชำระเงินเสร็จสิ้น ของคุณที่ใช้บริการ')
             }
         })

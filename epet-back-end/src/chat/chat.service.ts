@@ -10,7 +10,7 @@ export class ChatService {
         @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>
     ){}
 
-    async showAllChat(){
+    async showAllChat():Promise<Chat[]>{
         const chat = await this.chatRepository.find()
         return chat
     }
@@ -60,7 +60,7 @@ export class ChatService {
         return message
     }
     
-    async showByRoom(data:Partial<ChatDTO>){
+    async showByRoom(data:Partial<ChatDTO>):Promise<Chat[]>{
         Logger.log('')
         const chat = await this.chatRepository.find({where:{
             customerUsername:data.customer,
@@ -69,14 +69,14 @@ export class ChatService {
         return chat
     }
     
-    async sendMessage(data:Partial<ChatDTO>){
+    async sendMessage(data:Partial<ChatDTO>):Promise<Chat>{
         Logger.log(data,'data')
         const chat = await this.chatRepository.create({...data})
         await this.chatRepository.save(chat)
         return chat
     }
 
-    async deleteChat(data:Partial<ChatDTO>){
+    async deleteChat(data:Partial<ChatDTO>):Promise<{delete:boolean}>{
         const chat = await this.chatRepository.delete({...data})
         return {delete:true}
     }

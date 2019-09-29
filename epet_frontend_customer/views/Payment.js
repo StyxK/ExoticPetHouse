@@ -161,12 +161,15 @@ export default class Payment extends Component {
             await axios.put('/order/charge/'+this.props.order,{
                 token:data.id,
                 amount:amount
-            }).then(()=>{
+            }).then((data)=>{
+                console.log(data,'ข้อมูล')
                 alert('การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ')
-                // Actions.home()
+                // Actions.history()
+            }).catch(err=>{
+                console.log(err)
             })
         }).catch( err => {
-            console.log(err._55)
+            console.log(err)
             this.setState({
                 alert:"กรุณาตรวจสอบข้อมูลที่กรอก,บัตรเครดิตของท่าน และทำรายการอีกครั้ง"
             })

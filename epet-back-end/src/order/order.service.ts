@@ -8,7 +8,6 @@ import { Customer } from '../customer/customer.entity';
 import { OrderStatus } from './order.status.entity';
 import { Pet } from '../pet/pet.entity';
 import  * as moment from 'moment'
-import { InjectSchedule , Schedule } from 'nest-schedule'
 import { ChargeService } from '../charge/charge.service';
 
 @Injectable()
@@ -24,7 +23,6 @@ export class OrderService {
     private readonly orderStatusRepository: Repository<OrderStatus>,
     @InjectRepository(Pet)
     private readonly petRepository: Repository<Pet>,
-    @InjectSchedule()
     private chargeService : ChargeService
   
   ) {}
@@ -139,7 +137,10 @@ export class OrderService {
       await this.orderRepository.save(order);
       return this.toResponseObject(order);
     }catch(error){
-      return error.message
+      if(error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' || error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว')
+        return new HttpException(error.message,406)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 
@@ -152,7 +153,10 @@ export class OrderService {
       }
       this.orderRepository.update(data.id,{orderStatus:{id:2}})
     }catch(error){
-      return error.message
+      if(error.message == 'ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
+        return new HttpException(error.message,406)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 
@@ -165,7 +169,10 @@ export class OrderService {
       }
       this.orderRepository.update(data.id,{orderStatus:{id:4}})
     }catch(error){
-      return error.message
+      if(error.message == 'ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
+        return new HttpException(error.message,406)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 
@@ -178,7 +185,10 @@ export class OrderService {
       }
       this.orderRepository.update(data.id,{orderStatus:{id:5}})
     }catch(error){
-      return error.message
+      if(error.message == 'ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
+        return new HttpException(error.message,406)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
   
@@ -213,7 +223,7 @@ export class OrderService {
       .execute()
       return await this.orderRepository.find()
     }catch(error){
-      return error.message
+      return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 
@@ -233,11 +243,15 @@ export class OrderService {
         console.log(orderLine.cage.price,'price origin')
       })
       await Promise.all(calculatePrice)
+      await console.log(this.chargeService)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
     }catch(error){
-      Logger.log(error.message,'error ไรวะ')
-      return error.message
+      console.log(error)
+      if(error.message == 'ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
+        return new HttpException(error.message,406)
+      else
+        return new HttpException(error.message,500)
     }
   }
 
@@ -251,11 +265,14 @@ export class OrderService {
       await this.orderRepository.update(data.id,{orderStatus:{id:8}})
       return this.orderRepository.findOne({id:data.id})
     }catch(error){
-      return error.message
+      if(error.message == 'ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
+        return new HttpException(error.message,402)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 
-  // get pets back --> เจ้าของร้านรับสัตว์เลี้ยง
+  // get pets back --> เจ้าของรับสัตว์เลี้ยง
   async getPetsBack(order){
     try{
       const data = await this.getStatus(order)
@@ -263,13 +280,18 @@ export class OrderService {
         throw new Error('กรุณาติดต่อร้านเพื่อรับสัตว์เลี้ยงคืน')
       }
       const pet = await data.orderLines.map(async data=>{
-        await this.petRepository.update(data.id,{wasDeposit:false})
+        const petInOrderLine = await this.orderLineRepository.findOne({where:{id:data.id},relations:['pet']})
+        await this.petRepository.update(petInOrderLine.pet.id,{wasDeposit:false})
       })
       await Promise.all(await pet)
       await this.orderRepository.update(data.id,{orderStatus:{id:7}})
       return await this.orderRepository.findOne({where:{id:data.id}})
     }catch(error){
-      return error.message
+      console.log(error)
+      if(error.message == 'กรุณาติดต่อร้านเพื่อรับสัตว์เลี้ยงคืน')
+        return new HttpException(error.message,HttpStatus.UNAUTHORIZED)
+      else
+        return HttpStatus.INTERNAL_SERVER_ERROR
     }
   }
 

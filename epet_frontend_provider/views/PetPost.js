@@ -20,9 +20,9 @@ export default class PetPost extends Component {
     selectImageFromGallery = () => {
         ImagePicker.showImagePicker(options,response=>{
             if(response.didCancel)
-                alert('cancel')
+                null
             else if(response.error)
-                alert('error')
+                console.log('error')
             else
                 this.setState({
                     picture : {uri : 'data:image/jpeg;base64,'+ response.data}

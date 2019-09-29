@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { Image } from 'react-native'
-import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab } from 'native-base'
+import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab, Thumbnail, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
-
-const PIC_URL = 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Welchcorgipembroke.JPG'
 
 export default class PetActivities extends Component {
 
@@ -19,6 +17,7 @@ export default class PetActivities extends Component {
     }
 
     getPetDetails = ()=>{
+        console.log(this.props.pet)
         this.setState({
             pet : this.props.pet
         })
@@ -79,14 +78,26 @@ export default class PetActivities extends Component {
                     <Right style={{ flex: 1 }} />
                 </Header>
                 <Content style={{ backgroundColor: 'grey' }}>
-                    <View style={{backgroundColor:'black',alignItems:'center'}}>
-                        <Icon style={{color:'white' , fontSize:100}} name='person'/>
-                        <Text style={{color:'white'}}> {pet.name} </Text>
+                    <View style={{backgroundColor:'#fff7a3',flexDirection:'row',marginBottom:5}}>
+                        <Left style={{flex:1,alignItems:'center'}}>
+                            {pet.image ?
+                                <Thumbnail style={{ width: 80, height: 80 }} source={{ uri: pet.image }} />
+                                :
+                                <Thumbnail style={{ width: 80, height: 80 }} source={require('../assets/no_image_available.jpeg')} />
+                            }
+                        </Left>
+                        <Body style={{flex:2,alignItems:'flex-start'}}>
+                            <Label/>
+                            <Label style={{color:'#7A5032'}}> น้อง <Label> {pet.name} </Label> </Label>
+                            <Label style={{color:'#7A5032'}}> อายุ <Label> {pet.age} </Label> เดือน </Label>
+                            <Label style={{color:'#7A5032'}}> เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label> </Label>
+                            <Label/>
+                        </Body>
                     </View>
                     {this.activitiesCard()}
                 </Content>
                 <Fab onPress={()=>goToPetPost(pet,storeId)} style={{backgroundColor:'green'}}>
-                    <Icon name='person'/>
+                    <Icon name='add'/>
                 </Fab>
             </Container>
         )
@@ -94,7 +105,7 @@ export default class PetActivities extends Component {
 }
 
 goToPets = () => {
-    Actions.pop()
+    Actions.popTo('pet')
 }
 
 goToPetPost = (pet,storeId) => {

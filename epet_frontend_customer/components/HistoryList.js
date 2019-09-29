@@ -4,18 +4,19 @@ import { StyleSheet } from "react-native";
 import moment from "moment-timezone";
 
 export default class HistoryList extends Component {
+
   render() {
     const { item, onPress } = this.props;
     const { id, orderStatus, store = [] } = item;
     let startDate = moment(item.startDate)
       .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
+      .format("DD MMM YYYY");
     let endDate = moment(item.endDate)
       .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
-    let submitDate = moment(item.submitDate)
-      .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
+      .format("DD MMM YYYY");
+    // let submitDate = moment(item.submitDate)
+    //   .tz("Asia/Bangkok")
+    //   .format("DD MMM YYYY");
     return (
       <ListItem note onPress={onPress}>
         <Body style={{ flex: 2 }}>

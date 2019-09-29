@@ -8,37 +8,36 @@ import {
   ListItem,
   Text,
   Right,
-  Thumbnail,
   Button,
   Icon,
   Left,
-  Footer,
-  FooterTab
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Alert } from "react-native";
-import Config from "react-native-config";
 import { connect } from "react-redux";
-import NavFooter from "../components/NavFooter";
 import axios from "axios";
 import moment from "moment-timezone";
 import { Actions } from "react-native-router-flux";
-
-const API_URL = Config.API_URL;
+import OrderButton from '../components/OrderButton'
 
 class HistoryDetail extends Component {
-  state = {
-    history: {}
-  };
-  componentWillMount() {
-    axios.get("/order/" + this.props.item.id).then(response => {
-      this.setState({ history: response.data });
-      console.log(response.data, "data from api");
-    });
+  constructor(props){
+    super(props)
+    this.state = {
+      history: {},
+      statusId: null
+    };
   }
+
+  componentDidMount() {
+    axios.get("/order/" + this.props.item.id).then(response => {
+      this.setState({ history: response.data ,statusId : response.data.orderStatus.id});
+    })
+  }
+
   render() {
     const { history } = this.state;
-    const { id, orderLines = [], store = {} } = history;
+    const { id, orderStatus, orderLines = [], store = {} } = history;
     let startDate = moment(history.startDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
@@ -135,36 +134,14 @@ class HistoryDetail extends Component {
               })}
             </Content>
             <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-              <Left>
-                <Button
-                  style={{
-                    backgroundColor: "#7A5032",
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.payment}
-                >
-                  <Text>ชำระค่าบริการ</Text>
-                </Button>
-              </Left>
-              <Right>
-                <Button
-                  style={{
-                    backgroundColor: "#7A5032",
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.confirmCancelOrder}
-                >
-                  <Text>ยกเลิกคำสั่งฝาก</Text>
-                </Button>
-              </Right>
+              <OrderButton item={history} orderStatus={this.state.statusId}/>
             </View>
           </Content>
         </Container>
       </Container>
     );
   }
+
   confirmCancelOrder = () => {
     const { item } = this.props;
     if (item.orderStatus.id == 1 || item.orderStatus.id == 2) {
@@ -209,13 +186,6 @@ class HistoryDetail extends Component {
     Actions.petActivity({ orderLine });
   };
 
-  payment = () => {
-    Actions.payment({
-      item: this.props.item,
-      price: this.state.history.totalPrice,
-      order: this.props.item.id
-    });
-  };
 }
 
 const styles = StyleSheet.create({
