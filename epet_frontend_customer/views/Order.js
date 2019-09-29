@@ -94,7 +94,6 @@ class Order extends Component {
       ],
       {cancelable: false},
     );
-
     remove=()=>{
       let orderLine = this.props.orderLine;
       for( let i = 0; i < orderLine.length; i++){ 
@@ -106,26 +105,7 @@ class Order extends Component {
       Actions.refresh({});
     }
   }
-  componentWillMount() {
-    //this.setStoreDataToOrder();
-  }
-
-  changPetStatusForm = () => {
-    const{updatePet} = this.props
-    axios
-      .put("/pet/" + this.state.petIdTemp, {
-        wasDeposit: true
-      })
-      .then(response => {
-        alert("success");
-        updatePet(response.data);
-      })
-      .catch(error => {
-        alert("error" + error);
-        console.log(error);
-      });
-  };
-
+  
   submitForm = () => {
     axios
       .post(API_URL + "/order/", {
@@ -134,15 +114,12 @@ class Order extends Component {
         startDate: this.state.startChosenDate,
         endDate: this.state.endChosenDate,
         orderLines: this.props.orderLine,
-        store: this.props.stores.id,
-        orderStatus: 1
+        storeId: this.props.stores.id,
       })
       .then(response => {
-        alert("success");
         console.log(JSON.stringify(response));
       })
       .catch(error => {
-        alert("error" + error);
         console.log(error);
       });
   };
@@ -286,7 +263,6 @@ class Order extends Component {
   sendOrderToStore = () => {
     alert("ส่งคำร้องเสร็จสิ้น");
     this.submitForm();
-    this.changPetStatusForm();
     Actions.history();
   };
 }

@@ -86,17 +86,19 @@ class Store extends Component {
           onPress={() => {
             this.chooseCageFromStorePage(data.id);
           }}
+          style={{backgroundColor:"#7A5032"}}
         >
-          <Left>
-            <Icon name="paw" />
-          </Left>
-          <Body>
-            <Text>{data.name}</Text>
-            <Text note>ประเภท: {data.type}</Text>
-            <Text style={{ color: "#7A5032" }}>{data.price} บาท/คืน</Text>
-          </Body>
-          <Right>
-          </Right>
+            <Left>
+              <Icon name="paw" />
+            </Left>
+            <Body>
+              <Text style={{color:"white"}}>{data.name}</Text>
+              <Text note style={{color:"white"}}>ประเภท: {data.type}</Text>
+              <Text style={{ color: "blue" }}>{data.price} บาท/คืน</Text>
+            </Body>
+            <Right>
+            </Right>
+  
         </ListItem>
       );
     });
@@ -124,8 +126,6 @@ class Store extends Component {
                 </Left>
                 <Text>{pet.name}</Text>
                 <Text note>{pet.typeOfPet}</Text>
-                <Text>{this.petWasSelectedInOrder(pet.id)+""}</Text>
-
               </Body>
             </Card>
           </TouchableHighlight>
