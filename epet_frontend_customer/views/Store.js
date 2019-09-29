@@ -80,26 +80,25 @@ class Store extends Component {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
       return (
-        <ListItem
+        <Card
           avatar
           key={data.id}
-          onPress={() => {
-            this.chooseCageFromStorePage(data.id);
-          }}
-          style={{backgroundColor:"#7A5032"}}
+          
+          style={{backgroundColor:"#A37E63"}}
         >
+          <CardItem button onPress={()=>this.chooseCageFromStorePage(data.id)} style={{backgroundColor:"#7A5032"}}>
             <Left>
               <Icon name="paw" />
             </Left>
             <Body>
-              <Text style={{color:"white"}}>{data.name}</Text>
-              <Text note style={{color:"white"}}>ประเภท: {data.type}</Text>
-              <Text style={{ color: "blue" }}>{data.price} บาท/คืน</Text>
+              <Text style={{ color: "white" }}>{data.name}</Text>
+              <Text style={{ color: "white" }}>ประเภท: {data.type}</Text>
+              <Text style={{ color: "#82CAFA", borderColor:"white" }}>{data.price} บาท/คืน</Text>
             </Body>
             <Right>
             </Right>
-  
-        </ListItem>
+          </CardItem>
+        </Card>
       );
     });
 
@@ -202,7 +201,7 @@ class Store extends Component {
                 </Left>
               </CardItem>
               <Content>
-                <List>{cageList}</List>
+                {cageList}
               </Content>
               <CardItem>
                 <Text note>
