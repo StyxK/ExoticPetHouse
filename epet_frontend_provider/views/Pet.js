@@ -17,7 +17,11 @@ class Pet extends Component {
             selectedIndex: 0,
             depositingPet: [],
             expiredPet: [],
-            load: true
+            load: true,
+            error: {
+                message : undefined,
+                status : false
+            },
         }
     }
 
@@ -39,7 +43,11 @@ class Pet extends Component {
                 expiredPet: expired,
                 load: false
             })
-        } catch (err) { }
+        } catch (err) { 
+            if(err.message == 'Request failed with status code 500'){
+                this.setState({error:{message:'ขออภัย ขณะนี้ไม่สามารถติดต่อระบบได้',status:true}})
+            }
+         }
     }
 
     componentDidMount() {
@@ -120,10 +128,18 @@ class Pet extends Component {
                 <Content>
                     {
                         load ?
+                        (
+                            this.state.error.status ? 
+                            <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
+                                <Label style={{color:"#7A5032"}}> {this.state.error.message} </Label>
+                            </View>
+                            :
                             <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
                                 {loading()}
                                 <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
-                            </View> :
+                            </View>
+                        )
+                         :
                             selectedIndex == 0 ?
                                 this.petCard(depositingPet)
                                 :

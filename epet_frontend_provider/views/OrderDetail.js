@@ -3,6 +3,7 @@ import { Container, Content, Header, Text, Left, Body, Right, Icon, View, Button
 import {Actions} from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
+import OrderButton from '../components/OrderButton'
 
 export default class OrderDetail extends Component{
 
@@ -10,58 +11,16 @@ export default class OrderDetail extends Component{
         super(props)
         this.state = {
             order: {},
+            statusId: undefined,
             loading: true
         }
     }
 
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
-            this.setState({ order: response.data , loading:false});
+            this.setState({ order: response.data , loading:false ,statusId:response.data.id});
         });
         console.log(this.props.item.orderStatus.id,'item')
-    }
-
-    renderButton(){
-        let buttonList = []
-        switch(this.props.item.orderStatus.id){
-            case 1 : buttonList.push(
-                <View style={{ display: "flex",flex:1}}>
-                    <Button full style={{margin:10,backgroundColor: "green",borderRadius: 10,justifyContent:'center'}}
-                        onPress={()=>this.acceptOrder()}
-                    >
-                        <Text>ยอมรับคำขอฝาก</Text>
-                    </Button>
-                    <Button full style={{margin:10,backgroundColor: "red",borderRadius: 10,justifyContent:'center'}}
-                        onPress={()=>this.denyOrder()}
-                    >
-                        <Text>ปฏิเสธคำขอฝาก</Text>
-                    </Button>
-                </View>
-            );break
-            case 9 : buttonList.push(
-                <View style={{ display: "flex",flex:1}}>
-                    <Button full style={{margin:10,backgroundColor: "green",borderRadius: 10,justifyContent:'center'}}
-                        onPress={()=>this.acceptOrder()}
-                    >
-                        <Text>ส่งคืนสัตว์เลี้ยงให้เจ้าของ</Text>
-                    </Button>
-                </View>
-            );break
-            default : null
-        }
-        return buttonList
-    }
-
-    acceptOrder = () => {
-        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.jump('orderList') )
-    }
-
-    denyOrder = () => {
-        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.jump('orderList') )
-    }
-
-    returnPets = () => {
-        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
     
     render(){
@@ -149,7 +108,7 @@ export default class OrderDetail extends Component{
                         </Content>
                 </Content>
                 <View style={{flex:0.5,flexDirection:'row'}}>
-                    {this.renderButton()}  
+                    <OrderButton item={order} orderStatus={this.state.statusId}/>  
                 </View>                      
             </Container>
         )
