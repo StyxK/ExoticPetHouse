@@ -18,7 +18,7 @@ export default class OrderDetail extends Component{
 
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
-            this.setState({ order: response.data , loading:false ,statusId:response.data.id});
+            this.setState({ order: response.data , loading:false ,statusId:response.data.orderStatus.id});
         });
         console.log(this.props.item.orderStatus.id,'item')
     }

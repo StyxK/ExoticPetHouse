@@ -16,7 +16,11 @@ class Chat extends Component{
             chatList : [],
             load : true,
             refreshing : false,
-            setRefreshing : false
+            setRefreshing : false,
+            error: {
+                message: undefined,
+                status: false
+            }
         }
     }
 
@@ -29,7 +33,11 @@ class Chat extends Component{
                     load:false
                 })
             }
-        )
+        ).catch((err) => {
+            if(err.message == 'Request failed with status code 500'){
+                this.setState({error:{message:'ขออภัย ขณะนี้ไม่สามารถติดต่อระบบได้',status:true}})
+            }
+        })
     }
 
     componentDidMount(){
@@ -100,11 +108,18 @@ class Chat extends Component{
                     <RefreshControl colors={['#7A5032']} refreshing={this.state.refreshing} onRefresh={()=>{ this.getChat() }}/>
                 }>
                     {
-                        this.state.load ? 
+                        this.state.load ?
+                        (
+                            this.state.error.status ? 
+                            <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
+                                <Label style={{color:"#7A5032"}}> {this.state.error.message} </Label>
+                            </View>
+                            :
                             <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
                                 {loading()}
                                 <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
                             </View>
+                        )
                          :
                         (
                             this.state.chatList.length !== 0 ?

@@ -12,15 +12,8 @@ class OrderCard extends Component {
   render() {
     const { item } = this.props;
     const { id } = item;
-    let startDate = moment(item.startDate)
-      .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
-    let endDate = moment(item.endDate)
-      .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
-    let submitDate = moment(item.submitDate)
-      .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
+    let startDate = moment(item.startDate).tz("Asia/Bangkok").format("DD MMM YYYY HH:mm");
+    let endDate = moment(item.endDate).tz("Asia/Bangkok").format("DD MMM YYYY HH:mm");
     return (
       <Card style={{marginLeft:10,marginRight:10,borderRadius:5}}>
         <CardItem button activeOpacity={0.8} style={{backgroundColor:'#A78B45',borderRadius:5}} onPress={() => this.orderDetail()}>
