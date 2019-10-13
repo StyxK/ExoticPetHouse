@@ -10,7 +10,7 @@ class orderButton extends Component {
     super(props);
   }
 
-  button = orderStatus => {
+  button = (orderStatus) => {
     let list = [];
     if (orderStatus == 1) {
       list.push(
@@ -109,6 +109,9 @@ class orderButton extends Component {
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
+            }}
+            onPress={() => {
+              Actions.feedback(this.props.item);
             }}
           >
             <Label style={{ color: "white" }}>ให้คะแนนร้าน</Label>
