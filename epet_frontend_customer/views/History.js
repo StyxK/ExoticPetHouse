@@ -106,6 +106,7 @@ class History extends Component {
     const { page, statuses } = this.state;
     return (
       <Container style={{ display: "flex", height: "100%" }}>
+        <Container>
         <Header style={{ backgroundColor: "#7A5032" }}>
           <Left style={{ flex: 1 }}></Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
@@ -124,6 +125,7 @@ class History extends Component {
             </ScrollableTabView>
           )}
         </View>
+        </Container>
         <NavFooter />
       </Container>
     );
@@ -133,7 +135,7 @@ class History extends Component {
     const { history, statuses } = this.state;
 
     const segments = statuses.map(status => (
-      <View key={status.id} tabLabel={status.status}>
+      <Content key={status.id} tabLabel={status.status}>
         {history
           .filter(item => item.orderStatus.id === status.id)
           .map(item => {
@@ -145,7 +147,7 @@ class History extends Component {
               />
             );
           })}
-      </View>
+      </Content>
     ));
     return segments;
   };
