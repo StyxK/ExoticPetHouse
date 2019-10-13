@@ -101,10 +101,19 @@ class orderButton extends Component {
       );
     } else if (orderStatus == 7) {
       list.push(
-        <Label style={{ textAlign: "center" }}>
-          {" "}
-          คุณได้รับสัตว์เลี้ยงคืนแล้ว{" "}
-        </Label>
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: "#7A5032",
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+          >
+            <Label style={{ color: "white" }}>ให้คะแนนร้าน</Label>
+          </Button>
+        </View>
       );
     } else if (orderStatus == 9) {
       list.push(
