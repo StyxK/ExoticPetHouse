@@ -37,6 +37,11 @@ export class OrderService {
     }
   }
 
+  async getAll(){
+    const order = await this.orderRepository.find()
+    return order
+  }
+
   async showAll(userName: string): Promise<Order[]>  {
     await Logger.log(userName)
     const orders = await this.orderRepository.find({

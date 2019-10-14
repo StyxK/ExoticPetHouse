@@ -25,6 +25,11 @@ export class OrderController {
     options.id && Logger.log('ID ' + JSON.stringify(options.id));
   }
 
+  @Get('/All')
+  async getAllOrder(){
+    return this.orderService.getAll();
+  }
+
   @Get('statuses')
   async getAllStatuses() {
     return this.orderService.getAllStatuses();
