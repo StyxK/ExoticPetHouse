@@ -1,0 +1,12 @@
+.Sidebar{
+  height: 100vh;
+}
+
+.Header{
+  height: 7vh;
+  background-color: aqua
+}
+
+.Content{
+  background-color: darkgrey;
+}
