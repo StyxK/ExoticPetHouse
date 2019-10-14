@@ -8,10 +8,11 @@ export default {
   successColor: "",
   primaryTextColor: "", //สีtextบนสีหลัก
   secondaryTextColor: "", //สีtextบนสีรอง
-  accentTextColor: "",
+  accentTextColor: "#BD997F",
   infoTextColor: "",
   warningTextColor: "",
   errorTextColor: "",
   successTextColor: "",
-  backgroundColor: ""
+  backgroundColor: "#E7E7E7"
 };
+//ปรับสีที่นี่
