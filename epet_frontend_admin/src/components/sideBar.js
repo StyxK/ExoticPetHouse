@@ -6,7 +6,6 @@ import { Link,BrowserRouter } from 'react-router-dom'
 export const SideBar = () => {
 
     return (
-        <BrowserRouter>
         <Sidebar icon='labeled' as={Menu} width='thin' vertical visible>
             <Menu.Item>
                 <Icon name="user circle"/>
@@ -18,10 +17,9 @@ export const SideBar = () => {
             <Menu.Item link>
                 <Icon name="add user"/>Registry Owner
             </Menu.Item>
-            <Menu.Item link>
+            <Menu.Item as={Link} to='/Order'>
                 <Icon name="list"/>Order
             </Menu.Item>
         </Sidebar>
-        </BrowserRouter>
     )
 }
