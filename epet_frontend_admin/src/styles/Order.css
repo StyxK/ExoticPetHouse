@@ -3,3 +3,12 @@
     align-items: center;
     width: 80vh !important;
 }
+
+.Cell{
+    justify-content: center;
+    align-items: center;
+}
+
+.ListDescription{
+    margin-bottom:3% 
+}

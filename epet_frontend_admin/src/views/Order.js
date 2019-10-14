@@ -1,7 +1,10 @@
 import React,{useEffect,useState} from 'react'
-import { Dropdown, Table, Grid, } from 'semantic-ui-react'
+import { Dropdown, Table, Grid, Button, } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import '../styles/Order.css'
+import { OrderDetails } from '../components/orderDetails'
+import moment from 'moment'
+import { OrderStep } from '../components/step'
 
 export const Order = (props) => {
 
@@ -23,16 +26,17 @@ export const Order = (props) => {
         const respone = await fetch('http://localhost:3000/order/All')
         const data = await respone.json()
         setOrder(data)
+        console.log(data)
     }
 
     const renderOrder = () => {
         let list = []
         let filtered = []
-        if(!filter || filter=='all'){
+        if(!filter || filter==='all'){
             filtered = order
         }else{
             filtered = order.filter( data =>{
-                return data.orderStatus.status == filter
+                return data.orderStatus.status === filter
             })
         }
         filtered.map(data => 
@@ -42,8 +46,11 @@ export const Order = (props) => {
                     <Table.Cell>{data.customerUsername}</Table.Cell>
                     <Table.Cell>{data.store.name}</Table.Cell>
                     <Table.Cell>{data.orderStatus.status}</Table.Cell>
-                    <Table.Cell>{data.startDate}</Table.Cell>
-                    <Table.Cell>{data.endDate}</Table.Cell>
+                    <Table.Cell>{moment(data.startDate).format('L')}</Table.Cell>
+                    <Table.Cell>{moment(data.endDate).format('L')}</Table.Cell>
+                    <Table.Cell className='Cell'>
+                        <OrderDetails button={<Button> more details </Button>} order={data}/>
+                    </Table.Cell>
                 </Table.Row>
             )
         )
@@ -73,6 +80,7 @@ export const Order = (props) => {
                                 <Table.HeaderCell>orderStatus</Table.HeaderCell>
                                 <Table.HeaderCell>startDate</Table.HeaderCell>
                                 <Table.HeaderCell>endDate</Table.HeaderCell>
+                                <Table.HeaderCell>order lines</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
