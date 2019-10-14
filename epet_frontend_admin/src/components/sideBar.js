@@ -1,12 +1,12 @@
 import React,{useState} from 'react'
 import { Sidebar, Menu, Icon } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import { Link,BrowserRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-export const SideBar = () => {
+export const SideBar = (props) => {
 
     return (
-        <Sidebar icon='labeled' as={Menu} width='thin' vertical visible>
+        <Sidebar icon='labeled' animation="slide along" visible={props.visible} as={Menu} width='thin' vertical >
             <Menu.Item>
                 <Icon name="user circle"/>
                 Administrator

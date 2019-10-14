@@ -30,6 +30,11 @@ export class OrderController {
     return this.orderService.getAllStatuses();
   }
 
+  @Get('/All')
+  async getAllOrder(){
+    return this.orderService.getAll();
+  }
+
   @Get('/')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())

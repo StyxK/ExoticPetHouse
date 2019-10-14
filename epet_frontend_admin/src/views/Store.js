@@ -38,7 +38,7 @@ export const Store = (props) => {
 
     return(
         <Container fluid className='Container'>
-            <Card.Group>
+            <Card.Group itemsPerRow='5'>
                 {storeCard()}
             </Card.Group>
         </Container>
