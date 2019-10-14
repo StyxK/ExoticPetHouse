@@ -1,32 +1,25 @@
+import axios from "axios";
 import {
+  Body,
   Container,
+  Content,
   Header,
   Left,
-  Body,
   Right,
-  Button,
-  Icon,
   Title,
-  ListItem,
-  List,
-  Content,
-  Text,
   View
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
+import { StyleSheet } from "react-native";
 import Config from "react-native-config";
-import axios from "axios";
-import { connect } from "react-redux";
-import moment from "moment-timezone";
 import { Actions } from "react-native-router-flux";
-import SegmentedControlTab from "react-native-segmented-control-tab";
-import NavFooter from "../components/NavFooter";
-import HistoryList from "../components/HistoryList";
-import SegmentControl from "react-native-segment-control";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
+import { connect } from "react-redux";
+import HistoryList from "../components/HistoryList";
+import NavFooter from "../components/NavFooter";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 
@@ -107,24 +100,24 @@ class History extends Component {
     return (
       <Container style={{ display: "flex", height: "100%" }}>
         <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
-          <Left style={{ flex: 1 }}></Left>
-          <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
-          </Body>
-          <Right />
-        </Header>
-        <View style={{ flex: 1 }}>
-          {statuses.length > 0 && (
-            // <SegmentControl
-            //   style={{ height: "100%" }}
-            //   segments={this.getSegments()}
-            // />
-            <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
-              {this.getSegments()}
-            </ScrollableTabView>
-          )}
-        </View>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
+            <Left style={{ flex: 1 }}></Left>
+            <Body style={{ flex: 1, alignItems: "center" }}>
+              <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
+            </Body>
+            <Right />
+          </Header>
+          <View style={{ flex: 1 }}>
+            {statuses.length > 0 && (
+              // <SegmentControl
+              //   style={{ height: "100%" }}
+              //   segments={this.getSegments()}
+              // />
+              <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+                {this.getSegments()}
+              </ScrollableTabView>
+            )}
+          </View>
         </Container>
         <NavFooter />
       </Container>

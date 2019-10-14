@@ -1,27 +1,10 @@
 import axios from "axios";
-import {
-  Container,
-  Content,
-  Button,
-  Icon,
-  ListItem,
-  List,
-  Text,
-  Left,
-  Body,
-  Right,
-  Header,
-  Title,
-  Card,
-  View,
-  CardItem
-} from "native-base";
+import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, Right, Text, Title, View } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, Image } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
-import { connect } from "react-redux";
-import { addPet, setPets, removePet } from "../actions";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 const PIC_URI =
@@ -36,7 +19,7 @@ export default class PetDescription extends Component {
     const { pet, updatePet } = this.props;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
               name="ios-arrow-back"
@@ -52,7 +35,16 @@ export default class PetDescription extends Component {
         <Content>
           <Card style={{ flex: 0 }}>
             <CardItem header>
-              <Text style={{ fontSize: 25 ,color: "#7A5032", fontWeight:"bold"}}> {pet.name} </Text>
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: theme.primaryColor,
+                  fontWeight: "bold"
+                }}
+              >
+                {" "}
+                {pet.name}{" "}
+              </Text>
             </CardItem>
             <CardItem>
               <Left>
@@ -142,11 +134,11 @@ export default class PetDescription extends Component {
             </CardItem>
             <CardItem style={{ display: "flex", justifyContent: "center" }}>
               <Image
-                source={{ uri: pet.image||PIC_URI }}
+                source={{ uri: pet.image || PIC_URI }}
                 style={{
                   width: 300,
                   height: 300,
-                  borderColor: "#7A5032",
+                  borderColor: theme.primaryColor,
                   borderWidth: 1,
                   borderRadius: 5
                 }}
@@ -158,7 +150,7 @@ export default class PetDescription extends Component {
             <Left>
               <Button
                 style={{
-                  backgroundColor: "#7A5032",
+                  backgroundColor: theme.primaryColor,
                   flex: 1,
                   borderRadius: 10
                 }}
@@ -170,7 +162,7 @@ export default class PetDescription extends Component {
             <Right>
               <Button
                 style={{
-                  backgroundColor: "#7A5032",
+                  backgroundColor: theme.primaryColor,
                   flex: 1,
                   borderRadius: 10
                 }}
@@ -208,8 +200,8 @@ export default class PetDescription extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    color: "#7A5032",
-    borderColor: "#7A5032",
+    color: theme.primaryColor,
+    borderColor: theme.primaryColor,
     borderWidth: 1,
     borderRadius: 5,
     padding: 5,

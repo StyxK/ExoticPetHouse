@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { setUser, setPets } from "../actions";
 import { storage } from "../Storage";
+import theme from "../theme";
 
 class Login extends Component {
   constructor(props) {
@@ -145,7 +146,7 @@ class Login extends Component {
               style={{
                 flex: 1,
                 marginHorizontal: 30,
-                backgroundColor: "#7A5032"
+                backgroundColor: theme.primaryColor
               }}
               onPress={() => this.logIn()}
             >

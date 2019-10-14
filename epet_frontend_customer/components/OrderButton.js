@@ -4,13 +4,14 @@ import { Actions } from "react-native-router-flux";
 import axios from "axios";
 import { setPets } from "../actions";
 import { connect } from "react-redux";
+import theme from "../theme";
 
 class orderButton extends Component {
   constructor(props) {
     super(props);
   }
 
-  button = (orderStatus) => {
+  button = orderStatus => {
     let list = [];
     if (orderStatus == 1) {
       list.push(
@@ -18,7 +19,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: "#7A5032",
+              backgroundColor: theme.primaryColor,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -37,7 +38,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: "#7A5032",
+              backgroundColor: theme.primaryColor,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -56,7 +57,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: "#7A5032",
+              backgroundColor: theme.primaryColor,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -75,7 +76,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: "#7A5032",
+              backgroundColor: theme.primaryColor,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -105,7 +106,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: "#7A5032",
+              backgroundColor: theme.primaryColor,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -120,10 +121,7 @@ class orderButton extends Component {
       );
     } else if (orderStatus == 9) {
       list.push(
-        <Label style={{ textAlign: "center" }}>
-          {" "}
-          ชำระค่าบริการสำเร็จแล้ว{" "}
-        </Label>
+        <Label style={{ textAlign: "center" }}> ชำระค่าบริการสำเร็จแล้ว </Label>
       );
     }
     return list;

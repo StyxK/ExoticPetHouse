@@ -34,6 +34,7 @@ import axios from "axios";
 import Config from "react-native-config";
 import NavFooter from "../components/NavFooter";
 import { Actions } from "react-native-router-flux";
+import theme from "../theme";
 
 // type Props = {};
 const API_URL = Config.API_URL;
@@ -112,7 +113,7 @@ export default class Search extends Component {
             latitude: data.address.latitude,
             longitude: data.address.longitude
           }}
-          pinColor={"#7A5032"}
+          pinColor={theme.primaryColor}
           title={data.name}
           onPress={() => {
             this.setModalVisible(true);
@@ -145,8 +146,8 @@ export default class Search extends Component {
                 km.
               </Text>
             ) : (
-                <Text note>N/A</Text>
-              )}
+              <Text note>N/A</Text>
+            )}
           </Right>
         </ListItem>
       );

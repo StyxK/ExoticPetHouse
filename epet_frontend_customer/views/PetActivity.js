@@ -1,10 +1,22 @@
 import axios from "axios";
-import { Body, Container, Content, Header, Icon, Left, Right, Text, Title, View } from "native-base";
+import {
+  Body,
+  Container,
+  Content,
+  Header,
+  Icon,
+  Left,
+  Right,
+  Text,
+  Title,
+  View
+} from "native-base";
 import React, { Component } from "react";
 import { TouchableHighlight } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import ActivitiesCard from "../components/ActivitiesCard";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 
@@ -35,7 +47,7 @@ export default class PetActivity extends Component {
 
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
               name="ios-arrow-back"

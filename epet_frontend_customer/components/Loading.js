@@ -6,6 +6,7 @@ import { setUser, setPets } from "../actions";
 import { connect } from "react-redux";
 import axios from "axios";
 import { storage } from "../Storage";
+import theme from "../theme";
 
 class Loading extends Component {
   async componentDidMount() {
@@ -29,7 +30,7 @@ class Loading extends Component {
     return (
       <View
         style={{
-          backgroundColor: "#7A5032",
+          backgroundColor: theme.primaryColor,
           flex: 1,
           justifyContent: "center"
         }}

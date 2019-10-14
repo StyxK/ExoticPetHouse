@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Footer, FooterTab, Button, Icon, Text } from "native-base";
 import { Actions } from "react-native-router-flux";
+import theme from "../theme";
 
 export default class NavFooter extends Component {
   render() {
     return (
       <Footer>
-        <FooterTab style={{ backgroundColor: "#7A5032" }}>
+        <FooterTab style={{ backgroundColor: theme.primaryColor }}>
           <Button Badge vertical onPress={this.goToHome}>
             <Icon name="search" style={{ color: "white" }} />
             <Text style={{ fontSize: 8, color: "white" }}>ค้นหาร้าน</Text>
