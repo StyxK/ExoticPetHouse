@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Footer, FooterTab, Button, Icon, Toast, Label, Root } from 'native-base';
 import { Actions } from 'react-native-router-flux'
 import { connect } from 'react-redux';
+import theme from "../theme";
 
 class NavFooter extends Component {
 
@@ -13,7 +14,7 @@ class NavFooter extends Component {
         return (
             <Footer>
                 <Root>
-                    <FooterTab style={{ backgroundColor: '#7A5032' }}>
+                    <FooterTab style={{ backgroundColor: theme.primaryColor }}>
                         <Button Badge vertical onPress={()=>this.goToPage('pet')}>
                             <Icon name='paw' style={{ color: 'white' }} />
                             <Label style={{ fontSize: 7, color: 'white' }}>สัตว์เลี้ยงที่อยู่ในการฝาก</Label>

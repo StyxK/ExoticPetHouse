@@ -24,6 +24,8 @@ import { Field, reduxForm, change, destroy} from "redux-form";
 import { Actions } from "react-native-router-flux";
 import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
+import theme from "../theme";
+
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -82,7 +84,7 @@ class CreateStore extends Component {
   render() {
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
             <Icon
               name="ios-arrow-back"
@@ -251,7 +253,7 @@ const storeForm = (props, state, setModalVisible, setLocation) => {
           }}
         >
           <View>
-            <Header style={{ backgroundColor: "#7A5032" }}>
+            <Header style={{ backgroundColor: theme.primaryColor }}>
               <Left style={{ flex: 1 }} />
               <Body style={{ display: "flex", flex: 1, alignItems: "center" }}>
                 <Title style={{ color: "white", fontSize: 20 }}>

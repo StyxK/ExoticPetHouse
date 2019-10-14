@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { Button, View, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
+import theme from "../theme";
 
 export default class orderButton extends Component{
 
@@ -16,7 +17,7 @@ export default class orderButton extends Component{
             list.push(
                 <View style={{ flex: 1,marginVertical:5}} >
                     <Button full
-                        style={{ backgroundColor: "#7A5032",flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.acceptOrder()}}>
                         <Label style={{color:'white'}}>ยอมรับคำสั่งฝาก</Label>
                     </Button>
@@ -25,7 +26,7 @@ export default class orderButton extends Component{
             list.push(
                 <View style={{ flex: 1}} >
                     <Button full
-                        style={{ backgroundColor: "#7A5032",flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.denyOrder()}}>
                         <Label style={{color:'white'}}>ปฏิเสธคำสั่งฝาก</Label>
                     </Button>
@@ -45,7 +46,7 @@ export default class orderButton extends Component{
         else if(orderStatus == 8){
             list.push(
                 <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
+                    style={{ backgroundColor: theme.primaryColor,flex: 1,borderRadius: 10}} 
                     onPress={()=>{ this.getPetsBack() }}>
                     <Label>เจ้าของรับสัตว์เลี้ยงกลับแล้ว</Label>
                 </Button>
