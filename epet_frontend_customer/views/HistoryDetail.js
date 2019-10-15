@@ -59,11 +59,11 @@ class HistoryDetail extends Component {
               <Icon
                 name="ios-arrow-back"
                 onPress={() => Actions.history()}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 History Detail
               </Title>
             </Body>

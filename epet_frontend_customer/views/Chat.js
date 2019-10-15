@@ -96,7 +96,7 @@ class Chat extends Component {
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 2 }} />
             <Body style={{ flex: 2.5 }}>
-              <Text style={{ color: "white" }}> แชทกับร้านรับฝาก </Text>
+              <Text style={{ color: theme.primaryTextColor }}> แชทกับร้านรับฝาก </Text>
             </Body>
             <Right style={{ flex: 1 }} />
           </Header>

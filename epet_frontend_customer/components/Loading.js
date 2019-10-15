@@ -36,7 +36,7 @@ class Loading extends Component {
         }}
       >
         <ActivityIndicator size={100} />
-        <Label style={{ marginTop: 20, textAlign: "center", color: "white" }}>
+        <Label style={{ marginTop: 20, textAlign: "center", color: theme.primaryTextColor }}>
           {" "}
           กำลังเรียกข้อมูลจากแอปพลิเคชัน กรุณารอสักครู่{" "}
         </Label>

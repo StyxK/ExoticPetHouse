@@ -103,7 +103,7 @@ class History extends Component {
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}></Left>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Order</Title>
             </Body>
             <Right />
           </Header>
