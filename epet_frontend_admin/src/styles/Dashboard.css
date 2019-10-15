@@ -1,0 +1,10 @@
+.Card-Meta{
+    /* height: 15vh; */
+    margin-top:5vh;
+    margin-bottom:3vh;
+}
+
+.Card-Meta-Content{
+    font-size: 4vw;
+    color: orange;
+}

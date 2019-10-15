@@ -30,10 +30,11 @@ import { AppGateway } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
 import { ChargeModule } from './charge/charge.module';
-import 'dotenv/config';
-import 'reflect-metadata';
 import { ScheduleModule } from 'nest-schedule'
 import { ScheduleService } from './app.schedule';
+import { AdminModule } from './admin/admin.module';
+import 'dotenv/config';
+import 'reflect-metadata';
 
 @Module({
   imports: [
@@ -77,6 +78,7 @@ import { ScheduleService } from './app.schedule';
     FeedbackModule,
     ChatModule,
     ChargeModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService,AppGateway,ScheduleService],

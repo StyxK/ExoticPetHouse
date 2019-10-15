@@ -6,6 +6,7 @@ import { Home } from './views/Home';
 import { Order } from './views/Order'
 import { Store } from './views/Store'
 import { SideBar } from './components/sideBar'
+import { Dashboard } from './views/Dashboard';
 import '../src/styles/App.css'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" component={Home}/>
             <Route path="/Store" component={Store}/>
             <Route path="/Order" component={Order}/>
+            <Route path="/dashboard" component={Dashboard}/>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     </BrowserRouter>

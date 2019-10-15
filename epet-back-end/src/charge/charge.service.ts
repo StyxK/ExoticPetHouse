@@ -23,6 +23,18 @@ export class ChargeService {
         })
     }
 
-    
+    async balance(){
+        return require('omise')({
+            'secretKey' : process.env.OMISE_SECRET_KEY,
+            'omiseVersion' : '2015-09-10'
+        }).balance.retrieve((error,balance)=>{
+            if(error){
+                return error
+            }else if (balance){
+                return balance.total
+            }
+        })
+    }
+
 
 }

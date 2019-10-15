@@ -11,6 +11,9 @@ export const SideBar = (props) => {
                 <Icon name="user circle"/>
                 Administrator
             </Menu.Item>
+            <Menu.Item as={Link} to='/dashboard'>
+                <Icon name="line graph"/>Dashboard
+            </Menu.Item>
             <Menu.Item as={Link} to='/Store'>
                 <Icon name="home"/>Store
             </Menu.Item>
