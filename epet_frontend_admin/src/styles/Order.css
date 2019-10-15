@@ -9,6 +9,15 @@
     align-items: center;
 }
 
+.Filter{
+    justify-content: center;
+    align-items: center;
+}
+
 .ListDescription{
     margin-bottom:3% 
 }
+
+/* .SearchBar{
+    background-color: blue
+} */

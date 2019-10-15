@@ -4,7 +4,6 @@ import 'semantic-ui-css/semantic.min.css'
 
 export const OrderStep = (props) => {
 
-    const status = ['รอร้านตอบรับ','ยกเลิกการส่งฝาก','ร้านตอบรับการฝากแล้ว','กำลังอยู่ระหว่างการฝาก','ร้านปฎิเสธการรับฝาก','จบการฝาก','รับสัตว์เลี้ยงแล้ว','ร้านส่งสัตว์เลี้ยงตืน','ชำระค่าบริการแล้ว']
     const waitingStoreAccept = (active) => {
         return(
             active ? 

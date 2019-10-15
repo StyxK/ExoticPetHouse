@@ -18,7 +18,7 @@ function App() {
         <SideBar visible={visible}/>
         <Sidebar.Pusher>
             <Header block>
-              <Button as={Icon} name='500px' onClick={()=>setVisible(!visible)}/>
+              <Button icon={<Icon name='list'/>} onClick={()=>setVisible(!visible)}/>
               Exotic Pet House Admin
             </Header>
             <Route path="/" component={Home}/>

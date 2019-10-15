@@ -1,16 +1,17 @@
 import React,{useEffect,useState} from 'react'
-import { Dropdown, Table, Grid, Button, } from 'semantic-ui-react'
+import { Dropdown, Table, Grid, Button, Label } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import '../styles/Order.css'
 import { OrderDetails } from '../components/orderDetails'
 import moment from 'moment'
-import { OrderStep } from '../components/step'
+import { StoreSearchBar } from '../components/storeSearchBar'
 
 export const Order = (props) => {
 
     const [order,setOrder] = useState([])
     const [status,setStatus] = useState([])
     const [filter,setFilter] = useState(undefined)
+    const [store,setStore] = useState(undefined)
 
     const fetchStatus = async () => {
         let arr = [{key:0,text:'ทั้งหมด',value:'all'}]
@@ -39,6 +40,11 @@ export const Order = (props) => {
                 return data.orderStatus.status === filter
             })
         }
+        if(store){
+            filtered = filtered.filter( data => {
+                return data.store.name == store
+            })
+        }
         filtered.map(data => 
             list.push(
                 <Table.Row key={data.id}>
@@ -57,6 +63,10 @@ export const Order = (props) => {
         return list
     }
 
+    const rerenderParentCallback = (value) => {
+        setStore(value)
+    }
+
     useEffect(()=>{
         fetchOrder()
         fetchStatus()
@@ -64,9 +74,17 @@ export const Order = (props) => {
 
     return(
         <Grid padded>
-            <Grid.Row>
-                <Grid.Column>
-                    Order Status <Dropdown onChange={(event,data)=>setFilter(data.value)} placeholder='select status' selection options={status}/>
+            <Grid.Row className='Filter'>
+                <Grid.Column width={4}>
+                    <Label> orderStatus</Label>
+                    <Dropdown onChange={(event,data)=>setFilter(data.value)} placeholder='select status' selection options={status}/>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    <Label> Store</Label>
+                    <StoreSearchBar rerenderParentCallback={rerenderParentCallback}/>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    <Button onClick={ () => setStore(undefined)}> Get from all store </Button>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row>
