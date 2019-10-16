@@ -17,8 +17,8 @@ function App() {
       <Sidebar.Pushable as={Segment} className='Sidebar'>
         <SideBar visible={visible}/>
         <Sidebar.Pusher>
-            <Header block>
-              <Button icon={<Icon name='list'/>} onClick={()=>setVisible(!visible)}/>
+            <Header block className='Header'>
+              <Button className='HambergerButton' icon={<Icon name='sidebar' />} onClick={()=>setVisible(!visible)}/>
               Exotic Pet House Admin
             </Header>
             <Route path="/" exact component={Dashboard}/>

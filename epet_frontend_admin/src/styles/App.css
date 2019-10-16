@@ -3,8 +3,19 @@
 }
 
 .Header{
-  height: 7vh;
-  background-color: aqua
+  background-color:#7A5032!important; 
+  color:white!important;
+  font-size:20px!important;
+}
+
+.HambergerButton{
+  font-size:20px!important;
+  color: white!important;
+  background-color:#7A5032!important 
+}
+
+.ui.block.header{
+  border:1px solid #7A5032
 }
 
 .pushable>.pusher{
