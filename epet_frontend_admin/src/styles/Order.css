@@ -18,6 +18,6 @@
     margin-bottom:3% 
 }
 
-/* .SearchBar{
-    background-color: blue
-} */
+.ui.search .prompt{
+    border-radius: .28571429rem
+}

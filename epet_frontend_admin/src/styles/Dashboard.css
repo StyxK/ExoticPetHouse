@@ -1,10 +1,33 @@
 .Card-Meta{
-    /* height: 15vh; */
     margin-top:5vh;
     margin-bottom:3vh;
 }
 
 .Card-Meta-Content{
-    font-size: 4vw;
-    color: orange;
+    font-size: 3vw;
+    color: white;
+}
+
+.Card-Header,.Card-Description{
+    color: white
+}
+
+.Row-Chart{
+    height: 4%;
+}
+
+.BalanceCard{
+    background-color: orange!important
+}
+
+.CustomerCard{
+    background-color: green!important
+}
+
+.ProviderCard{
+    background-color: chocolate!important
+}
+
+.StoreCard{
+    background-color: blue!important
 }

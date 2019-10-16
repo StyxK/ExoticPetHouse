@@ -1,13 +1,16 @@
 import React,{useState,useEffect} from 'react'
-import { Container, Label, Grid, Card } from 'semantic-ui-react'
-import { Bar,Doughnut } from 'react-chartjs-2'
+import { Container, Label, Grid, Card, Segment } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import '../styles/Dashboard.css'
+import { Zone,OrderChart } from '../components/chart'
 
 export const Dashboard = () => {
     
     const [balance,setBalance] = useState(0)
     const [totalUser,setTotalUser] = useState({customerNumber:0,providerNumber:0,storeNumber:0})
+    const [filteredStoreByZone,setFilteredStoreZone] = useState({northern:[],northeastern:[],central:[],western:[],eastern:[],southern:[]})
+    const [filteredCustomerByZone,setFilteredCustomerZone] = useState({northern:[],northeastern:[],central:[],western:[],eastern:[],southern:[]})
+    const [orderSequence,setOrderSequence] = useState({})
 
     const fetchBalance = async () => {
         const response = await fetch('http://localhost:3000/charge/balance')
@@ -21,72 +24,125 @@ export const Dashboard = () => {
         setTotalUser(data)
     }
 
+    const fetchFilteredStoreZone = async () => {
+        const response = await fetch('http://localhost:3000/admin/filterStoreByZone')
+        const data = await response.json()
+        setFilteredStoreZone(data)
+    }
+
+    const fetchFilteredCustomerZone = async () => {
+        const response = await fetch('http://localhost:3000/admin/filterCustomerByZone')
+        const data = await response.json()
+        setFilteredCustomerZone(data)
+    }
+
+    const fetchOrderSequence = async () => {
+        const response = await fetch('http://localhost:3000/admin/orderSequence')
+        const data = await response.json()
+        setOrderSequence(data)
+    }
+
     useEffect(()=>{
         fetchBalance()
         fetchTotalUser()
+        fetchFilteredStoreZone()
+        fetchFilteredCustomerZone()
+        fetchOrderSequence()
     },[])
 
     return(
-        <Container fluid>
-            <Grid padded>
+        <Container>
+            <Grid padded centered>
                 <Grid.Row columns={4}>
                     <Grid.Column>
-                        <Card>
+                        <Card className='BalanceCard'>
                             <Card.Content textAlign='center'>
-                                <Card.Header className='Card.Header'>
-                                    ยอดเงินทั้งหมด
+                                <Card.Header>
+                                    <span className='Card-Header'>ยอดเงินทั้งหมด</span>
                                 </Card.Header>
                                 <Card.Meta className='Card-Meta'>
                                     <span className='Card-Meta-Content'>{balance/100}</span>
                                 </Card.Meta>
                                 <Card.Description>
-                                    บาท
+                                    <span className='Card-Description'>บาท</span>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
-                        <Card>
+                        <Card className='CustomerCard'>
                             <Card.Content textAlign='center'>
-                                <Card.Header className='Card.Header'>
-                                    ลูกค้า
+                                <Card.Header>
+                                    <span className='Card-Header'>ลูกค้า</span>
                                 </Card.Header>
                                 <Card.Meta className='Card-Meta'>
                                     <span className='Card-Meta-Content'>{totalUser.customerNumber}</span>
                                 </Card.Meta>
                                 <Card.Description>
-                                    คน
+                                    <span className='Card-Header'>คน</span>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
-                        <Card>
+                        <Card className='ProviderCard'>
                             <Card.Content textAlign='center'>
-                                <Card.Header className='Card.Header'>
-                                    เจ้าของร้าน
+                                <Card.Header>
+                                    <span className='Card-Header'>เจ้าของร้าน</span>
                                 </Card.Header>
                                 <Card.Meta className='Card-Meta'>
                                     <span className='Card-Meta-Content'>{totalUser.providerNumber}</span>
                                 </Card.Meta>
                                 <Card.Description>
-                                    คน
+                                    <span className='Card-Header'>คน</span>
                                 </Card.Description>
                             </Card.Content>
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
-                        <Card>
+                        <Card className='StoreCard'>
                             <Card.Content textAlign='center'>
-                                <Card.Header className='Card.Header'>
-                                    ร้านรับฝาก
+                                <Card.Header>
+                                    <span className='Card-Header'>ร้านรับฝาก</span>
                                 </Card.Header>
                                 <Card.Meta className='Card-Meta'>
                                     <span className='Card-Meta-Content'>{totalUser.storeNumber}</span>
                                 </Card.Meta>
                                 <Card.Description>
-                                    แห่ง
+                                    <span className='Card-Header'>แห่ง</span>
                                 </Card.Description>
+                            </Card.Content>
+                        </Card>
+                    </Grid.Column>
+                </Grid.Row>
+                <Grid.Row stretched columns={3}>
+                    <Grid.Column width={8}>
+                        <Card fluid>
+                            <Card.Content textAlign='center' className='Row-Chart'>
+                                <Card.Header>
+                                    ยอดการจองกรง
+                                </Card.Header>
+                                <OrderChart order={orderSequence}/>
+                            </Card.Content>
+                        </Card>
+                    </Grid.Column>
+                    <Grid.Column width={4}>
+                        <Card fluid>
+                            <Card.Content textAlign='center' className='Row-Chart'>
+                                <Card.Header>
+                                    ร้านตามภูมิภาค
+                                </Card.Header>
+                                <Zone store={filteredStoreByZone}/>
+                            </Card.Content>
+                        </Card>
+                    </Grid.Column>
+                    <Grid.Column width={4}>
+                        <Card fluid>
+                            <Card.Content textAlign='center' className='Row-Chart'>
+                                <Card.Header>
+                                    ลูกค้าตามภูมิภาค
+                                </Card.Header>
+                                <Zone store={filteredCustomerByZone}/>
                             </Card.Content>
                         </Card>
                     </Grid.Column>

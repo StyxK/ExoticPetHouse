@@ -7,8 +7,6 @@
   background-color: aqua
 }
 
-.Content{
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
+.pushable>.pusher{
+  background-color: lightgrey
 }
