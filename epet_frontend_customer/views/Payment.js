@@ -36,9 +36,6 @@ export default class Payment extends Component {
       cvv: undefined,
       alert: null
     };
-    console.log("item", this.props.item);
-    console.log("price", this.props.price);
-    console.log("order", this.props.order);
   }
 
   monthList = () => {
@@ -89,28 +86,6 @@ export default class Payment extends Component {
           <Right style={{ justifyContent: "center" }}>
             <Text style={{ color:  theme.accentTextColor }}> {this.props.price} บาท </Text>
           </Right>
-        </View>
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <View
-            style={{ flex: 1, backgroundColor: "blue", flexDirection: "row" }}
-          >
-            <Left style={{ flex: 0.5 }}>
-              <CheckBox />
-            </Left>
-            <Body style={{ flex: 3 }}>
-              <Text> Visa </Text>
-            </Body>
-          </View>
-          <View
-            style={{ flex: 1, backgroundColor: "orange", flexDirection: "row" }}
-          >
-            <Left style={{ flex: 0.5 }}>
-              <CheckBox />
-            </Left>
-            <Body style={{ flex: 3 }}>
-              <Text> Mastercard </Text>
-            </Body>
-          </View>
         </View>
         <Form style={{ flex: 10 }}>
           <Item stackedLabel>

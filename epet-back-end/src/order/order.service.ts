@@ -242,7 +242,7 @@ export class OrderService {
   async charge(orderId,charge){
     try{
       const data = await this.getStatus(orderId)
-      if(await data.orderStatus.id != 6 || await data.orderStatus.id != 3){
+      if(data.orderStatus.id != 6 && data.orderStatus.id != 3){
         throw new Error('ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
       }
       let totalPrice : number = 0
