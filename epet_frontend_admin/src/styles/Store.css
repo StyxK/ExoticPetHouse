@@ -1,3 +1,8 @@
 .Container{
     padding: 1vh;
 }
+
+.CardGroup{
+    overflow: auto;
+    max-height: 90vh
+}

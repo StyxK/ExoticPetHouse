@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ChargeService } from './charge.service';
 
 @Controller('charge')
@@ -6,9 +6,9 @@ export class ChargeController {
 
     constructor(private readonly chargeService:ChargeService){}
 
-    @Post('/')
-    async chargeFromToken(@Body() data){
-        return this.chargeService.chargeFromToken(data)
+    @Get('/balance')
+    async chargeFromToken(){
+        return this.chargeService.balance()
     }
 
 }

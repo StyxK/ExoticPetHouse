@@ -1,0 +1,23 @@
+.Table{
+    justify-content: center;
+    align-items: center;
+    width: 80vh !important;
+}
+
+.Cell{
+    justify-content: center;
+    align-items: center;
+}
+
+.Filter{
+    justify-content: center;
+    align-items: center;
+}
+
+.ListDescription{
+    margin-bottom:3% 
+}
+
+.ui.search .prompt{
+    border-radius: .28571429rem
+}

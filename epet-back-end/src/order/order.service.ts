@@ -37,6 +37,17 @@ export class OrderService {
     }
   }
 
+  async getAll(){
+    const order = await this.orderRepository.find({relations:[
+      'store',
+      'orderStatus',
+      'orderLines',
+      'orderLines.pet',
+      'orderLines.cage']})
+    return order
+  }
+
+
   async showAll(userName: string): Promise<Order[]>  {
     await Logger.log(userName)
     const orders = await this.orderRepository.find({
