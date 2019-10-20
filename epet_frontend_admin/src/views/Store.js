@@ -1,15 +1,19 @@
 import React,{useState,useEffect} from 'react'
-import { Container, Card } from 'semantic-ui-react'
+import { Container, Card, Grid, Segment, Button } from 'semantic-ui-react'
+import { StoreMap } from '../components/map'
 import 'semantic-ui-css/semantic.min.css'
 import '../styles/Store.css'
 
 export const Store = (props) => {
+
     const [store,setStore] = useState([])
+    const [selectedStore,setSelectedStore] = useState(undefined)
+    const url = process.env.REACT_APP_URL
+    let cardRef = React.createRef()
 
     const fetchStore = async ()=>{
-        const response = await fetch('http://localhost:3000/store')
+        const response = await fetch(`${url}/store`)
         const data = await response.json()
-        console.log(data)
         setStore(data)
     }
     
@@ -21,7 +25,7 @@ export const Store = (props) => {
         let list=[]
         store.map( data =>{
             list.push(
-                <Card key={data.id}>
+                <Card key={data.id} link onClick={()=>setSelectedStore(data.address)} color={'blue'} raised >
                     <Card.Content>
                          <Card.Header>
                             {data.name}
@@ -38,9 +42,25 @@ export const Store = (props) => {
 
     return(
         <Container fluid className='Container'>
-            <Card.Group itemsPerRow='5'>
-                {storeCard()}
-            </Card.Group>
+            <Grid>
+                <Grid.Column width={10}>
+                    <Card.Group className='CardGroup' itemsPerRow='1'>
+                        {storeCard()}
+                    </Card.Group>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                    <Segment>
+                        <StoreMap
+                            selectedStore={selectedStore}
+                            stores={store}
+                            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API}&v=3.exp&libraries=geometry,drawing,places`}
+                            loadingElement={<div style={{ height: `100%` }} />}
+                            containerElement={<div style={{ height: `78.5vh` }} />}
+                            mapElement={<div style={{ height: `100%` }} />}
+                        />
+                    </Segment>
+                </Grid.Column>
+            </Grid>
         </Container>
     )
 }

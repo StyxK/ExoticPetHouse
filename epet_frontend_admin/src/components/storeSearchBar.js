@@ -8,10 +8,11 @@ export const StoreSearchBar = (props) => {
     const [store,setStore] = useState([])
     const [result,setResult] = useState([])
     const [value,setValue] = useState('')
+    const url = process.env.REACT_APP_URL
     
     const fecthStore = async () => {
         let list = []
-        const response = await fetch('http://localhost:3000/store')
+        const response = await fetch(`${url}/store`)
         const data = await response.json()
         await data.map( stores =>{
             list.push({

@@ -7,14 +7,14 @@ export const OrderStep = (props) => {
     const waitingStoreAccept = (active) => {
         return(
             active ? 
-            <Step>
+            <Step active completed>
                 <Icon name='wait' />
                 <Step.Content>
                     <Step.Title>รอร้านตอบรับการฝาก</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='wait' />
                 <Step.Content>
                     <Step.Title>รอร้านตอบรับการฝาก</Step.Title>
@@ -25,14 +25,14 @@ export const OrderStep = (props) => {
     const cancelOrder = (active) => {
         return (
             active ?
-            <Step>
-                <Icon name='remove' />
+            <Step active>
+                <Icon name='remove' color='red'/>
                 <Step.Content>
                     <Step.Title>ยกเลิกการส่งฝาก</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='remove' />
                 <Step.Content>
                     <Step.Title>ยกเลิกการส่งฝาก</Step.Title>
@@ -43,14 +43,14 @@ export const OrderStep = (props) => {
     const denyOrder = (active) => {
         return(
             active ?
-            <Step>
+            <Step active>
                 <Icon name='remove' />
                 <Step.Content>
                     <Step.Title>ร้านปฎิเสธการรับฝาก</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='remove' />
                 <Step.Content>
                     <Step.Title>ร้านปฎิเสธการรับฝาก</Step.Title>
@@ -61,14 +61,14 @@ export const OrderStep = (props) => {
     const acceptedOrder = (active) => {
         return(
             active ?
-            <Step>
+            <Step active>
                 <Icon name='checkmark' />
                 <Step.Content>
                     <Step.Title>ร้านตอบรับการฝากแล้ว</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='checkmark' />
                 <Step.Content>
                     <Step.Title>ร้านตอบรับการฝากแล้ว</Step.Title>
@@ -79,14 +79,14 @@ export const OrderStep = (props) => {
     const depositing = (active) => {
         return(
             active ?
-            <Step>
+            <Step active>
                 <Icon name='home' />
                 <Step.Content>
                     <Step.Title>กำลังอยู่ระหว่างการฝาก</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='home' />
                 <Step.Content>
                     <Step.Title>กำลังอยู่ระหว่างการฝาก</Step.Title>
@@ -97,14 +97,14 @@ export const OrderStep = (props) => {
     const depositingEnd = (active) => {
         return(
             active ?
-            <Step>
+            <Step active>
                 <Icon name='delete calendar' />
                 <Step.Content>
                     <Step.Title>จบการฝาก</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='delete calendar' />
                 <Step.Content>
                     <Step.Title>จบการฝาก</Step.Title>
@@ -115,14 +115,14 @@ export const OrderStep = (props) => {
     const payment = (active) => {
         return(
             active ?
-            <Step>
+            <Step active>
                 <Icon name='payment' />
                 <Step.Content>
                     <Step.Title>ชำระค่าบริการแล้ว</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='payment' />
                 <Step.Content>
                     <Step.Title>ชำระค่าบริการแล้ว</Step.Title>
@@ -134,14 +134,14 @@ export const OrderStep = (props) => {
     const returnPetBack = (active) => {
         return(
             active ?
-            <Step>
+            <Step active completed>
                 <Icon name='redo alternate' />
                 <Step.Content>
                     <Step.Title>ร้านส่งสัตว์เลี้ยงคืน</Step.Title>
                 </Step.Content>
             </Step>
             :
-            <Step disabled>
+            <Step disabled completed>
                 <Icon name='redo alternate' />
                 <Step.Content>
                     <Step.Title>ร้านส่งสัตว์เลี้ยงคืน</Step.Title>

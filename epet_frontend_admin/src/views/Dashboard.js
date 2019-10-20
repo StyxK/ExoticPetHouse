@@ -11,33 +11,34 @@ export const Dashboard = () => {
     const [filteredStoreByZone,setFilteredStoreZone] = useState({northern:[],northeastern:[],central:[],western:[],eastern:[],southern:[]})
     const [filteredCustomerByZone,setFilteredCustomerZone] = useState({northern:[],northeastern:[],central:[],western:[],eastern:[],southern:[]})
     const [orderSequence,setOrderSequence] = useState({})
+    const url = process.env.REACT_APP_URL
 
     const fetchBalance = async () => {
-        const response = await fetch('http://localhost:3000/charge/balance')
+        const response = await fetch(`${url}/charge/balance`)
         const data = await response.json()
         setBalance(data.total)
     }
 
     const fetchTotalUser = async () => {
-        const response = await fetch('http://localhost:3000/admin/totalUser')
+        const response = await fetch(`${url}/admin/totalUser`)
         const data = await response.json()
         setTotalUser(data)
     }
 
     const fetchFilteredStoreZone = async () => {
-        const response = await fetch('http://localhost:3000/admin/filterStoreByZone')
+        const response = await fetch(`${url}/admin/filterStoreByZone`)
         const data = await response.json()
         setFilteredStoreZone(data)
     }
 
     const fetchFilteredCustomerZone = async () => {
-        const response = await fetch('http://localhost:3000/admin/filterCustomerByZone')
+        const response = await fetch(`${url}/admin/filterCustomerByZone`)
         const data = await response.json()
         setFilteredCustomerZone(data)
     }
 
     const fetchOrderSequence = async () => {
-        const response = await fetch('http://localhost:3000/admin/orderSequence')
+        const response = await fetch(`${url}/admin/orderSequence`)
         const data = await response.json()
         setOrderSequence(data)
     }

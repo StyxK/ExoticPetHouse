@@ -12,10 +12,21 @@ export const Order = (props) => {
     const [status,setStatus] = useState([])
     const [filter,setFilter] = useState(undefined)
     const [store,setStore] = useState(undefined)
+    const url = process.env.REACT_APP_URL
+
+    const statusLabel = (data) => {
+        switch(data){
+            case 'รอร้านตอบรับ' : return <Label color='orange'> {data} </Label>
+            case 'ร้านปฏิเสธการรับฝาก' : return <Label color='red'> {data} </Label>
+            case 'ยกเลิกการส่งฝาก': return <Label color='red'> {data} </Label>
+            case 'รับสัตว์เลี้ยงแล้ว': return <Label color='green'> {data} </Label>
+            default : return <Label color='blue'> {data} </Label>
+        }
+    }
 
     const fetchStatus = async () => {
         let arr = [{key:0,text:'ทั้งหมด',value:'all'}]
-        const respone = await fetch('http://localhost:3000/order/statuses')
+        const respone = await fetch(`${url}/order/statuses`)
         const data = await respone.json()
         data.map( statuses =>{
             arr.push({key:statuses.id,text:statuses.status,value:statuses.status})
@@ -24,7 +35,7 @@ export const Order = (props) => {
     }
 
     const fetchOrder = async () => {
-        const respone = await fetch('http://localhost:3000/order/All')
+        const respone = await fetch(`${url}/order/All`)
         const data = await respone.json()
         setOrder(data)
         console.log(data)
@@ -51,11 +62,13 @@ export const Order = (props) => {
                     <Table.Cell>{data.id}</Table.Cell>
                     <Table.Cell>{data.customerUsername}</Table.Cell>
                     <Table.Cell>{data.store.name}</Table.Cell>
-                    <Table.Cell>{data.orderStatus.status}</Table.Cell>
+                    <Table.Cell>
+                        {statusLabel(data.orderStatus.status)}
+                    </Table.Cell>
                     <Table.Cell>{moment(data.startDate).format('L')}</Table.Cell>
                     <Table.Cell>{moment(data.endDate).format('L')}</Table.Cell>
-                    <Table.Cell className='Cell'>
-                        <OrderDetails button={<Button> more details </Button>} order={data}/>
+                    <Table.Cell className='Cell' textAlign='center'>
+                        <OrderDetails button={<Button positive> more details </Button>} order={data}/>
                     </Table.Cell>
                 </Table.Row>
             )
