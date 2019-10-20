@@ -3,6 +3,7 @@ import {Image,Alert} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import { Container, Text , Header , Left , Body , Right , Fab , Icon , Button, ListItem, List, Label, Content, View} from 'native-base'
 import axios from 'axios';
+import theme from "../theme";
 
 export default class StoreManager extends Component{
     
@@ -36,18 +37,18 @@ export default class StoreManager extends Component{
 
         let cagesList = cages.map( data => {
             return (
-                <List style={{backgroundColor:'#7A5032'}} key={data.id}>
-                    <ListItem style={{backgroundColor:'#A78B45',borderBottomWidth:3,borderBottomColor:'#7A5032'}} >
+                <List style={{backgroundColor:theme.primaryColor}} key={data.id}>
+                    <ListItem style={{backgroundColor: theme.secondaryColor ,borderBottomWidth:3,borderBottomColor:theme.primaryColor, marginLeft:10,marginRight:10,borderRadius:5}} >
                         <Body>
                             <Text style={{color:'white'}}> {data.name}</Text><Text/>
                             <Text style={{color:'white'}}> ราคาต่อวัน : {data.price}</Text>
                         </Body>
                         <Right style={{flexDirection:'row',flex:1}}>
-                            <Button style={{flex:0.5,marginRight:10,backgroundColor:'red',justifyContent:'center'}} rounded onPress={ () => this.deleteCage(data)}> 
+                            <Button style={{flex:0.5,marginRight:10,backgroundColor:theme.warningColor,justifyContent:'center'}} rounded onPress={ () => this.deleteCage(data)}> 
                                 <Label style={{fontSize:14,textAlign:'center',color:'white'}}> ลบ </Label> 
                             </Button>
-                            <Button style={{flex:1,justifyContent:'center',backgroundColor:'#84f542'}} rounded onPress={ () => this.goToEditCage(data)}> 
-                                <Label style={{fontSize:14,textAlign:'center',color:'green'}}> แก้ไขข้อมูล </Label> 
+                            <Button style={{flex:1,justifyContent:'center',backgroundColor:theme.successColor}} rounded onPress={ () => this.goToEditCage(data)}> 
+                                <Label style={{fontSize:14,textAlign:'center',color: theme.successTextColor}}> แก้ไขข้อมูล </Label> 
                             </Button>
                         </Right>
                     </ListItem>
@@ -57,7 +58,7 @@ export default class StoreManager extends Component{
 
         return (
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 2 }} >
                         <Icon name='ios-arrow-back' style={{marginLeft:10,color:'white'}} onPress={ () => { this.goToProfile()}}/>
                     </Left>
@@ -66,27 +67,27 @@ export default class StoreManager extends Component{
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <View style={{flex:1,flexDirection:'row',backgroundColor:'#A78B45'}}>
+                <View style={{flex:1,flexDirection:'row',backgroundColor:theme.secondaryColor}}>
                     <Left style={{flex:1,marginLeft:20}}>
                         <Image style={{width:100,height:100}} source={require('../assets/no_image_available.jpeg')}/>
                     </Left>
                     <Body style={{alignSelf:'center',flex:2,alignContent:'flex-end',justifyContent:'flex-start'}}>
-                        <Text style={{color:'#84f542',alignSelf:'flex-start'}}> ชื่อร้าน : 
+                        <Text style={{color:theme.secondaryTextColor ,alignSelf:'flex-start'}}> ชื่อร้าน : 
                             <Text style={{color:'white',alignSelf:'flex-start'}}> {store.name} </Text> 
                         </Text>
-                        <Text style={{color:'#84f542',alignSelf:'flex-start'}}> เบอร์โทรศัพท์ :  
+                        <Text style={{color:theme.secondaryTextColor,alignSelf:'flex-start'}}> เบอร์โทรศัพท์ :  
                             <Text style={{color:'white',alignSelf:'flex-start'}}> {store.phoneNumber} </Text>
                         </Text>
-                        <Text style={{color:'#84f542',alignSelf:'flex-start'}}> คะแนนร้าน :  
+                        <Text style={{color:theme.secondaryTextColor,alignSelf:'flex-start'}}> คะแนนร้าน :  
                             <Text style={{color:'white',alignSelf:'flex-start'}}> {store.rating} </Text>
                         </Text>
-                        <Text style={{color:'#84f542',alignSelf:'flex-start'}}> คำอธิบายร้าน :  
+                        <Text style={{color:theme.secondaryTextColor,alignSelf:'flex-start'}}> คำอธิบายร้าน :  
                             <Text style={{color:'white',alignSelf:'flex-start'}}> {store.description} </Text>
                         </Text>
                     </Body>
                 </View>
-                <View style={{flex:2,backgroundColor:'#A78B45'}}>
-                    <ListItem style={{backgroundColor:'#7A5032'}} itemDivider>
+                <View style={{flex:2,backgroundColor:theme.backgroundColor}}>
+                    <ListItem style={{backgroundColor:theme.primaryColor}} itemDivider>
                         <Left>
                             <Label style={{color:'white'}}>
                                 กรงภายในร้าน
@@ -94,12 +95,12 @@ export default class StoreManager extends Component{
                             </Label>
                         </Left>
                         <Right>
-                            <Button small rounded onPress={ ()=>{ this.goToCreateCage() }} style={{height:40,width:90,justifyContent:'center',backgroundColor:'#84f542'}}>
-                                <Label style={{color:'green'}}> เพิ่มกรง </Label>
+                            <Button small rounded onPress={ ()=>{ this.goToCreateCage() }} style={{height:40,width:90,justifyContent:'center',backgroundColor:theme.successColor}}>
+                                <Label style={{color:theme.successTextColor}}> เพิ่มกรง </Label>
                             </Button>
                         </Right>
                     </ListItem>
-                    <Content>
+                    <Content >
                         {cagesList}
                     </Content>
                 </View>

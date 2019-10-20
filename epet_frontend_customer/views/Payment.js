@@ -66,12 +66,12 @@ export default class Payment extends Component {
           <Left style={{ flex: 2 }}>
             <Icon
               name="ios-arrow-back"
-              style={{ color: "white" }}
+              style={{ color: theme.primaryTextColor }}
               onPress={() => this.goToHistoryDetail()}
             />
           </Left>
           <Body style={{ flex: 2.5 }}>
-            <Text style={{ color: "white" }}> ชำระค่าบริการ </Text>
+            <Text style={{ color: theme.primaryTextColor }}> ชำระค่าบริการ </Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
@@ -84,10 +84,10 @@ export default class Payment extends Component {
           }}
         >
           <Left style={{ justifyContent: "center" }}>
-            <Text style={{ color: "white" }}> ค่าบริการทั้งหมด </Text>
+            <Text style={{ color: theme.accentTextColor }}> ค่าบริการทั้งหมด </Text>
           </Left>
           <Right style={{ justifyContent: "center" }}>
-            <Text style={{ color: "white" }}> {this.props.price} บาท </Text>
+            <Text style={{ color:  theme.accentTextColor }}> {this.props.price} บาท </Text>
           </Right>
         </View>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -201,7 +201,7 @@ export default class Payment extends Component {
               }}
               style={{ backgroundColor: theme.primaryColor }}
             >
-              <Text style={{ color: "white", fontSize: 15 }}>
+              <Text style={{ color: theme.primaryTextColor, fontSize: 15 }}>
                 {" "}
                 ชำระค่าบริการ{" "}
               </Text>

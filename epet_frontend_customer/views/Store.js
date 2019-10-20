@@ -101,7 +101,7 @@ class Store extends Component {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
       return (
-        <Card avatar key={data.id} style={{ backgroundColor: "#A37E63" }}>
+        <Card avatar key={data.id} style={{ backgroundColor: theme.secondaryColor }}>
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
@@ -111,9 +111,9 @@ class Store extends Component {
               <Icon name="paw" />
             </Left>
             <Body>
-              <Text style={{ color: "white" }}>{data.name}</Text>
-              <Text style={{ color: "white" }}>ประเภท: {data.type}</Text>
-              <Text style={{ color: "#82CAFA", borderColor: "white" }}>
+              <Text style={{ color: theme.primaryTextColor }}>{data.name}</Text>
+              <Text style={{ color: theme.primaryTextColor }}>ประเภท: {data.type}</Text>
+              <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
@@ -165,11 +165,11 @@ class Store extends Component {
                 onPress={() => {
                   Actions.home();
                 }}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 {stores.name}
               </Title>
             </Body>

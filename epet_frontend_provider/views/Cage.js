@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { View, Container, Content, Icon, Header, Left, Right, Text, Body, Form, Item, Input, Footer, Label, FooterTab, Button } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
+import theme from "../theme";
 
 export default class Cage extends Component{
 
@@ -31,7 +32,7 @@ export default class Cage extends Component{
         const {name,type,description,price} = this.state
         return(
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 2 }} >
                         <Icon name="ios-arrow-back" style={{color:'white'}} onPress={ ()=> Actions.storeManager({store:this.props.store}) }/>
                     </Left>

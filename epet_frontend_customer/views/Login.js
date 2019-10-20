@@ -150,7 +150,7 @@ class Login extends Component {
               }}
               onPress={() => this.logIn()}
             >
-              <Label style={{ color: "white" }}>ลงชื่อเข้าใช้</Label>
+              <Label style={{ color: theme.primaryTextColor }}>ลงชื่อเข้าใช้</Label>
             </Button>
           </View>
           <View

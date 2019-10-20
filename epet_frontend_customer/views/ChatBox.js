@@ -144,7 +144,7 @@ class ChatBox extends Component {
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
             <Icon
-              style={{ color: "white" }}
+              style={{ color: theme.primaryTextColor }}
               onPress={() => {
                 this.goToChat();
               }}
@@ -152,7 +152,7 @@ class ChatBox extends Component {
             />
           </Left>
           <Body style={{ flex: 2.5 }}>
-            <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
+            <Text style={{ color: theme.primaryTextColor }}> แชทกับร้าน </Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>

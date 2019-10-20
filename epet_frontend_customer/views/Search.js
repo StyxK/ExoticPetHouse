@@ -198,14 +198,16 @@ export default class Search extends Component {
               marginBottom: 19,
               borderRadius: 20,
               height: 35,
-              alignSelf: "center"
+              alignSelf: "center",
+              backgroundColor: theme.primaryColor
+              
             }}
             onPress={() => {
               this.setModalVisible(true);
             }}
             visible={!ModalVisible}
           >
-            <Text>รายการร้านใกล้เคียง</Text>
+            <Text style={{color:theme.primaryTextColor}} >รายการร้านใกล้เคียง</Text>
           </Button>
           <Modal
             animationType="slide"

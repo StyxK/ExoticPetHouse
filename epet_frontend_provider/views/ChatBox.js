@@ -6,6 +6,8 @@ import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/Cha
 import { connect } from 'react-redux'
 import { duration } from 'moment-timezone'
 import AutoScroll from 'react-native-auto-scroll'
+import theme from "../theme";
+
 class ChatBox extends Component{
 
     constructor(props){
@@ -97,7 +99,7 @@ class ChatBox extends Component{
     render(){
         return (
             <Container style={{backgroundColor:"rgba(128,128,128,.5)"}}>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
                     </Left>

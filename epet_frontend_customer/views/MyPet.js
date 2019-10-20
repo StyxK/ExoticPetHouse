@@ -33,7 +33,7 @@ class MyPet extends Component {
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>My Pet</Title>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Pet</Title>
             </Body>
           </Header>
 

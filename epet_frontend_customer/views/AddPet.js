@@ -87,11 +87,11 @@ export default class AddPet extends Component {
             <Icon
               name="ios-arrow-back"
               onPress={Actions.pop}
-              style={{ color: "white", marginLeft: 10 }}
+              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>Add Pet</Title>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>Add Pet</Title>
           </Body>
           <Right />
         </Header>

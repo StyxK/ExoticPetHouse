@@ -74,11 +74,11 @@ export class Feedback extends Component {
               onPress={() => {
                 Actions.pop();
               }}
-              style={{ color: "white", marginLeft: 10 }}
+              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Left>
           <Body>
-            <Title style={{ color: "white", fontSize: 20 }}>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
               ให้คะแนนผู้รับฝาก
             </Title>
           </Body>

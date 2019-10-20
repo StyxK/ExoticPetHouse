@@ -163,11 +163,11 @@ class Order extends Component {
                 onPress={() => {
                   Actions.pop();
                 }}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1 }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 รายการคำสั่งฝาก
               </Title>
             </Body>
@@ -203,7 +203,7 @@ class Order extends Component {
               </CardItem>
             </Card>
           </Content>
-          <Footer style={{ height: "10%", backgroundColor: "#A37E63" }}>
+          <Footer style={{ height: "10%", backgroundColor: theme.secondaryColor }}>
             <Left
               style={{
                 marginTop: "2.5%",
@@ -211,7 +211,7 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ fontSize: 15, color: "white" }}>ฝากตั้งแต่</Text>
+              <Text style={{ fontSize: 15, color: theme.secondaryTextColor }}>ฝากตั้งแต่</Text>
               <DatePicker
                 defaultDate={new Date().getDate}
                 locale={"th"}
@@ -221,8 +221,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"default"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
+                textStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
+                placeHolderTextStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
                 onDateChange={this.setStartDate}
                 disabled={false}
               />
@@ -234,7 +234,7 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ fontSize: 15, color: "white" }}>
+              <Text style={{ fontSize: 15, color: theme.secondaryTextColor }}>
                 สิ้นสุดการฝาก
               </Text>
               <DatePicker
@@ -246,14 +246,14 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"calendar"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
+                textStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
+                placeHolderTextStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
                 onDateChange={this.setEndDate}
                 disabled={false}
               />
             </Left>
           </Footer>
-          <Footer style={{ backgroundColor: "#A37E63" }}>
+          <Footer style={{ backgroundColor: theme.secondaryColor }}>
             <Button
               full
               style={{
@@ -263,7 +263,7 @@ class Order extends Component {
               }}
               onPress={this.sendOrderToStore}
             >
-              <Text style={{ color: "white" }}>ยืนยันคำสั่งฝาก</Text>
+              <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
             </Button>
           </Footer>
         </Container>

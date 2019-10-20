@@ -5,6 +5,8 @@ import { Actions } from 'react-native-router-flux'
 import ImagePicker from 'react-native-image-picker'
 import options from '../image-option.json'
 import axios from 'axios'
+import theme from "../theme";
+
 
 export default class PetPost extends Component {
 
@@ -46,7 +48,7 @@ export default class PetPost extends Component {
         const {topic,description,picture} = this.state
         return (
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { goToPetActivities(this.props.pet,this.props.storeId) }} name='ios-arrow-back' />
                     </Left>

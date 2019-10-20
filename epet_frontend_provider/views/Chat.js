@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import {duration} from 'moment-timezone'
 import NavFooter from '../components/NavFooter'
 import { loading } from '../components/Loading'
+import theme from "../theme";
 
 class Chat extends Component{
 
@@ -97,7 +98,7 @@ class Chat extends Component{
     render(){
         return(
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 2 }} />
                     <Body style={{ flex: 2.5 }}>
                         <Text style={{ color: "white" }}> แชทกับลูกค้า </Text>
@@ -105,19 +106,19 @@ class Chat extends Component{
                     <Right style={{ flex: 1 }} />
                 </Header>
                 <Content refreshControl={
-                    <RefreshControl colors={['#7A5032']} refreshing={this.state.refreshing} onRefresh={()=>{ this.getChat() }}/>
+                    <RefreshControl colors={[theme.primaryColor]} refreshing={this.state.refreshing} onRefresh={()=>{ this.getChat() }}/>
                 }>
                     {
                         this.state.load ?
                         (
                             this.state.error.status ? 
                             <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
-                                <Label style={{color:"#7A5032"}}> {this.state.error.message} </Label>
+                                <Label style={{color:theme.primaryColor}}> {this.state.error.message} </Label>
                             </View>
                             :
                             <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
                                 {loading()}
-                                <Label style={{color:"#7A5032"}}> กรุณารอสักครู่ </Label>
+                                <Label style={{color:theme.primaryColor}}> กรุณารอสักครู่ </Label>
                             </View>
                         )
                          :

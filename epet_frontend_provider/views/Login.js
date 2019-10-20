@@ -7,6 +7,7 @@ import axios from 'axios'
 import { login } from '../src/actions/UserActions';
 import * as Animatable from 'react-native-animatable'
 import Register from './Register'
+import theme from "../theme";
 
 class Login extends Component{
 
@@ -79,7 +80,7 @@ class Login extends Component{
                                 <Input secureTextEntry style={{flex:5,marginLeft:20,color:'white'}} placeholder='รหัสผ่าน' placeholderTextColor='white' onChangeText={e=>this.setState({password:e})}/>
                             </Item>
                             <View style={{flexDirection:'row',flex:1,justifyContent:'center',marginTop:10}}>
-                                <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: "#7A5032"}}
+                                <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: theme.primaryColor}}
                                     onPress={ ()=> this.logIn()  }
                                 >
                                     <Label style={{color:'white'}}>
@@ -88,7 +89,7 @@ class Login extends Component{
                                 </Button>
                             </View>
                             <View style={{flexDirection:'row',flex:1,justifyContent:'center',marginTop:10}}>
-                                <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: "#7A5032"}}
+                                <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: theme.primaryColor}}
                                     onPress={ ()=> this.register()  }
                                 >
                                     <Label style={{color:'white'}}>

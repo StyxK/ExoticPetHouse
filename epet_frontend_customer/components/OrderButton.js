@@ -28,7 +28,7 @@ class orderButton extends Component {
               this.cancelOrder();
             }}
           >
-            <Label style={{ color: "white" }}>ยกเลิกคำสั่งฝาก</Label>
+            <Label style={{ color: theme.primaryTextColor }}>ยกเลิกคำสั่งฝาก</Label>
           </Button>
         </View>
       );
@@ -47,7 +47,7 @@ class orderButton extends Component {
               this.payment();
             }}
           >
-            <Label style={{ color: "white" }}>ชำระค่าบริการ</Label>
+            <Label style={{ color: theme.primaryTextColor }}>ชำระค่าบริการ</Label>
           </Button>
         </View>
       );
@@ -66,7 +66,7 @@ class orderButton extends Component {
               this.orderBegin();
             }}
           >
-            <Label style={{ color: "white" }}>เริ่มการฝาก</Label>
+            <Label style={{ color: theme.primaryTextColor }}>เริ่มการฝาก</Label>
           </Button>
         </View>
       );
@@ -85,7 +85,7 @@ class orderButton extends Component {
               this.getPetsBack();
             }}
           >
-            <Label style={{ color: "white" }}>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
+            <Label style={{ color: theme.primaryTextColor }}>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
           </Button>
         </View>
       );
@@ -115,7 +115,7 @@ class orderButton extends Component {
               Actions.feedback(this.props.item);
             }}
           >
-            <Label style={{ color: "white" }}>ให้คะแนนร้าน</Label>
+            <Label style={{ color: theme.primaryTextColor }}>ให้คะแนนร้าน</Label>
           </Button>
         </View>
       );

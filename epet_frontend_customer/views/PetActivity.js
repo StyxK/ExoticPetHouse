@@ -52,13 +52,13 @@ export default class PetActivity extends Component {
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
-              style={{ color: "white" }}
+              style={{ color: theme.primaryTextColor }}
               onPress={() => Actions.pop()}
               name="ios-arrow-back"
             />
           </Left>
           <Body style={{ flex: 3, alignItems: "center" }}>
-            <Text style={{ color: "white" }}>กิจกรรมระหว่างการฝาก</Text>
+            <Text style={{ color: theme.primaryTextColor }}>กิจกรรมระหว่างการฝาก</Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>

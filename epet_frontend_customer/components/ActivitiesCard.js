@@ -23,10 +23,10 @@ export default class ActivitiesCard extends Component {
         <Card key={activity.id} style={{ marginLeft: 10, marginRight: 10 }}>
           <CardItem style={{ backgroundColor: theme.primaryColor }}>
             <Left>
-              <Text style={{ color: "white" }}>{activity.topic}</Text>
+              <Text style={{ color: theme.primaryTextColor }}>{activity.topic}</Text>
             </Left>
             <Right>
-              <Text style={{ color: "white" }}>
+              <Text style={{ color: theme.primaryTextColor }}>
                 {" "}
                 {moment(activity.date).fromNow()}{" "}
               </Text>
