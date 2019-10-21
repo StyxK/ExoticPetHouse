@@ -2,11 +2,15 @@ import React,{Component} from 'react'
 import { View } from 'react-native'
 import { Container, Content, Text, Header, Left, Right, Body, Icon, Input, Footer, Button, Card, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
-import { shopReply, userReply, getMessage, refreshChat} from '../src/actions/ChatActions'
 import { connect } from 'react-redux'
 import { duration } from 'moment-timezone'
 import AutoScroll from 'react-native-auto-scroll'
 import theme from "../theme";
+import axios from 'axios';
+import moment from 'moment-timezone'
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL).emit('shop')
 
 class ChatBox extends Component{
 
@@ -19,19 +23,40 @@ class ChatBox extends Component{
     }
     
     componentDidMount(){
-        this.props.getMessage(this.props.customer,this.props.store.storeId)
-        this.setState({
-            messageList: this.props.chat
+        this.fetchMessage()
+    }
+
+    componentWillUpdate(){
+        socket.on('customerSend', data=> {
+            console.log(data,'from server')
+            this.fetchMessage()
         })
     }
 
-    async componentWillReceiveProps(nextProps){
-        if(nextProps.chat != this.props.chat){
-            await this.setState({
-                messageList : nextProps.chat
-            })
-        }
-    }   
+    fetchMessage = () => {
+        console.log('wow js')
+        axios.post('chat/getMessageInRoom',
+            {
+                customer : this.props.customer ,
+                store : this.props.store.storeId
+            }
+        ).then(
+            result => {
+                console.log(result.data)
+                this.setState({
+                    messageList: result.data
+                })
+            }
+        )
+    }
+    
+    shopReply = (message,customer,store) => {
+        socket.emit('shop',{message:message,customerUsername:customer,store:store,role:0,time: moment().unix()})
+        console.log(moment().unix(),'mili')
+        socket.once('shopSend',async data=>{
+            this.fetchMessage()
+        })
+    }
     
     messageDialog = () => {
         let list = []
@@ -128,12 +153,11 @@ class ChatBox extends Component{
     }
 
     submitMessage = () => {
-        this.props.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
+        this.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
     }
 
     goToChat = () => {
         Actions.pop()
-        this.props.refreshChat()
     }
 
 }
@@ -142,4 +166,4 @@ const mapStateToProps = (chatbox) => {
     return {...chatbox}
 }
 
-export default connect(mapStateToProps,{shopReply,userReply,getMessage,refreshChat})(ChatBox)
+export default connect(mapStateToProps)(ChatBox)

@@ -27,7 +27,7 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
     async handleCustomerMessage(client:Socket,text:string){
         client.once('customer',data=>{
             this.chat.sendMessage(data).then( (result) => {
-                client.emit('customerSend',result)
+                this.wss.emit('customerSend',result)
             })
         })
     }
@@ -36,8 +36,9 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
     async handleShopMessage(client:Socket,text:string){
         client.once('shop',data=> {
             this.chat.sendMessage(data).then( (result) => {
-                client.emit('shopSend',result)
+                this.wss.emit('shopSend',result)
             })
         })
     }
+    
 }

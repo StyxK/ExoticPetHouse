@@ -8,6 +8,9 @@ import {duration} from 'moment-timezone'
 import NavFooter from '../components/NavFooter'
 import { loading } from '../components/Loading'
 import theme from "../theme";
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL).emit('shop')
 
 class Chat extends Component{
 
@@ -43,6 +46,12 @@ class Chat extends Component{
 
     componentDidMount(){
         this.getChat()
+    }
+
+    componentWillUpdate(){
+        socket.on('customerSend', data=> {
+            this.getChat()
+        })
     }
 
     chatRooms = () =>{

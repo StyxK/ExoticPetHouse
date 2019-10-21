@@ -4,14 +4,12 @@ import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { store,persistor } from '../src/configStore'
 import Route from './Route'
-import { userReply } from '../src/actions/ChatActions'
 import { initialLoad } from '../components/Loading'
 
 export default class Main extends Component {
 
     constructor(props){
         super(props)
-        store.dispatch(userReply)
     }
 
     render() {
