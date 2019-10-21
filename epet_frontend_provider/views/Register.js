@@ -4,6 +4,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { login } from '../src/actions/UserActions'
 import { Actions } from 'react-native-router-flux'
+import theme from "../theme";
 
 class Register extends Component{
 
@@ -71,7 +72,7 @@ class Register extends Component{
                     </Content>
                 </View>
                 <View style={{flexDirection:'row',flex:1.5,justifyContent:'center',marginTop:10}}>
-                    <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: "#7A5032"}}
+                    <Button rounded style={{flex:1,marginHorizontal:30,backgroundColor: theme.primaryColor}}
                         onPress={ ()=> this.submit() }
                     >
                         <Label style={{color:'white'}}>

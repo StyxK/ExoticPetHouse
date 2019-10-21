@@ -13,26 +13,30 @@ import {
   Right,
   Button
 } from "native-base";
+import theme from "../theme";
 
 export default class ActivitiesCard extends Component {
   render() {
     const { activity } = this.props;
     return (
       <View style={styles.container}>
-        <Card key={activity.id}>
-          <CardItem>
+        <Card key={activity.id} style={{ marginLeft: 10, marginRight: 10 }}>
+          <CardItem style={{ backgroundColor: theme.primaryColor }}>
             <Left>
-              <Text>{activity.topic}</Text>
+              <Text style={{ color: theme.primaryTextColor }}>{activity.topic}</Text>
             </Left>
             <Right>
-              <Text> {moment(activity.date).fromNow()} </Text>
+              <Text style={{ color: theme.primaryTextColor }}>
+                {" "}
+                {moment(activity.date).fromNow()}{" "}
+              </Text>
             </Right>
           </CardItem>
           {activity.picture ? (
             <CardItem cardBody>
               <Image
                 source={{ uri: activity.picture }}
-                style={{ height: 200, width: "auto", flex: 1 }}
+                style={{ height: 200, width: null, flex: 1 }}
               />
             </CardItem>
           ) : null}

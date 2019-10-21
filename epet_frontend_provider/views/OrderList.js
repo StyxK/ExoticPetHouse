@@ -8,7 +8,6 @@ import {
   Left,
   Right,
   Content,
-  Label
 } from "native-base";
 import { View } from "react-native";
 import { connect } from "react-redux";
@@ -17,7 +16,7 @@ import NavFooter from '../components/NavFooter'
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view"
-import { loading } from '../components/Loading'
+import theme from "../theme";
 
 class OrderList extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ class OrderList extends Component {
     });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.refresh();
   }
 
@@ -55,10 +54,10 @@ class OrderList extends Component {
     const { statuses } = this.state
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }} />
           <Body style={{ flex: 3, alignItems: 'center' }}>
-            <Text style={{ color: "white" }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
+            <Text style={{ color: theme.primaryTextColor }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
@@ -66,7 +65,11 @@ class OrderList extends Component {
           {console.log(this.state.load,'load')}
           {
             (statuses.length > 0 && (
-              <ScrollableTabView tabBarUnderlineStyle={{ backgroundColor: "#7A5032" }} tabBarActiveTextColor="#7A5032" renderTabBar={() => <ScrollableTabBar />}>
+              <ScrollableTabView 
+                tabBarUnderlineStyle={{ backgroundColor: theme.primaryColor }} 
+                tabBarActiveTextColor={theme.primaryColor} 
+                renderTabBar={() => <ScrollableTabBar />}
+              >
                 {this.getSegments()}
               </ScrollableTabView>
             ))
@@ -94,7 +97,6 @@ class OrderList extends Component {
         }
       </Content>
     ));
-    console.log(segments,'list')
     return segments
   };
 }

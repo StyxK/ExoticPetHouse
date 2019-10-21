@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { addPet, setPets, updatePet, removePet } from "../actions";
 import PetCard from "../components/PetCard";
 import NavFooter from "../components/NavFooter";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 
@@ -30,9 +31,9 @@ class MyPet extends Component {
     return (
       <Container>
         <Container>
-          <Header style={{ backgroundColor: "#7A5032" }}>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>My Pet</Title>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Pet</Title>
             </Body>
           </Header>
 
@@ -47,8 +48,12 @@ class MyPet extends Component {
             ))}
           </Content>
 
-          <Fab style={{ backgroundColor: "#7A5032" }} position="bottomRight" onPress={this.goToAddPet}>
-            <Icon name="add"  />
+          <Fab
+            style={{ backgroundColor: theme.primaryColor }}
+            position="bottomRight"
+            onPress={this.goToAddPet}
+          >
+            <Icon name="add" />
           </Fab>
         </Container>
         <NavFooter />

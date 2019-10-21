@@ -1,11 +1,34 @@
 import axios from "axios";
-import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, Thumbnail } from "native-base";
+import {
+  Body,
+  Button,
+  Card,
+  CardItem,
+  Container,
+  Content,
+  Header,
+  Icon,
+  Left,
+  List,
+  ListItem,
+  Right,
+  Text,
+  Title,
+  Thumbnail
+} from "native-base";
 import React, { Component } from "react";
-import { Alert, Modal, StyleSheet, TouchableHighlight, View } from "react-native";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  TouchableHighlight,
+  View
+} from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import PetCard from "../components/PetCard";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -18,11 +41,11 @@ class Store extends Component {
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
-      petTemp: [],
+      petTemp: []
     };
   }
 
-  checkedCageIdForCheckBox = dataId => { };
+  checkedCageIdForCheckBox = dataId => {};
 
   setStoreId = () => {
     this.storeId = this.props.id;
@@ -36,19 +59,17 @@ class Store extends Component {
     let order = { pet: petId, cage: cageId };
     this.state.orderLine.push(order);
     this.setModalVisible(false);
-
   };
 
   petWasSelectedInOrder = petId => {
     orderLineTemp = this.state.orderLine;
-    if(orderLineTemp.length >0){
-      for (i = 0; i < orderLineTemp.length; i++){
-        if(orderLineTemp[i].pet==petId){
+    if (orderLineTemp.length > 0) {
+      for (i = 0; i < orderLineTemp.length; i++) {
+        if (orderLineTemp[i].pet == petId) {
           return true;
         }
       }
-    }
-    else{
+    } else {
       return false;
     }
   };
@@ -80,38 +101,38 @@ class Store extends Component {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
       return (
-        <Card
-          avatar
-          key={data.id}
-          
-          style={{backgroundColor:"#A37E63"}}
-        >
-          <CardItem button onPress={()=>this.chooseCageFromStorePage(data.id)} style={{backgroundColor:"#7A5032"}}>
+        <Card avatar key={data.id} style={{ backgroundColor: theme.secondaryColor }}>
+          <CardItem
+            button
+            onPress={() => this.chooseCageFromStorePage(data.id)}
+            style={{ backgroundColor: theme.primaryColor }}
+          >
             <Left>
               <Icon name="paw" />
             </Left>
             <Body>
-              <Text style={{ color: "white" }}>{data.name}</Text>
-              <Text style={{ color: "white" }}>ประเภท: {data.type}</Text>
-              <Text style={{ color: "#82CAFA", borderColor:"white" }}>{data.price} บาท/คืน</Text>
+              <Text style={{ color: theme.primaryTextColor }}>{data.name}</Text>
+              <Text style={{ color: theme.primaryTextColor }}>ประเภท: {data.type}</Text>
+              <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>
+                {data.price} บาท/คืน
+              </Text>
             </Body>
-            <Right>
-            </Right>
+            <Right></Right>
           </CardItem>
         </Card>
       );
     });
 
     let selectPet = pets.map(pet => {
-      if (pet.wasDeposit == false&&this.petWasSelectedInOrder(pet.id)!=true) {
+      if (
+        pet.wasDeposit == false &&
+        this.petWasSelectedInOrder(pet.id) != true
+      ) {
         return (
           <TouchableHighlight
             key={pet.id}
             onPress={() => {
-              this.goToOrder(
-                pet.id,
-                this.state.cageTemp
-              );
+              this.goToOrder(pet.id, this.state.cageTemp);
             }}
           >
             <Card>
@@ -128,29 +149,27 @@ class Store extends Component {
               </Body>
             </Card>
           </TouchableHighlight>
-
         );
       }
       return;
     });
 
-
     const { stores, address } = this.state;
     return (
       <View style={styles.container}>
         <Container>
-          <Header style={{ backgroundColor: "#7A5032" }}>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
                 onPress={() => {
                   Actions.home();
                 }}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 {stores.name}
               </Title>
             </Body>
@@ -163,14 +182,16 @@ class Store extends Component {
                 <Right>
                   <Text note>
                     Rating :
-                    <Text style={{ color: "#7A5032" }}>{stores.rating}</Text>
+                    <Text style={{ color: theme.primaryColor }}>
+                      {stores.rating}
+                    </Text>
                   </Text>
                 </Right>
               </CardItem>
               <CardItem>
                 <Left>
                   <Text>ที่อยู่</Text>
-                  <Text note style={{ color: "#7A5032" }}>
+                  <Text note style={{ color: theme.primaryColor }}>
                     ถนน {address.street}, อำเภอ/เขต {address.district} จังหวัด{" "}
                     {address.province} {address.postcode}
                   </Text>
@@ -179,7 +200,7 @@ class Store extends Component {
               <CardItem>
                 <Left>
                   <Text>ติดต่อ</Text>
-                  <Text note style={{ color: "#7A5032" }}>
+                  <Text note style={{ color: theme.primaryColor }}>
                     {stores.phoneNumber}
                   </Text>
                 </Left>
@@ -187,7 +208,7 @@ class Store extends Component {
               <CardItem>
                 <Left>
                   <Text>รายละเอียดร้านค้า</Text>
-                  <Text note style={{ color: "#7A5032" }}>
+                  <Text note style={{ color: theme.primaryColor }}>
                     {stores.description}
                   </Text>
                 </Left>
@@ -195,18 +216,14 @@ class Store extends Component {
               <CardItem>
                 <Left>
                   <Text>กรงทั้งหมด</Text>
-                  <Text note style={{ color: "#7A5032" }}>
+                  <Text note style={{ color: theme.primaryColor }}>
                     {stores.maxOfDeposit} กรง
                   </Text>
                 </Left>
               </CardItem>
-              <Content>
-                {cageList}
-              </Content>
+              <Content>{cageList}</Content>
               <CardItem>
-                <Text note>
-                  *** กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก
-                </Text>
+                <Text note>*** กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
                 <Text />
               </CardItem>
             </Card>
@@ -226,7 +243,7 @@ class Store extends Component {
                     style={{
                       borderTopLeftRadius: 10,
                       borderTopRightRadius: 10,
-                      backgroundColor: "#7A5032"
+                      backgroundColor: theme.primaryColor
                     }}
                   >
                     <Button
@@ -242,9 +259,7 @@ class Store extends Component {
                     </Button>
                   </Header>
                   <Content style={styles.modal} padder>
-                    
                     {selectPet}
-                    
                   </Content>
                 </Container>
               </View>
@@ -265,8 +280,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-  };
+  return {};
 };
 
 export default connect(
@@ -292,6 +306,6 @@ const styles = StyleSheet.create({
     marginBottom: 65,
     backgroundColor: "white",
     opacity: 0.99,
-    marginTop: 40,
+    marginTop: 40
   }
 });

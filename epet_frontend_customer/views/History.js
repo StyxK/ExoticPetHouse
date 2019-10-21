@@ -1,32 +1,29 @@
+import axios from "axios";
 import {
+  Body,
   Container,
+  Content,
   Header,
   Left,
-  Body,
   Right,
-  Button,
-  Icon,
   Title,
-  ListItem,
-  List,
-  Content,
+  View,
+  Icon,
   Text,
-  View
+  Badge,
+  Button
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight } from "react-native";
+import { StyleSheet } from "react-native";
 import Config from "react-native-config";
-import axios from "axios";
-import { connect } from "react-redux";
-import moment from "moment-timezone";
 import { Actions } from "react-native-router-flux";
-import SegmentedControlTab from "react-native-segmented-control-tab";
-import NavFooter from "../components/NavFooter";
-import HistoryList from "../components/HistoryList";
-import SegmentControl from "react-native-segment-control";
 import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
+import { connect } from "react-redux";
+import HistoryList from "../components/HistoryList";
+import NavFooter from "../components/NavFooter";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 
@@ -81,23 +78,6 @@ class History extends Component {
     );
   }
 
-  // cancelOrder = async order => {
-  //   if (order.orderStatus.id == 1 || order.orderStatus.id == 2) {
-  //     return axios
-  //       .put("/order/" + order.id, {
-  //         orderStatus: {
-  //           id: 4
-  //         }
-  //       })
-  //       .then(response => {
-  //         this.refresh();
-  //         return response;
-  //       });
-  //   } else {
-  //     return Promise.reject("ไม่สามรถยกเลิกได้");
-  //   }
-  // };
-
   goToHistoryDetail = item => () => {
     Actions.historyDetail({ item, refresh: this.refresh });
   };
@@ -106,24 +86,29 @@ class History extends Component {
     const { page, statuses } = this.state;
     return (
       <Container style={{ display: "flex", height: "100%" }}>
-        <Header style={{ backgroundColor: "#7A5032" }}>
-          <Left style={{ flex: 1 }}></Left>
-          <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>My Order</Title>
-          </Body>
-          <Right />
-        </Header>
-        <View style={{ flex: 1 }}>
-          {statuses.length > 0 && (
-            // <SegmentControl
-            //   style={{ height: "100%" }}
-            //   segments={this.getSegments()}
-            // />
-            <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
-              {this.getSegments()}
-            </ScrollableTabView>
-          )}
-        </View>
+        <Container>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
+            <Left style={{ flex: 1 }}></Left>
+            <Body style={{ flex: 1, alignItems: "center" }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Order</Title>
+            </Body>
+            <Right>
+            <Button onPress={()=>{alert('hello')}} transparent badge>
+                <Badge>
+                  <Text>99</Text>
+                </Badge>
+                <Icon  name='notifications' style={{color:'white',fontSize:30}}/>
+            </Button>
+            </Right>
+          </Header>
+          <View style={{ flex: 1 }}>
+            {statuses.length > 0 && (
+              <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+                {this.getSegments()}
+              </ScrollableTabView>
+            )}
+          </View>
+        </Container>
         <NavFooter />
       </Container>
     );
@@ -133,7 +118,7 @@ class History extends Component {
     const { history, statuses } = this.state;
 
     const segments = statuses.map(status => (
-      <View key={status.id} tabLabel={status.status}>
+      <Content key={status.id} tabLabel={status.status}>
         {history
           .filter(item => item.orderStatus.id === status.id)
           .map(item => {
@@ -145,7 +130,7 @@ class History extends Component {
               />
             );
           })}
-      </View>
+      </Content>
     ));
     return segments;
   };

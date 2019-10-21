@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import { Button, View, Label } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
+import theme from "../theme";
 
 export default class orderButton extends Component{
 
@@ -10,47 +11,44 @@ export default class orderButton extends Component{
     }
 
     button = (orderStatus) => {
+        console.log(orderStatus)
         let list = []
         if(orderStatus ==  1){
             list.push(
-                <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
-                    onPress={()=>{this.acceptOrder()}}>
-                    <Label>ยอมรับคำสั่งฝาก</Label>
-                </Button>
+                <View style={{ flex: 1,marginVertical:5}} >
+                    <Button full
+                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        onPress={()=>{this.acceptOrder()}}>
+                        <Label style={{color:'white'}}>ยอมรับคำสั่งฝาก</Label>
+                    </Button>
+                </View>
             )
             list.push(
-                <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
-                    onPress={()=>{this.denyOrder()}}>
-                    <Label>ปฏิเสธคำสั่งฝาก</Label>
-                </Button>
-            )
-        }
-        else if(orderStatus ==  2){
-            list.push(
-                <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
-                    onPress={()=>{this.cancelOrder()}}>
-                    <Label>ยกเลิกคำสั่งฝาก</Label>
-                </Button>
+                <View style={{ flex: 1}} >
+                    <Button full
+                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        onPress={()=>{this.denyOrder()}}>
+                        <Label style={{color:'white'}}>ปฏิเสธคำสั่งฝาก</Label>
+                    </Button>
+                </View>
             )
         }
-        else if(orderStatus ==  6){
+        else if(orderStatus == 4){
             list.push(
-                <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
-                    onPress={()=>{ this.payment() }}>
-                    <Label>ชำระค่าบริการ</Label>
-                </Button>
+                <Label style={{textAlign:'center'}}> ผู้ฝากได้ทำการยกเลิกการฝากแล้ว </Label>
             )
         }
-        else if(orderStatus == 9){
+        else if(orderStatus == 2){
+            list.push(
+                <Label style={{textAlign:'center'}}> คำสั่งฝากอยู่ในขั้นตอนการตอบรับจากลูกค้า </Label>
+            )
+        }
+        else if(orderStatus == 8){
             list.push(
                 <Button full
-                    style={{ backgroundColor: "#7A5032",flex: 1,borderRadius: 10}} 
+                    style={{ backgroundColor: theme.primaryColor,flex: 1,borderRadius: 10}} 
                     onPress={()=>{ this.getPetsBack() }}>
-                    <Label>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
+                    <Label>เจ้าของรับสัตว์เลี้ยงกลับแล้ว</Label>
                 </Button>
             )
         }
@@ -62,7 +60,9 @@ export default class orderButton extends Component{
             <View style={{flex:1}}>
                 <Label style={{textAlign:'center'}}> ตัวเลือกออร์เดอร์ </Label>
                 <Label/>
-                {this.button(this.props.orderStatus)}
+                {/* <View style={{flex:0.5,backgroundColor:'red'}}> */}
+                    {this.button(this.props.orderStatus)}
+                {/* </View> */}
             </View>
         )
     }
@@ -76,7 +76,7 @@ export default class orderButton extends Component{
         axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
     
-    returnPets = () => {
-        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.jump('orderList') )
+    getPetsBack = () => {
+        axios.put('/order/getPetsBack/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
 }

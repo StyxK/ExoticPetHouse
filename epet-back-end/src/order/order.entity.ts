@@ -34,6 +34,9 @@ export class Order {
   @Column('timestamp with time zone',{ nullable: true })
   endDate: Date;
 
+  @Column({nullable:true})
+  reason: string;
+
   @ManyToOne(type => Store, store => store.orders)
   @JoinColumn({ name: 'storeId'})
   store: Store;

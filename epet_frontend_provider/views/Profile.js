@@ -8,6 +8,7 @@ import { setStore,resetStore } from '../src/actions/StoreAction'
 import { logout } from '../src/actions/UserActions'
 import NavFooter from '../components/NavFooter'
 import { persistor } from '../src/configStore'
+import theme from "../theme";
 
 const PIC_URI =
     "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
@@ -103,7 +104,7 @@ class Profile extends Component {
 
         return (
             <Container>
-                <Header style={{ backgroundColor: "#7A5032"}}>
+                <Header style={{ backgroundColor: theme.primaryColor}}>
                     <Left style={{ flex: 1 }} />
                     <Body style={{ flex: 3 , alignItems:'center' }}>
                         <Text style={{ color: "white" }}>สวัสดี</Text>
@@ -124,7 +125,7 @@ class Profile extends Component {
                         </Body>
                     </ListItem>
                 </List>
-                <ListItem noBorder itemDivider style={{backgroundColor: "#7A5032"}}>
+                <ListItem noBorder itemDivider style={{backgroundColor: theme.primaryColor}}>
                     <Text style={{color:'white'}}> การจัดการร้านรับฝาก </Text>
                     <Button small rounded onPress={() => { goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
                 </ListItem>

@@ -4,6 +4,7 @@ import {Actions} from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
 import OrderButton from '../components/OrderButton'
+import theme from "../theme";
 
 export default class OrderDetail extends Component{
 
@@ -18,7 +19,7 @@ export default class OrderDetail extends Component{
 
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
-            this.setState({ order: response.data , loading:false ,statusId:response.data.id});
+            this.setState({ order: response.data , loading:false ,statusId:response.data.orderStatus.id});
         });
         console.log(this.props.item.orderStatus.id,'item')
     }
@@ -38,7 +39,7 @@ export default class OrderDetail extends Component{
 
         return(
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
                         <Icon name="ios-arrow-back" style={{color:'white'}} onPress={()=>Actions.pop()}/>
                     </Left>
@@ -73,7 +74,7 @@ export default class OrderDetail extends Component{
                         </View>
                     </View>
                     <Content>
-                        <ListItem itemDivider style={{ justifyContent:'center',backgroundColor:'#7A5032' }}>
+                        <ListItem itemDivider style={{ justifyContent:'center',backgroundColor:theme.primaryColor }}>
                             <Text style={{ fontSize: 15,color:'white' }}>
                             สัตว์เลี้ยงที่อยู่ในรายการฝาก
                             </Text>

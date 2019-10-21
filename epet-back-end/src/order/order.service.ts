@@ -230,8 +230,19 @@ export class OrderService {
       .update(`order`)
       .set({ orderStatus : {id:6} })
       .where(`endDate < :now`,{now:moment().utc()})
-      .andWhere(`"order"."orderStatusId" = 3`)
-      .execute()
+      .andWhere(`"order"."orderStatusId" = 3`).execute()
+      await this.orderRepository
+      .createQueryBuilder()
+      .update(`order`)
+      .set({ orderStatus : {id:5}})
+      .where(`startDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 1`).execute()
+      await this.orderRepository
+      .createQueryBuilder()
+      .update(`order`)
+      .set({ orderStatus : {id:4}})
+      .where(`startDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 2`).execute()
       return await this.orderRepository.find()
     }catch(error){
       return HttpStatus.INTERNAL_SERVER_ERROR
@@ -242,7 +253,7 @@ export class OrderService {
   async charge(orderId,charge){
     try{
       const data = await this.getStatus(orderId)
-      if(await data.orderStatus.id != 6){
+      if(data.orderStatus.id != 6 && data.orderStatus.id != 3){
         throw new Error('ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
       }
       let totalPrice : number = 0
@@ -250,11 +261,8 @@ export class OrderService {
       const calculatePrice =  await data.orderLines.map( async result=>{
         const orderLine = await this.orderLineRepository.findOne({where:{id:result.id},relations:['cage']})
         totalPrice += orderLine.cage.price * duration;
-        console.log(totalPrice,'price')
-        console.log(orderLine.cage.price,'price origin')
       })
       await Promise.all(calculatePrice)
-      await console.log(this.chargeService)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
     }catch(error){

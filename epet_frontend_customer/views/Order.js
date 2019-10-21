@@ -23,6 +23,7 @@ import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { addPet, setPets, updatePet } from "../actions";
 import Config from "react-native-config";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 class Order extends Component {
@@ -65,8 +66,8 @@ class Order extends Component {
     const diffTime = Math.abs(
       this.state.endChosenDate.getTime() - this.state.startChosenDate.getTime()
     );
-    let totalDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    if(totalDay == 0){
+    let totalDay = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (totalDay == 0) {
       totalDay = 1;
     }
     return totalDay;
@@ -79,7 +80,7 @@ class Order extends Component {
     return petArray.name + "";
   };
 
-  removeOrderline = petId =>{
+  removeOrderline = petId => {
     let confirm = 0;
     Alert.alert(
       "ลบรายการ",
@@ -87,25 +88,25 @@ class Order extends Component {
       [
         {
           text: "Cancel",
-          onPress:()=> {},
-          style: 'cancel',
+          onPress: () => {},
+          style: "cancel"
         },
-        {text: "OK", onPress:()=> remove()},
+        { text: "OK", onPress: () => remove() }
       ],
-      {cancelable: false},
+      { cancelable: false }
     );
-    remove=()=>{
+    remove = () => {
       let orderLine = this.props.orderLine;
-      for( let i = 0; i < orderLine.length; i++){ 
-        if ( orderLine[i].pet == petId) {
-          orderLine.splice(i, 1); 
+      for (let i = 0; i < orderLine.length; i++) {
+        if (orderLine[i].pet == petId) {
+          orderLine.splice(i, 1);
         }
       }
       this.props.orderLine = orderLine;
       Actions.refresh({});
-    }
-  }
-  
+    };
+  };
+
   submitForm = () => {
     axios
       .post(API_URL + "/order/", {
@@ -114,7 +115,7 @@ class Order extends Component {
         startDate: this.state.startChosenDate,
         endDate: this.state.endChosenDate,
         orderLines: this.props.orderLine,
-        storeId: this.props.stores.id,
+        storeId: this.props.stores.id
       })
       .then(response => {
         console.log(JSON.stringify(response));
@@ -140,7 +141,13 @@ class Order extends Component {
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
           <Right>
-            <Icon type="FontAwesome" name="trash-o" onPress={()=>{this.removeOrderline(data.pet)}}/>
+            <Icon
+              type="FontAwesome"
+              name="trash-o"
+              onPress={() => {
+                this.removeOrderline(data.pet);
+              }}
+            />
           </Right>
         </ListItem>
       );
@@ -149,18 +156,18 @@ class Order extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header style={{ backgroundColor: "#7A5032" }}>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
                 onPress={() => {
                   Actions.pop();
                 }}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1 }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 รายการคำสั่งฝาก
               </Title>
             </Body>
@@ -181,7 +188,7 @@ class Order extends Component {
                 </List>
               </CardItem>
               {orderList}
-              <Button onPress={()=>Actions.pop()}>
+              <Button onPress={() => Actions.pop()}>
                 <Text>เพิ่มรายการฝาก</Text>
               </Button>
               <CardItem>
@@ -196,7 +203,7 @@ class Order extends Component {
               </CardItem>
             </Card>
           </Content>
-          <Footer style={{ height: "10%", backgroundColor: "#A37E63" }}>
+          <Footer style={{ height: "10%", backgroundColor: theme.secondaryColor }}>
             <Left
               style={{
                 marginTop: "2.5%",
@@ -204,7 +211,7 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ fontSize: 15, color: "white" }}>ฝากตั้งแต่</Text>
+              <Text style={{ fontSize: 15, color: theme.secondaryTextColor }}>ฝากตั้งแต่</Text>
               <DatePicker
                 defaultDate={new Date().getDate}
                 locale={"th"}
@@ -214,8 +221,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"default"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
+                textStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
+                placeHolderTextStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
                 onDateChange={this.setStartDate}
                 disabled={false}
               />
@@ -227,7 +234,7 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ fontSize: 15, color: "white" }}>
+              <Text style={{ fontSize: 15, color: theme.secondaryTextColor }}>
                 สิ้นสุดการฝาก
               </Text>
               <DatePicker
@@ -239,20 +246,24 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"calendar"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: "#5CFF31", fontSize: 17 }}
-                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 17 }}
+                textStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
+                placeHolderTextStyle={{ color: theme.secondaryTextColor, fontSize: 17 }}
                 onDateChange={this.setEndDate}
                 disabled={false}
               />
             </Left>
           </Footer>
-          <Footer style={{ backgroundColor: "#A37E63" }}>
+          <Footer style={{ backgroundColor: theme.secondaryColor }}>
             <Button
               full
-              style={{ flex: 2, marginTop: 1, backgroundColor: "#7A5032" }}
+              style={{
+                flex: 2,
+                marginTop: 1,
+                backgroundColor: theme.primaryColor
+              }}
               onPress={this.sendOrderToStore}
             >
-              <Text style={{ color: "white" }}>ยืนยันคำสั่งฝาก</Text>
+              <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
             </Button>
           </Footer>
         </Container>

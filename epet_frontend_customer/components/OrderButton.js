@@ -4,6 +4,7 @@ import { Actions } from "react-native-router-flux";
 import axios from "axios";
 import { setPets } from "../actions";
 import { connect } from "react-redux";
+import theme from "../theme";
 
 class orderButton extends Component {
   constructor(props) {
@@ -14,51 +15,113 @@ class orderButton extends Component {
     let list = [];
     if (orderStatus == 1) {
       list.push(
-        <Button
-          full
-          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
-          onPress={() => {
-            this.cancelOrder();
-          }}
-        >
-          <Label>ยกเลิกคำสั่งฝาก</Label>
-        </Button>
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: theme.primaryColor,
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+            onPress={() => {
+              this.cancelOrder();
+            }}
+          >
+            <Label style={{ color: theme.primaryTextColor }}>ยกเลิกคำสั่งฝาก</Label>
+          </Button>
+        </View>
       );
-    }  else if (orderStatus == 6) {
+    } else if (orderStatus == 6 || orderStatus == 3) {
       list.push(
-        <Button
-          full
-          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
-          onPress={() => {
-            this.payment();
-          }}
-        >
-          <Label>ชำระค่าบริการ</Label>
-        </Button>
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: theme.primaryColor,
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+            onPress={() => {
+              this.payment();
+            }}
+          >
+            <Label style={{ color: theme.primaryTextColor }}>ชำระค่าบริการ</Label>
+          </Button>
+        </View>
       );
     } else if (orderStatus == 2) {
       list.push(
-        <Button
-          full
-          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
-          onPress={() => {
-            this.orderBegin();
-          }}
-        >
-          <Label>เริ่มการฝาก</Label>
-        </Button>
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: theme.primaryColor,
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+            onPress={() => {
+              this.orderBegin();
+            }}
+          >
+            <Label style={{ color: theme.primaryTextColor }}>เริ่มการฝาก</Label>
+          </Button>
+        </View>
       );
     } else if (orderStatus == 8) {
       list.push(
-        <Button
-          full
-          style={{ backgroundColor: "#7A5032", flex: 1, borderRadius: 10 }}
-          onPress={() => {
-            this.getPetsBack();
-          }}
-        >
-          <Label>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
-        </Button>
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: theme.primaryColor,
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+            onPress={() => {
+              this.getPetsBack();
+            }}
+          >
+            <Label style={{ color: theme.primaryTextColor }}>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
+          </Button>
+        </View>
+      );
+    } else if (orderStatus == 4) {
+      list.push(
+        <Label style={{ textAlign: "center" }}>
+          {" "}
+          คุณได้ทำการยกเลิกการฝากแล้ว{" "}
+        </Label>
+      );
+    } else if (orderStatus == 5) {
+      list.push(
+        <Label style={{ textAlign: "center" }}> ร้านปฏิเสธการรับฝาก </Label>
+      );
+    } else if (orderStatus == 7) {
+      list.push(
+        <View style={{ flex: 1, marginVertical: 5 }}>
+          <Button
+            full
+            style={{
+              backgroundColor: theme.primaryColor,
+              flex: 0.5,
+              marginHorizontal: 20,
+              borderRadius: 10
+            }}
+            onPress={() => {
+              Actions.feedback(this.props.item);
+            }}
+          >
+            <Label style={{ color: theme.primaryTextColor }}>ให้คะแนนร้าน</Label>
+          </Button>
+        </View>
+      );
+    } else if (orderStatus == 9) {
+      list.push(
+        <Label style={{ textAlign: "center" }}> ชำระค่าบริการสำเร็จแล้ว </Label>
       );
     }
     return list;

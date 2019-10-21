@@ -4,6 +4,7 @@ import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, 
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
+import theme from "../theme";
 
 export default class PetActivities extends Component {
 
@@ -35,7 +36,7 @@ export default class PetActivities extends Component {
         this.state.activities.map( data => {
             card.push( 
             <Card key={data.id} style={{marginLeft:10,marginRight:10}}>
-                <CardItem style={{ backgroundColor: "#7A5032" }}>
+                <CardItem style={{ backgroundColor: theme.primaryColor }}>
                     <Left>
                         <Text style={{color:'white'}}>{data.topic}</Text>
                     </Left>
@@ -68,17 +69,17 @@ export default class PetActivities extends Component {
         const { pet,storeId } = this.state
         return (
             <Container>
-                <Header style={{ backgroundColor: "#7A5032" }}>
+                <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
                         <Icon style={{ color: 'white' }} onPress={() => { goToPets() }} name='ios-arrow-back' />
                     </Left>
                     <Body style={{ flex: 3 ,alignItems:'center'}}>
-                        <Text style={{ color: "white" }}>กิจกรรมระหว่างการฝาก</Text>
+                        <Text style={{ color: theme.primaryTextColor }}>กิจกรรมระหว่างการฝาก</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <Content style={{ backgroundColor: 'grey' }}>
-                    <View style={{backgroundColor:'#fff7a3',flexDirection:'row',marginBottom:5}}>
+                <Content style={{ backgroundColor: theme.backgroundColor }}>
+                    <View style={{backgroundColor:theme.secondaryColor,flexDirection:'row',marginBottom:5}}>
                         <Left style={{flex:1,alignItems:'center'}}>
                             {pet.image ?
                                 <Thumbnail style={{ width: 80, height: 80 }} source={{ uri: pet.image }} />
@@ -88,15 +89,15 @@ export default class PetActivities extends Component {
                         </Left>
                         <Body style={{flex:2,alignItems:'flex-start'}}>
                             <Label/>
-                            <Label style={{color:'#7A5032'}}> น้อง <Label> {pet.name} </Label> </Label>
-                            <Label style={{color:'#7A5032'}}> อายุ <Label> {pet.age} </Label> เดือน </Label>
-                            <Label style={{color:'#7A5032'}}> เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label> </Label>
+                            <Label style={{color:theme.secondaryTextColor}}> น้อง <Label> {pet.name} </Label> </Label>
+                            <Label style={{color:theme.secondaryTextColor}}> อายุ <Label> {pet.age} </Label> เดือน </Label>
+                            <Label style={{color:theme.secondaryTextColor}}> เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label> </Label>
                             <Label/>
                         </Body>
                     </View>
                     {this.activitiesCard()}
                 </Content>
-                <Fab onPress={()=>goToPetPost(pet,storeId)} style={{backgroundColor:'green'}}>
+                <Fab onPress={()=>goToPetPost(pet,storeId)} style={{backgroundColor:theme.primaryColor}}>
                     <Icon name='add'/>
                 </Fab>
             </Container>

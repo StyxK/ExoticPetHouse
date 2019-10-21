@@ -28,6 +28,7 @@ import { addPet, setPets } from "../actions";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import ImagePicker from "react-native-image-picker";
+import theme from "../theme";
 
 const API_URL = Config.API_URL;
 
@@ -81,16 +82,16 @@ export default class AddPet extends Component {
     } = this.state;
     return (
       <Container>
-        <Header style={{ backgroundColor: "#7A5032" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
               name="ios-arrow-back"
               onPress={Actions.pop}
-              style={{ color: "white", marginLeft: 10 }}
+              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: "white", fontSize: 20 }}>Add Pet</Title>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>Add Pet</Title>
           </Body>
           <Right />
         </Header>
@@ -207,7 +208,7 @@ export default class AddPet extends Component {
                   style={{
                     width: 300,
                     height: 300,
-                    borderColor: "#7A5032",
+                    borderColor: theme.primaryColor,
                     borderWidth: 1,
                     borderRadius: 5
                   }}
@@ -218,7 +219,7 @@ export default class AddPet extends Component {
               <Left>
                 <Button
                   style={{
-                    backgroundColor: "#7A5032",
+                    backgroundColor: theme.primaryColor,
                     flex: 1,
                     borderRadius: 10
                   }}
@@ -230,7 +231,7 @@ export default class AddPet extends Component {
               <Right>
                 <Button
                   style={{
-                    backgroundColor: "#7A5032",
+                    backgroundColor: theme.primaryColor,
                     flex: 1,
                     borderRadius: 10
                   }}

@@ -10,7 +10,7 @@ import {
   Right,
   Button,
   Icon,
-  Left,
+  Left
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Alert } from "react-native";
@@ -18,11 +18,12 @@ import { connect } from "react-redux";
 import axios from "axios";
 import moment from "moment-timezone";
 import { Actions } from "react-native-router-flux";
-import OrderButton from '../components/OrderButton'
+import OrderButton from "../components/OrderButton";
+import theme from "../theme";
 
 class HistoryDetail extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       history: {},
       statusId: null
@@ -31,8 +32,11 @@ class HistoryDetail extends Component {
 
   componentDidMount() {
     axios.get("/order/" + this.props.item.id).then(response => {
-      this.setState({ history: response.data ,statusId : response.data.orderStatus.id});
-    })
+      this.setState({
+        history: response.data,
+        statusId: response.data.orderStatus.id
+      });
+    });
   }
 
   render() {
@@ -50,16 +54,16 @@ class HistoryDetail extends Component {
     return (
       <Container>
         <Container>
-          <Header style={{ backgroundColor: "#7A5032" }}>
+          <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
               <Icon
                 name="ios-arrow-back"
                 onPress={() => Actions.history()}
-                style={{ color: "white", marginLeft: 10 }}
+                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
               />
             </Left>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: "white", fontSize: 20 }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 History Detail
               </Title>
             </Body>
@@ -121,7 +125,7 @@ class HistoryDetail extends Component {
                     <View>
                       <Button
                         style={{
-                          backgroundColor: "#7A5032",
+                          backgroundColor: theme.primaryColor,
                           borderRadius: 10
                         }}
                         onPress={this.goToPetActivity(orderLine)}
@@ -134,7 +138,7 @@ class HistoryDetail extends Component {
               })}
             </Content>
             <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-              <OrderButton item={history} orderStatus={this.state.statusId}/>
+              <OrderButton item={history} orderStatus={this.state.statusId} />
             </View>
           </Content>
         </Container>
@@ -185,7 +189,6 @@ class HistoryDetail extends Component {
   goToPetActivity = orderLine => () => {
     Actions.petActivity({ orderLine });
   };
-
 }
 
 const styles = StyleSheet.create({

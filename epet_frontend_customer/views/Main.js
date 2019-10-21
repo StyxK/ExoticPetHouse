@@ -19,6 +19,7 @@ import Login from "./Login";
 import Loading from "../components/Loading";
 import { setUser, setPets } from "../actions";
 import axios from "axios";
+import Feedback from "./Feedback";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
@@ -67,6 +68,7 @@ class Main extends Component {
             <Scene key="chat" component={Chat} title="Chat" />
             <Scene key="chatbox" component={ChatBox} title="ChatBox" />
             <Scene key="payment" component={Payment} title="Payment" />
+            <Scene key="feedback" component={Feedback} title="feedback" />
           </Scene>
         </Router>
       </View>
