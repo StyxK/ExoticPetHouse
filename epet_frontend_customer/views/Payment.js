@@ -200,7 +200,7 @@ export default class Payment extends Component {
           .then(data => {
             console.log(data, "ข้อมูล");
             alert("การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ");
-            // Actions.history()
+            Actions.history()
           })
           .catch(err => {
             console.log(err);

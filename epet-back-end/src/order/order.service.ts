@@ -230,8 +230,19 @@ export class OrderService {
       .update(`order`)
       .set({ orderStatus : {id:6} })
       .where(`endDate < :now`,{now:moment().utc()})
-      .andWhere(`"order"."orderStatusId" = 3`)
-      .execute()
+      .andWhere(`"order"."orderStatusId" = 3`).execute()
+      await this.orderRepository
+      .createQueryBuilder()
+      .update(`order`)
+      .set({ orderStatus : {id:5}})
+      .where(`startDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 1`).execute()
+      await this.orderRepository
+      .createQueryBuilder()
+      .update(`order`)
+      .set({ orderStatus : {id:4}})
+      .where(`startDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 2`).execute()
       return await this.orderRepository.find()
     }catch(error){
       return HttpStatus.INTERNAL_SERVER_ERROR
