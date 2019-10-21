@@ -198,10 +198,10 @@ export default class Payment extends Component {
             amount: amount
           })
           .then(data => {
-            console.log(data, "ข้อมูล");
             alert("การชำระเงินสำเร็จ ขอบคุณที่ใช้บริการ");
+          }).then(()=>
             Actions.history()
-          })
+          )
           .catch(err => {
             console.log(err);
           });

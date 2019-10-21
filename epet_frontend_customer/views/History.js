@@ -7,7 +7,11 @@ import {
   Left,
   Right,
   Title,
-  View
+  View,
+  Icon,
+  Text,
+  Badge,
+  Button
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
@@ -74,23 +78,6 @@ class History extends Component {
     );
   }
 
-  // cancelOrder = async order => {
-  //   if (order.orderStatus.id == 1 || order.orderStatus.id == 2) {
-  //     return axios
-  //       .put("/order/" + order.id, {
-  //         orderStatus: {
-  //           id: 4
-  //         }
-  //       })
-  //       .then(response => {
-  //         this.refresh();
-  //         return response;
-  //       });
-  //   } else {
-  //     return Promise.reject("ไม่สามรถยกเลิกได้");
-  //   }
-  // };
-
   goToHistoryDetail = item => () => {
     Actions.historyDetail({ item, refresh: this.refresh });
   };
@@ -105,14 +92,17 @@ class History extends Component {
             <Body style={{ flex: 1, alignItems: "center" }}>
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Order</Title>
             </Body>
-            <Right />
+            <Right>
+            <Button onPress={()=>{alert('hello')}} transparent badge>
+                <Badge>
+                  <Text>99</Text>
+                </Badge>
+                <Icon  name='notifications' style={{color:'white',fontSize:30}}/>
+            </Button>
+            </Right>
           </Header>
           <View style={{ flex: 1 }}>
             {statuses.length > 0 && (
-              // <SegmentControl
-              //   style={{ height: "100%" }}
-              //   segments={this.getSegments()}
-              // />
               <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
                 {this.getSegments()}
               </ScrollableTabView>

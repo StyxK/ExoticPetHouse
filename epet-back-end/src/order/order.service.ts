@@ -261,11 +261,8 @@ export class OrderService {
       const calculatePrice =  await data.orderLines.map( async result=>{
         const orderLine = await this.orderLineRepository.findOne({where:{id:result.id},relations:['cage']})
         totalPrice += orderLine.cage.price * duration;
-        console.log(totalPrice,'price')
-        console.log(orderLine.cage.price,'price origin')
       })
       await Promise.all(calculatePrice)
-      await console.log(this.chargeService)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
     }catch(error){
