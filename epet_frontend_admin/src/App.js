@@ -7,6 +7,7 @@ import { Store } from './views/Store'
 import { SideBar } from './components/sideBar'
 import { Dashboard } from './views/Dashboard';
 import '../src/styles/App.css'
+import { Chat } from './views/Chat';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
             <Route path="/" exact component={Dashboard}/>
             <Route path="/Store" exact component={Store}/>
             <Route path="/Order" exact component={Order}/>
+            <Route path="/Chat" exact component={Chat}/>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     </BrowserRouter>
