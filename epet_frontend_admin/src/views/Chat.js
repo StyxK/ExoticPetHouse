@@ -63,7 +63,7 @@ export const Chat = (props)=>{
     return(
         <Grid>
             <Grid.Row>
-                <Container className='Container' fluid>
+                <Container className='Chat' fluid>
                     {renderChat()}
                 </Container>
             </Grid.Row>
