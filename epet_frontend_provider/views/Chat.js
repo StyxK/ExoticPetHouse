@@ -62,7 +62,7 @@ class Chat extends Component{
                     key={data.chat_id} 
                     onPress={() => this.goToChatBox(data.chat_customerUsername)}
                 >
-                    <Left style={{ flex : 0.5}}>
+                    <Left style={{ flex : 0.5 }}>
                         <Icon name="person"/>
                     </Left>
                     <Body style={{flex : 3}}>

@@ -7,7 +7,7 @@ import { ChatDTO } from './chat.dto';
 @Injectable()
 export class ChatService {
     constructor(
-        @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>
+        @InjectRepository(Chat) private readonly chatRepository : Repository<Chat>,
     ){}
 
     async showAllChat():Promise<Chat[]>{

@@ -60,9 +60,7 @@ class ChatBox extends Component {
   userReply = () => {
     socket.emit('customer',{message:this.state.message,customerUsername:this.props.customer,store:this.props.storeId,role:1,time: moment().unix()})
     socket.once('customerSend',async data=>{
-        this.setState({
-          messageList:[...this.state.messageList,data]
-        })
+        this.getMessage()
     })
   }
 

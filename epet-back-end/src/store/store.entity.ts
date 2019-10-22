@@ -6,6 +6,7 @@ import { Cage } from "../cage/cage.entity";
 import { Address } from "../address/address.entity";
 import { Entity, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 import { Chat } from "../chat/chat.entity";
+import { StoreNotification } from "../notification/notification.store.entity";
 @Entity()
 export class Store {
 
@@ -50,4 +51,7 @@ export class Store {
 
     @OneToMany(type => Chat,chats => chats.store)
     chats: Chat[];
+
+    @OneToMany(type => StoreNotification,notifications => notifications.store)
+    notifications: StoreNotification[];
 }

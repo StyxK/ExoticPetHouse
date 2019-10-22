@@ -1,10 +1,11 @@
 import {WebSocketGateway,WebSocketServer, OnGatewayConnection, SubscribeMessage, OnGatewayInit} from '@nestjs/websockets'
-import { Logger } from '@nestjs/common';
+import { Logger, Injectable } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat/chat.service';
 
+@Injectable()
 @WebSocketGateway(4001)
-export class AppGateway implements OnGatewayConnection,OnGatewayInit{
+export class ChatGateway implements OnGatewayConnection,OnGatewayInit{
 
     constructor(
         private chat : ChatService
@@ -41,4 +42,19 @@ export class AppGateway implements OnGatewayConnection,OnGatewayInit{
         })
     }
     
+}
+
+@WebSocketGateway(4001)
+export class AppNotification implements OnGatewayConnection,OnGatewayInit{
+    
+    @WebSocketServer()
+    wss : Server
+
+    afterInit(){}
+
+    handleConnection(client:Socket){}
+
+    handleNotification(message:any){
+        this.wss.emit('notification','notification from server')
+    }
 }

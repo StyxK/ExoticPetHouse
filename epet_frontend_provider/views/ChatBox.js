@@ -157,7 +157,7 @@ class ChatBox extends Component{
     }
 
     goToChat = () => {
-        Actions.pop()
+        Actions.chat()
     }
 
 }

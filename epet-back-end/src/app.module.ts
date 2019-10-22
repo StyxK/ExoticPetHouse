@@ -26,13 +26,16 @@ import { OrderLine } from './orderline/orderline.entity';
 import { Pet } from './pet/pet.entity';
 import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
-import { AppGateway } from './app.gateway';
+import { ChatGateway } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
 import { ChargeModule } from './charge/charge.module';
 import { ScheduleModule } from 'nest-schedule'
 import { ScheduleService } from './app.schedule';
 import { AdminModule } from './admin/admin.module';
+import { NotificationModule } from './notification/notification.module';
+import { StoreNotification } from './notification/notification.store.entity';
+import { CustomerNotification } from './notification/notification.customer.entity';
 import 'dotenv/config';
 import 'reflect-metadata';
 
@@ -61,6 +64,8 @@ import 'reflect-metadata';
         Store,
         StoreOwner,
         User,
+        CustomerNotification,
+        StoreNotification
       ],
       synchronize: true,
       logging: true,
@@ -79,8 +84,9 @@ import 'reflect-metadata';
     ChatModule,
     ChargeModule,
     AdminModule,
+    NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService,AppGateway,ScheduleService],
+  providers: [AppService,ChatGateway,ScheduleService],
 })
 export class AppModule {}

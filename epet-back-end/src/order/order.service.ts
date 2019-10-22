@@ -9,6 +9,9 @@ import { OrderStatus } from './order.status.entity';
 import { Pet } from '../pet/pet.entity';
 import  * as moment from 'moment'
 import { ChargeService } from '../charge/charge.service';
+import { CustomerNotification } from '../notification/notification.customer.entity';
+import { StoreNotification } from '../notification/notification.store.entity';
+import { AppNotification } from '../app.gateway';
 
 @Injectable()
 export class OrderService {
@@ -23,8 +26,12 @@ export class OrderService {
     private readonly orderStatusRepository: Repository<OrderStatus>,
     @InjectRepository(Pet)
     private readonly petRepository: Repository<Pet>,
-    private chargeService : ChargeService
-  
+    @InjectRepository(CustomerNotification) 
+    private readonly customerNotification:Repository<CustomerNotification>,
+    @InjectRepository(StoreNotification) 
+    private readonly storeNotification:Repository<StoreNotification>,
+    private chargeService : ChargeService,
+    private gateway : AppNotification
   ) {}
 
   private toResponseObject(order: Order) {
@@ -146,6 +153,8 @@ export class OrderService {
         customer: user,
       });
       await this.orderRepository.save(order);
+      await this.pushStoreNotification(order,order.storeId)
+      await this.pushCustomerNotification(order,order.customerUsername)
       return this.toResponseObject(order);
     }catch(error){
       if(error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' || error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว')
@@ -163,6 +172,9 @@ export class OrderService {
         throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:2}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
       if(error.message == 'ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
         return new HttpException(error.message,406)
@@ -179,6 +191,9 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:4}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
       if(error.message == 'ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
         return new HttpException(error.message,406)
@@ -195,6 +210,9 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:5}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
       if(error.message == 'ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
         return new HttpException(error.message,406)
@@ -216,6 +234,9 @@ export class OrderService {
         await this.petRepository.update(pet.pet.id,{wasDeposit:true})
       })
       await Promise.all(setPetWasDeposit)
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return 'สัตว์เลี้ยงได้อยู่ในการรับฝากแล้ว'
     }catch(error){
       return error.message
@@ -265,6 +286,9 @@ export class OrderService {
       await Promise.all(calculatePrice)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
       console.log(error)
       if(error.message == 'ออเดอร์นี้ยังไม่หมดเวลาการฝาก')
@@ -282,6 +306,9 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
       }
       await this.orderRepository.update(data.id,{orderStatus:{id:8}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.orderRepository.findOne({id:data.id})
     }catch(error){
       if(error.message == 'ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
@@ -304,6 +331,9 @@ export class OrderService {
       })
       await Promise.all(await pet)
       await this.orderRepository.update(data.id,{orderStatus:{id:7}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return await this.orderRepository.findOne({where:{id:data.id}})
     }catch(error){
       console.log(error)
@@ -312,6 +342,36 @@ export class OrderService {
       else
         return HttpStatus.INTERNAL_SERVER_ERROR
     }
+  }
+
+  //use by customer
+  async pushStoreNotification(order:Partial<OrderDTO>,store){
+    const notification = this.storeNotification.create({
+        message: JSON.stringify(order),
+        millisec: new Date().getMilliseconds(),
+        store:store
+    })
+    await this.storeNotification.save(notification)
+    await this.gateway.wss.emit('storeNotitfication')
+  }
+
+  //use by store
+  async pushCustomerNotification(order:Partial<OrderDTO>,customer){
+      const notification = this.customerNotification.create({
+          message: JSON.stringify(order),
+          millisec: new Date().getMilliseconds(),
+          customer:customer
+      })
+      await this.customerNotification.save(notification)
+      await this.gateway.wss.emit('customerNotitfication')
+  }
+
+  async outOfTimeNotification(){
+    const order = await this.orderRepository
+      .createQueryBuilder()
+      .select()
+      .where(`endDate < :now`,{now:moment().utc()})
+      .andWhere(`"order"."orderStatusId" = 6`).execute()
   }
 
 }
