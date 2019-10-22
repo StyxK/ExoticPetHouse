@@ -27,6 +27,10 @@ class NavFooter extends Component {
                             <Icon name='chatbubbles' style={{ color: 'white' }} />
                             <Label style={{ fontSize: 7, color: 'white' }}>แชท</Label>
                         </Button>
+                        <Button Badge vertical onPress={()=>this.goToPage('notification')}>
+                            <Icon name='md-notifications' style={{ color: 'white' }} />
+                            <Label style={{ fontSize: 8, color: 'white' }}>การแจ้งเตือน</Label>
+                        </Button>
                         <Button Badge vertical onPress={()=>this.goToPage('profile')}>
                             <Icon name='person' style={{ color: 'white' }} />
                             <Label style={{ fontSize: 8, color: 'white' }}>โปรไฟล์</Label>

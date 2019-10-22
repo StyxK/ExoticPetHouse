@@ -153,8 +153,9 @@ export class OrderService {
         customer: user,
       });
       await this.orderRepository.save(order);
-      await this.pushStoreNotification(order,order.storeId)
-      await this.pushCustomerNotification(order,order.customerUsername)
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
+      await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.toResponseObject(order);
     }catch(error){
       if(error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' || error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว')
@@ -172,7 +173,7 @@ export class OrderService {
         throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:2}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -191,7 +192,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:4}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -210,7 +211,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:5}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -234,7 +235,7 @@ export class OrderService {
         await this.petRepository.update(pet.pet.id,{wasDeposit:true})
       })
       await Promise.all(setPetWasDeposit)
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return 'สัตว์เลี้ยงได้อยู่ในการรับฝากแล้ว'
@@ -286,7 +287,7 @@ export class OrderService {
       await Promise.all(calculatePrice)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -306,7 +307,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
       }
       await this.orderRepository.update(data.id,{orderStatus:{id:8}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.orderRepository.findOne({id:data.id})
@@ -331,7 +332,7 @@ export class OrderService {
       })
       await Promise.all(await pet)
       await this.orderRepository.update(data.id,{orderStatus:{id:7}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id}})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return await this.orderRepository.findOne({where:{id:data.id}})
@@ -348,7 +349,7 @@ export class OrderService {
   async pushStoreNotification(order:Partial<OrderDTO>,store){
     const notification = this.storeNotification.create({
         message: JSON.stringify(order),
-        millisec: new Date().getMilliseconds(),
+        millisec: moment().unix(),
         store:store
     })
     await this.storeNotification.save(notification)
@@ -359,7 +360,7 @@ export class OrderService {
   async pushCustomerNotification(order:Partial<OrderDTO>,customer){
       const notification = this.customerNotification.create({
           message: JSON.stringify(order),
-          millisec: new Date().getMilliseconds(),
+          millisec: moment().unix(),
           customer:customer
       })
       await this.customerNotification.save(notification)

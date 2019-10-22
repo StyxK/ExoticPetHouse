@@ -4,6 +4,7 @@ import { StyleSheet, View , AsyncStorage } from 'react-native';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
+import Notification from '../views/Notification'
 import StoreManager from './StoreManager';
 import CreateStore from './CreateStore';
 import Pet from './Pet';
@@ -51,6 +52,7 @@ class Route extends Component {
                         <Scene key="chat" component={Chat} title="Chat"/>
                         <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
                         <Scene key="cage" component={Cage} title="Cage"/>
+                        <Scene key="notification" component={Notification} title="Notification"/>
                     </Scene>
                 </Router>
             </View>
