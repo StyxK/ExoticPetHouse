@@ -29,6 +29,7 @@ import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import PetCard from "../components/PetCard";
 import theme from "../theme";
+import StarRating from "react-native-star-rating";
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -41,11 +42,12 @@ class Store extends Component {
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
-      petTemp: []
+      petTemp: [],
+      feedBack: []
     };
   }
 
-  checkedCageIdForCheckBox = dataId => {};
+  checkedCageIdForCheckBox = dataId => { };
 
   setStoreId = () => {
     this.storeId = this.props.id;
@@ -79,6 +81,14 @@ class Store extends Component {
     this.setState({ cageTemp: cageId });
   };
 
+  countFeedBack = () => {
+    return this.state.feedBack.length;
+  };
+
+  showLastFeedBack = () => {
+
+  };
+
   componentWillMount() {
     this.setStoreId();
     const { setPets } = this.props;
@@ -93,7 +103,10 @@ class Store extends Component {
         console.log(JSON.stringify(response));
       })
       .then(error => console.log(error));
-
+    axios
+      .get(API_URL + "/feedback/")
+      .then(response => { this.setState({ feedBack: response.data }) })
+      .then(error => console.log(error));
     axios.get(API_URL + "/");
   }
 
@@ -120,6 +133,35 @@ class Store extends Component {
             <Right></Right>
           </CardItem>
         </Card>
+      );
+    });
+
+    let feedBackList = this.state.feedBack.map(data => {
+      return (
+        <List avatar key={data.id}  >
+          <CardItem>
+            <Left>
+              <Thumbnail />
+              <Text>64654564</Text>
+            </Left>
+          </CardItem>
+          <CardItem>
+            <StarRating
+              disabled={true}
+              emptyStar={"ios-star-outline"}
+              fullStar={"ios-star"}
+              halfStar={"ios-star-half"}
+              iconSet={"Ionicons"}
+              maxStars={5}
+              rating={data.score}
+              fullStarColor={"orange"}
+              starSize={20}
+            />
+          </CardItem>
+          <CardItem bordered>
+            <Text>{data.comment}</Text>
+          </CardItem>
+        </List>
       );
     });
 
@@ -226,6 +268,19 @@ class Store extends Component {
                 <Text note>*** กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
                 <Text />
               </CardItem>
+            </Card>
+            <Card>
+              <CardItem bordered>
+                <Left>
+                  <Text>รีวิวหลังบริการ</Text>
+                  <Text style={{ color: theme.primaryColor }}>{this.countFeedBack()} </Text>
+                  <Text>รีวิว</Text>
+                </Left>
+                <Right button>
+                  <Text>ดูทั้งหมด</Text>
+                </Right>
+              </CardItem>
+              {feedBackList}
             </Card>
 
             <Modal

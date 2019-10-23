@@ -88,7 +88,7 @@ export class Feedback extends Component {
           <Card>
             <CardItem>
               <Left>
-                <Text>ชื่อร้าน</Text>
+                <Text>{this.props.store.name}</Text>
               </Left>
             </CardItem>
             <CardItem bordered>
