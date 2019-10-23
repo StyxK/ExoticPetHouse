@@ -1,4 +1,6 @@
 rootProject.name = 'epet_frontend_provider'
+include ':react-native-android-local-notification'
+project(':react-native-android-local-notification').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-android-local-notification/android')
 include ':react-native-image-picker'
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
 include ':react-native-config'

@@ -27,7 +27,7 @@ import { OrderLine } from './orderline/orderline.entity';
 import { Pet } from './pet/pet.entity';
 import { StoreOwner } from './storeowner/storeowner.entity';
 import { OrderStatus } from './order/order.status.entity';
-import { ChatGateway } from './app.gateway';
+import { ChatGateway, AppNotification } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
 import { ChargeModule } from './charge/charge.module';
@@ -89,6 +89,6 @@ import 'reflect-metadata';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService,ChatGateway,ScheduleService],
+  providers: [AppService,ChatGateway,AppNotification,ScheduleService],
 })
 export class AppModule {}

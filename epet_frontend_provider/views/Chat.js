@@ -11,6 +11,7 @@ import theme from "../theme";
 import Config from 'react-native-config'
 import io from 'socket.io-client'
 const socket = io.connect(Config.SOCKET_URL).emit('shop')
+import LocalNotification from 'react-native-android-local-notification'
 
 class Chat extends Component{
 
@@ -46,6 +47,7 @@ class Chat extends Component{
 
     componentDidMount(){
         this.getChat()
+        LocalNotification.create({ subject: 'มีรายการคำสั่งของท่านเปลี่ยนแปลง', message: 'กรุณาตรวจสอบการเปลี่ยนแปลง' });
     }
 
     componentWillUpdate(){

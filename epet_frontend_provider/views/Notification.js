@@ -2,10 +2,11 @@ import React,{Component} from 'react'
 import { Container, Text, Header,Left,Body,Right,Icon, Content, ListItem, Label, List } from 'native-base'
 import {connect} from 'react-redux'
 import NavFooter from '../components/NavFooter'
-import moment from 'moment-timezone'
 import theme from "../theme";
 import axios from 'axios';
-import { Actions } from 'react-native-router-flux';
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL)
 
 class Notification extends Component{
 
@@ -18,6 +19,12 @@ class Notification extends Component{
 
     componentDidMount(){
         this.getNotification()
+    }
+
+    componentWillUpdate(){
+        socket.on('storeNotification',data=>{
+            this.getNotification()
+        })
     }
 
     getNotification = async () => {

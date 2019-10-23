@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
-import { StyleSheet, View , AsyncStorage } from 'react-native';
+import { StyleSheet, View , ToastAndroid } from 'react-native';
+import { Toast, Root } from 'native-base'
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import OrderList from '../views/OrderList'
 import Profile from '../views/Profile'
@@ -17,11 +18,19 @@ import Login from './Login';
 import OrderDetail from './OrderDetail'
 import Register from './Register'
 import {connect} from 'react-redux'
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL)
+import LocalNotification from 'react-native-android-local-notification'
 
 class Route extends Component {
 
     constructor(props){
         super(props)
+        socket.on('storeNotification',data=>{
+            console.log('notification')
+            LocalNotification.create({ subject: 'มีรายการคำสั่งของท่านเปลี่ยนแปลง', message: 'กรุณาตรวจสอบการเปลี่ยนแปลง' });
+        })
         this.state = {
             loggedIn : this.props.user.token ? true : false
         }
@@ -33,7 +42,7 @@ class Route extends Component {
         }
         return false
     }
-
+    
     render() {
         return (
             <View style={styles.container}>

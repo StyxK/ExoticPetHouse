@@ -5,12 +5,16 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { store,persistor } from '../src/configStore'
 import Route from './Route'
 import { initialLoad } from '../components/Loading'
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL)
 
 export default class Main extends Component {
 
     constructor(props){
         super(props)
     }
+
 
     render() {
         return (

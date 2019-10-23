@@ -353,7 +353,7 @@ export class OrderService {
         store:store
     })
     await this.storeNotification.save(notification)
-    await this.gateway.wss.emit('storeNotitfication')
+    await this.gateway.wss.emit('storeNotification')
   }
 
   //use by store
@@ -364,7 +364,7 @@ export class OrderService {
           customer:customer
       })
       await this.customerNotification.save(notification)
-      await this.gateway.wss.emit('customerNotitfication')
+      await this.gateway.wss.emit('customerNotification')
   }
 
   async outOfTimeNotification(){
