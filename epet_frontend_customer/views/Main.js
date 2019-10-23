@@ -20,6 +20,7 @@ import Loading from "../components/Loading";
 import { setUser, setPets } from "../actions";
 import axios from "axios";
 import Feedback from "./Feedback";
+import Camera from "./Camera";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
@@ -40,7 +41,7 @@ class Main extends Component {
               key="loading"
               component={Loading}
               title="loading"
-              initial={true}
+              
             />
             <Scene key="login" component={Login} title="login" />
             <Scene key="home" component={Search} title="Home" />
@@ -69,6 +70,7 @@ class Main extends Component {
             <Scene key="chatbox" component={ChatBox} title="ChatBox" />
             <Scene key="payment" component={Payment} title="Payment" />
             <Scene key="feedback" component={Feedback} title="feedback" />
+            <Scene key="camera" component={Camera} title="camera" initial={true}/>
           </Scene>
         </Router>
       </View>

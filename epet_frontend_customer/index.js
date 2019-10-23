@@ -8,7 +8,8 @@ import {name as appName} from './app.json';
 import App from './App.js';
 import axios from "axios";
 import Config from "react-native-config";
-
+import buffer from 'buffer';
+global.Buffer = buffer.Buffer
 const API_URL = Config.API_URL;
 
 axios.defaults.baseURL = API_URL;

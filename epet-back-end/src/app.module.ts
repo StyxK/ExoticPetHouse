@@ -1,3 +1,4 @@
+import { CageType } from './cage/cage.type.entity';
 import { User } from './user/user.decorator';
 import { Store } from './store/store.entity';
 import { PetActivity } from './petactivity/petactivity.entity';
@@ -49,6 +50,7 @@ import 'reflect-metadata';
       entities: [
         Address,
         Cage,
+        CageType,
         Chat,
         Customer,
         Employee,
