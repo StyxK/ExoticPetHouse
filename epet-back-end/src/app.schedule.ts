@@ -14,13 +14,11 @@ export class ScheduleService extends NestSchedule{
     @Cron('0 0 * * *',{})
     async cronjob(){
         this.orderService.outOfTime()
-        console.log('job working')
     }
 
     @Interval(2000)
     async testing(){
         this.orderService.outOfTime()
-        console.log('job working')
         return true
     }
 

@@ -62,7 +62,7 @@ export const Dashboard = () => {
                                     <span className='Card-Header'>ยอดเงินทั้งหมด</span>
                                 </Card.Header>
                                 <Card.Meta className='Card-Meta'>
-                                    <span className='Card-Meta-Content'>{balance/100}</span>
+                                    <span className='Card-Meta-Content'>{parseInt(balance/100)}</span>
                                 </Card.Meta>
                                 <Card.Description>
                                     <span className='Card-Description'>บาท</span>

@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { CustomerRO } from './customer.dto';
 import { Chat } from '../chat/chat.entity';
+import { CustomerNotification } from '../notification/notification.customer.entity';
 
 @Entity()
 export class Customer extends User {
@@ -33,6 +34,9 @@ export class Customer extends User {
 
   @OneToMany(type => Feedback, feedbacks => feedbacks.customer)
   feedbacks: Feedback[];
+
+  @OneToMany(type => CustomerNotification,notifications => notifications.customer)
+  notifications: CustomerNotification[]
 
   toResponObject(showToken: boolean = true): CustomerRO {
     const {

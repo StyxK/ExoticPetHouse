@@ -18,6 +18,9 @@ import { connect } from "react-redux";
 import NavFooter from "../components/NavFooter";
 import { duration } from "moment";
 import theme from "../theme";
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL).emit('customer')
 
 class Chat extends Component {
   constructor(props) {
@@ -27,14 +30,23 @@ class Chat extends Component {
     };
   }
 
-  componentDidMount() {
+  getChatInRoom = () => {
     const user = this.props.user.userName;
     axios.get("/chat/customerChatRoom/" + user).then(result => {
-      console.log(result);
       this.setState({
         chatList: result.data
       });
     });
+  }
+
+  componentDidMount() {
+    this.getChatInRoom()
+  }
+
+  componentWillUpdate(){
+    socket.on('shopSend', data=> {
+      this.getChatInRoom()
+    })
   }
 
   chatRooms = () => {

@@ -14,15 +14,14 @@ import {
   Button
 } from "native-base";
 import { Actions } from "react-native-router-flux";
-import {
-  shopReply,
-  userReply,
-  getMessage,
-  refreshChat
-} from "../actions/ChatActions";
 import { connect } from "react-redux";
 import { duration } from "moment";
 import theme from "../theme";
+import axios from 'axios';
+import moment from 'moment-timezone'
+import Config from 'react-native-config'
+import io from 'socket.io-client'
+const socket = io.connect(Config.SOCKET_URL).emit('customer')
 
 class ChatBox extends Component {
   constructor(props) {
@@ -31,36 +30,39 @@ class ChatBox extends Component {
       message: "",
       messageList: []
     };
-    this.chatBox = React.createRef();
-    this.chatView = React.createRef();
-  }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
   }
 
   componentDidMount() {
-    this.props.getMessage(this.props.customer, this.props.storeId);
-    this.setState({
-      messageList: this.props.chat
-    });
+    this.getMessage()
   }
 
-  async componentWillReceiveProps(nextProps) {
-    if (nextProps.chat != this.props.chat) {
-      await this.setState({
-        messageList: nextProps.chat
-      });
-      await console.log("update");
-      await this.scrollToBottom();
-    }
+  componentWillUpdate(){
+    socket.on('shopSend', data=> {
+      this.getMessage()
+    })
   }
 
-  scrollToBottom = () => {
-    this.chatView.current == null
-      ? console.log("my content component is null")
-      : this.chatView.current._root.scrollToEnd();
-  };
+  getMessage = () =>{
+    axios.post('chat/getMessageInRoom',
+        {
+            customer : this.props.customer ,
+            store : this.props.storeId
+        }
+        ).then(
+            result => {
+              this.setState({
+                messageList: result.data
+              });
+            }
+        )
+  }
+
+  userReply = () => {
+    socket.emit('customer',{message:this.state.message,customerUsername:this.props.customer,store:this.props.storeId,role:1,time: moment().unix()})
+    socket.once('customerSend',async data=>{
+        this.getMessage()
+    })
+  }
 
   messageDialog = () => {
     let list = [];
@@ -91,54 +93,41 @@ class ChatBox extends Component {
             </View>
           </View>
         ) : (
-          <View key={data.id}>
-            <View style={{ flexDirection: "row", padding: 5 }}>
-              <View
-                style={{
-                  borderRadius: 5,
-                  backgroundColor: "green",
-                  padding: 7
-                }}
-              >
-                <Text style={{ color: "white" }}>{data.message}</Text>
+            <View key={data.id}>
+              <View style={{ flexDirection: "row", padding: 5 }}>
+                <View
+                  style={{
+                    borderRadius: 5,
+                    backgroundColor: "green",
+                    padding: 7
+                  }}
+                >
+                  <Text style={{ color: "white" }}>{data.message}</Text>
+                </View>
+                <View style={{ marginRight: 4, justifyContent: "flex-end" }}>
+                  <Text note style={{ alignSelf: "flex-end", fontSize: 12.5 }}>
+                    {console.log(
+                      duration(parseInt(data.time), "seconds"),
+                      "duration"
+                    )}
+                    {7 +
+                      duration(parseInt(data.time), "seconds").hours() +
+                      ":" +
+                      (duration(parseInt(data.time), "seconds").minutes() < 10
+                        ? "0" + duration(parseInt(data.time), "seconds").minutes()
+                        : duration(parseInt(data.time), "seconds").minutes())}
+                  </Text>
+                </View>
               </View>
-              <View style={{ marginRight: 4, justifyContent: "flex-end" }}>
-                <Text note style={{ alignSelf: "flex-end", fontSize: 12.5 }}>
-                  {console.log(
-                    duration(parseInt(data.time), "seconds"),
-                    "duration"
-                  )}
-                  {7 +
-                    duration(parseInt(data.time), "seconds").hours() +
-                    ":" +
-                    (duration(parseInt(data.time), "seconds").minutes() < 10
-                      ? "0" + duration(parseInt(data.time), "seconds").minutes()
-                      : duration(parseInt(data.time), "seconds").minutes())}
-                </Text>
-              </View>
-              {/* <Text style={{alignSelf:'flex-end',fontSize: 12.5}}>
-                                {
-                                    console.log(duration(parseInt(data.time),'seconds'),'duration')
-                                }
-                                {
-                                    7+duration(parseInt(data.time),'seconds').hours() + ':' + 
-                                    (
-                                        duration(parseInt(data.time),'seconds').minutes() < 10 ?
-                                            '0'+duration(parseInt(data.time),'seconds').minutes()
-                                            :
-                                            duration(parseInt(data.time),'seconds').minutes()
-                                    )
-                                }
-                                </Text> */}
             </View>
-          </View>
-        )
+          )
       );
     });
+    console.log(this.state.messageList,'ขอกินผักโขมอบชีสก่อน')
     return list;
   };
 
-  render() {
+  render(){
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
@@ -156,10 +145,9 @@ class ChatBox extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <Content ref={this.chatView}>{this.messageDialog()}</Content>
+        <Content>{this.messageDialog()}</Content>
         <Footer>
           <Input
-            ref={this.chatBox}
             onChangeText={e => {
               this.setState({ message: e });
             }}
@@ -179,22 +167,13 @@ class ChatBox extends Component {
   }
 
   submitMessage = () => {
-    console.log("event");
-    this.props.userReply(
-      this.state.message,
-      this.props.customer,
-      this.props.storeId
-    );
+    this.userReply()
     this.setState({
       message: null
-    });
-    this.chatBox.current.props.onChangeText(e => {
-      null;
     });
   };
 
   goToChat = () => {
-    this.props.refreshChat();
     Actions.chat();
   };
 }
@@ -204,6 +183,5 @@ const mapStateToProps = chatbox => {
 };
 
 export default connect(
-  mapStateToProps,
-  { shopReply, userReply, getMessage, refreshChat }
+  mapStateToProps
 )(ChatBox);
