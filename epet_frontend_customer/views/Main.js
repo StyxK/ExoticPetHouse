@@ -41,7 +41,7 @@ class Main extends Component {
               key="loading"
               component={Loading}
               title="loading"
-              
+              initial={true}
             />
             <Scene key="login" component={Login} title="login" />
             <Scene key="home" component={Search} title="Home" />
@@ -70,7 +70,7 @@ class Main extends Component {
             <Scene key="chatbox" component={ChatBox} title="ChatBox" />
             <Scene key="payment" component={Payment} title="Payment" />
             <Scene key="feedback" component={Feedback} title="feedback" />
-            <Scene key="camera" component={Camera} title="camera" initial={true}/>
+            <Scene key="camera" component={Camera} title="camera" />
           </Scene>
         </Router>
       </View>
