@@ -35,7 +35,6 @@ public class MainApplication extends Application implements ReactApplication {
           new RNGestureHandlerPackage(),
           new ReactNativeConfigPackage(),
           new MapsPackage(),
-          new WebRTCModulePackage(),
           new NotificationPackage()
       );
     }
