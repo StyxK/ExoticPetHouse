@@ -85,7 +85,7 @@ class orderButton extends Component {
               this.getPetsBack();
             }}
           >
-            <Label style={{ color: theme.primaryTextColor }}>ร้านส่งสัตว์เลี้ยงคืนแล้ว</Label>
+            <Label style={{ color: theme.primaryTextColor }}>ลูกค้ายืนยันการรับสัตว์เลี้ยงคืน</Label>
           </Button>
         </View>
       );

@@ -43,12 +43,12 @@ export default class orderButton extends Component{
                 <Label style={{textAlign:'center'}}> คำสั่งฝากอยู่ในขั้นตอนการตอบรับจากลูกค้า </Label>
             )
         }
-        else if(orderStatus == 8){
+        else if(orderStatus == 9){
             list.push(
                 <Button full
                     style={{ backgroundColor: theme.primaryColor,flex: 1,borderRadius: 10}} 
-                    onPress={()=>{ this.getPetsBack() }}>
-                    <Label>เจ้าของรับสัตว์เลี้ยงกลับแล้ว</Label>
+                    onPress={()=>{ this.returnPetsBack() }}>
+                    <Label>ร้านยืนยันการคืนสัตว์เลี้ยง</Label>
                 </Button>
             )
         }
@@ -76,7 +76,7 @@ export default class orderButton extends Component{
         axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
     
-    getPetsBack = () => {
-        axios.put('/order/getPetsBack/'+this.props.item.id).then( () => Actions.jump('orderList') )
+    returnPetsBack = () => {
+        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.jump('orderList') )
     }
 }
