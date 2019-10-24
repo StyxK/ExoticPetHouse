@@ -12,6 +12,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.staltz.reactnativeandroidlocalnotification.NotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
           new ImagePickerPackage(),
           new RNGestureHandlerPackage(),
           new ReactNativeConfigPackage(),
-          new MapsPackage()
+          new MapsPackage(),
+          new NotificationPackage()
       );
     }
 
