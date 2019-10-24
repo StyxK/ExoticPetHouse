@@ -12,7 +12,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.oney.WebRTCModule.WebRTCModulePackage; 
 import com.staltz.reactnativeandroidlocalnotification.NotificationPackage;
 
 import java.util.Arrays;
