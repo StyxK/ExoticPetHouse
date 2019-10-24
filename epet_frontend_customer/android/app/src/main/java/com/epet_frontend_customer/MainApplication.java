@@ -33,8 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           new ImagePickerPackage(),
           new RNGestureHandlerPackage(),
           new ReactNativeConfigPackage(),
-          new MapsPackage(),
-          new WebRTCModulePackage()
+          new MapsPackage()
       );
     }
 
