@@ -27,10 +27,10 @@ export default class PetDescription extends Component {
               style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Left>
-          <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Pet</Title>
+          <Body style={{ flex: 5, alignItems: "center" }}>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>สัตว์เลี้ยงของฉัน : {pet.name}</Title>
           </Body>
-          <Right />
+          <Right style={{ flex: 1, alignItems: "center" }}/>
         </Header>
         <Content>
           <Card style={{ flex: 0 }}>

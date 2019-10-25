@@ -46,17 +46,17 @@ export default class Profile extends Component {
     return (
       <Container style={{ display: "flex", height: "100%" }}>
         <Header style={{ backgroundColor: theme.primaryColor }}>
-          <Left style={{ flex: 1 }}>
-            <Icon
-              name="ios-arrow-back"
-              onPress={() => Actions.home()}
-              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-            />
-          </Left>
+          <Left style={{ flex: 1 }}/>
           <Body style={{ flex: 1, alignItems: "center" }}>
             <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>Profile</Title>
           </Body>
-          <Right />
+          <Right>
+            <Icon
+              name="exit"
+              onPress={() => Actions.home()}
+              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
+            />
+          </Right>
         </Header>
         <View style={{ backgroundColor: theme.secondaryColor }}>
           <List style={{ alignItems: "center" }}>
