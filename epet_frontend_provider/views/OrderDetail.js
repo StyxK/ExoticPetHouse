@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
-import { Container, Content, Header, Text, Left, Body, Right, Icon, View, Button, ListItem, Card,Thumbnail } from 'native-base'
+import { Container, Content, Header, Text, Left, Body, Right, Icon, View, Button, ListItem, Card,Thumbnail,Label } from 'native-base'
 import {Actions} from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
 import OrderButton from '../components/OrderButton'
+import { loading } from '../components/Loading'
 import theme from "../theme";
 
 export default class OrderDetail extends Component{
@@ -13,19 +14,20 @@ export default class OrderDetail extends Component{
         this.state = {
             order: {},
             statusId: undefined,
+            status:undefined,
             loading: true
         }
     }
 
     componentWillMount() {
         axios.get("/order/"+this.props.item.id).then(response => {
-            this.setState({ order: response.data , loading:false ,statusId:response.data.orderStatus.id});
+            this.setState({ order: response.data , loading:false ,statusId:response.data.orderStatus.id,status:response.data.orderStatus.status});
         });
-        console.log(this.props.item.orderStatus.id,'item')
+        console.log(this.props.item.orderStatus.status,'item')
     }
     
     render(){
-        const { order } = this.state
+        const { order,status } = this.state
         const { orderLines = [] ,store={}} = order
         let startDate = moment(order.startDate)
             .tz("Asia/Bangkok")
@@ -41,14 +43,20 @@ export default class OrderDetail extends Component{
             <Container>
                 <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
-                        <Icon name="ios-arrow-back" style={{color:'white'}} onPress={()=>Actions.pop()}/>
+                        <Icon name="ios-arrow-back" style={{color:'white'}} onPress={()=>Actions.orderList()}/>
                     </Left>
                     <Body style={{ flex: 3 , alignItems:'center' }}>
                         <Text style={{ color: "white" }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
                     </Body>
                     <Right style={{ flex: 1 }} />
                 </Header>
-                <Content>
+                { this.state.loading ? 
+                <View style={{justifyContent:'center',alignItems:'center',marginTop:150}}>
+                    {loading()}
+                    <Label style={{color:theme.primaryColor}}> กรุณารอสักครู่ </Label>
+                </View>
+                :
+                (<Content>
                     <View key={order.id}>
                         <View style={{ margin: 10 }}>
                             <Text style={{ fontSize: 15 }}>
@@ -70,6 +78,10 @@ export default class OrderDetail extends Component{
                             <Text style={{ fontSize: 15 }}>
                             {" "}
                             ถึงวันที่ : <Text note> {endDate} </Text>
+                            </Text>
+                            <Text style={{ fontSize: 15 }}>
+                            {" "}
+                            สถานะ : <Text note> {status} </Text>
                             </Text>
                         </View>
                     </View>
@@ -107,10 +119,11 @@ export default class OrderDetail extends Component{
                             );
                         })}
                         </Content>
-                </Content>
                 <View style={{flex:0.5,flexDirection:'row'}}>
                     <OrderButton item={order} orderStatus={this.state.statusId}/>  
                 </View>                      
+                </Content>)
+                }
             </Container>
         )
     }

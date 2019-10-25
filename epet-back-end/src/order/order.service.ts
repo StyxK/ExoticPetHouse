@@ -353,7 +353,7 @@ export class OrderService {
         store:store
     })
     await this.storeNotification.save(notification)
-    await this.gateway.wss.emit('storeNotification')
+    await this.gateway.wss.emit('storeNotification',{store:store,order:order})
   }
 
   //use by store

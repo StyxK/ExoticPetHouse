@@ -16,9 +16,8 @@ export class ScheduleService extends NestSchedule{
         this.orderService.outOfTime()
     }
 
-    @Interval(2000)
+    @Interval(10000)
     async testing(){
-        this.orderService.outOfTime()
         return true
     }
 
