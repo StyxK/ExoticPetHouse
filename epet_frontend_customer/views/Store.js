@@ -105,7 +105,7 @@ class Store extends Component {
       .then(error => console.log(error));
     axios
       .get(API_URL + "/feedback/")
-      .then(response => { this.setState({ feedBack: response.data }) })
+      .then(response => { this.setState({ feedBack: JSON.parse(JSON.stringify(response.data)) }) })
       .then(error => console.log(error));
     axios.get(API_URL + "/");
   }
@@ -136,33 +136,37 @@ class Store extends Component {
       );
     });
 
-    let feedBackList = this.state.feedBack.map(data => {
-      return (
-        <List avatar key={data.id}  >
-          <CardItem>
-            <Left>
-              <Thumbnail />
-              <Text>64654564</Text>
-            </Left>
-          </CardItem>
-          <CardItem>
-            <StarRating
-              disabled={true}
-              emptyStar={"ios-star-outline"}
-              fullStar={"ios-star"}
-              halfStar={"ios-star-half"}
-              iconSet={"Ionicons"}
-              maxStars={5}
-              rating={data.score}
-              fullStarColor={"orange"}
-              starSize={20}
-            />
-          </CardItem>
-          <CardItem bordered>
-            <Text>{data.comment}</Text>
-          </CardItem>
-        </List>
-      );
+    let feedBackList = this.state.feedBack.slice(0, 2).map(data => {
+      if (this.countFeedBack != 0) {
+        return (
+          <List avatar key={data.id}  >
+            <CardItem>
+              <Left>
+                <Thumbnail />
+                <Text>{data.customerUserName}</Text>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <StarRating
+                disabled={true}
+                emptyStar={"ios-star-outline"}
+                fullStar={"ios-star"}
+                halfStar={"ios-star-half"}
+                iconSet={"Ionicons"}
+                maxStars={5}
+                rating={data.score}
+                fullStarColor={"orange"}
+                starSize={20}
+              />
+            </CardItem>
+            <CardItem bordered>
+              <Text>{data.comment}</Text>
+            </CardItem>
+          </List>
+        );
+      } else {
+        return;
+      }
     });
 
     let selectPet = pets.map(pet => {
@@ -272,12 +276,16 @@ class Store extends Component {
             <Card>
               <CardItem bordered>
                 <Left>
-                  <Text>รีวิวหลังบริการ</Text>
+                  <Text>รีวิวการให้บริการ</Text>
                   <Text style={{ color: theme.primaryColor }}>{this.countFeedBack()} </Text>
                   <Text>รีวิว</Text>
                 </Left>
-                <Right button>
-                  <Text>ดูทั้งหมด</Text>
+                <Right>
+                  <Text style={{ color: theme.primaryColor }}
+                    button onPress={() => { Actions.review(this.state) }}>
+                    ดูทั้งหมด->
+                  </Text>
+
                 </Right>
               </CardItem>
               {feedBackList}
