@@ -33,11 +33,11 @@ class MyPet extends Component {
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Pet</Title>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>สัตว์เลี้ยงของฉัน</Title>
             </Body>
           </Header>
 
-          <Content>
+          <Content padder>
             {pets.map(pet => (
               <TouchableHighlight
                 key={pet.id}

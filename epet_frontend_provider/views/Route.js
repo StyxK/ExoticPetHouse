@@ -28,8 +28,8 @@ class Route extends Component {
     constructor(props){
         super(props)
         socket.on('storeNotification',data=>{
-            console.log('notification')
-            LocalNotification.create({ subject: 'มีรายการคำสั่งของท่านเปลี่ยนแปลง', message: 'กรุณาตรวจสอบการเปลี่ยนแปลง' });
+            this.orderNotification(data)
+            
         })
         this.state = {
             loggedIn : this.props.user.token ? true : false
@@ -41,6 +41,13 @@ class Route extends Component {
             return true
         }
         return false
+    }
+
+    orderNotification = (data) => {
+        const status = JSON.parse(JSON.stringify(data.order.orderStatus.status))
+        const subject = `PetAholic`
+        const message = `ออร์เดอร์ของคุณ ${data.order.customerUsername} เข้าสู่สถานะ ${status} แล้ว`
+        return LocalNotification.create({ subject: subject, message: message });
     }
     
     render() {
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
     },
 })
+
 
 const mapStateToProps = state => {
     return {user:state.user}

@@ -14,12 +14,12 @@ export class NotificationService {
     ){}
 
     async showCustomerNotification(customer:string){
-        const notification = await this.customerNotification.find({where:{customer:customer}})
+        const notification = await this.customerNotification.find({where:{customer:customer},order:{millisec:'DESC'}})
         return notification
     }
 
     async showStoreNotification(store:string){
-        const notification = await this.storeNotification.find({where:{store:store}})
+        const notification = await this.storeNotification.find({where:{store:store},order:{millisec:'DESC'}})
         return notification
     }
 

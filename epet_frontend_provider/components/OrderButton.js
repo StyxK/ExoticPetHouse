@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import { Button, View, Label } from 'native-base'
+import { Button, View, Label, Content } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import theme from "../theme";
@@ -11,11 +11,10 @@ export default class orderButton extends Component{
     }
 
     button = (orderStatus) => {
-        console.log(orderStatus)
         let list = []
         if(orderStatus ==  1){
             list.push(
-                <View style={{ flex: 1,marginVertical:5}} >
+                <View key='ยอมรับคำสั่งฝาก' style={{ flex: 1,marginVertical:5}} >
                     <Button full
                         style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.acceptOrder()}}>
@@ -24,7 +23,7 @@ export default class orderButton extends Component{
                 </View>
             )
             list.push(
-                <View style={{ flex: 1}} >
+                <View key='ปฏิเสธคำสั่งฝาก' style={{ flex: 1}} >
                     <Button full
                         style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.denyOrder()}}>
@@ -35,20 +34,20 @@ export default class orderButton extends Component{
         }
         else if(orderStatus == 4){
             list.push(
-                <Label style={{textAlign:'center'}}> ผู้ฝากได้ทำการยกเลิกการฝากแล้ว </Label>
+                <Label key='ผู้ฝากได้ทำการยกเลิกการฝากแล้ว' style={{textAlign:'center'}}> ผู้ฝากได้ทำการยกเลิกการฝากแล้ว </Label>
             )
         }
         else if(orderStatus == 2){
             list.push(
-                <Label style={{textAlign:'center'}}> คำสั่งฝากอยู่ในขั้นตอนการตอบรับจากลูกค้า </Label>
+                <Label key='คำสั่งฝากอยู่ในขั้นตอนการตอบรับจากลูกค้า' style={{textAlign:'center'}}> คำสั่งฝากอยู่ในขั้นตอนการตอบรับจากลูกค้า </Label>
             )
         }
-        else if(orderStatus == 8){
+        else if(orderStatus == 9){
             list.push(
-                <Button full
+                <Button full key='ร้านยืนยันการคืนสัตว์เลี้ยง'
                     style={{ backgroundColor: theme.primaryColor,flex: 1,borderRadius: 10}} 
-                    onPress={()=>{ this.getPetsBack() }}>
-                    <Label>เจ้าของรับสัตว์เลี้ยงกลับแล้ว</Label>
+                    onPress={()=>{ this.returnPetsBack() }}>
+                    <Label style={{color:'white'}}>ร้านยืนยันการคืนสัตว์เลี้ยง</Label>
                 </Button>
             )
         }
@@ -57,26 +56,24 @@ export default class orderButton extends Component{
 
     render(){
         return(
-            <View style={{flex:1}}>
+            <Content padder style={{flex:1}}>
                 <Label style={{textAlign:'center'}}> ตัวเลือกออร์เดอร์ </Label>
                 <Label/>
-                {/* <View style={{flex:0.5,backgroundColor:'red'}}> */}
-                    {this.button(this.props.orderStatus)}
-                {/* </View> */}
-            </View>
+                {this.button(this.props.orderStatus)}
+            </Content>
         )
     }
 
     //orderManage
     acceptOrder = () => {
-        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.jump('orderList') )
+        axios.put('/order/storeAccept/'+this.props.item.id).then( () => Actions.orderList() )
     }
     
     denyOrder = () => {
-        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.jump('orderList') )
+        axios.put('/order/denyByStore/'+this.props.item.id).then( () => Actions.orderList() )
     }
     
-    getPetsBack = () => {
-        axios.put('/order/getPetsBack/'+this.props.item.id).then( () => Actions.jump('orderList') )
+    returnPetsBack = () => {
+        axios.put('/order/returnPets/'+this.props.item.id).then( () => Actions.orderList() )
     }
 }

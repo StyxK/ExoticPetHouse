@@ -19,6 +19,7 @@ import { duration } from "moment";
 import theme from "../theme";
 import axios from 'axios';
 import moment from 'moment-timezone'
+import AutoScroll from 'react-native-auto-scroll'
 import Config from 'react-native-config'
 import io from 'socket.io-client'
 const socket = io.connect(Config.SOCKET_URL).emit('customer')
@@ -82,12 +83,19 @@ class ChatBox extends Component {
                     duration(parseInt(data.time), "seconds"),
                     "duration"
                   )}
-                  {7 +
-                    duration(parseInt(data.time), "seconds").hours() +
-                    ":" +
-                    (duration(parseInt(data.time), "seconds").minutes() < 10
-                      ? "0" + duration(parseInt(data.time), "seconds").minutes()
-                      : duration(parseInt(data.time), "seconds").minutes())}
+                  {
+                    (
+                      7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
+                          '0'+(7+duration(parseInt(data.time),'seconds').hours() - 24) : 7+duration(parseInt(data.time),'seconds').hours() 
+                  )
+                  + ':' + 
+                  (
+                      duration(parseInt(data.time),'seconds').minutes() < 10 ?
+                          '0'+duration(parseInt(data.time),'seconds').minutes()
+                          :
+                          duration(parseInt(data.time),'seconds').minutes()
+                  )
+                  }
                 </Text>
               </View>
             </View>
@@ -110,12 +118,19 @@ class ChatBox extends Component {
                       duration(parseInt(data.time), "seconds"),
                       "duration"
                     )}
-                    {7 +
-                      duration(parseInt(data.time), "seconds").hours() +
-                      ":" +
-                      (duration(parseInt(data.time), "seconds").minutes() < 10
-                        ? "0" + duration(parseInt(data.time), "seconds").minutes()
-                        : duration(parseInt(data.time), "seconds").minutes())}
+                    {
+                      (
+                        7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
+                            '0'+(7+duration(parseInt(data.time),'seconds').hours() - 24) : 7+duration(parseInt(data.time),'seconds').hours() 
+                    )
+                    + ':' + 
+                    (
+                        duration(parseInt(data.time),'seconds').minutes() < 10 ?
+                            '0'+duration(parseInt(data.time),'seconds').minutes()
+                            :
+                            duration(parseInt(data.time),'seconds').minutes()
+                    )
+                    }
                   </Text>
                 </View>
               </View>
@@ -145,7 +160,7 @@ class ChatBox extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <Content>{this.messageDialog()}</Content>
+        <AutoScroll>{this.messageDialog()}</AutoScroll>
         <Footer>
           <Input
             onChangeText={e => {

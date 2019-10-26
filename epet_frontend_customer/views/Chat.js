@@ -80,17 +80,19 @@ class Chat extends Component {
                     duration(parseInt(data.chat_time), "seconds"),
                     "duration"
                   )}
-                  {7 +
-                    duration(parseInt(data.chat_time), "seconds").hours() +
-                    ":" +
-                    (duration(parseInt(data.chat_time), "seconds").minutes() <
-                    10
-                      ? "0" +
-                        duration(parseInt(data.chat_time), "seconds").minutes()
-                      : duration(
-                          parseInt(data.chat_time),
-                          "seconds"
-                        ).minutes())}
+                  {
+                    (
+                      7+duration(parseInt(data.chat_time),'seconds').hours() > 24 ? 
+                          '0'+(7+duration(parseInt(data.chat_time),'seconds').hours() - 24) : 7+duration(parseInt(data.chat_time),'seconds').hours() 
+                  )
+                  + ':' + 
+                  (
+                      duration(parseInt(data.chat_time),'seconds').minutes() < 10 ?
+                          '0'+duration(parseInt(data.chat_time),'seconds').minutes()
+                          :
+                          duration(parseInt(data.chat_time),'seconds').minutes()
+                  )
+                  }
                 </Text>
               </Right>
             </View>

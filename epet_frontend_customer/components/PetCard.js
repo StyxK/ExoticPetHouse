@@ -19,22 +19,21 @@ export default class PetCard extends Component {
   render() {
     const { pet } = this.props;
     return (
-      <View style={styles.container}>
+      <View>
         <Card>
-          <CardItem>
+          <CardItem style={{borderRadius:10}}>
             <Left>
               <Thumbnail
                 source={{
                   uri: pet.image||PIC_URI
                 }}
               />
-              <Body style={{marginLeft: 15,width: "100%"}}>
+              <Body>
                 <Text>{pet.name}</Text>
-                <Text style={{width: "100%"}} note>{pet.typeOfPet}</Text>
+                <Text note>{pet.typeOfPet}</Text>
               </Body>
             </Left>
             <Right>
-              
             </Right>
           </CardItem>
         </Card>
@@ -43,9 +42,3 @@ export default class PetCard extends Component {
   }
 
 }
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 10
-  }
-});
