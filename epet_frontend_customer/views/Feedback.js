@@ -60,7 +60,14 @@ export class Feedback extends Component {
         .catch(error => {
           console.log(error);
         });
-      Actions.pop();
+      axios
+        .put(API_URL + "/order/updateWasFeedBack/" + this.props.id,{
+          wasFeedBack: true
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      Actions.history();
     }
   };
 
