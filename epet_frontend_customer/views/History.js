@@ -93,11 +93,8 @@ class History extends Component {
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Order</Title>
             </Body>
             <Right>
-            <Button onPress={()=>{alert('hello')}} transparent badge>
-                <Badge>
-                  <Text>99</Text>
-                </Badge>
-                <Icon  name='notifications' style={{color:'white',fontSize:30}}/>
+            <Button onPress={()=>{Actions.notification()}} transparent badge>
+                <Icon  name='notifications' style={{color:'white',fontSize:30}} />
             </Button>
             </Right>
           </Header>

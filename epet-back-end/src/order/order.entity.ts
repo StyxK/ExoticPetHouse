@@ -16,6 +16,8 @@ import {
   OneToOne,
 } from 'typeorm';
 import { OrderStatus } from './order.status.entity';
+import { StoreNotification } from '../notification/notification.store.entity';
+import { CustomerNotification } from '../notification/notification.customer.entity';
 
 @Entity()
 export class Order {
@@ -57,4 +59,11 @@ export class Order {
 
   @ManyToOne(type => OrderStatus, orderStatus => orderStatus.orders)
   orderStatus: OrderStatus;
+
+  @OneToOne(type=> StoreNotification,storeNotification => storeNotification.order)
+  storeNotification : StoreNotification
+
+  @OneToOne(type=> CustomerNotification,customerNotification => customerNotification.order)
+  customerNotification : CustomerNotification
+
 }

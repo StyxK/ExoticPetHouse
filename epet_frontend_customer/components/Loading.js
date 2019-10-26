@@ -45,6 +45,12 @@ class Loading extends Component {
   }
 }
 
+export const loading =()=> {
+  return(
+    <ActivityIndicator color={theme.primaryColor} size={100}/>
+  )
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     setUser: user => dispatch(setUser(user)),

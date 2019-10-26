@@ -153,7 +153,7 @@ export class OrderService {
         customer: user,
       });
       await this.orderRepository.save(order);
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:order.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.toResponseObject(order);
@@ -173,7 +173,7 @@ export class OrderService {
         throw new Error('ออเดอร์นี้ไม่ได้อยู่ในสถานะรอร้านตอบรับ')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:2}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -192,7 +192,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:4}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -211,7 +211,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้ไม่สามารถยกเลิกได้')
       }
       this.orderRepository.update(data.id,{orderStatus:{id:5}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -235,7 +235,7 @@ export class OrderService {
         await this.petRepository.update(pet.pet.id,{wasDeposit:true})
       })
       await Promise.all(setPetWasDeposit)
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return 'สัตว์เลี้ยงได้อยู่ในการรับฝากแล้ว'
@@ -287,7 +287,7 @@ export class OrderService {
       await Promise.all(calculatePrice)
       await this.chargeService.chargeFromToken({token:charge.token,amount:totalPrice})
       await this.orderRepository.update(data.id,{orderStatus:{id:9}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
     }catch(error){
@@ -307,7 +307,7 @@ export class OrderService {
         throw new Error('ออร์เดอร์นี้้ยังไม่ได้ชำระค่าบริการ')
       }
       await this.orderRepository.update(data.id,{orderStatus:{id:8}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.orderRepository.findOne({id:data.id})
@@ -332,7 +332,7 @@ export class OrderService {
       })
       await Promise.all(await pet)
       await this.orderRepository.update(data.id,{orderStatus:{id:7}})
-      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus']})
+      const orderBeforeUpdate = await this.orderRepository.findOne({where:{id:data.id},relations:['orderStatus','store']})
       await this.pushStoreNotification(orderBeforeUpdate,orderBeforeUpdate.storeId)
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return await this.orderRepository.findOne({where:{id:data.id}})
@@ -347,23 +347,34 @@ export class OrderService {
 
   //use by customer
   async pushStoreNotification(order:Partial<OrderDTO>,store){
-    const notification = this.storeNotification.create({
+    this.storeNotification.createQueryBuilder().insert().into(StoreNotification)
+    .values({
         message: JSON.stringify(order),
         millisec: moment().unix(),
-        store:store
+        store:store,
+        orderId:order.id
     })
-    await this.storeNotification.save(notification)
+    .onConflict(`("orderId") DO UPDATE SET "message" = :message,"millisec" = :millisec`)
+    .setParameters({message:JSON.stringify(order),millisec:moment().unix()}).execute()
     await this.gateway.wss.emit('storeNotification',{store:store,order:order})
   }
 
   //use by store
   async pushCustomerNotification(order:Partial<OrderDTO>,customer){
-      const notification = this.customerNotification.create({
+      this.customerNotification.createQueryBuilder().insert().into(CustomerNotification)
+      .values({
           message: JSON.stringify(order),
           millisec: moment().unix(),
-          customer:customer
+          customer:customer,
+          orderId:order.id
       })
-      await this.customerNotification.save(notification)
+      .onConflict(`("orderId") DO UPDATE SET "message" = :message,"millisec" = :millisec`)
+      .setParameters({message:JSON.stringify(order),millisec:moment().unix()}).execute()
+      // this.customerNotification.save({
+      //     message: JSON.stringify(order),
+      //     millisec: moment().unix(),
+      //     customer:customer
+      // })
       await this.gateway.wss.emit('customerNotification')
   }
 

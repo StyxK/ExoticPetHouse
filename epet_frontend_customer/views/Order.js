@@ -118,6 +118,7 @@ class Order extends Component {
         storeId: this.props.stores.id
       })
       .then(response => {
+        Actions.history();
         console.log(JSON.stringify(response));
       })
       .catch(error => {
@@ -274,7 +275,6 @@ class Order extends Component {
   sendOrderToStore = () => {
     alert("ส่งคำร้องเสร็จสิ้น");
     this.submitForm();
-    Actions.history();
   };
 }
 

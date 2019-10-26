@@ -1,5 +1,6 @@
-import {Entity,Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm'
-import { Store } from 'src/store/store.entity'
+import {Entity,Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, JoinColumn} from 'typeorm'
+import { Store } from '../store/store.entity'
+import { Order } from '../order/order.entity'
 
 @Entity()
 export class StoreNotification{
@@ -14,4 +15,11 @@ export class StoreNotification{
 
     @ManyToOne(type => Store,store => store.notifications)
     store : Store
+
+    @OneToOne(type=> Order,order => order.storeNotification)
+    @JoinColumn({name:'orderId'})
+    order : Order
+    @Column()
+    orderId : string
+
 }
