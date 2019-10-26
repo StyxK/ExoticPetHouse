@@ -1,33 +1,77 @@
-// import mqtt from "@taoqf/react-native-mqtt";
-import { Container } from "native-base";
+import {
+  Body,
+  Container,
+  Content,
+  Header,
+  Icon,
+  Left,
+  Right,
+  Text,
+  Title,
+  View,
+  Thumbnail,
+  Label,
+  Fab
+} from "native-base";
 import React, { Component } from "react";
-// import { RTCPeerConnection } from "react-native-webrtc";
-// import { Image, StyleSheet, Dimensions,WebView } from "react-native";
-// import HTML from "react-native-render-html";
-// const mqttServer = "ws://mqtt.furyform.com:9001";
-// const rtcConfig = {
-//   iceServers: [
-//     { urls: "stun:stun1.l.google.com:19302" },
-//     { urls: "stun:stun2.l.google.com:19302" }
-//   ]
-// };
+import { Image, StyleSheet, Dimensions, WebView } from "react-native";
+import DeviceInfo from "react-native-simple-device-info";
+import axios from "axios";
+import theme from "../theme";
+import { Actions } from "react-native-router-flux";
+import buildUrl from "build-url";
+
 export default class Camera extends Component {
-  // state = {
-  //   cameraUrl: undefined,
-  //   htmlContent: ""
-  // };
-  // componentWillMount() {
-  //   this.deviceId = "ssssss";
-  //   this.storeId = "9cfdb7e5-d47e-4a9b-9d2a-433169532dd4";
-  // }
-  // render() {
-  //   const { cameraUrl, htmlContent } = this.state;
-  //   return (
-  //     <Container>
-  //       <WebView
-  //        source={{uri:"https://epet-fd10e.web.app/index.html"}}
-  //       />
-  //     </Container>
-  //   );
-  // }
+  state = {
+    url: undefined
+  };
+  componentWillMount() {
+    this.load();
+  }
+
+  load = async () => {
+    const { cage } = this.props;
+    if (!cage.cameraAddress) {
+      return;
+    }
+    const { storeId } = cage;
+    const deviceId = DeviceInfo.getUniqueID();
+    const url = buildUrl("https://epet-fd10e.web.app", {
+      queryParams: {
+        deviceId: deviceId,
+        storeId: storeId,
+        cameraUrl: cage.cameraAddress
+      }
+    });
+    console.log(url);
+    this.setState({ url: url });
+  };
+  render() {
+    const { url } = this.state;
+    return (
+      <Container style={{ display: "flex" }}>
+        <Header style={{ backgroundColor: theme.primaryColor }}>
+          <Left style={{ flex: 1 }}>
+            <Icon
+              style={{ color: theme.primaryTextColor }}
+              onPress={() => Actions.pop()}
+              name="ios-arrow-back"
+            />
+          </Left>
+          <Body style={{ flex: 3, alignItems: "center" }}>
+            <Text style={{ color: theme.primaryTextColor }}>Camera</Text>
+          </Body>
+          <Right style={{ flex: 1 }} />
+        </Header>
+        {(url && (
+          <WebView
+            style={{ display: "flex", flex: 1 }}
+            source={{
+              uri: url
+            }}
+          />
+        )) || <Text>Not Fround Camera</Text>}
+      </Container>
+    );
+  }
 }

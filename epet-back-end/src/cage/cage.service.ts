@@ -7,24 +7,28 @@ import { Store } from '../store/store.entity';
 
 @Injectable()
 export class CageService {
-    constructor(@InjectRepository(Cage) private readonly cageRepository:Repository<Cage>
-    ,@InjectRepository(Store) private readonly storeRepository:Repository<Store>
-    ){}
+  constructor(
+    @InjectRepository(Cage) private readonly cageRepository: Repository<Cage>,
+    @InjectRepository(Store)
+    private readonly storeRepository: Repository<Store>,
+  ) {}
+  async showById(id: string): Promise<Partial<CageDTO>> {
+    return this.cageRepository.findOne({ where: id });
+  }
+  async create(id: string, data: Partial<CageDTO>) {
+    const store = await this.storeRepository.findOne({ where: id });
+    const cage = await this.cageRepository.create({ ...data, store: store });
+    await this.cageRepository.save(cage);
+    return { cage };
+  }
 
-    async create(id:string,data:Partial<CageDTO>){
-        const store = await this.storeRepository.findOne({where:id});
-        const cage = await this.cageRepository.create({...data,store:store});
-        await this.cageRepository.save(cage);
-        return {cage};
-    }
+  async update(id: string, data: Partial<CageDTO>) {
+    await this.cageRepository.update(id, data);
+    return await this.cageRepository.find({ where: id });
+  }
 
-    async update(id:string,data:Partial<CageDTO>){
-        await this.cageRepository.update(id,data);
-        return await this.cageRepository.find({where:id});
-    }
-
-    async delete(id:string){
-        await this.cageRepository.delete(id);
-        return {delete:true};
-    }
+  async delete(id: string) {
+    await this.cageRepository.delete(id);
+    return { delete: true };
+  }
 }

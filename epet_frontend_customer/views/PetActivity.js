@@ -11,7 +11,8 @@ import {
   Title,
   View,
   Thumbnail,
-  Label
+  Label,
+  Fab
 } from "native-base";
 import React, { Component } from "react";
 import { TouchableHighlight } from "react-native";
@@ -45,7 +46,7 @@ export default class PetActivity extends Component {
   render() {
     const { activities } = this.state;
     const { orderLine } = this.props;
-    const { pet } = orderLine;
+    const { pet ,cage} = orderLine;
 
     return (
       <Container>
@@ -58,7 +59,9 @@ export default class PetActivity extends Component {
             />
           </Left>
           <Body style={{ flex: 3, alignItems: "center" }}>
-            <Text style={{ color: theme.primaryTextColor }}>กิจกรรมระหว่างการฝาก</Text>
+            <Text style={{ color: theme.primaryTextColor }}>
+              กิจกรรมระหว่างการฝาก
+            </Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
@@ -106,7 +109,16 @@ export default class PetActivity extends Component {
             </TouchableHighlight>
           ))}
         </Content>
+        <Fab
+          onPress={this.goToCamera(cage)}
+          style={{ backgroundColor: theme.primaryColor }}
+        >
+          <Icon name="camera" />
+        </Fab>
       </Container>
     );
   }
+  goToCamera = cage => () => {
+    Actions.camera({ cage });
+  };
 }

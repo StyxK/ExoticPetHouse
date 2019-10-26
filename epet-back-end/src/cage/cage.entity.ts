@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  JoinColumn,
 } from 'typeorm';
 import { OrderLine } from '../orderline/orderline.entity';
 import { CageType } from './cage.type.entity';
@@ -29,7 +30,13 @@ export class Cage {
   @Column({ nullable: true })
   cameraAddress: string;
 
+  @Column({ nullable: true })
+  storeId: string;
+
   @ManyToOne(type => Store, store => store.cages)
+  @JoinColumn({
+    name: 'storeId'
+  })
   store: Store;
 
   @OneToMany(type => OrderLine, orderLines => orderLines.cage)

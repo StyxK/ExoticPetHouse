@@ -19,4 +19,10 @@ export class CageController {
     async deleteCage(@Param() id){
         return this.cageService.delete(id);
     }
+    
+    @Get(":id")
+    async showById(@Param() id) {
+        return this.cageService.showById(id);
+      }
+
 }
