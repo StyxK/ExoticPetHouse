@@ -102,6 +102,12 @@ export class OrderController {
     return this.orderService.getPetsBack(orderId)
   }
 
+  @Put('/updateWasFeedBack/:orderId')//ตรวจว่าให้ feedback หรือยัง
+  @UseGuards(new AuthGuard())
+  async updateWasFeedBack(@Param() orderId){
+    return this.orderService.updateWasFeedBack(orderId)
+  }
+
   @Delete(':id')
   async deleteOrder(@Param() id) {
     return this.orderService.delete(id);

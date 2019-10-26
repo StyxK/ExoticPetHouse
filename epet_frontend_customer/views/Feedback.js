@@ -50,7 +50,7 @@ export class Feedback extends Component {
         .post(API_URL + "/feedback/", {
           score: this.state.starCount,
           comment: this.state.reviewText,
-          customer: this.props.customerUsername,
+          customerUserName: this.props.customerUsername,
           order: this.props.id,
           store: this.props.storeId
         })
@@ -60,7 +60,14 @@ export class Feedback extends Component {
         .catch(error => {
           console.log(error);
         });
-      Actions.pop();
+      axios
+        .put(API_URL + "/order/updateWasFeedBack/" + this.props.id,{
+          wasFeedBack: true
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      Actions.history();
     }
   };
 
@@ -88,7 +95,7 @@ export class Feedback extends Component {
           <Card>
             <CardItem>
               <Left>
-                <Text>{this.props.store.name}</Text>
+                <Text>{this.props.store.name}{this.props.customerUsername}</Text>
               </Left>
             </CardItem>
             <CardItem bordered>

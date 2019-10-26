@@ -22,6 +22,7 @@ import axios from "axios";
 import Feedback from "./Feedback";
 import Camera from "./Camera";
 import Notification from "./Notification";
+import Review from "./Review";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
@@ -73,6 +74,7 @@ class Main extends Component {
             <Scene key="feedback" component={Feedback} title="feedback" />
             <Scene key="camera" component={Camera} title="camera" />
             <Scene key="notification" component={Notification} title="notification" />
+            <Scene key="review" component={Review} title="Review"/>
           </Scene>
         </Router>
       </View>

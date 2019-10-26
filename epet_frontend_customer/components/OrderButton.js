@@ -101,24 +101,26 @@ class orderButton extends Component {
         <Label style={{ textAlign: "center" }}> ร้านปฏิเสธการรับฝาก </Label>
       );
     } else if (orderStatus == 7) {
-      list.push(
-        <View style={{ flex: 1, marginVertical: 5 }}>
-          <Button
-            full
-            style={{
-              backgroundColor: theme.primaryColor,
-              flex: 0.5,
-              marginHorizontal: 20,
-              borderRadius: 10
-            }}
-            onPress={() => {
-              Actions.feedback(this.props.item);
-            }}
-          >
-            <Label style={{ color: theme.primaryTextColor }}>ให้คะแนนร้าน</Label>
-          </Button>
-        </View>
-      );
+      if(this.props.item.wasFeedBack!=true){
+        list.push(
+          <View style={{ flex: 1, marginVertical: 5 }}>
+            <Button
+              full
+              style={{
+                backgroundColor: theme.primaryColor,
+                flex: 0.5,
+                marginHorizontal: 20,
+                borderRadius: 10
+              }}
+              onPress={() => {
+                Actions.feedback(this.props.item);
+              }}
+            >
+              <Label style={{ color: theme.primaryTextColor }}>ให้คะแนนร้าน</Label>
+            </Button>
+          </View>
+        );
+      }
     } else if (orderStatus == 9) {
       list.push(
         <Label style={{ textAlign: "center" }}> ชำระค่าบริการสำเร็จแล้ว </Label>

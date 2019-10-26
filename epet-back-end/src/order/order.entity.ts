@@ -38,6 +38,9 @@ export class Order {
 
   @Column({nullable:true})
   reason: string;
+  
+  @Column({nullable:true})
+  wasFeedBack: boolean;
 
   @ManyToOne(type => Store, store => store.orders)
   @JoinColumn({ name: 'storeId'})

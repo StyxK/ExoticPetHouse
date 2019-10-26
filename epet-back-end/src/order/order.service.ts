@@ -345,6 +345,15 @@ export class OrderService {
     }
   }
 
+  async updateWasFeedBack(order){
+    try{
+      const data = await this.getStatus(order)
+      await this.orderRepository.update(data.id,{wasFeedBack:true})
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   //use by customer
   async pushStoreNotification(order:Partial<OrderDTO>,store){
     this.storeNotification.createQueryBuilder().insert().into(StoreNotification)
@@ -385,5 +394,6 @@ export class OrderService {
       .where(`endDate < :now`,{now:moment().utc()})
       .andWhere(`"order"."orderStatusId" = 6`).execute()
   }
+
 
 }
