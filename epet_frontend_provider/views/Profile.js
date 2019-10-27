@@ -63,6 +63,10 @@ class Profile extends Component {
             }
         ])
     }
+    
+    goToCreateStore = () => {
+        this.props.user.approved ? Actions.createStore() : alert('กรุณาติดต่อบริษัทเพื่ออนุมัติการตั้งร้าน')
+    }
 
     componentWillMount() {
         axios.defaults.headers.common['Authorization'] = this.props.user.token;
@@ -127,7 +131,7 @@ class Profile extends Component {
                 </List>
                 <ListItem noBorder itemDivider style={{backgroundColor: theme.primaryColor}}>
                     <Text style={{color:'white'}}> การจัดการร้านรับฝาก </Text>
-                    <Button small rounded onPress={() => { goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
+                    <Button small rounded onPress={() => { this.goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
                 </ListItem>
                 <Content>
                     {storeFlatList}
@@ -142,9 +146,6 @@ goToStoreManager = (store) => {
     Actions.storeManager({ store })
 }
 
-goToCreateStore = () => {
-    Actions.createStore()
-}
 
 const mapStateToProps = (store) => {
     return { ...store }

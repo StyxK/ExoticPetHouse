@@ -8,6 +8,7 @@ import { login } from '../src/actions/UserActions';
 import * as Animatable from 'react-native-animatable'
 import Register from './Register'
 import theme from "../theme";
+import { persistor } from '../src/configStore'
 
 class Login extends Component{
 
@@ -32,7 +33,9 @@ class Login extends Component{
                 userName:this.state.userName,
                 password: this.state.password
             })
-            await this.props.login(user.data.token)
+            console.log(user.data)
+            await persistor.purge()
+            await this.props.login(user.data)
             await view.current.fadeOut()
             Actions.profile()
         }catch(error){

@@ -59,8 +59,8 @@ export class AdminService {
         return order
     }
 
-    async approveStoreOwner(username){
-        const approved = await this.storeownerRepository.update({userName:username},{approved:true})
+    async approveStoreOwner(data){
+        const approved = await this.storeownerRepository.update({userName:data.userName},{approved:data.approved})
         return approved
     }
 

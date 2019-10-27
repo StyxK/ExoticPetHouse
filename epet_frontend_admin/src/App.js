@@ -8,6 +8,7 @@ import { SideBar } from './components/sideBar'
 import { Dashboard } from './views/Dashboard';
 import '../src/styles/App.css'
 import { Chat } from './views/Chat';
+import { RegistryStoreOwner } from './views/RegistryStoreOwner';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/Store" exact component={Store}/>
             <Route path="/Order" exact component={Order}/>
             <Route path="/Chat" exact component={Chat}/>
+            <Route path="/RegistryStoreOwner" exact component={RegistryStoreOwner}/>
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     </BrowserRouter>

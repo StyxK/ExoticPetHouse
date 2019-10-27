@@ -21,7 +21,7 @@ export const SideBar = (props) => {
             <Menu.Item as={Link} to='/Chat'>
                 <Icon name="chat"/>Chat
             </Menu.Item>
-            <Menu.Item link>
+            <Menu.Item as={Link} to='/RegistryStoreOwner'>
                 <Icon name="add user"/>Registry Owner
             </Menu.Item>
             <Menu.Item as={Link} to='/Order'>
