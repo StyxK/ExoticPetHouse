@@ -12,7 +12,7 @@ export class AdminService {
         @InjectRepository(Customer) private readonly customerRepository : Repository<Customer>,
         @InjectRepository(StoreOwner) private readonly storeownerRepository : Repository<StoreOwner>,
         @InjectRepository(Store) private readonly storeRepository : Repository<Store>,
-        @InjectRepository(Order) private readonly orderRepository : Repository<Order>
+        @InjectRepository(Order) private readonly orderRepository : Repository<Order>,
     ){}
 
     async totalUser(){
@@ -57,6 +57,11 @@ export class AdminService {
             .groupBy(`1`)
             .getRawMany()
         return order
+    }
+
+    async approveStoreOwner(username){
+        const approved = await this.storeownerRepository.update({userName:username},{approved:true})
+        return approved
     }
 
 }

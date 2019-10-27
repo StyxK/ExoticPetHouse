@@ -36,7 +36,8 @@ export class StoreService {
     const store = await this.storesRepository.create({
       ...data,
       address: data.address,
-      owner:user
+      owner:user,
+      banned:false
     });
     await this.storesRepository.save(store);
     return { ...store, address: store.address };

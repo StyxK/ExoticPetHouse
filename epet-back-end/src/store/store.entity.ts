@@ -25,6 +25,9 @@ export class Store {
     @Column()
     maxOfDeposit: number;
 
+    @Column({nullable:true})
+    banned: boolean
+
     @Column({type:'double precision'})
     rating: number;
 

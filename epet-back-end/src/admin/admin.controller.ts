@@ -1,4 +1,4 @@
-import { Controller,Get } from '@nestjs/common';
+import { Controller,Get, Param } from '@nestjs/common';
 import { AdminService } from './admin.service';
 
 @Controller('admin')
@@ -24,6 +24,11 @@ export class AdminController {
     @Get('/orderSequence')
     async orderSequnce(){
         return this.adminService.OrderSequence()
+    }
+
+    @Get('/approve/:userName')
+    async approve(@Param() userName){
+        return this.adminService.approveStoreOwner(userName.userName)
     }
 
 }

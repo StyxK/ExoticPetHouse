@@ -39,7 +39,6 @@ export class UserController {
   }
 
   @Get('/users')
-  @UsePipes(new ValidationPipe())
   async showAll() {
     return await this.userService.showAll();
   }
