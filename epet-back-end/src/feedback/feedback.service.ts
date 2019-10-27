@@ -14,8 +14,8 @@ export class FeedbackService {
         return this.feedbackRepository.find();
     }
 
-    async showById(id: string): Promise<Feedback> {
-        return this.feedbackRepository.findOne({ where: id });
+    async showById(id: string): Promise<Feedback[]> {
+        return this.feedbackRepository.find({where: {storeId:id}});
     }
 
     async create(data: FeedbackDTO): Promise<Feedback> {
