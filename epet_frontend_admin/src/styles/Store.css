@@ -6,3 +6,11 @@
     overflow: auto;
     max-height: 90vh
 }
+
+.StoreInfo{
+    min-height: 78.5vh;
+}
+
+.StoreAddress{
+    min-height: 21vh;
+}

@@ -7,7 +7,7 @@ export const StoreMap = withScriptjs(withGoogleMap((props) => {
 
     useEffect(()=>{
         if(props.selectedStore){
-            setMapProps({zoom:9,coordinate:{lat:props.selectedStore.latitude,lng:props.selectedStore.longitude}})
+            setMapProps({zoom:9,coordinate:{lat:props.selectedStore.address.latitude,lng:props.selectedStore.address.longitude}})
         }
     },[props.selectedStore])
 
