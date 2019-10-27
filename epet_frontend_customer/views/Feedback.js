@@ -52,7 +52,7 @@ export class Feedback extends Component {
           comment: this.state.reviewText,
           customerUserName: this.props.customerUsername,
           order: this.props.id,
-          store: this.props.storeId,
+          storeId: this.props.storeId,
           submitDate : new Date()
         })
         .then(response => {
@@ -96,7 +96,7 @@ export class Feedback extends Component {
           <Card>
             <CardItem>
               <Left>
-                <Text>{this.props.store.name}{this.props.customerUsername}</Text>
+                <Text>{this.props.store.name}</Text>
               </Left>
             </CardItem>
             <CardItem bordered>

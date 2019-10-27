@@ -86,6 +86,15 @@ class Store extends Component {
     return this.state.feedBack.length;
   };
 
+  calculateRating=()=>{
+    let sumScore = 0;
+    this.state.feedBack.map(data =>{
+      sumScore = sumScore+data.score;
+    })
+    let average = sumScore/this.state.feedBack.length;
+    return average;
+  }
+
   componentWillMount() {
     this.setStoreId();
     const { setPets } = this.props;
@@ -101,8 +110,8 @@ class Store extends Component {
       })
       .then(error => console.log(error));
     axios
-      .get(API_URL + "/feedback/")
-      .then(response => { this.setState({ feedBack: JSON.parse(JSON.stringify(response.data)) }) })
+      .get(API_URL + "/feedback/" + this.storeId)
+      .then(response => { this.setState({ feedBack: JSON.parse(JSON.stringify(response.data))}) })
       .then(error => console.log(error));
     axios.get(API_URL + "/");
   }
@@ -133,6 +142,29 @@ class Store extends Component {
       );
     });
 
+    let HeaderFeedback = () => {
+      if (this.countFeedBack() > 0) {
+        return (
+          <Card>
+            <CardItem bordered>
+              <Left>
+                <Text>รีวิวการให้บริการ</Text>
+                <Text style={{ color: theme.primaryColor }}>{this.countFeedBack()} </Text>
+                <Text>รีวิว</Text>
+              </Left>
+              <Right>
+                <Text style={{ color: theme.primaryColor }}
+                  button onPress={() => { Actions.review(this.state) }}>
+                  ดูทั้งหมด->
+                  </Text>
+
+              </Right>
+            </CardItem>
+            {feedBackList}
+          </Card>
+        );   
+      }
+    }
     let feedBackList = this.state.feedBack.slice(0, 2).map(data => {
       if (this.countFeedBack != 0) {
         return (
@@ -231,7 +263,7 @@ class Store extends Component {
                   <Text note>
                     Rating :
                     <Text style={{ color: theme.primaryColor }}>
-                      {stores.rating}
+                      {this.calculateRating()}
                     </Text>
                   </Text>
                 </Right>
@@ -275,23 +307,7 @@ class Store extends Component {
                 <Text />
               </CardItem>
             </Card>
-            <Card>
-              <CardItem bordered>
-                <Left>
-                  <Text>รีวิวการให้บริการ</Text>
-                  <Text style={{ color: theme.primaryColor }}>{this.countFeedBack()} </Text>
-                  <Text>รีวิว</Text>
-                </Left>
-                <Right>
-                  <Text style={{ color: theme.primaryColor }}
-                    button onPress={() => { Actions.review(this.state) }}>
-                    ดูทั้งหมด->
-                  </Text>
-
-                </Right>
-              </CardItem>
-              {feedBackList}
-            </Card>
+            {HeaderFeedback()}
 
             <Modal
               animationType="slide"

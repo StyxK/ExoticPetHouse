@@ -5,6 +5,8 @@ import { FeedbackDTO } from './feedback.dto';
 import { Feedback } from './feedback.entity';
 import { Customer } from '../customer/customer.entity';
 import { Order } from '../order/order.entity';
+import { getConnection } from "typeorm";
+import { Store } from 'src/store/store.entity';
 
 @Injectable()
 export class FeedbackService {
@@ -15,7 +17,7 @@ export class FeedbackService {
     }
 
     async showById(id: string): Promise<Feedback[]> {
-        return this.feedbackRepository.find({where: {storeId:id}});
+        return this.feedbackRepository.find({ where: { storeId: id } });
     }
 
     async create(data: FeedbackDTO): Promise<Feedback> {
