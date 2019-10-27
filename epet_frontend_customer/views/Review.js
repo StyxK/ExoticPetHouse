@@ -18,6 +18,7 @@ import {
 } from "native-base";
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
+import moment from "moment-timezone";
 
 export default class Review extends Component {
     constructor(props) {
@@ -49,6 +50,11 @@ export default class Review extends Component {
                     </CardItem>
                     <CardItem bordered>
                         <Text>{data.comment}</Text>
+                    </CardItem>
+                    <CardItem bordered>
+                        <Left>
+                            <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
+                        </Left>
                     </CardItem>
                 </List>
             );

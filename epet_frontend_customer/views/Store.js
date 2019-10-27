@@ -30,6 +30,7 @@ import { connect } from "react-redux";
 import PetCard from "../components/PetCard";
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
+import moment from "moment-timezone";
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -83,10 +84,6 @@ class Store extends Component {
 
   countFeedBack = () => {
     return this.state.feedBack.length;
-  };
-
-  showLastFeedBack = () => {
-
   };
 
   componentWillMount() {
@@ -161,6 +158,11 @@ class Store extends Component {
             </CardItem>
             <CardItem bordered>
               <Text>{data.comment}</Text>
+            </CardItem>
+            <CardItem bordered>
+              <Left>
+                <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
+              </Left>
             </CardItem>
           </List>
         );

@@ -18,6 +18,9 @@ export class Feedback {
     @Column()
     customerUserName : string;
 
+    @Column('timestamp with time zone',{ nullable: true })
+    submitDate: Date; 
+
     @ManyToOne(type => Customer,customer => customer.feedbacks)
     @JoinColumn({
         name: 'customerUserName',

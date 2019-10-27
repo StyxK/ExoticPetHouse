@@ -52,7 +52,8 @@ export class Feedback extends Component {
           comment: this.state.reviewText,
           customerUserName: this.props.customerUsername,
           order: this.props.id,
-          store: this.props.storeId
+          store: this.props.storeId,
+          submitDate : new Date()
         })
         .then(response => {
           console.log(JSON.stringify(response));
