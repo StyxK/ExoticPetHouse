@@ -10,7 +10,7 @@ export class UserService {
     constructor(@InjectRepository(User) protected readonly userRepository:Repository<User>){}
 
     async showAll():Promise<UserRO[]>{
-        const user = await this.userRepository.find();
+        const user = await this.userRepository.find({order:{userName:'DESC'}});
         return user.map( user => user.toResponObject(false))
     }
 

@@ -64,4 +64,8 @@ export class AdminService {
         return approved
     }
 
+    async banStore(data){
+        const banned = await this.storeRepository.update({id:data.id},{banned:data.banned})
+    }
+
 }

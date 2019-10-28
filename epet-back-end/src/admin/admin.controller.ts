@@ -31,4 +31,9 @@ export class AdminController {
         return this.adminService.approveStoreOwner(data)
     }
 
+    @Post('/banned/')
+    async banned(@Body() data){
+        return this.adminService.banStore(data)
+    }
+
 }

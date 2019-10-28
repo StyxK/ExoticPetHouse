@@ -4,13 +4,25 @@
 
 .CardGroup{
     overflow: auto;
-    max-height: 90vh
+    max-height: 85.5vh
 }
 
 .StoreInfo{
     min-height: 78.5vh;
 }
 
+.StoreSearch{
+    min-height: 10vh;
+}
+
 .StoreAddress{
     min-height: 21vh;
+}
+
+.InfoTable{
+    border: 0 !important;
+}
+
+.ui.table tr td{
+    border-top: 0px !important
 }

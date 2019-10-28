@@ -22,9 +22,7 @@ export const RegistryStoreOwner = (props) => {
             body:JSON.stringify({userName:userName,approved:checked}),
             headers: { 'Content-Type': 'application/json' }
         })
-        const data = await response.json()
         fetchStoreOwner()
-        console.log(data) 
     }
 
     const renderOwnerList = () => {
