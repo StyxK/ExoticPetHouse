@@ -12,6 +12,7 @@ import { ChargeService } from '../charge/charge.service';
 import { CustomerNotification } from '../notification/notification.customer.entity';
 import { StoreNotification } from '../notification/notification.store.entity';
 import { AppNotification } from '../app.gateway';
+import { Store } from '../store/store.entity';
 
 @Injectable()
 export class OrderService {
@@ -30,6 +31,8 @@ export class OrderService {
     private readonly customerNotification:Repository<CustomerNotification>,
     @InjectRepository(StoreNotification) 
     private readonly storeNotification:Repository<StoreNotification>,
+    @InjectRepository(Store)
+    private readonly storeRepository:Repository<Store>,
     private chargeService : ChargeService,
     private gateway : AppNotification
   ) {}
@@ -130,6 +133,11 @@ export class OrderService {
   // createOrder --> สร้าง order รอร้านตอบรับ
   async create(userName: string, data: Partial<OrderDTO>) {
     try{
+      const storeId = JSON.parse(JSON.stringify(data)).storeId
+      const store = await this.storeRepository.findOne({where:{id:storeId}})
+      if(store.banned){
+        throw new Error('ขออภัย ร้านดังกล่าวไม่สามารถฝากได้เนื่องจากกระทำผิดนโยบายของ exotic pet house')
+      }
       const user = await this.customerRepository.findOne({
         where: { userName: userName },
       });
@@ -158,10 +166,14 @@ export class OrderService {
       await this.pushCustomerNotification(orderBeforeUpdate,orderBeforeUpdate.customerUsername)
       return this.toResponseObject(order);
     }catch(error){
-      if(error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' || error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว')
+      if(error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' || error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว' || error.message == 'ขออภัย ร้านดังกล่าวไม่สามารถฝากได้เนื่องจากกระทำผิดนโยบายของ exotic pet house'){
+        Logger.log(error.message)
         return new HttpException(error.message,406)
-      else
+      }
+      else{
+        Logger.log(error.message)
         return HttpStatus.INTERNAL_SERVER_ERROR
+      }
     }
   }
 

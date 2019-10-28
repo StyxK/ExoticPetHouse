@@ -14,7 +14,9 @@ import {
   Right,
   Text,
   Title,
-  Thumbnail
+  Thumbnail,
+  Label,
+  Badge
 } from "native-base";
 import React, { Component } from "react";
 import {
@@ -44,7 +46,8 @@ class Store extends Component {
       modalVisible: false,
       cageTemp: "cage",
       petTemp: [],
-      feedBack: []
+      feedBack: [],
+      banned:undefined
     };
   }
 
@@ -104,7 +107,8 @@ class Store extends Component {
         this.setState({
           stores: response.data,
           address: JSON.parse(JSON.stringify(response.data.address)),
-          cage: JSON.parse(JSON.stringify(response.data.cage))
+          cage: JSON.parse(JSON.stringify(response.data.cage)),
+          banned: response.data.banned
         });
         console.log(JSON.stringify(response));
       })
@@ -120,23 +124,24 @@ class Store extends Component {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
       return (
-        <Card avatar key={data.id} style={{ backgroundColor: theme.secondaryColor }}>
+        <Card avatar key={data.id} style={{ borderRadius:30 }}>
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
-            style={{ backgroundColor: theme.primaryColor }}
+            style={{ backgroundColor: theme.primaryColor,borderRadius: 30 }}
           >
             <Left>
-              <Icon name="paw" />
+                <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
             </Left>
             <Body>
               <Text style={{ color: theme.primaryTextColor }}>{data.name}</Text>
-              <Text style={{ color: theme.primaryTextColor }}>ประเภท: {data.type}</Text>
               <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
-            <Right></Right>
+            <Right>
+                <Icon name='ios-arrow-forward' style={{ fontSize:30 }}/>
+            </Right>
           </CardItem>
         </Card>
       );
@@ -145,58 +150,58 @@ class Store extends Component {
     let HeaderFeedback = () => {
       if (this.countFeedBack() > 0) {
         return (
-          <Card>
-            <CardItem bordered>
-              <Left>
-                <Text>รีวิวการให้บริการ</Text>
-                <Text style={{ color: theme.primaryColor }}>{this.countFeedBack()} </Text>
-                <Text>รีวิว</Text>
+          <ListItem itemDivider style={{height:50}}>
+              <Left style={{flex:2}}>
+                  <Text>รีวิวการให้บริการ</Text>
+                  <Text style={{ color: theme.primaryColor }}> {this.countFeedBack()} </Text>
+                  <Text>รีวิว</Text>
               </Left>
-              <Right>
-                <Text style={{ color: theme.primaryColor }}
-                  button onPress={() => { Actions.review(this.state) }}>
-                  ดูทั้งหมด->
-                  </Text>
-
+              <Right style={{flex:0.5}}>
+                <Button full transparent rounded button onPress={() => { Actions.review(this.state)}}>
+                  <Label style={{ color: theme.primaryColor , fontSize:15 }}>
+                    ดูทั้งหมด
+                  </Label>
+                </Button>
               </Right>
-            </CardItem>
-            {feedBackList}
-          </Card>
+            </ListItem>
         );   
       }
     }
+
     let feedBackList = this.state.feedBack.slice(0, 2).map(data => {
       if (this.countFeedBack != 0) {
         return (
-          <List avatar key={data.id}  >
-            <CardItem>
-              <Left>
+          <Card key={data.id} transparent>
+            <CardItem header style={{flex:1,flexDirection:'column'}}>
+              <Left style={{alignSelf:'flex-start'}}>
                 <Thumbnail />
                 <Text>{data.customerUserName}</Text>
               </Left>
-            </CardItem>
-            <CardItem>
-              <StarRating
-                disabled={true}
-                emptyStar={"ios-star-outline"}
-                fullStar={"ios-star"}
-                halfStar={"ios-star-half"}
-                iconSet={"Ionicons"}
-                maxStars={5}
-                rating={data.score}
-                fullStarColor={"orange"}
-                starSize={20}
-              />
+              <Right style={{alignSelf:'flex-start',flexDirection:'row'}}>
+                <Left style={{flex:1}}>
+                  <StarRating
+                    disabled={true}
+                    emptyStar={"ios-star-outline"}
+                    fullStar={"ios-star"}
+                    halfStar={"ios-star-half"}
+                    iconSet={"Ionicons"}
+                    maxStars={5}
+                    rating={data.score}
+                    fullStarColor={"orange"}
+                    starSize={20}
+                  />
+                </Left>
+                <Left style={{flex:2}}>
+                  <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
+                </Left>
+              </Right>
             </CardItem>
             <CardItem bordered>
               <Text>{data.comment}</Text>
-            </CardItem>
-            <CardItem bordered>
               <Left>
-                <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
               </Left>
             </CardItem>
-          </List>
+          </Card>
         );
       } else {
         return;
@@ -209,26 +214,22 @@ class Store extends Component {
         this.petWasSelectedInOrder(pet.id) != true
       ) {
         return (
-          <TouchableHighlight
-            key={pet.id}
-            onPress={() => {
-              this.goToOrder(pet.id, this.state.cageTemp);
-            }}
-          >
-            <Card>
-              <Body>
-                <Left>
-                  <Thumbnail
-                    source={{
-                      uri: pet.image
-                    }}
-                  />
+            <Card transparent key={pet.id}>
+              <CardItem cardBody button onPress={() => {
+                this.goToOrder(pet.id, this.state.cageTemp);
+              }}>
+                <Left style={{flex:1.5,alignItems:'center'}}>
+                  <Thumbnail source={{ uri: pet.image }}/>
                 </Left>
-                <Text>{pet.name}</Text>
-                <Text note>{pet.typeOfPet}</Text>
-              </Body>
+                <Body style={{flex:3}}>
+                  <Text>{pet.name}</Text>
+                  <Text note>{pet.typeOfPet}</Text>
+                </Body>
+                <Right style={{flex:1,alignItems:'center'}}>
+                  <Icon style={{fontSize:20,color:'green'}} name='md-add'/>
+                </Right>
+              </CardItem>
             </Card>
-          </TouchableHighlight>
         );
       }
       return;
@@ -238,77 +239,87 @@ class Store extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header style={{ backgroundColor: theme.primaryColor }}>
-            <Left style={{ flex: 1 }}>
-              <Icon
-                name="ios-arrow-back"
-                onPress={() => {
-                  Actions.home();
-                }}
-                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-              />
+          <Header transparent style={{ backgroundColor: theme.primaryColor }}>
+            <Left>
+              <Button transparent icon rounded small onPress={() => { Actions.home(); }}>
+                <Icon
+                  name="ios-arrow-back"
+                  style={{ color: theme.primaryTextColor, marginLeft: 10 }}
+                />
+              </Button>
             </Left>
-            <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
-                {stores.name}
-              </Title>
+            <Body>
+              <Text style={{ fontSize: 20 ,color:'white'}}> {stores.name} </Text>
             </Body>
-            <Right />
+            <Right>
+              <StarRating
+                disabled={true}
+                emptyStar={"md-star-outline"}
+                fullStar={"md-star"}
+                halfStar={"md-star-half"}
+                iconSet={"Ionicons"}
+                maxStars={5}
+                rating={this.calculateRating()}
+                fullStarColor={"orange"}
+                starSize={20}
+              />
+              <Label style={{marginHorizontal:5,color:'white',fontSize:15}}>{this.calculateRating()}</Label>
+            </Right>
           </Header>
           <Content>
-            <Card style={{ flex: 0 }}>
-              <CardItem header>
-                <Text style={{ fontSize: 25 }}> {stores.name} </Text>
-                <Right>
-                  <Text note>
-                    Rating :
-                    <Text style={{ color: theme.primaryColor }}>
-                      {this.calculateRating()}
-                    </Text>
-                  </Text>
-                </Right>
-              </CardItem>
+            <View style={{ backgroundColor: 'black' ,padding:10}}>
+                <View style={{justifyContent:'flex-start',alignItems:'flex-start'}}>
+                  <Text note style={{ color: 'white' }}> {stores.description} </Text>
+                </View>
+            </View>
+            <Card transparent >
               <CardItem>
-                <Left>
-                  <Text>ที่อยู่</Text>
-                  <Text note style={{ color: theme.primaryColor }}>
-                    ถนน {address.street}, อำเภอ/เขต {address.district} จังหวัด{" "}
-                    {address.province} {address.postcode}
-                  </Text>
+                <Left style={{flex:0.25}}>
+                  <Icon name='md-pin' style={{color:'red'}}/>
                 </Left>
+                <Body style={{flex:2}}>
+                  <Label style={{ color: theme.primaryColor ,fontSize:15}} >
+                    ถนน {address.street} อำเภอ/เขต {address.district} จังหวัด {address.province} {address.postcode}
+                  </Label>
+                </Body>
               </CardItem>
               <CardItem>
-                <Left>
-                  <Text>ติดต่อ</Text>
-                  <Text note style={{ color: theme.primaryColor }}>
+                <Left style={{flex:0.25}}>
+                  <Icon name='md-contact' style={{color:'red'}}/>
+                </Left>
+                <Body style={{flex:2}}>
+                  <Label style={{ color: theme.primaryColor ,fontSize:15}} >
                     {stores.phoneNumber}
-                  </Text>
-                </Left>
+                  </Label>
+                </Body>
               </CardItem>
-              <CardItem>
-                <Left>
-                  <Text>รายละเอียดร้านค้า</Text>
-                  <Text note style={{ color: theme.primaryColor }}>
-                    {stores.description}
-                  </Text>
-                </Left>
-              </CardItem>
-              <CardItem>
-                <Left>
-                  <Text>กรงทั้งหมด</Text>
-                  <Text note style={{ color: theme.primaryColor }}>
-                    {stores.maxOfDeposit} กรง
-                  </Text>
-                </Left>
-              </CardItem>
-              <Content>{cageList}</Content>
-              <CardItem>
-                <Text note>*** กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
-                <Text />
+                {this.state.banned ? 
+                  <Content padder>
+                    <View style={{borderRadius:20,backgroundColor:'orange',flexDirection:'row',height:60}}>
+                      <Left style={{flex:0.5,justifyContent:'center',alignItems:'center'}}>
+                        <Icon name='warning' style={{color:'white',fontSize:40}}/>
+                      </Left>
+                      <Body style={{flex:1}}>
+                        <Label style={{color:'white',fontSize:15}}> ขณะนี้ร้านไม่สามารถให้บริการได้ </Label>
+                        <Label style={{color:'white',fontSize:15}}> ขออภัยในความไม่สะดวก </Label>
+                      </Body>
+                      <Right style={{flex:0.2}}/>
+                    </View>
+                  </Content>
+                    : 
+                  <Content padder>
+                    {cageList}
+                  </Content>
+                }
+              <CardItem style={{justifyContent:'center'}}>
+                  <Icon name='md-information-circle' style={{color:'green'}}/>
+                  <Text note>กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
               </CardItem>
             </Card>
             {HeaderFeedback()}
-
+            <Content padder style={{backgroundColor:'grey'}}>
+              {feedBackList}
+            </Content>
             <Modal
               animationType="slide"
               transparent={true}
@@ -339,7 +350,7 @@ class Store extends Component {
                       <Text>ปิดรายการ</Text>
                     </Button>
                   </Header>
-                  <Content style={styles.modal} padder>
+                  <Content padder>
                     {selectPet}
                   </Content>
                 </Container>
@@ -383,6 +394,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(52, 52, 52, 0.8)"
   },
   modal: {
+    marginHorizontal:20,
     borderRadius: 10,
     marginBottom: 65,
     backgroundColor: "white",

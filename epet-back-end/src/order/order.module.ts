@@ -11,9 +11,10 @@ import { ChargeService } from '../charge/charge.service';
 import { AppNotification } from '../app.gateway';
 import { StoreNotification } from '../notification/notification.store.entity';
 import { CustomerNotification } from '../notification/notification.customer.entity';
+import { Store } from '../store/store.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet,StoreNotification,CustomerNotification])],
+    imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet,StoreNotification,CustomerNotification,Store])],
     controllers: [OrderController],
     providers: [OrderService,ChargeService,AppNotification],
     exports: [OrderService],
