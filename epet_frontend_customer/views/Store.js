@@ -123,6 +123,7 @@ class Store extends Component {
   render() {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
+      console.log(data)
       return (
         <Card avatar key={data.id} style={{ borderRadius:30 }}>
           <CardItem
