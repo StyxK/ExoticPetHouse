@@ -15,9 +15,6 @@ export class Cage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
-
   @Column({ nullable: true })
   cageTypeId: string;
 
