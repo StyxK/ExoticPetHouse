@@ -41,7 +41,7 @@ class Store extends Component {
     this.state = {
       stores: [],
       address: {},
-      cageType: [],
+      cage: [],
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
@@ -107,7 +107,7 @@ class Store extends Component {
         this.setState({
           stores: response.data,
           address: JSON.parse(JSON.stringify(response.data.address)),
-          cageType: JSON.parse(JSON.stringify(response.data.cageType)),
+          cage: JSON.parse(JSON.stringify(response.data.cage)),
           banned: response.data.banned
         });
         console.log(JSON.stringify(response));
@@ -122,7 +122,7 @@ class Store extends Component {
 
   render() {
     const { pets = [], setPets, addPet } = this.props;
-    let cageList = this.state.cageType.map(data => {
+    let cageList = this.state.cage.map(data => {
       console.log(data)
       return (
         <Card avatar key={data.id} style={{ borderRadius:30 }}>
