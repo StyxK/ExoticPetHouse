@@ -14,6 +14,7 @@ import PetPost from './PetPost';
 import Chat from './Chat';
 import ChatBox from './ChatBox'
 import Cage from './Cage';
+import SubCage from './SubCage';
 import Login from './Login';
 import OrderDetail from './OrderDetail'
 import Register from './Register'
@@ -68,6 +69,7 @@ class Route extends Component {
                         <Scene key="chat" component={Chat} title="Chat"/>
                         <Scene key="chatbox" component={ChatBox} title="ChatBox"/>
                         <Scene key="cage" component={Cage} title="Cage"/>
+                        <Scene key="subCage" component={SubCage} title="SubCage"/>
                         <Scene key="notification" component={Notification} title="Notification"/>
                     </Scene>
                 </Router>

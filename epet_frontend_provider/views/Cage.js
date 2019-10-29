@@ -37,7 +37,6 @@ export default class Cage extends Component {
   componentDidMount() {
     axios.get("/cage/types").then(response => {
       this.setState({ types: response.data });
-      alert(JSON.stringify(response.data));
     });
     if (this.props.cage) {
       const cage = this.props.cage;
