@@ -21,11 +21,26 @@ export class CageService {
   async getCageType(): Promise<CageType[]> {
     return this.cageTypeRepository.find();
   }
-  async create(id: string, data: Partial<CageDTO>) {
+  async createCages(id: string, data: Partial<CageDTO>) {
     console.log(data);
     const store = await this.storeRepository.findOne({ where: id });
-    const cage = await this.cageTypeRepository.create({ ...data, store: store });
-    await this.cageTypeRepository.save(cage);
+    const cageType = await this.cageTypeRepository.create({
+      ...data,
+      store: store,
+    });
+    await this.cageTypeRepository.save(cageType);
+    for (let i = 0; i < data.quantity; i++) {
+      this.createCage(data, cageType);
+    }
+    return { cageType };
+  }
+  async createCage(data: Partial<CageDTO>, cageType: CageType) {
+    console.log(data);
+    const cage = await this.cageRepository.create({
+      ...data,
+    });
+    cage.cageType = cageType;
+    await this.cageRepository.save(cage);
     return { cage };
   }
 

@@ -11,8 +11,8 @@ export class CageController {
       }
 
     @Post(":id")
-    async createCage(@Param() id,@Body() data){
-        return this.cageService.create(id,data);
+    async createCages(@Param() id,@Body() data){
+        return this.cageService.createCages(id,data);
     }
 
     @Put(":id")
