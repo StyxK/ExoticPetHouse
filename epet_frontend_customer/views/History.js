@@ -34,7 +34,7 @@ class History extends Component {
       page: [],
       selectedIndex: 0,
       history: [],
-      statuses: []
+      statuses: [],
     };
   }
 
@@ -100,7 +100,7 @@ class History extends Component {
           </Header>
           <View style={{ flex: 1 }}>
             {statuses.length > 0 && (
-              <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+              <ScrollableTabView prerenderingSiblingsNumber={0} renderTabBar={() => <ScrollableTabBar />}>
                 {this.getSegments()}
               </ScrollableTabView>
             )}
@@ -113,12 +113,13 @@ class History extends Component {
 
   getSegments = () => {
     const { history, statuses } = this.state;
-
+    console.log(history,'history')
     const segments = statuses.map(status => (
       <Content key={status.id} tabLabel={status.status}>
         {history
           .filter(item => item.orderStatus.id === status.id)
           .map(item => {
+            console.log(item,'item')
             return (
               <HistoryList
                 key={item.id}

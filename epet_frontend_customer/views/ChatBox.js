@@ -161,21 +161,27 @@ class ChatBox extends Component {
           <Right style={{ flex: 1 }} />
         </Header>
         <AutoScroll>{this.messageDialog()}</AutoScroll>
-        <Footer>
-          <Input
-            onChangeText={e => {
-              this.setState({ message: e });
-            }}
-            placeholder="พิมพ์ข้อความในช่องนี้"
-            style={{ color: "white" }}
-          />
-          <Button
-            onPress={() => {
-              this.submitMessage();
-            }}
-          >
-            <Text> submit </Text>
-          </Button>
+        <Footer style={{justifyContent:'center',alignItems:'center'}}>
+          <Left style={{padding:5,flex:6}}>
+            <Input
+              onChangeText={e => {
+                this.setState({ message: e });
+              }}
+              value={this.state.message}
+              placeholder="พิมพ์ข้อความในช่องนี้"
+              style={{ backgroundColor: "white",borderRadius:10 ,width:'100%'}}
+            />
+          </Left>
+          <Right style={{flex:1}}>
+            <Button transparent
+              onPress={() => {
+                this.submitMessage();
+              }}
+              style={{justifyContent:'center'}}
+            >
+              <Icon name='md-send' style={{color:'white'}}/>
+            </Button>
+          </Right>
         </Footer>
       </Container>
     );

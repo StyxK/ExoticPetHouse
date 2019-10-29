@@ -192,28 +192,35 @@ class Order extends Component {
             <Right style={{flex:1}}/>
           </Header>
           <Content>
-              <ListItem itemDivider>
-                <Left style={{flex:1}}>
-                    <Text>ร้าน {this.props.stores.name}</Text>
-                </Left>
-                <Right style={{flex:1}}>
-                  <Button rounded style={{alignSelf:'center', backgroundColor:theme.primaryColor}} onPress={() => Actions.pop()}>
-                    <Text>เพิ่มรายการฝาก</Text>
-                  </Button>
-                </Right>
-              </ListItem>
+            <ListItem itemDivider>
+              <Left style={{flex:1,flexDirection:'column'}}>
+                <View style={{flex:1}}>
+                  <Text>ร้าน {this.props.stores.name}</Text>
+                </View>
+                <View style={{flex:1}}>
+                  <Text note>
+                    วันที่ฝาก:{" "}
+                    {this.state.startChosenDate.toString().substr(4, 12)}
+                  </Text>
+                </View>
+                <View style={{flex:1}}>
+                  <Text note>
+                    วันสิ้นสุด:{" "}
+                    {this.state.endChosenDate.toString().substr(4, 12)}
+                  </Text>
+                </View>
+                <View style={{flex:1}}>
+                  <Text note>ยอดชำระรวม: {totalPrice}</Text>
+                </View>
+              </Left>
+              <Right style={{flex:0.6}}>
+                <Button rounded style={{alignSelf:'center', backgroundColor:theme.primaryColor}} onPress={() => Actions.pop()}>
+                  <Text>เพิ่มรายการฝาก</Text>
+                </Button>
+              </Right>
+            </ListItem>
             <Card transparent>
               {orderList}
-              <CardItem>
-                <Text note>
-                  วันที่ฝาก:{" "}
-                  {this.state.startChosenDate.toString().substr(4, 12)}-{" "}
-                  {this.state.endChosenDate.toString().substr(4, 12)}
-                </Text>
-              </CardItem>
-              <CardItem>
-                <Text note>ยอดชำระรวม: {totalPrice}</Text>
-              </CardItem>
             </Card>
           </Content>
           <View style={{ flex:0.25,backgroundColor: theme.secondaryColor ,flexDirection:'row'}}>

@@ -110,7 +110,7 @@ class Store extends Component {
           cage: JSON.parse(JSON.stringify(response.data.cage)),
           banned: response.data.banned
         });
-        console.log(JSON.stringify(response));
+        console.log(response,'response');
       })
       .then(error => console.log(error));
     axios
@@ -123,7 +123,6 @@ class Store extends Component {
   render() {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
-      console.log(data)
       return (
         <Card avatar key={data.id} style={{ borderRadius:30 }}>
           <CardItem
