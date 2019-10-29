@@ -7,6 +7,7 @@ import { Address } from "../address/address.entity";
 import { Entity, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn, JoinColumn, ManyToMany, JoinTable } from "typeorm";
 import { Chat } from "../chat/chat.entity";
 import { StoreNotification } from "../notification/notification.store.entity";
+import { CageType } from "../cage/cage.type.entity";
 @Entity()
 export class Store {
 
@@ -43,8 +44,8 @@ export class Store {
     @ManyToOne(type => Address)
     address: Address;
 
-    @OneToMany(type => Cage,cage => cage.store)
-    cages: Cage[];
+    @OneToMany(type => CageType,cageType => cageType.store)
+    cageType: CageType[];
 
     @OneToMany(type => Order,order => order.store)
     orders: Order[];

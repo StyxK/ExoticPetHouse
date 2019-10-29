@@ -119,7 +119,7 @@ export class OrderService {
     }
     const duration = await this.calculateDate(order.startDate, endDate);
     for (let orderLine in orderLines)
-      totalPrice += orderLines[orderLine].cage.price * duration;
+      totalPrice += orderLines[orderLine].cage.cageType.price * duration;
     return {
       ...order,
       orderLines,
@@ -153,7 +153,12 @@ export class OrderService {
   // route for manage order
 
   // createOrder --> สร้าง order รอร้านตอบรับ
-  async getCage(storeId: string, startDate: Date, endDate: Date):Promise<Cage> {
+  async getCage(
+    storeId: string,
+    startDate: Date,
+    endDate: Date,
+    usedCages: string[],
+  ): Promise<Cage> {
     const intersectOrders = await this.orderRepository.find({
       where: {
         storeId: storeId,
@@ -162,10 +167,10 @@ export class OrderService {
       },
       relations: ['orderLines'],
     });
-    const unavaCage: string[] = [];
+    const unavaCages: string[] = [];
     intersectOrders.forEach(order => {
       order.orderLines.forEach(orderLine => {
-        unavaCage.push(orderLine.cageId);
+        unavaCages.push(orderLine.cageId);
       });
     });
     const cages = await this.cageRepository.find({
@@ -173,25 +178,29 @@ export class OrderService {
         storeId: storeId,
       },
     });
-    const avaCage = cages.find(cage => unavaCage.indexOf(cage.id) < 0);
+    const avaCage = cages.find(
+      cage => unavaCages.indexOf(cage.id) < 0 && usedCages.indexOf(cage.id) < 0,
+    );
     return avaCage;
   }
   async create(userName: string, data: Partial<OrderDTO>) {
     try {
       const requestBody = JSON.parse(JSON.stringify(data));
-      const cage = await this.getCage(
-        requestBody.storeId,
-        data.startDate,
-        data.endDate,
-      );
-      if(!cage){
-        throw new Error(
-          'ขออภัย ไม่มีกรงที่ว่างอยู่ในช่วงเวลาที่ท่านเลือก',
+
+      const cages: string[] = [];
+      for (const orderLine of data.orderLines) {
+        const cage = await this.getCage(
+          requestBody.storeId,
+          data.startDate,
+          data.endDate,
+          cages,
         );
-      }
-      data.orderLines.forEach(orderLine =>{
+        if (!cage) {
+          throw new Error('ขออภัย ไม่มีกรงที่ว่างอยู่ในช่วงเวลาที่ท่านเลือก');
+        }
         orderLine.cage = cage;
-      })
+        cages.push(cage.id);
+      }
       const storeId = requestBody.storeId;
       const store = await this.storeRepository.findOne({
         where: { id: storeId },
@@ -415,7 +424,7 @@ export class OrderService {
           where: { id: result.id },
           relations: ['cage'],
         });
-        totalPrice += orderLine.cage.price * duration;
+        totalPrice += orderLine.cage.cageType.price * duration;
       });
       await Promise.all(calculatePrice);
       await this.chargeService.chargeFromToken({

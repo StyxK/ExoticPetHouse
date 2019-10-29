@@ -6,6 +6,7 @@ import { StoreDTO } from './store.dto';
 import { Address } from '../address/address.entity';
 import { Cage } from '../cage/cage.entity';
 import { StoreOwner } from '../storeowner/storeowner.entity';
+import { CageType } from '../cage/cage.type.entity';
 
 @Injectable()
 export class StoreService {
@@ -16,7 +17,9 @@ export class StoreService {
     private readonly addressRepository: Repository<Address>,
     @InjectRepository(Cage) private readonly cageRepository: Repository<Cage>,
     @InjectRepository(StoreOwner)
-    private readonly storeOwnerRepository: Repository<StoreOwner>
+    private readonly storeOwnerRepository: Repository<StoreOwner>,
+    @InjectRepository(CageType)
+    private readonly cageTypeRepository: Repository<CageType>,
   ) {}
 
   async showAll() {
@@ -48,7 +51,7 @@ export class StoreService {
       where: id,
       relations: ['address'],
     });
-    const cage = await this.cageRepository.find({ store: store });
+    const cage = await this.cageTypeRepository.find({ store: store });
     return { ...store, cage };
   }
 

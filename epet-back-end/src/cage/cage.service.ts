@@ -24,18 +24,18 @@ export class CageService {
   async create(id: string, data: Partial<CageDTO>) {
     console.log(data);
     const store = await this.storeRepository.findOne({ where: id });
-    const cage = await this.cageRepository.create({ ...data, store: store });
-    await this.cageRepository.save(cage);
+    const cage = await this.cageTypeRepository.create({ ...data, store: store });
+    await this.cageTypeRepository.save(cage);
     return { cage };
   }
 
   async update(id: string, data: Partial<CageDTO>) {
-    await this.cageRepository.update(id, data);
-    return await this.cageRepository.find({ where: id });
+    await this.cageTypeRepository.update(id, data);
+    return await this.cageTypeRepository.find({ where: id });
   }
 
   async delete(id: string) {
-    await this.cageRepository.delete(id);
+    await this.cageTypeRepository.delete(id);
     return { delete: true };
   }
 }

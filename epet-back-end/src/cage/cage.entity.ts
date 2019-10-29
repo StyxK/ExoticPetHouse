@@ -19,7 +19,7 @@ export class Cage {
   name: string;
 
   @Column({ nullable: true })
-  cageTypeId: number;
+  cageTypeId: string;
 
   @ManyToOne(type => CageType, cageType => cageType.cages, { nullable: true })
   @JoinColumn({
@@ -27,23 +27,8 @@ export class Cage {
   })
   cageType: CageType;
 
-  @Column()
-  description: string;
-
-  @Column({ type: 'double precision' })
-  price: number;
-
   @Column({ nullable: true })
   cameraAddress: string;
-
-  @Column({ nullable: true })
-  storeId: string;
-
-  @ManyToOne(type => Store, store => store.cages)
-  @JoinColumn({
-    name: 'storeId',
-  })
-  store: Store;
 
   @OneToMany(type => OrderLine, orderLines => orderLines.cage)
   orderLines: OrderLine[];
