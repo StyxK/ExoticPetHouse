@@ -1,11 +1,14 @@
 import { Store } from "../store/store.entity";
 import { CageType } from './cage.type.entity';
+import { Cage } from "./cage.entity";
 
 export interface CageDTO{
-    id:string
-    name:string
-    cageType:CageType
-    description:string
-    price:number
-    store:Store
+    id: string;
+    typeName: string;
+    description: string;
+    cages: Cage[];
+    price: number;
+    quantity: number;
+    storeId: string;
+    store: Store;
 }

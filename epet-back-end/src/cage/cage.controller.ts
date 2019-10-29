@@ -1,33 +1,49 @@
-import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { CageService } from './cage.service';
 
 @Controller('cage')
 export class CageController {
-    constructor(private readonly cageService:CageService){}
+  constructor(private readonly cageService: CageService) {}
 
-    @Get("/types")
-    async getCageType() {
-        return this.cageService.getCageType();
-      }
+  @Get('/types')
+  async getCageType() {
+    return this.cageService.getCageType();
+  }
+  @Get('/types/:id')
+  async showByCageTypeId(@Param() id) {
+    return this.cageService.showByCageTypeId(id);
+  }
 
-    @Post(":id")
-    async createCage(@Param() id,@Body() data){
-        return this.cageService.create(id,data);
-    }
+  @Delete('/types/:id')
+  async deleteSubCage(@Param() id) {
+    return this.cageService.deleteSubCage(id);
+  }
 
-    @Put(":id")
-    async updateCage(@Param() id,@Body() data){
-        return this.cageService.update(id,data);
-    }
+  @Post(':id')
+  async createCages(@Param() id, @Body() data) {
+    return this.cageService.createCages(id, data);
+  }
 
-    @Delete(":id")
-    async deleteCage(@Param() id){
-        return this.cageService.delete(id);
-    }
-    
-    @Get(":id")
-    async showById(@Param() id) {
-        return this.cageService.showById(id);
-      }
+  @Put(':id')
+  async updateCage(@Param() id, @Body() data) {
+    return this.cageService.update(id, data);
+  }
 
+  @Delete(':id')
+  async deleteCage(@Param() id) {
+    return this.cageService.delete(id);
+  }
+
+  @Get(':id')
+  async showById(@Param() id) {
+    return this.cageService.showById(id);
+  }
 }

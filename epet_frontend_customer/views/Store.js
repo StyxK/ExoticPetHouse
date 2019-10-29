@@ -134,14 +134,17 @@ class Store extends Component {
                 <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
             </Left>
             <Body>
-              <Text style={{ color: theme.primaryTextColor }}>{data.name}</Text>
-              <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>
+              <Text style={{ color: theme.primaryTextColor }}>{data.typeName}</Text>
+              <Text style={{ color: theme.primaryTextColor}}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
             <Right>
                 <Icon name='ios-arrow-forward' style={{ fontSize:30 }}/>
             </Right>
+          </CardItem>
+          <CardItem>
+          <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>{data.description}</Text>
           </CardItem>
         </Card>
       );

@@ -38,9 +38,9 @@ export default class StoreManager extends Component{
         let cagesList = cages.map( data => {
             return (
                 <List style={{backgroundColor:theme.primaryColor}} key={data.id}>
-                    <ListItem style={{backgroundColor: theme.secondaryColor ,borderBottomWidth:3,borderBottomColor:theme.primaryColor, marginLeft:10,marginRight:10,borderRadius:5}} >
+                    <ListItem style={{backgroundColor: theme.secondaryColor ,borderBottomWidth:3,borderBottomColor:theme.primaryColor, marginLeft:10,marginRight:10,borderRadius:5}} onPress={ () => this.goToSubCage(data)}>
                         <Body>
-                            <Text style={{color:'white'}}> {data.name}</Text><Text/>
+                            <Text style={{color:'white'}}> {data.typeName}</Text><Text/>
                             <Text style={{color:'white'}}> ราคาต่อวัน : {data.price}</Text>
                         </Body>
                         <Right style={{flexDirection:'row',flex:1}}>
@@ -109,7 +109,7 @@ export default class StoreManager extends Component{
     }
 
     deleteCage = async (data) => {
-        Alert.alert(`ยืนยันการลบกรง`,`ต้องการลบ ${data.name} หรือไม่ ?`,
+        Alert.alert(`ยืนยันการลบกรง`,`ต้องการลบ ${data.typeName} หรือไม่ ?`,
             [
                 { text:'ยืนยัน',onPress: 
                     ()=>{ 
@@ -126,6 +126,10 @@ export default class StoreManager extends Component{
             ],
             {cancelable:true}
         )
+    }
+
+    goToSubCage = (cageType) => {
+        Actions.subCage({cageType})
     }
 
     goToEditCage = (data) => {
