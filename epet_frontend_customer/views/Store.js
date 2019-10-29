@@ -41,7 +41,7 @@ class Store extends Component {
     this.state = {
       stores: [],
       address: {},
-      cage: [],
+      cageType: [],
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
@@ -107,7 +107,7 @@ class Store extends Component {
         this.setState({
           stores: response.data,
           address: JSON.parse(JSON.stringify(response.data.address)),
-          cage: JSON.parse(JSON.stringify(response.data.cage)),
+          cageType: JSON.parse(JSON.stringify(response.data.cageType)),
           banned: response.data.banned
         });
         console.log(JSON.stringify(response));
@@ -122,7 +122,7 @@ class Store extends Component {
 
   render() {
     const { pets = [], setPets, addPet } = this.props;
-    let cageList = this.state.cage.map(data => {
+    let cageList = this.state.cageType.map(data => {
       console.log(data)
       return (
         <Card avatar key={data.id} style={{ borderRadius:30 }}>
@@ -135,14 +135,17 @@ class Store extends Component {
                 <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
             </Left>
             <Body>
-              <Text style={{ color: theme.primaryTextColor }}>{data.name}</Text>
-              <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>
+              <Text style={{ color: theme.primaryTextColor }}>{data.typeName}</Text>
+              <Text style={{ color: theme.primaryTextColor}}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
             <Right>
                 <Icon name='ios-arrow-forward' style={{ fontSize:30 }}/>
             </Right>
+          </CardItem>
+          <CardItem>
+          <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>{data.description}</Text>
           </CardItem>
         </Card>
       );

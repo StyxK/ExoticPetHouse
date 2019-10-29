@@ -26,8 +26,8 @@ export default class Cage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: undefined,
-      cageTypeId: 1,
+      quantity: undefined,
+      typeName: "",
       description: undefined,
       price: undefined,
       types: []
@@ -42,16 +42,16 @@ export default class Cage extends Component {
     if (this.props.cage) {
       const cage = this.props.cage;
       this.setState({
-        name: cage.name,
-        cageTypeId: cage.type,
+        typeName: cage.type,
         description: cage.description,
-        price: cage.price + ""
+        price: cage.price + "",
+        quantity: cage.quantity
       });
     }
   }
 
   render() {
-    const { name, cageTypeId, description, price, types } = this.state;
+    const { quantity, typeName, description, price, types } = this.state;
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
@@ -75,37 +75,9 @@ export default class Cage extends Component {
               </Text>
               <Item rounded>
                 <Input
-                  value={name}
-                  onChangeText={e => this.setState({ name: e })}
+                  value={typeName}
+                  onChangeText={e => this.setState({ typeName: e })}
                 />
-              </Item>
-            </View>
-            <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
-              <Text style={{ marginHorizontal: 15, marginVertical: 2 }}>
-                ประเภท :
-              </Text>
-              <Item rounded picker>
-                <Picker
-                  mode="dropdown"
-                  iosIcon={<Icon name="arrow-down" />}
-                  style={{ width: undefined }}
-                  placeholder="Select your SIM"
-                  placeholderStyle={{ color: "#bfc6ea" }}
-                  placeholderIconColor="#007aff"
-                  selectedValue={cageTypeId}
-                  onValueChange={e => {this.setState({ cageTypeId: e });alert(JSON.stringify(e))}}
-                >
-                  {types &&
-                    types.map(t => {
-                      return (
-                        <Picker.Item
-                          key={t.id}
-                          label={t.type + ""}
-                          value={t.id}
-                        />
-                      );
-                    })}
-                </Picker>
               </Item>
             </View>
             <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
@@ -129,6 +101,19 @@ export default class Cage extends Component {
                   keyboardType="numeric"
                   value={price}
                   onChangeText={e => this.setState({ price: e })}
+                />
+              </Item>
+            </View>
+            <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
+              <Text style={{ marginHorizontal: 15, marginVertical: 2 }}>
+                จำนวน :
+              </Text>
+              <Item style={{ flexDirection: "row-reverse" }} rounded>
+                <Label style={{ marginRight: 5 }}> กรง </Label>
+                <Input
+                  keyboardType="numeric"
+                  value={quantity}
+                  onChangeText={e => this.setState({ quantity: e })}
                 />
               </Item>
             </View>
