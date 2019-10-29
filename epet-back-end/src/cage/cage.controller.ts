@@ -5,6 +5,11 @@ import { CageService } from './cage.service';
 export class CageController {
     constructor(private readonly cageService:CageService){}
 
+    @Get("/types")
+    async getCageType() {
+        return this.cageService.getCageType();
+      }
+
     @Post(":id")
     async createCage(@Param() id,@Body() data){
         return this.cageService.create(id,data);

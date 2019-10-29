@@ -1,3 +1,4 @@
+import { CageType } from './cage.type.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cage } from './cage.entity';
@@ -9,13 +10,19 @@ import { Store } from '../store/store.entity';
 export class CageService {
   constructor(
     @InjectRepository(Cage) private readonly cageRepository: Repository<Cage>,
+    @InjectRepository(CageType)
+    private readonly cageTypeRepository: Repository<CageType>,
     @InjectRepository(Store)
     private readonly storeRepository: Repository<Store>,
   ) {}
   async showById(id: string): Promise<Partial<CageDTO>> {
     return this.cageRepository.findOne({ where: id });
   }
+  async getCageType(): Promise<CageType[]> {
+    return this.cageTypeRepository.find();
+  }
   async create(id: string, data: Partial<CageDTO>) {
+    console.log(data);
     const store = await this.storeRepository.findOne({ where: id });
     const cage = await this.cageRepository.create({ ...data, store: store });
     await this.cageRepository.save(cage);

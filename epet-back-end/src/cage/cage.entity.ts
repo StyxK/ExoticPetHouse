@@ -18,7 +18,13 @@ export class Cage {
   @Column()
   name: string;
 
-  @ManyToOne(type => CageType, cageType => cageType.cages,{ nullable: true })
+  @Column({ nullable: true })
+  cageTypeId: number;
+
+  @ManyToOne(type => CageType, cageType => cageType.cages, { nullable: true })
+  @JoinColumn({
+    name: 'cageTypeId',
+  })
   cageType: CageType;
 
   @Column()
@@ -35,7 +41,7 @@ export class Cage {
 
   @ManyToOne(type => Store, store => store.cages)
   @JoinColumn({
-    name: 'storeId'
+    name: 'storeId',
   })
   store: Store;
 
