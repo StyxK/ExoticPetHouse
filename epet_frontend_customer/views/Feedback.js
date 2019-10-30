@@ -17,7 +17,8 @@ import {
   Footer,
   Button,
   ListItem,
-  Card
+  Card,
+  Label
 } from "native-base";
 import StarRating from "react-native-star-rating";
 import { TextInput } from "react-native";
@@ -85,42 +86,33 @@ export class Feedback extends Component {
               style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Left>
-          <Body>
-            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
-              ให้คะแนนผู้รับฝาก
-            </Title>
+          <Body style={{flex:3,justifyContent:'center',alignItems:'center'}}>
+            <Label style={{ color: theme.primaryTextColor, fontSize: 20,textAlign:'center' }}>
+              ให้คะแนนร้าน
+            </Label>
           </Body>
-          <Right />
+          <Right style={{flex:1}}/>
         </Header>
         <Content>
-          <Card>
-            <CardItem>
-              <Left>
-                <Text>{this.props.store.name}</Text>
-              </Left>
-            </CardItem>
-            <CardItem bordered>
-              <Left>
-                <Text>รหัส order: {this.props.id}</Text>
-              </Left>
-            </CardItem>
-            <CardItem bordered>
-              <Left />
-              <Body>
-                <StarRating
-                  disabled={false}
-                  emptyStar={"ios-star-outline"}
-                  fullStar={"ios-star"}
-                  halfStar={"ios-star-half"}
-                  iconSet={"Ionicons"}
-                  maxStars={5}
-                  rating={this.state.starCount}
-                  selectedStar={rating => this.onStarRatingPress(rating)}
-                  fullStarColor={"orange"}
-                />
-              </Body>
-              <Right />
-            </CardItem>
+          <Content padder style={{backgroundColor:theme.primaryColor,borderBottomLeftRadius:25,borderBottomRightRadius:25}}>
+            <Body>
+              <Text style={{marginBottom:10}}>ขอบคุณที่ใช้บริการ {this.props.store.name}</Text>
+              <StarRating
+                disabled={false}
+                emptyStar={"ios-star-outline"}
+                fullStar={"ios-star"}
+                halfStar={"ios-star-half"}
+                iconSet={"Ionicons"}
+                maxStars={5}
+                starStyle={{borderColor:'orange'}}
+                rating={this.state.starCount}
+                selectedStar={rating => this.onStarRatingPress(rating)}
+                fullStarColor={"orange"}
+              />
+              <Text style={{color:theme.infoTextColor,fontSize:10,marginTop:10}}>รหัสการจอง: {this.props.id}</Text>
+            </Body>
+          </Content>
+          <Card transparent>
             <CardItem bordered style={{ backgroundColor: "#E8E8E8" }}>
               <TextInput
                 multiline={true}

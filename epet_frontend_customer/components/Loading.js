@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator,Modal } from "react-native";
 import { View, Label } from "native-base";
 import { Actions } from "react-native-router-flux";
 import { setUser, setPets } from "../actions";
@@ -49,6 +49,21 @@ export const loading =()=> {
   return(
     <ActivityIndicator color={theme.primaryColor} size={100}/>
   )
+}
+
+export const dimmerLoading =(visible)=>{
+  return(
+    <Modal
+      animationType='fade'
+      visible={visible}
+      transparent
+    >
+      {console.log(visible)}
+      <View style={{flex:1,backgroundColor:'rgba(255,255,255,0.5)',justifyContent:'center'}}>
+        <ActivityIndicator color={theme.primaryColor} size={100}/>
+      </View>
+    </Modal>
+  )  
 }
 
 const mapDispatchToProps = dispatch => {

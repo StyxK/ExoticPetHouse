@@ -23,16 +23,15 @@ import {
   Alert,
   Modal,
   StyleSheet,
-  TouchableHighlight,
   View
 } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import PetCard from "../components/PetCard";
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
 import moment from "moment-timezone";
+import NavFooter from '../components/NavFooter'
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -130,21 +129,18 @@ class Store extends Component {
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
-            style={{ backgroundColor: theme.primaryColor, borderRadius: 30 }}
+            style={{ borderBottomWidth:0.5,borderColor:'grey',paddingHorizontal:10,backgroundColor:'rgba(0, 0, 0, 0)' }}
           >
             <Left style={{flex:1}}>
-                <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
+                <Icon name="paw" style={{color:theme.secondaryColor}} type='FontAwesome5' />
             </Left>
-            <Body style={{flex:5}}>
-              <Text style={{ color: theme.primaryTextColor }}>{data.typeName}</Text>
+            <Body style={{flex:6}}>
+              <Text style={{ color: 'black' }}>{data.typeName}</Text>
               <Text note>{data.description}</Text>
-              <Text style={{ color: theme.primaryTextColor}}>
+              <Text style={{ color: theme.successColor}}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
-            <Right style={{flex:1}}>
-                <Icon name='ios-arrow-forward' style={{ fontSize:30 }}/>
-            </Right>
           </CardItem>
         </Card>
       );
@@ -152,7 +148,7 @@ class Store extends Component {
 
     let HeaderFeedback = () => {
         return (
-          <ListItem itemDivider style={{height:50}}>
+          <ListItem itemDivider style={{height:30,borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:theme.secondaryColor}}>
               <Left style={{flex:2}}>
                   <Text>รีวิวการให้บริการ</Text>
                   <Text style={{ color: theme.primaryColor }}> {this.countFeedBack()} </Text>
@@ -168,49 +164,6 @@ class Store extends Component {
             </ListItem>
         );
     }
-
-    let feedBackList = this.state.feedBack.slice(0, 2).map(data => {
-      if (this.countFeedBack != 0) {
-        return (
-          <Card key={data.id} transparent>
-            <CardItem header style={{ flex: 1, flexDirection: "column" }}>
-              <Left style={{ alignSelf: "flex-start" }}>
-                <Thumbnail />
-                <Text>{data.customerUserName}</Text>
-              </Left>
-              <Right style={{ alignSelf: "flex-start", flexDirection: "row" }}>
-                <Left style={{ flex: 1 }}>
-                  <StarRating
-                    disabled={true}
-                    emptyStar={"ios-star-outline"}
-                    fullStar={"ios-star"}
-                    halfStar={"ios-star-half"}
-                    iconSet={"Ionicons"}
-                    maxStars={5}
-                    rating={data.score}
-                    fullStarColor={"orange"}
-                    starSize={20}
-                  />
-                </Left>
-                <Left style={{ flex: 2 }}>
-                  <Text note>
-                    {moment(data.submitDate)
-                      .tz("Asia/Bangkok")
-                      .format("DD MMM YYYY")}
-                  </Text>
-                </Left>
-              </Right>
-            </CardItem>
-            <CardItem bordered>
-              <Text>{data.comment}</Text>
-              <Left></Left>
-            </CardItem>
-          </Card>
-        );
-      } else {
-        return;
-      }
-    });
 
     let selectPet = pets.map(pet => {
       if (
@@ -247,135 +200,100 @@ class Store extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header transparent style={{ backgroundColor: theme.primaryColor }}>
-            <Left>
-              <Button
-                transparent
-                icon
-                rounded
-                small
-                onPress={() => {
-                  Actions.home();
-                }}
-              >
-                <Icon
-                  name="ios-arrow-back"
-                  style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-                />
-              </Button>
-            </Left>
-            <Body>
-              <Text style={{ fontSize: 20, color: "white" }}>
-                {" "}
-                {stores.name}{" "}
-              </Text>
-            </Body>
-            <Right>
-              <StarRating
-                disabled={true}
-                emptyStar={"md-star-outline"}
-                fullStar={"md-star"}
-                halfStar={"md-star-half"}
-                iconSet={"Ionicons"}
-                maxStars={5}
-                rating={this.calculateRating()}
-                fullStarColor={"orange"}
-                starSize={20}
-              />
-              <Label
-                style={{ marginHorizontal: 5, color: "white", fontSize: 15 }}
-              >
-                {this.calculateRating()}
-              </Label>
-            </Right>
-          </Header>
-          <Content>
-            <View style={{ backgroundColor: "black", padding: 10 }}>
-              <View
-                style={{
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start"
-                }}
-              >
-                <Text note style={{ color: "white" }}>
-                  {" "}
-                  {stores.description}{" "}
-                </Text>
-              </View>
-            </View>
-            <Card transparent>
-              <CardItem>
-                <Left style={{ flex: 0.25 }}>
-                  <Icon name="md-pin" style={{ color: "red" }} />
+          <Header span style={{ backgroundColor: theme.primaryColor,justifyContent:'center'}}>
+            <Body style={{flex:4,justifyContent:'center',height:'85%',padding:10}}>
+              <View style={{flexDirection:'row'}}>
+                <Left>
+                  <Text style={{ fontSize: 20, color: "white" }}>
+                    {stores.name}
+                  </Text>
                 </Left>
-                <Body style={{ flex: 2 }}>
-                  <Label style={{ color: theme.primaryColor, fontSize: 15 }}>
+                <Right>
+                  <StarRating
+                    disabled={true}
+                    emptyStar={"md-star-outline"}
+                    fullStar={"md-star"}
+                    halfStar={"md-star-half"}
+                    iconSet={"Ionicons"}
+                    maxStars={5}
+                    rating={this.calculateRating()}
+                    fullStarColor={"orange"}
+                    starSize={20}
+                  />
+                </Right>
+              </View>
+              <Text note style={{ color: "white" }}>
+                {stores.description}
+              </Text>
+              <View style={{backgroundColor:theme.primaryColor3,flexDirection:'row',padding:3,borderRadius:10,marginTop:5}}>
+                <Left style={{ flex: 0.35,justifyContent:'center',alignItems:'center' }}>
+                  <Icon name="md-pin" style={{ color: theme.secondaryColor,fontSize:20 }} />
+                </Left>
+                <Left style={{ flex: 4 }}>
+                  <Label style={{ color: 'white', fontSize: 12 }}>
                     ถนน {address.street} อำเภอ/เขต {address.district} จังหวัด{" "}
                     {address.province} {address.postcode}
                   </Label>
-                </Body>
-              </CardItem>
-              <CardItem>
-                <Left style={{ flex: 0.25 }}>
-                  <Icon name="md-contact" style={{ color: "red" }} />
                 </Left>
-                <Body style={{ flex: 2 }}>
-                  <Label style={{ color: theme.primaryColor, fontSize: 15 }}>
-                    {stores.phoneNumber}
+              </View>
+              <View style={{backgroundColor:theme.primaryColor3,flexDirection:'row',padding:3,borderRadius:10,marginTop:5}}>
+                <Left style={{ flex: 0.35,justifyContent:'center',alignItems:'center' }}>
+                  <Icon name="md-contact" style={{ color: theme.secondaryColor,fontSize:20 }} />
+                </Left>
+                <Left style={{ flex: 4 }}>
+                  <Label style={{ color: 'white', fontSize: 12 }}>
+                  {stores.phoneNumber}
                   </Label>
-                </Body>
-              </CardItem>
-              {this.state.banned ? (
-                <Content padder>
-                  <View
-                    style={{
-                      borderRadius: 20,
-                      backgroundColor: "orange",
-                      flexDirection: "row",
-                      height: 60
-                    }}
-                  >
-                    <Left
+                </Left>
+              </View>
+            </Body>
+          </Header>
+            <Container style={{backgroundColor:theme.primaryColor}}>
+              <Content style={{borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'white'}}>
+                <Label style={{ color: 'black', fontSize: 15 ,textAlign:'left',paddingTop:10,paddingHorizontal:20}}>
+                  กรงที่ให้บริการภายในร้าน
+                </Label>
+                {this.state.banned ? (
+                  <Content padder>
+                    <View
                       style={{
-                        flex: 0.5,
-                        justifyContent: "center",
-                        alignItems: "center"
+                        borderRadius: 20,
+                        backgroundColor: "orange",
+                        flexDirection: "row",
+                        height: 60
                       }}
                     >
-                      <Icon
-                        name="warning"
-                        style={{ color: "white", fontSize: 40 }}
-                      />
-                    </Left>
-                    <Body style={{ flex: 1 }}>
-                      <Label style={{ color: "white", fontSize: 15 }}>
-                        {" "}
-                        ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
-                      </Label>
-                      <Label style={{ color: "white", fontSize: 15 }}>
-                        {" "}
-                        ขออภัยในความไม่สะดวก{" "}
-                      </Label>
-                    </Body>
-                    <Right style={{ flex: 0.2 }} />
-                  </View>
-                </Content>
-              ) : (
-                <Content padder>{cageList}</Content>
-              )}
-              <CardItem style={{ justifyContent: "center" }}>
-                <Icon name="md-information-circle" style={{ color: "green" }} />
-                <Text note>กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
-              </CardItem>
-            </Card>
-            {HeaderFeedback()}
-            { this.state.feedBack.length > 0 ?
-              <Content padder style={{backgroundColor:'grey'}}>
-                {feedBackList}
+                      <Left
+                        style={{
+                          flex: 0.5,
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Icon
+                          name="warning"
+                          style={{ color: "white", fontSize: 40 }}
+                        />
+                      </Left>
+                      <Body style={{ flex: 1 }}>
+                        <Label style={{ color: "white", fontSize: 15 }}>
+                          {" "}
+                          ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
+                        </Label>
+                        <Label style={{ color: "white", fontSize: 15 }}>
+                          {" "}
+                          ขออภัยในความไม่สะดวก{" "}
+                        </Label>
+                      </Body>
+                      <Right style={{ flex: 0.2 }} />
+                    </View>
+                  </Content>
+                ) : (
+                  <Content padder>{cageList}</Content>
+                )}
               </Content>
-              :
-              null
-            }
+            </Container>
+            {HeaderFeedback()}
             <Modal
               animationType="slide"
               transparent={true}
@@ -410,7 +328,7 @@ class Store extends Component {
                 </Container>
               </View>
             </Modal>
-          </Content>
+            <NavFooter/>
         </Container>
       </View>
     );

@@ -19,6 +19,7 @@ import NavFooter from "../components/NavFooter";
 import { duration } from "moment";
 import theme from "../theme";
 import Config from 'react-native-config'
+import { loading } from '../components/Loading'
 import io from 'socket.io-client'
 const socket = io.connect(Config.SOCKET_URL).emit('customer')
 
@@ -26,7 +27,8 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chatList: []
+      chatList: [],
+      loading:true
     };
   }
 
@@ -34,7 +36,8 @@ class Chat extends Component {
     const user = this.props.user.userName;
     axios.get("/chat/customerChatRoom/" + user).then(result => {
       this.setState({
-        chatList: result.data
+        chatList: result.data,
+        loading: false
       });
     });
   }
@@ -114,7 +117,11 @@ class Chat extends Component {
             </Body>
             <Right style={{ flex: 1 }} />
           </Header>
-          <List>{this.chatRooms()}</List>
+          <List>
+            { this.state.loading ? 
+                loading() : this.chatRooms()
+            }
+          </List>
         </Content>
         <NavFooter />
       </Container>

@@ -18,7 +18,10 @@ import {
   Text,
   Left,
   Body,
-  Right
+  Right,
+  CardItem,
+  Card,
+  Label
 } from "native-base";
 import {
   View,
@@ -124,32 +127,43 @@ export default class Search extends Component {
 
     let storeList = this.state.searchStore.map(data => {
       return (
-        <ListItem avatar key={data.id} onPress={() => this.goToStore(data.id)}>
-          <Left>
-            <Icon name="paw" />
-          </Left>
-          <Body>
-            <Text>{data.name}</Text>
-            <Text note>{data.descripion}</Text>
-          </Body>
-          <Right>
-            {startPoint && data.address ? (
-              <Text note>
-                distance
-                {distance(
-                  startPoint.latitude,
-                  startPoint.longitude,
-                  data.address.latitude,
-                  data.address.longitude,
-                  "K"
-                ).toFixed(2)}{" "}
-                km.
+        <Card transparent key={data.id}>
+          <CardItem button onPress={() => this.goToStore(data.id)} style={{borderRadius:10}}>
+            <Body style={{flex:3,justifyContent:'center'}}>
+              <Text>{data.name}</Text>
+              <Text note style={{marginTop:10}}>
+                {startPoint && data.address ? (
+                  <Text note>
+                    <Icon name='md-pin' style={{color:'red',fontSize:20}}/>{" "}
+                    ร้านห่างจากคุณ{" "}
+                    {distance(
+                      startPoint.latitude,
+                      startPoint.longitude,
+                      data.address.latitude,
+                      data.address.longitude,
+                      "K"
+                    ).toFixed(2)}{" "}
+                    กิโลเมตร
+                  </Text>
+                ) : (
+                null
+                )}
               </Text>
-            ) : (
-              <Text note>N/A</Text>
-            )}
-          </Right>
-        </ListItem>
+            </Body>
+            <Right style={{alignItems:'flex-end'}}>
+              {
+                data.banned ? 
+                  <Label style={{fontSize:12,color:'white',backgroundColor:theme.warningColor,padding:4,borderRadius:5}}>
+                    ปิดบริการ
+                  </Label>
+                  :
+                  <Label style={{fontSize:12,color:'white',backgroundColor:theme.successColor,padding:4,borderRadius:5}}>
+                    เปิดบริการ
+                  </Label>
+              }
+            </Right>
+          </CardItem>
+        </Card>
       );
     });
 
@@ -199,7 +213,7 @@ export default class Search extends Component {
               borderRadius: 20,
               height: 35,
               alignSelf: "center",
-              backgroundColor: theme.primaryColor
+              backgroundColor: theme.primaryColor3
               
             }}
             onPress={() => {
@@ -218,17 +232,20 @@ export default class Search extends Component {
             }}
           >
             <View style={styles.modalContainer}>
-              <Content style={styles.modal}>
-                <TouchableHighlight
+              <Container style={styles.modal}>
+                <Button
+                  full
                   onPress={() => {
                     this.setModalVisible(!ModalVisible);
                   }}
-                  style={{ alignItems: "center" }}
+                  style={{ borderTopLeftRadius:5,borderTopRightRadius:5,alignItems: "center",backgroundColor: theme.primaryColor }}
                 >
-                  <Text style={{ marginTop: 7 }}>ซ่อนรายการร้าน</Text>
-                </TouchableHighlight>
-                <List>{storeList}</List>
-              </Content>
+                  <Text style={{ color:'white' }}>ซ่อนรายการร้าน</Text>
+                </Button>
+                <Content padder style={{backgroundColor:theme.backgroundColor}}>
+                  {storeList}
+                </Content>
+              </Container>
             </View>
           </Modal>
         </View>
@@ -266,7 +283,6 @@ export default class Search extends Component {
   };
   goToStore = storeID => {
     this.setModalVisible(false);
-    console.log(storeID);
     Actions.store({ id: storeID });
   };
 }
@@ -307,24 +323,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   map: {
-    marginTop: 1.5,
     ...StyleSheet.absoluteFillObject
   },
   modalContainer: {
     flex: 1,
-    flexDirection: "column-reverse",
-    justifyContent: "center",
-    alignItems: "center",
-    height: 500
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
   },
   modal: {
-    borderRadius: 10,
-    borderWidth: 5,
-    borderColor: "grey",
-    marginBottom: 65,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     backgroundColor: "white",
     opacity: 0.99,
-    width: "85%",
+    width: "100%",
+    maxHeight:"85%",
     marginTop: 40
   }
 });

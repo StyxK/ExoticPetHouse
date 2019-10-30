@@ -19,7 +19,8 @@ import {
   Row,
   Col,
   FooterTab,
-  Label
+  Label,
+  Grid
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, View, Alert } from "react-native";
@@ -41,6 +42,7 @@ class Order extends Component {
       petIdTemp: "id",
       loading: false
     };
+    console.log(this.props)
   }
 
   setStartDate = newDate => {
@@ -52,8 +54,7 @@ class Order extends Component {
   };
 
   showCageName = cageId => {
-    const cageArray = this.props.cage.find(item => item.id === cageId);
-    console.log(cageArray)
+    const cageArray = this.props.cageType.find(item => item.id === cageId);
     return cageArray.typeName;
   };
 
@@ -202,102 +203,80 @@ class Order extends Component {
             </Body>
             <Right style={{ flex: 1 }} />
           </Header>
-          <Content>
-            <ListItem itemDivider>
-              <Left style={{flex:1,flexDirection:'column'}}>
-                <View style={{flex:1}}>
-                  <Text>ร้าน {this.props.stores.name}</Text>
-                </View>
-                <View style={{flex:1}}>
-                  <Text note>
-                    วันที่ฝาก:{" "}
-                    {this.state.startChosenDate.toString().substr(4, 12)}
-                  </Text>
-                </View>
-                <View style={{flex:1}}>
-                  <Text note>
-                    วันสิ้นสุด:{" "}
-                    {this.state.endChosenDate.toString().substr(4, 12)}
-                  </Text>
-                </View>
-                <View style={{flex:1}}>
-                  <Text note>ยอดชำระรวม: {totalPrice}</Text>
-                </View>
-              </Left>
-              <Right style={{flex:0.6}}>
-                <Button rounded style={{alignSelf:'center', backgroundColor:theme.primaryColor}} onPress={() => Actions.pop()}>
-                  <Text>เพิ่มรายการฝาก</Text>
-                </Button>
-              </Right>
-            </ListItem>
-            <Card transparent>
-              {orderList}
-            </Card>
-          </Content>
-          <View style={{ flex: 0.25, backgroundColor: theme.secondaryColor, flexDirection: 'row' }}>
-            <Left
-              style={{
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Body>
-                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
-                </Body>
-                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
-                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
-                    เริ่มฝากตั้งแต่
-                  </Label>
-                </Body>
-              </View>
-              <DatePicker
-                defaultDate={new Date().getDate}
-                locale={"th"}
-                minimumDate={new Date()}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"slide"}
-                androidMode={"default"}
-                placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
-                onDateChange={this.setStartDate}
-                disabled={false}
-              />
-            </Left>
-            <Left
-              style={{
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <View style={{ flexDirection: 'row' }}>
-                <Body>
-                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
-                </Body>
-                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
-                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
-                    สิ้นสุดการฝาก
-                  </Label>
-                </Body>
-              </View>
-              <DatePicker
-                defaultDate={new Date().getDate}
-                locale={"th"}
-                minimumDate={this.state.startChosenDate}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"slide"}
-                androidMode={"calendar"}
-                placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
-                onDateChange={this.setEndDate}
-                disabled={false}
-              />
-            </Left>
-          </View>
+          <Container style={{backgroundColor:theme.primaryColor}}>
+            <Container style={{ flex: 1 }}>
+              <Content style={{backgroundColor:theme.primaryColor}}>
+                <Grid>
+                  <Body style={{flex:1,flexDirection:'column'}}>
+                    <Row style={{flex:1,paddingVertical:5}}>
+                      <Col style={{flex:4,paddingHorizontal:10}}>
+                        <Label style={{fontSize:15,textAlign:'center'}}>เริ่มการฝาก</Label>
+                      </Col>
+                      <Col style={{flex:1,paddingHorizontal:10}}/>
+                      <Col style={{flex:4,paddingHorizontal:10}}>
+                        <Label style={{fontSize:15,textAlign:'center'}}>สิ้นสุดการฝาก</Label>
+                      </Col>
+                    </Row>
+                    <Row style={{flex:1,paddingVertical:5}}>
+                      <Col style={{flex:4,paddingHorizontal:10}}>
+                        <DatePicker
+                          defaultDate={new Date().getDate}
+                          locale={"th"}
+                          minimumDate={new Date()}
+                          timeZoneOffsetInMinutes={undefined}
+                          modalTransparent={false}
+                          animationType={"slide"}
+                          androidMode={"default"}
+                          placeHolderText="ระบุวันที่"
+                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17,widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          onDateChange={this.setStartDate}
+                          disabled={false}
+                          style={{widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}
+                        />
+                      </Col>
+                      <Col style={{flex:1,paddingHorizontal:10,justifyContent:'center'}}>
+                        <Label style={{fontSize:15,textAlign:'center'}}>จนถึง</Label>
+                      </Col>
+                      <Col style={{flex:4,paddingHorizontal:10}}>
+                        <DatePicker
+                          defaultDate={new Date().getDate}
+                          locale={"th"}
+                          minimumDate={this.state.startChosenDate}
+                          timeZoneOffsetInMinutes={undefined}
+                          modalTransparent={false}
+                          animationType={"slide"}
+                          androidMode={"calendar"}
+                          placeHolderText="ระบุวันที่"
+                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}
+                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          onDateChange={this.setEndDate}
+                          disabled={false}
+                        />
+                      </Col>
+                    </Row>
+                    <Row style={{flex:1,paddingVertical:5}}>
+                      <Col style={{paddingHorizontal:10}}>
+                        <Button style={{alignSelf:'center', backgroundColor:theme.primaryColor3,borderRadius:10,width:'100%'}} onPress={() => Actions.pop()}>
+                          <Text>เพิ่มรายการฝาก</Text>
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Row style={{flex:1}}>
+                      <Text note>ยอดชำระรวม: {totalPrice}</Text>
+                    </Row>
+                  </Body>
+                </Grid>
+              </Content>
+            </Container>
+            <Container style={{flex:2,borderTopLeftRadius:10,borderTopRightRadius:10}}>
+              <Content>
+                <Card transparent>
+                  {orderList}
+                </Card>
+              </Content>
+            </Container>
+          </Container>
           <Footer>
             <FooterTab>
             <Button

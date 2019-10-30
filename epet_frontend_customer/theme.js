@@ -1,11 +1,13 @@
 export default {
-  primaryColor: "#384cff",
-  secondaryColor: "#FFDE03",
+  primaryColor: "#8900c9",
+  primaryColor2: "#5d0185",
+  primaryColor3: "#b302ff",
+  secondaryColor: "#cfb000",
   accentColor: "#4F2A10", //เด่น
   infoColor: "#BD997F", //แจ้งเตือนทั่วไป
-  warningColor: "#BA6870",
+  warningColor: "#ffa200",
   errorColor: "",
-  successColor: "#70A69E",
+  successColor: "#12c702",
   //สีtextที่ใช้คู่กับสีด้านบน
   primaryTextColor: "#FFFFFF", //สีtextบนสีหลัก
   secondaryTextColor: "#4F2A10", //สีtextบนสีรอง
@@ -14,6 +16,8 @@ export default {
   warningTextColor: "#FFFFFF",
   errorTextColor: "",
   successTextColor: "#000000",
-  backgroundColor: "#E7E7E7"
+  backgroundColor: "#E7E7E7",
+
+  arrowSize:30
 };
 //ปรับสีที่นี่

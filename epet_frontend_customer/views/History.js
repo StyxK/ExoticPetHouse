@@ -24,8 +24,7 @@ import { connect } from "react-redux";
 import HistoryList from "../components/HistoryList";
 import NavFooter from "../components/NavFooter";
 import theme from "../theme";
-
-const API_URL = Config.API_URL;
+import { loading } from '../components/Loading'
 
 class History extends Component {
   constructor(props) {
@@ -35,6 +34,8 @@ class History extends Component {
       selectedIndex: 0,
       history: [],
       statuses: [],
+      loading:true,
+      segment:[]
     };
   }
 
@@ -45,16 +46,16 @@ class History extends Component {
     });
   };
 
-  componentWillMount() {
-    this.refresh();
+  componentDidMount() {
+    this.refresh()
   }
 
-  refresh = () => {
-    axios.get("/order/").then(response => {
+  refresh = async () => {
+    await axios.get("/order/").then(response => {
       this.setState({ history: response.data });
     });
-    axios.get("/order/statuses").then(response => {
-      this.setState({ statuses: response.data });
+    await axios.get("/order/statuses").then(response => {
+      this.setState({ statuses: response.data,loading:false });
     });
   };
 
@@ -99,11 +100,18 @@ class History extends Component {
             </Right>
           </Header>
           <View style={{ flex: 1 }}>
-            {statuses.length > 0 && (
-              <ScrollableTabView prerenderingSiblingsNumber={0} renderTabBar={() => <ScrollableTabBar />}>
-                {this.getSegments()}
-              </ScrollableTabView>
-            )}
+            {
+              this.state.loading ?
+              <View style={{justifyContent:'center'}}>
+                {loading()}
+              </View>
+              :
+              ( statuses.length > 0 && (
+                <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+                  {this.getSegments()}
+                </ScrollableTabView>
+              ))
+            }
           </View>
         </Container>
         <NavFooter />
@@ -112,8 +120,7 @@ class History extends Component {
   }
 
   getSegments = () => {
-    const { history, statuses } = this.state;
-    console.log(history,'history')
+    const { statuses,history } = this.state;
     const segments = statuses.map(status => (
       <Content key={status.id} tabLabel={status.status}>
         {history
@@ -130,7 +137,7 @@ class History extends Component {
           })}
       </Content>
     ));
-    return segments;
+    return segments
   };
 }
 
