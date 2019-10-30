@@ -6,7 +6,7 @@ import { Feedback } from './feedback.entity';
 import { Customer } from '../customer/customer.entity';
 import { Order } from '../order/order.entity';
 import { getConnection } from "typeorm";
-import { Store } from 'src/store/store.entity';
+import { Store } from '../store/store.entity';
 
 @Injectable()
 export class FeedbackService {

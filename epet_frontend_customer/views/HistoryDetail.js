@@ -5,12 +5,15 @@ import {
   Header,
   Title,
   View,
-  ListItem,
+  Card,
   Text,
   Right,
   Button,
   Icon,
-  Left
+  Left,
+  Thumbnail,
+  Label,
+  Badge
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Alert } from "react-native";
@@ -26,7 +29,8 @@ class HistoryDetail extends Component {
     super(props);
     this.state = {
       history: {},
-      statusId: null
+      statusId: null,
+      status:null
     };
   }
 
@@ -34,7 +38,8 @@ class HistoryDetail extends Component {
     axios.get("/order/" + this.props.item.id).then(response => {
       this.setState({
         history: response.data,
-        statusId: response.data.orderStatus.id
+        statusId: response.data.orderStatus.id,
+        status:response.data.orderStatus.status
       });
     });
   }
@@ -53,7 +58,7 @@ class HistoryDetail extends Component {
       .format("DD MMM YYYY HH:mm");
     return (
       <Container>
-        <Container>
+        <Container style={{ height:'25%',flex:0.47 }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
               <Icon
@@ -69,79 +74,81 @@ class HistoryDetail extends Component {
             </Body>
             <Right />
           </Header>
-          <Content>
-            <View key={history.id}>
-              <View style={{ margin: 20 }}>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  เลขคำสั่งฝาก : <Text note> {id} </Text>
-                </Text>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  {console.log(store.name, "store")}
-                  ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
-                </Text>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  วันที่ส่งคำขอ : <Text note> {submitDate} </Text>
-                </Text>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  ฝากวันที่ : <Text note> {startDate} </Text>
-                </Text>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  ถึงวันที่ : <Text note> {endDate} </Text>
-                </Text>
-              </View>
-            </View>
-            <Content style={styles.modal}>
-              <View style={{ marginLeft: 20 }}>
-                <Text style={{ fontSize: 15 }}>
-                  {" "}
-                  สัตว์เลี้ยงที่อยู่ในรายการฝาก
-                </Text>
-              </View>
+          <View padder style={{backgroundColor:theme.primaryColor,borderBottomLeftRadius:25,borderBottomRightRadius:25}}>
+            <Text style={{ fontSize: 15 ,color:theme.infoTextColor}}>
+              {console.log(store.name, "store")}
+              ร้านที่ส่งฝาก : <Text note style={{ color:theme.accentTextColor }}> {store.name} </Text>
+            </Text>
+            <Text style={{ fontSize: 15 ,color:theme.infoTextColor}}>
+              วันที่ส่งคำขอ : <Text note style={{ color:theme.accentTextColor }}> {submitDate} </Text>
+            </Text>
+            <Text style={{ fontSize: 15 ,color:theme.infoTextColor}}>
+              ช่วงเวลาฝาก : <Text note style={{ color:theme.accentTextColor }}> {startDate} - {endDate} </Text>
+            </Text>
+            <Text style={{ fontSize: 15 ,color:theme.infoTextColor}}>
+              สถานะ : <Text note style={{ color:theme.accentTextColor }}> {this.state.status} </Text>
+            </Text>
+            <Text style={{ marginTop:10,fontSize: 10 ,alignSelf:'center',color:theme.infoTextColor}}>
+              รหัสการฝาก : <Text note style={{ color:theme.accentTextColor,fontSize:10 }}> {id} </Text>
+            </Text>
+          </View>
+          </Container>
+          <Content style={{backgroundColor:theme.secondaryColor}}>
+            <Content padder style={{backgroundColor:'white'}}>
               {orderLines.map(orderLine => {
                 const { pet, cage } = orderLine;
                 return (
-                  <ListItem
+                  <Card transparent
                     key={pet.id}
-                    style={{ display: "flex", flexDirection: "column" }}
+                    style={{ display: "flex", flexDirection: "row" ,justifyContent:'center'}}
                   >
-                    <View>
-                      <Text style={{ fontSize: 15 }}>
-                        {" "}
-                        <Text>
-                          {" "}
-                          ชนิดกรง : <Text note> {cage.name} </Text>
-                        </Text>
-                        <Text>
-                          {" "}
-                          สัตว์เลี้ยง : <Text note> {pet.name} </Text>
-                        </Text>
-                      </Text>
-                    </View>
-                    <View>
+                      <Left style={{ display: "flex", flexDirection: "row" }}>
+                        <Left style={{flex:1.5}}>
+                          <Thumbnail source={{uri:pet.image}}/>
+                        </Left>
+                        <Left style={{flex:3}}>
+                          <View style={{flex:1,flexDirection:'row'}}>
+                            <Left style={{flex:0.5}}>
+                              <Text style={{ fontSize:15,backgroundColor:theme.primaryColor,padding:3,borderRadius:10,color:theme.infoTextColor}}>สัตว์เลี้ยง</Text>
+                            </Left>
+                            <Left style={{flex:0.5}}>
+                              <Text> {pet.name} </Text>
+                            </Left>
+                          </View>
+                          {/* <View style={{flex:1,flexDirection:'row'}}>
+                            <Left style={{flex:0.5}}>
+                              <Text style={{ fontSize:15,backgroundColor:theme.primaryColor,padding:2,borderRadius:10,color:theme.infoTextColor}}>ชนิดกรง</Text>
+                            </Left>
+                            <Left style={{flex:0.5}}>
+                              <Text> {cage.name} </Text>
+                            </Left>
+                          </View> */}
+                        </Left>
+                      </Left>
+                    <Right style={{flex:0.5}}>
                       <Button
                         style={{
                           backgroundColor: theme.primaryColor,
-                          borderRadius: 10
+                          borderRadius: 10,flex:1
                         }}
                         onPress={this.goToPetActivity(orderLine)}
                       >
-                        <Text>pet activity</Text>
+                          <Icon name='paw'>
+                            <Label style={{marginLeft:10,color:'white'}}>activity</Label>
+                          </Icon>
                       </Button>
-                    </View>
-                  </ListItem>
+                    </Right>
+                  </Card>
                 );
               })}
             </Content>
-            <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
+            <Content padder style={{borderBottomLeftRadius:25,borderBottomRightRadius:25,backgroundColor:'black'}}>
+              <Text style={{color:'white',textAlign:'center'}}>ค่าบริการทั้งหมด : {history.totalPrice} บาท</Text>
+            </Content>
+            <View style={{ display: "flex", flexDirection: "row", margin: 15 ,justifyContent:'center'}}>
               <OrderButton item={history} orderStatus={this.state.statusId} />
             </View>
           </Content>
-        </Container>
       </Container>
     );
   }

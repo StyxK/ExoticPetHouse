@@ -13,9 +13,10 @@ import { StoreNotification } from '../notification/notification.store.entity';
 import { CustomerNotification } from '../notification/notification.customer.entity';
 import { Store } from '../store/store.entity';
 import { Cage } from '../cage/cage.entity';
+import { CageType } from '../cage/cage.type.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet,StoreNotification,CustomerNotification,Store,Cage])],
+    imports: [TypeOrmModule.forFeature([Order,OrderLine,Customer,OrderStatus,Pet,StoreNotification,CustomerNotification,Store,Cage,CageType])],
     controllers: [OrderController],
     providers: [OrderService,ChargeService,AppNotification],
     exports: [OrderService],

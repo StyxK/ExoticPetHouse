@@ -1,20 +1,20 @@
-import axios from "axios";
 import {
   Container,
   Fab,
   Icon,
-  List,
-  ListItem,
+  CardItem,
   Header,
-  Left,
   Body,
   Title,
-  Right,
   Content,
-  Footer
+  Card,
+  Grid,
+  Col,
+  Row,
+  DeckSwiper
 } from "native-base";
 import React, { Component } from "react";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet } from "react-native";
 import Config from "react-native-config";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -22,12 +22,52 @@ import { addPet, setPets, updatePet, removePet } from "../actions";
 import PetCard from "../components/PetCard";
 import NavFooter from "../components/NavFooter";
 import theme from "../theme";
-
-const API_URL = Config.API_URL;
+import { loading } from '../components/Loading'
 
 class MyPet extends Component {
+
+  constructor(props){
+    super(props)
+    this.state={
+      loading:true,
+      pets:[]
+    }
+  }
+
+  componentDidMount(){
+    this.setState({
+      pets:this.renderGrid()
+    })
+  }
+
+  renderGrid = () => {
+    const {pets} = this.props
+    let list = []
+    for(let i=0;i <= parseInt(pets.length/3) ;i++){
+      list.push(
+        <Row style={{ height: 120 }}>
+          {pets.map((pet,index) => {
+            if(i*3 <= index && index < (i+1)*3){
+              return (
+                <Col style={{ height: 115 ,width: 105,margin:10}}>
+                  <Card style={{flex:1,borderRadius:20,justifyContent:'center'}}>
+                    <CardItem button onPress={this.goToPetDescription(pet)} style={{borderRadius:30,justifyContent:'center'}}>
+                      <PetCard pet={pet}/>
+                    </CardItem>
+                  </Card>
+                </Col>
+              )
+            }
+            }
+          )}
+        </Row>
+      )
+    }
+    this.setState({loading:false})
+    return list
+  }
+
   render() {
-    const { pets = [], setPets, addPet } = this.props;
     return (
       <Container>
         <Container>
@@ -36,16 +76,15 @@ class MyPet extends Component {
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>สัตว์เลี้ยงของฉัน</Title>
             </Body>
           </Header>
-
           <Content padder>
-            {pets.map(pet => (
-              <TouchableHighlight
-                key={pet.id}
-                onPress={this.goToPetDescription(pet)}
-              >
-                <PetCard pet={pet} />
-              </TouchableHighlight>
-            ))}
+            {
+              this.state.loading ?
+                loading()
+              :
+                <Grid style={{justifyContent:'center',alignItems:'center'}}>
+                  {this.state.pets}
+                </Grid>
+            }
           </Content>
 
           <Fab

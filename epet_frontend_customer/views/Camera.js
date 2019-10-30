@@ -49,7 +49,7 @@ export default class Camera extends Component {
   render() {
     const { url } = this.state;
     return (
-      <Container style={{ display: "flex" }}>
+      <Container style={{backgroundColor:'black'}}>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
@@ -63,14 +63,16 @@ export default class Camera extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        {(url && (
-          <WebView
-            style={{ display: "flex", flex: 1 }}
-            source={{
-              uri: url
-            }}
-          />
-        )) || <Text>Not Fround Camera</Text>}
+        <View style={{justifyContent:'center',backgroundColor: 'black'}}>
+          {(url && (
+            <WebView
+              style={{ justifyContent:'center',backgroundColor: 'black' }}
+              source={{
+                uri: url
+              }}
+            />
+          )) || <Text>Not Fround Camera</Text>}
+        </View>
       </Container>
     );
   }

@@ -19,7 +19,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: theme.primaryColor,
+              backgroundColor: 'red',
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -131,9 +131,7 @@ class orderButton extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Label style={{ textAlign: "center" }}> ตัวเลือกออร์เดอร์ </Label>
-        <Label />
+      <View style={{ flex: 1 ,justifyContent:'center'}}>
         {this.button(this.props.orderStatus)}
       </View>
     );

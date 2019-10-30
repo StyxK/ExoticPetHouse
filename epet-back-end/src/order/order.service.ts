@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, LessThanOrEqual, In } from 'typeorm';
 import { OrderDTO } from './order.dto';
 import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
@@ -20,6 +20,7 @@ import { StoreNotification } from '../notification/notification.store.entity';
 import { AppNotification } from '../app.gateway';
 import { Store } from '../store/store.entity';
 import { Cage } from '../cage/cage.entity';
+import { CageType } from '../cage/cage.type.entity';
 
 @Injectable()
 export class OrderService {
@@ -44,6 +45,8 @@ export class OrderService {
     private gateway: AppNotification,
     @InjectRepository(Cage)
     private readonly cageRepository: Repository<Cage>,
+    @InjectRepository(CageType)
+    private readonly cageTypeRepository: Repository<CageType>,
   ) {}
 
   private toResponseObject(order: Order) {
@@ -117,9 +120,13 @@ export class OrderService {
     } else {
       endDate = order.endDate;
     }
+
     const duration = await this.calculateDate(order.startDate, endDate);
-    for (let orderLine in orderLines)
-      totalPrice += orderLines[orderLine].cage.cageType.price * duration;
+    for (let orderLine in orderLines){
+      const typeId = orderLines[orderLine].cage.cageTypeId
+      const data = await this.cageTypeRepository.findOne({where:{id:typeId},select:["price"]})
+      totalPrice += data.price * duration;
+    }
     return {
       ...order,
       orderLines,
@@ -150,9 +157,6 @@ export class OrderService {
     });
   }
 
-  // route for manage order
-
-  // createOrder --> สร้าง order รอร้านตอบรับ
   async getCage(
     storeId: string,
     startDate: Date,
@@ -164,6 +168,7 @@ export class OrderService {
         storeId: storeId,
         endDate: MoreThanOrEqual(startDate),
         startDate: LessThanOrEqual(endDate),
+        OrderStatus: In([1,2,3,6,7,8,9])
       },
       relations: ['orderLines'],
     });
@@ -183,10 +188,14 @@ export class OrderService {
     );
     return avaCage;
   }
+
+  // route for manage order
+
+  // createOrder --> สร้าง order รอร้านตอบรับ
+
   async create(userName: string, data: Partial<OrderDTO>) {
     try {
       const requestBody = JSON.parse(JSON.stringify(data));
-
       const cages: string[] = [];
       for (const orderLine of data.orderLines) {
         const cage = await this.getCage(

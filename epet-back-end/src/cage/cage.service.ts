@@ -15,6 +15,11 @@ export class CageService {
     @InjectRepository(Store)
     private readonly storeRepository: Repository<Store>,
   ) {}
+
+  async showByCageTypeId(id: string): Promise<Cage[]> {
+    return this.cageRepository.find({ where: { cageTypeId: id } });
+  }
+
   async showById(id: string): Promise<Partial<CageDTO>> {
     return this.cageRepository.findOne({ where: id });
   }
@@ -51,6 +56,11 @@ export class CageService {
 
   async delete(id: string) {
     await this.cageTypeRepository.delete(id);
+    return { delete: true };
+  }
+
+  async deleteSubCage(id: string) {
+    await this.cageRepository.delete(id);
     return { delete: true };
   }
 }
