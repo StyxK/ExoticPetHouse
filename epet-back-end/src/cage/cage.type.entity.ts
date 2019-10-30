@@ -1,6 +1,6 @@
 import { Cage } from './cage.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
-import { Store } from 'src/store/store.entity';
+import { Store } from '../store/store.entity';
 
 @Entity()
 export class CageType {
