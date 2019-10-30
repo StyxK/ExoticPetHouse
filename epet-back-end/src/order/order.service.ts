@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Order } from './order.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, MoreThanOrEqual, LessThanOrEqual } from 'typeorm';
+import { Repository, MoreThanOrEqual, LessThanOrEqual, In } from 'typeorm';
 import { OrderDTO } from './order.dto';
 import { OrderLine } from '../orderline/orderline.entity';
 import { Customer } from '../customer/customer.entity';
@@ -168,6 +168,7 @@ export class OrderService {
         storeId: storeId,
         endDate: MoreThanOrEqual(startDate),
         startDate: LessThanOrEqual(endDate),
+        OrderStatus: In([1,2,3,6,9])
       },
       relations: ['orderLines'],
     });
