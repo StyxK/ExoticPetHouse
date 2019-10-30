@@ -29,6 +29,7 @@ import { connect } from "react-redux";
 import { addPet, setPets, updatePet } from "../actions";
 import Config from "react-native-config";
 import theme from "../theme";
+import { dimmerLoading } from '../components/Loading'
 
 const API_URL = Config.API_URL;
 class Order extends Component {
@@ -37,7 +38,8 @@ class Order extends Component {
     this.state = {
       startChosenDate: new Date(),
       endChosenDate: new Date(),
-      petIdTemp: "id"
+      petIdTemp: "id",
+      loading: false
     };
   }
 
@@ -51,7 +53,8 @@ class Order extends Component {
 
   showCageName = cageId => {
     const cageArray = this.props.cage.find(item => item.id === cageId);
-    return cageArray.name + " " + cageArray.price + "/คืน";
+    console.log(cageArray)
+    return cageArray.typeName;
   };
 
   showPriceDuringDeposit = cageId => {
@@ -120,6 +123,7 @@ class Order extends Component {
   };
 
   submitForm = () => {
+    this.setState({loading:true})
     axios
       .post(API_URL + "/order/", {
         transportation: "kerry",
@@ -130,6 +134,9 @@ class Order extends Component {
         storeId: this.props.stores.id
       })
       .then(response => {
+        this.setState({
+          loading:false
+        })
         if(response.data.status == 406){
           alert(response.data.message)
         }else{
@@ -156,7 +163,7 @@ class Order extends Component {
           <Body>
             <Text>กรง:{this.showCageName(data.cage)}</Text>
             <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
-            <Text>ราคาตลอดการฝาก: {price}</Text>
+            <Text>ราคาตลอดการฝาก: {price} บาท</Text>
           </Body>
           <Right>
             <Icon
@@ -182,7 +189,7 @@ class Order extends Component {
                   Actions.pop();
                 }}
                 style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-              />
+                />
             </Left>
             <Body style={{ flex: 3 }}>
               <Title style={{ alignSelf:'center',color: theme.primaryTextColor, fontSize: 20 }}>
@@ -299,6 +306,7 @@ class Order extends Component {
             >
               <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
             </Button>
+            {dimmerLoading(this.state.loading)}
             </FooterTab>
           </Footer>
         </Container>

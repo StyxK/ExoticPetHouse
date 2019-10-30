@@ -124,34 +124,31 @@ class Store extends Component {
     const { pets = [], setPets, addPet } = this.props;
     let cageList = this.state.cage.map(data => {
       return (
-        <Card avatar key={data.id} style={{ borderRadius:30 }}>
+        <Card transparent key={data.id}>
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
             style={{ backgroundColor: theme.primaryColor,borderRadius: 30 }}
           >
-            <Left>
+            <Left style={{flex:1}}>
                 <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
             </Left>
-            <Body>
+            <Body style={{flex:5}}>
               <Text style={{ color: theme.primaryTextColor }}>{data.typeName}</Text>
+              <Text note>{data.description}</Text>
               <Text style={{ color: theme.primaryTextColor}}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
-            <Right>
+            <Right style={{flex:1}}>
                 <Icon name='ios-arrow-forward' style={{ fontSize:30 }}/>
             </Right>
-          </CardItem>
-          <CardItem>
-          <Text style={{ color: theme.primaryTextColor, borderColor: theme.primaryTextColor }}>{data.description}</Text>
           </CardItem>
         </Card>
       );
     });
 
     let HeaderFeedback = () => {
-      if (this.countFeedBack() > 0) {
         return (
           <ListItem itemDivider style={{height:50}}>
               <Left style={{flex:2}}>
@@ -167,8 +164,7 @@ class Store extends Component {
                 </Button>
               </Right>
             </ListItem>
-        );   
-      }
+        );
     }
 
     let feedBackList = this.state.feedBack.slice(0, 2).map(data => {
@@ -275,7 +271,7 @@ class Store extends Component {
                   <Text note style={{ color: 'white' }}> {stores.description} </Text>
                 </View>
             </View>
-            <Card transparent >
+            <Card transparent>
               <CardItem>
                 <Left style={{flex:0.25}}>
                   <Icon name='md-pin' style={{color:'red'}}/>
@@ -320,9 +316,13 @@ class Store extends Component {
               </CardItem>
             </Card>
             {HeaderFeedback()}
-            <Content padder style={{backgroundColor:'grey'}}>
-              {feedBackList}
-            </Content>
+            { this.state.feedBack.length > 0 ?
+              <Content padder style={{backgroundColor:'grey'}}>
+                {feedBackList}
+              </Content>
+              :
+              null
+            }
             <Modal
               animationType="slide"
               transparent={true}
@@ -346,7 +346,7 @@ class Store extends Component {
                       style={{
                         width: "100%",
                         height: "100%",
-                        backgroundColor: "#7A5032"
+                        backgroundColor: theme.primaryColor
                       }}
                       onPress={() => this.setModalVisible(false)}
                     >
