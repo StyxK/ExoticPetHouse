@@ -57,8 +57,13 @@ class Order extends Component {
     return cageArray.typeName;
   };
 
-  showPriceDuringDeposit = cageId => {
-    const cageArray = this.props.cage.find(item => item.id === cageId);
+  showCagePrice = cageTypeId => {
+    const cageArray = this.props.cageType.find(item => item.id === cageTypeId);
+    return cageArray.price;
+  };
+
+  showPriceDuringDeposit = cageTypeId => {
+    const cageArray = this.props.cageType.find(item => item.id === cageTypeId);
     const totalPrice = this.showTotalPrice(cageArray.price);
     return totalPrice;
   };
@@ -91,7 +96,6 @@ class Order extends Component {
   showPetPhoto = petId => {
     const { pets = [], setPets } = this.props;
     const petArray = pets.find(item => item.id === petId);
-    this.state.petIdTemp = petArray.id;
     return petArray.image;
   };
 
@@ -103,7 +107,7 @@ class Order extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         },
         { text: "OK", onPress: () => remove() }
@@ -139,7 +143,7 @@ class Order extends Component {
         })
         if(response.data.status == 406){
           alert(response.data.message)
-        }else{
+        } else {
           alert('ส่งคำขอไปยังร้านสำเร็จ กรุณาติดตามคำขอของท่าน')
           Actions.history();
         }
@@ -153,15 +157,15 @@ class Order extends Component {
   render() {
     let totalPrice = 0;
     let orderList = this.props.orderLine.map(data => {
-      const price = this.showPriceDuringDeposit(data.cage);
+      const price = this.showPriceDuringDeposit(data.cageType);
       totalPrice += price;
       return (
-        <ListItem avatar key={data.cage}>
+        <ListItem avatar key={data.cageType}>
           <Left>
-            <Thumbnail source={{uri:this.showPetPhoto(data.pet)}} />
+            <Thumbnail source={{ uri: this.showPetPhoto(data.pet) }} />
           </Left>
           <Body>
-            <Text>กรง:{this.showCageName(data.cage)}</Text>
+            <Text>กรง:{this.showCageName(data.cageType)}</Text>
             <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
             <Text>ราคาตลอดการฝาก: {price} บาท</Text>
           </Body>
@@ -192,11 +196,11 @@ class Order extends Component {
                 />
             </Left>
             <Body style={{ flex: 3 }}>
-              <Title style={{ alignSelf:'center',color: theme.primaryTextColor, fontSize: 20 }}>
+              <Title style={{ alignSelf: 'center', color: theme.primaryTextColor, fontSize: 20 }}>
                 รายการคำสั่งฝาก
               </Title>
             </Body>
-            <Right style={{flex:1}}/>
+            <Right style={{ flex: 1 }} />
           </Header>
           <Content>
             <ListItem itemDivider>
@@ -230,19 +234,19 @@ class Order extends Component {
               {orderList}
             </Card>
           </Content>
-          <View style={{ flex:0.25,backgroundColor: theme.secondaryColor ,flexDirection:'row'}}>
+          <View style={{ flex: 0.25, backgroundColor: theme.secondaryColor, flexDirection: 'row' }}>
             <Left
               style={{
                 justifyContent: "center",
                 alignItems: "center"
               }}
             >
-              <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Body>
-                  <Icon name='md-calendar' style={{ marginBottom:5, color: theme.secondaryTextColor }}/>
+                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
                 </Body>
-                <Body style={{flex:2,alignItems:'flex-start'}}>
-                  <Label style={{ marginBottom:5, fontSize: 15, color: theme.secondaryTextColor }}>
+                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
+                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
                     เริ่มฝากตั้งแต่
                   </Label>
                 </Body>
@@ -256,8 +260,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"default"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
+                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
+                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
                 onDateChange={this.setStartDate}
                 disabled={false}
               />
@@ -268,12 +272,12 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Body>
-                  <Icon name='md-calendar' style={{ marginBottom:5, color: theme.secondaryTextColor }}/>
+                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
                 </Body>
-                <Body style={{flex:2,alignItems:'flex-start'}}>
-                  <Label style={{ marginBottom:5, fontSize: 15, color: theme.secondaryTextColor }}>
+                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
+                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
                     สิ้นสุดการฝาก
                   </Label>
                 </Body>
@@ -287,8 +291,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"calendar"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
+                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
+                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
                 onDateChange={this.setEndDate}
                 disabled={false}
               />

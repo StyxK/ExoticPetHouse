@@ -122,9 +122,12 @@ export class OrderService {
     }
 
     const duration = await this.calculateDate(order.startDate, endDate);
-    for (let orderLine in orderLines){
-      const typeId = orderLines[orderLine].cage.cageTypeId
-      const data = await this.cageTypeRepository.findOne({where:{id:typeId},select:["price"]})
+    for (let orderLine in orderLines) {
+      const typeId = orderLines[orderLine].cage.cageTypeId;
+      const data = await this.cageTypeRepository.findOne({
+        where: { id: typeId },
+        select: ['price'],
+      });
       totalPrice += data.price * duration;
     }
     return {
@@ -162,13 +165,15 @@ export class OrderService {
     startDate: Date,
     endDate: Date,
     usedCages: string[],
+    cageTypeId: String,
   ): Promise<Cage> {
+    console.log(cageTypeId);
     const intersectOrders = await this.orderRepository.find({
       where: {
         storeId: storeId,
         endDate: MoreThanOrEqual(startDate),
         startDate: LessThanOrEqual(endDate),
-        OrderStatus: In([1,2,3,6,7,8,9])
+        OrderStatus: In([1, 2, 3, 6, 7, 8, 9]),
       },
       relations: ['orderLines'],
     });
@@ -181,6 +186,7 @@ export class OrderService {
     const cages = await this.cageRepository.find({
       where: {
         storeId: storeId,
+        cageTypeId: cageTypeId,
       },
     });
     const avaCage = cages.find(
@@ -195,6 +201,7 @@ export class OrderService {
 
   async create(userName: string, data: Partial<OrderDTO>) {
     try {
+      console.log(data);
       const requestBody = JSON.parse(JSON.stringify(data));
       const cages: string[] = [];
       for (const orderLine of data.orderLines) {
@@ -203,6 +210,7 @@ export class OrderService {
           data.startDate,
           data.endDate,
           cages,
+          (orderLine as any).cageType,
         );
         if (!cage) {
           throw new Error('ขออภัย ไม่มีกรงที่ว่างอยู่ในช่วงเวลาที่ท่านเลือก');
@@ -257,6 +265,7 @@ export class OrderService {
       return this.toResponseObject(order);
     } catch (error) {
       if (
+        error.message == 'ขออภัย ไม่มีกรงที่ว่างอยู่ในช่วงเวลาที่ท่านเลือก' ||
         error.message == 'สัตว์เลี้ยงยังอยู่ในการฝาก' ||
         error.message == 'สัตว์เลี้ยงได้ถูกนำออกจากระบบแล้ว' ||
         error.message ==

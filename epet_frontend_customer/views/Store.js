@@ -41,17 +41,17 @@ class Store extends Component {
     this.state = {
       stores: [],
       address: {},
-      cage: [],
+      cageType: [],
       orderLine: [],
       modalVisible: false,
       cageTemp: "cage",
       petTemp: [],
       feedBack: [],
-      banned:undefined
+      banned: undefined
     };
   }
 
-  checkedCageIdForCheckBox = dataId => { };
+  checkedCageIdForCheckBox = dataId => {};
 
   setStoreId = () => {
     this.storeId = this.props.id;
@@ -61,8 +61,8 @@ class Store extends Component {
     this.setState({ modalVisible: visible });
   };
 
-  setPetAndCageSelected = (petId, cageId) => {
-    let order = { pet: petId, cage: cageId };
+  setPetAndCageSelected = (petId, cageTypeId) => {
+    let order = { pet: petId, cageType: cageTypeId };
     this.state.orderLine.push(order);
     this.setModalVisible(false);
   };
@@ -80,23 +80,23 @@ class Store extends Component {
     }
   };
 
-  chooseCageFromStorePage = cageId => {
+  chooseCageFromStorePage = cageTypeId => {
     this.setModalVisible(true);
-    this.setState({ cageTemp: cageId });
+    this.setState({ cageTemp: cageTypeId });
   };
 
   countFeedBack = () => {
     return this.state.feedBack.length;
   };
 
-  calculateRating=()=>{
+  calculateRating = () => {
     let sumScore = 0;
-    this.state.feedBack.map(data =>{
-      sumScore = sumScore+data.score;
-    })
-    let average = sumScore/this.state.feedBack.length;
+    this.state.feedBack.map(data => {
+      sumScore = sumScore + data.score || 0;
+    });
+    let average = sumScore / this.state.feedBack.length;
     return average;
-  }
+  };
 
   componentWillMount() {
     this.setStoreId();
@@ -107,28 +107,30 @@ class Store extends Component {
         this.setState({
           stores: response.data,
           address: JSON.parse(JSON.stringify(response.data.address)),
-          cage: JSON.parse(JSON.stringify(response.data.cage)),
+          cageType: JSON.parse(JSON.stringify(response.data.cage)),
           banned: response.data.banned
         });
-        console.log(response,'response');
+        console.log(response, "response");
       })
       .then(error => console.log(error));
     axios
       .get(API_URL + "/feedback/" + this.storeId)
-      .then(response => { this.setState({ feedBack: JSON.parse(JSON.stringify(response.data))}) })
+      .then(response => {
+        this.setState({ feedBack: JSON.parse(JSON.stringify(response.data)) });
+      })
       .then(error => console.log(error));
     axios.get(API_URL + "/");
   }
 
   render() {
     const { pets = [], setPets, addPet } = this.props;
-    let cageList = this.state.cage.map(data => {
+    let cageList = this.state.cageType.map(data => {
       return (
         <Card transparent key={data.id}>
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
-            style={{ backgroundColor: theme.primaryColor,borderRadius: 30 }}
+            style={{ backgroundColor: theme.primaryColor, borderRadius: 30 }}
           >
             <Left style={{flex:1}}>
                 <Icon name="paw" style={{color:'white'}} type='FontAwesome5' />
@@ -171,13 +173,13 @@ class Store extends Component {
       if (this.countFeedBack != 0) {
         return (
           <Card key={data.id} transparent>
-            <CardItem header style={{flex:1,flexDirection:'column'}}>
-              <Left style={{alignSelf:'flex-start'}}>
+            <CardItem header style={{ flex: 1, flexDirection: "column" }}>
+              <Left style={{ alignSelf: "flex-start" }}>
                 <Thumbnail />
                 <Text>{data.customerUserName}</Text>
               </Left>
-              <Right style={{alignSelf:'flex-start',flexDirection:'row'}}>
-                <Left style={{flex:1}}>
+              <Right style={{ alignSelf: "flex-start", flexDirection: "row" }}>
+                <Left style={{ flex: 1 }}>
                   <StarRating
                     disabled={true}
                     emptyStar={"ios-star-outline"}
@@ -190,15 +192,18 @@ class Store extends Component {
                     starSize={20}
                   />
                 </Left>
-                <Left style={{flex:2}}>
-                  <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
+                <Left style={{ flex: 2 }}>
+                  <Text note>
+                    {moment(data.submitDate)
+                      .tz("Asia/Bangkok")
+                      .format("DD MMM YYYY")}
+                  </Text>
                 </Left>
               </Right>
             </CardItem>
             <CardItem bordered>
               <Text>{data.comment}</Text>
-              <Left>
-              </Left>
+              <Left></Left>
             </CardItem>
           </Card>
         );
@@ -213,22 +218,26 @@ class Store extends Component {
         this.petWasSelectedInOrder(pet.id) != true
       ) {
         return (
-            <Card transparent key={pet.id}>
-              <CardItem cardBody button onPress={() => {
+          <Card transparent key={pet.id}>
+            <CardItem
+              cardBody
+              button
+              onPress={() => {
                 this.goToOrder(pet.id, this.state.cageTemp);
-              }}>
-                <Left style={{flex:1.5,alignItems:'center'}}>
-                  <Thumbnail source={{ uri: pet.image }}/>
-                </Left>
-                <Body style={{flex:3}}>
-                  <Text>{pet.name}</Text>
-                  <Text note>{pet.typeOfPet}</Text>
-                </Body>
-                <Right style={{flex:1,alignItems:'center'}}>
-                  <Icon style={{fontSize:20,color:'green'}} name='md-add'/>
-                </Right>
-              </CardItem>
-            </Card>
+              }}
+            >
+              <Left style={{ flex: 1.5, alignItems: "center" }}>
+                <Thumbnail source={{ uri: pet.image }} />
+              </Left>
+              <Body style={{ flex: 3 }}>
+                <Text>{pet.name}</Text>
+                <Text note>{pet.typeOfPet}</Text>
+              </Body>
+              <Right style={{ flex: 1, alignItems: "center" }}>
+                <Icon style={{ fontSize: 20, color: "green" }} name="md-add" />
+              </Right>
+            </CardItem>
+          </Card>
         );
       }
       return;
@@ -240,7 +249,15 @@ class Store extends Component {
         <Container>
           <Header transparent style={{ backgroundColor: theme.primaryColor }}>
             <Left>
-              <Button transparent icon rounded small onPress={() => { Actions.home(); }}>
+              <Button
+                transparent
+                icon
+                rounded
+                small
+                onPress={() => {
+                  Actions.home();
+                }}
+              >
                 <Icon
                   name="ios-arrow-back"
                   style={{ color: theme.primaryTextColor, marginLeft: 10 }}
@@ -248,7 +265,10 @@ class Store extends Component {
               </Button>
             </Left>
             <Body>
-              <Text style={{ fontSize: 20 ,color:'white'}}> {stores.name} </Text>
+              <Text style={{ fontSize: 20, color: "white" }}>
+                {" "}
+                {stores.name}{" "}
+              </Text>
             </Body>
             <Right>
               <StarRating
@@ -262,57 +282,90 @@ class Store extends Component {
                 fullStarColor={"orange"}
                 starSize={20}
               />
-              <Label style={{marginHorizontal:5,color:'white',fontSize:15}}>{this.calculateRating()}</Label>
+              <Label
+                style={{ marginHorizontal: 5, color: "white", fontSize: 15 }}
+              >
+                {this.calculateRating()}
+              </Label>
             </Right>
           </Header>
           <Content>
-            <View style={{ backgroundColor: 'black' ,padding:10}}>
-                <View style={{justifyContent:'flex-start',alignItems:'flex-start'}}>
-                  <Text note style={{ color: 'white' }}> {stores.description} </Text>
-                </View>
+            <View style={{ backgroundColor: "black", padding: 10 }}>
+              <View
+                style={{
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start"
+                }}
+              >
+                <Text note style={{ color: "white" }}>
+                  {" "}
+                  {stores.description}{" "}
+                </Text>
+              </View>
             </View>
             <Card transparent>
               <CardItem>
-                <Left style={{flex:0.25}}>
-                  <Icon name='md-pin' style={{color:'red'}}/>
+                <Left style={{ flex: 0.25 }}>
+                  <Icon name="md-pin" style={{ color: "red" }} />
                 </Left>
-                <Body style={{flex:2}}>
-                  <Label style={{ color: theme.primaryColor ,fontSize:15}} >
-                    ถนน {address.street} อำเภอ/เขต {address.district} จังหวัด {address.province} {address.postcode}
+                <Body style={{ flex: 2 }}>
+                  <Label style={{ color: theme.primaryColor, fontSize: 15 }}>
+                    ถนน {address.street} อำเภอ/เขต {address.district} จังหวัด{" "}
+                    {address.province} {address.postcode}
                   </Label>
                 </Body>
               </CardItem>
               <CardItem>
-                <Left style={{flex:0.25}}>
-                  <Icon name='md-contact' style={{color:'red'}}/>
+                <Left style={{ flex: 0.25 }}>
+                  <Icon name="md-contact" style={{ color: "red" }} />
                 </Left>
-                <Body style={{flex:2}}>
-                  <Label style={{ color: theme.primaryColor ,fontSize:15}} >
+                <Body style={{ flex: 2 }}>
+                  <Label style={{ color: theme.primaryColor, fontSize: 15 }}>
                     {stores.phoneNumber}
                   </Label>
                 </Body>
               </CardItem>
-                {this.state.banned ? 
-                  <Content padder>
-                    <View style={{borderRadius:20,backgroundColor:'orange',flexDirection:'row',height:60}}>
-                      <Left style={{flex:0.5,justifyContent:'center',alignItems:'center'}}>
-                        <Icon name='warning' style={{color:'white',fontSize:40}}/>
-                      </Left>
-                      <Body style={{flex:1}}>
-                        <Label style={{color:'white',fontSize:15}}> ขณะนี้ร้านไม่สามารถให้บริการได้ </Label>
-                        <Label style={{color:'white',fontSize:15}}> ขออภัยในความไม่สะดวก </Label>
-                      </Body>
-                      <Right style={{flex:0.2}}/>
-                    </View>
-                  </Content>
-                    : 
-                  <Content padder>
-                    {cageList}
-                  </Content>
-                }
-              <CardItem style={{justifyContent:'center'}}>
-                  <Icon name='md-information-circle' style={{color:'green'}}/>
-                  <Text note>กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
+              {this.state.banned ? (
+                <Content padder>
+                  <View
+                    style={{
+                      borderRadius: 20,
+                      backgroundColor: "orange",
+                      flexDirection: "row",
+                      height: 60
+                    }}
+                  >
+                    <Left
+                      style={{
+                        flex: 0.5,
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Icon
+                        name="warning"
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </Left>
+                    <Body style={{ flex: 1 }}>
+                      <Label style={{ color: "white", fontSize: 15 }}>
+                        {" "}
+                        ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
+                      </Label>
+                      <Label style={{ color: "white", fontSize: 15 }}>
+                        {" "}
+                        ขออภัยในความไม่สะดวก{" "}
+                      </Label>
+                    </Body>
+                    <Right style={{ flex: 0.2 }} />
+                  </View>
+                </Content>
+              ) : (
+                <Content padder>{cageList}</Content>
+              )}
+              <CardItem style={{ justifyContent: "center" }}>
+                <Icon name="md-information-circle" style={{ color: "green" }} />
+                <Text note>กรุณากดที่กรงและเลือกสัตว์เลี้ยงที่จะฝาก</Text>
               </CardItem>
             </Card>
             {HeaderFeedback()}
@@ -353,9 +406,7 @@ class Store extends Component {
                       <Text>ปิดรายการ</Text>
                     </Button>
                   </Header>
-                  <Content padder>
-                    {selectPet}
-                  </Content>
+                  <Content padder>{selectPet}</Content>
                 </Container>
               </View>
             </Modal>
@@ -364,8 +415,8 @@ class Store extends Component {
       </View>
     );
   }
-  goToOrder = (petId, cageId) => {
-    this.setPetAndCageSelected(petId, cageId);
+  goToOrder = (petId, cageTypeId) => {
+    this.setPetAndCageSelected(petId, cageTypeId);
     Actions.order(this.state);
   };
 }
@@ -397,7 +448,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(52, 52, 52, 0.8)"
   },
   modal: {
-    marginHorizontal:20,
+    marginHorizontal: 20,
     borderRadius: 10,
     marginBottom: 65,
     backgroundColor: "white",
