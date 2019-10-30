@@ -49,18 +49,18 @@ class Order extends Component {
     this.setState({ endChosenDate: newDate });
   };
 
-  showCageName = cageId => {
-    const cageArray = this.props.cage.find(item => item.id === cageId);
+  showCageName = cageTypeId => {
+    const cageArray = this.props.cageType.find(item => item.id === cageTypeId);
     return cageArray.typeName;
   };
 
-  showCagePrice = cageId => {
-    const cageArray = this.props.cage.find(item => item.id === cageId);
+  showCagePrice = cageTypeId => {
+    const cageArray = this.props.cageType.find(item => item.id === cageTypeId);
     return cageArray.price;
   };
 
-  showPriceDuringDeposit = cageId => {
-    const cageArray = this.props.cage.find(item => item.id === cageId);
+  showPriceDuringDeposit = cageTypeId => {
+    const cageArray = this.props.cageType.find(item => item.id === cageTypeId);
     const totalPrice = this.showTotalPrice(cageArray.price);
     return totalPrice;
   };
@@ -150,17 +150,17 @@ class Order extends Component {
   render() {
     let totalPrice = 0;
     let orderList = this.props.orderLine.map(data => {
-      const price = this.showPriceDuringDeposit(data.cage);
+      const price = this.showPriceDuringDeposit(data.cageType);
       totalPrice += price;
       return (
-        <ListItem avatar key={data.cage}>
+        <ListItem avatar key={data.cageType}>
           <Left>
             <Thumbnail source={{ uri: this.showPetPhoto(data.pet) }} />
           </Left>
           <Body>
-            <Text>กรง:{this.showCageName(data.cage)}</Text>
+            <Text>กรง:{this.showCageName(data.cageType)}</Text>
             <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
-            <Text>ราคา/คืน: {this.showCagePrice(data.cage)}</Text>
+            <Text>ราคา/คืน: {this.showCagePrice(data.cageType)}</Text>
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
           <Right>
