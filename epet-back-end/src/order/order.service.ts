@@ -168,7 +168,7 @@ export class OrderService {
         storeId: storeId,
         endDate: MoreThanOrEqual(startDate),
         startDate: LessThanOrEqual(endDate),
-        OrderStatus: In([1,2,3,6,9])
+        OrderStatus: In([1,2,3,6,7,8,9])
       },
       relations: ['orderLines'],
     });
