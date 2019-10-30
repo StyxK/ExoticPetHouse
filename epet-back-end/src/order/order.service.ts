@@ -433,7 +433,8 @@ export class OrderService {
           where: { id: result.id },
           relations: ['cage'],
         });
-        totalPrice += orderLine.cage.cageType.price * duration;
+        const cage = await this.cageRepository.findOne({where:{id:orderLine.cageId},relations:['cageType']})
+        totalPrice += cage.cageType.price * duration;
       });
       await Promise.all(calculatePrice);
       await this.chargeService.chargeFromToken({
