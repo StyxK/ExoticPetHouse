@@ -51,7 +51,12 @@ class Order extends Component {
 
   showCageName = cageId => {
     const cageArray = this.props.cage.find(item => item.id === cageId);
-    return cageArray.name + " " + cageArray.price + "/คืน";
+    return cageArray.typeName;
+  };
+
+  showCagePrice = cageId => {
+    const cageArray = this.props.cage.find(item => item.id === cageId);
+    return cageArray.price;
   };
 
   showPriceDuringDeposit = cageId => {
@@ -88,7 +93,6 @@ class Order extends Component {
   showPetPhoto = petId => {
     const { pets = [], setPets } = this.props;
     const petArray = pets.find(item => item.id === petId);
-    this.state.petIdTemp = petArray.id;
     return petArray.image;
   };
 
@@ -100,7 +104,7 @@ class Order extends Component {
       [
         {
           text: "Cancel",
-          onPress: () => {},
+          onPress: () => { },
           style: "cancel"
         },
         { text: "OK", onPress: () => remove() }
@@ -130,9 +134,9 @@ class Order extends Component {
         storeId: this.props.stores.id
       })
       .then(response => {
-        if(response.data.status == 406){
+        if (response.data.status == 406) {
           alert(response.data.message)
-        }else{
+        } else {
           alert('ส่งคำขอไปยังร้านสำเร็จ กรุณาติดตามคำขอของท่าน')
           Actions.history();
         }
@@ -151,11 +155,12 @@ class Order extends Component {
       return (
         <ListItem avatar key={data.cage}>
           <Left>
-            <Thumbnail source={{uri:this.showPetPhoto(data.pet)}} />
+            <Thumbnail source={{ uri: this.showPetPhoto(data.pet) }} />
           </Left>
           <Body>
             <Text>กรง:{this.showCageName(data.cage)}</Text>
             <Text>สัตว์เลี้ยง: {this.showPetName(data.pet)}</Text>
+            <Text>ราคา/คืน: {this.showCagePrice(data.cage)}</Text>
             <Text>ราคาตลอดการฝาก: {price}</Text>
           </Body>
           <Right>
@@ -185,23 +190,23 @@ class Order extends Component {
               />
             </Left>
             <Body style={{ flex: 3 }}>
-              <Title style={{ alignSelf:'center',color: theme.primaryTextColor, fontSize: 20 }}>
+              <Title style={{ alignSelf: 'center', color: theme.primaryTextColor, fontSize: 20 }}>
                 รายการคำสั่งฝาก
               </Title>
             </Body>
-            <Right style={{flex:1}}/>
+            <Right style={{ flex: 1 }} />
           </Header>
           <Content>
-              <ListItem itemDivider>
-                <Left style={{flex:1}}>
-                    <Text>ร้าน {this.props.stores.name}</Text>
-                </Left>
-                <Right style={{flex:1}}>
-                  <Button rounded style={{alignSelf:'center', backgroundColor:theme.primaryColor}} onPress={() => Actions.pop()}>
-                    <Text>เพิ่มรายการฝาก</Text>
-                  </Button>
-                </Right>
-              </ListItem>
+            <ListItem itemDivider>
+              <Left style={{ flex: 1 }}>
+                <Text>ร้าน {this.props.stores.name}</Text>
+              </Left>
+              <Right style={{ flex: 1 }}>
+                <Button rounded style={{ alignSelf: 'center', backgroundColor: theme.primaryColor }} onPress={() => Actions.pop()}>
+                  <Text>เพิ่มรายการฝาก</Text>
+                </Button>
+              </Right>
+            </ListItem>
             <Card transparent>
               {orderList}
               <CardItem>
@@ -216,19 +221,19 @@ class Order extends Component {
               </CardItem>
             </Card>
           </Content>
-          <View style={{ flex:0.25,backgroundColor: theme.secondaryColor ,flexDirection:'row'}}>
+          <View style={{ flex: 0.25, backgroundColor: theme.secondaryColor, flexDirection: 'row' }}>
             <Left
               style={{
                 justifyContent: "center",
                 alignItems: "center"
               }}
             >
-              <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Body>
-                  <Icon name='md-calendar' style={{ marginBottom:5, color: theme.secondaryTextColor }}/>
+                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
                 </Body>
-                <Body style={{flex:2,alignItems:'flex-start'}}>
-                  <Label style={{ marginBottom:5, fontSize: 15, color: theme.secondaryTextColor }}>
+                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
+                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
                     เริ่มฝากตั้งแต่
                   </Label>
                 </Body>
@@ -242,8 +247,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"default"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
+                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
+                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
                 onDateChange={this.setStartDate}
                 disabled={false}
               />
@@ -254,12 +259,12 @@ class Order extends Component {
                 alignItems: "center"
               }}
             >
-              <View style={{flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Body>
-                  <Icon name='md-calendar' style={{ marginBottom:5, color: theme.secondaryTextColor }}/>
+                  <Icon name='md-calendar' style={{ marginBottom: 5, color: theme.secondaryTextColor }} />
                 </Body>
-                <Body style={{flex:2,alignItems:'flex-start'}}>
-                  <Label style={{ marginBottom:5, fontSize: 15, color: theme.secondaryTextColor }}>
+                <Body style={{ flex: 2, alignItems: 'flex-start' }}>
+                  <Label style={{ marginBottom: 5, fontSize: 15, color: theme.secondaryTextColor }}>
                     สิ้นสุดการฝาก
                   </Label>
                 </Body>
@@ -273,8 +278,8 @@ class Order extends Component {
                 animationType={"slide"}
                 androidMode={"calendar"}
                 placeHolderText="เลือกวัน"
-                textStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
-                placeHolderTextStyle={{ color: 'white', fontSize: 17 ,backgroundColor:theme.secondaryTextColor, borderRadius:10 }}
+                textStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
+                placeHolderTextStyle={{ color: 'white', fontSize: 17, backgroundColor: theme.secondaryTextColor, borderRadius: 10 }}
                 onDateChange={this.setEndDate}
                 disabled={false}
               />
@@ -282,16 +287,16 @@ class Order extends Component {
           </View>
           <Footer>
             <FooterTab>
-            <Button
-              full
-              style={{
-                flex: 2,
-                backgroundColor: theme.primaryColor
-              }}
-              onPress={this.sendOrderToStore}
-            >
-              <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
-            </Button>
+              <Button
+                full
+                style={{
+                  flex: 2,
+                  backgroundColor: theme.primaryColor
+                }}
+                onPress={this.sendOrderToStore}
+              >
+                <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
+              </Button>
             </FooterTab>
           </Footer>
         </Container>
