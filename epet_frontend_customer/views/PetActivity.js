@@ -122,7 +122,6 @@ export default class PetActivity extends Component {
 
   goToCamera = cage => () => {
     const { storeId } = this.props;
-    alert(storeId);
     Actions.camera({ cage, storeId });
   };
 }
