@@ -43,19 +43,20 @@ class MyPet extends Component {
   renderGrid = () => {
     const {pets} = this.props
     let list = []
+    console.log(pets)
     for(let i=0;i <= parseInt(pets.length/3) ;i++){
       list.push(
         <Row style={{ height: 120 }}>
           {pets.map((pet,index) => {
             if(i*3 <= index && index < (i+1)*3){
               return (
-                <Col style={{ height: 115 ,width: 105,margin:10}}>
-                  <Card style={{flex:1,borderRadius:20,justifyContent:'center'}}>
-                    <CardItem button onPress={this.goToPetDescription(pet)} style={{borderRadius:30,justifyContent:'center'}}>
-                      <PetCard pet={pet}/>
-                    </CardItem>
-                  </Card>
-                </Col>
+                  <Col style={{ height: 115 ,width: 105,margin:10}}>
+                    <Card style={{flex:1,borderRadius:30,justifyContent:'center'}}>
+                      <CardItem button onPress={this.goToPetDescription(pet)} style={{borderRadius:30,justifyContent:'center'}}>
+                        <PetCard pet={pet}/>
+                      </CardItem>
+                    </Card>
+                  </Col>
               )
             }
             }
@@ -76,7 +77,7 @@ class MyPet extends Component {
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>สัตว์เลี้ยงของฉัน</Title>
             </Body>
           </Header>
-          <Content padder>
+          <Content padder style={{backgroundColor:theme.primaryColor}}>
             {
               this.state.loading ?
                 loading()
@@ -88,7 +89,7 @@ class MyPet extends Component {
           </Content>
 
           <Fab
-            style={{ backgroundColor: theme.primaryColor }}
+            style={{ backgroundColor: theme.secondaryColor }}
             position="bottomRight"
             onPress={this.goToAddPet}
           >

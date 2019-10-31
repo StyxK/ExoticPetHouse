@@ -188,13 +188,9 @@ class Order extends Component {
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
-              <Icon
-                name="ios-arrow-back"
-                onPress={() => {
-                  Actions.pop();
-                }}
-                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-                />
+              <Button transparent rounded onPress onPress={() => { Actions.pop() }} style={{justifyContent:'center',alignItems:'center'}}>
+                <Icon name="arrow-back" style={{ color: theme.primaryTextColor, marginLeft: 10 }}/>
+              </Button>
             </Left>
             <Body style={{ flex: 3 }}>
               <Title style={{ alignSelf: 'center', color: theme.primaryTextColor, fontSize: 20 }}>
@@ -228,8 +224,8 @@ class Order extends Component {
                           animationType={"slide"}
                           androidMode={"default"}
                           placeHolderText="ระบุวันที่"
-                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17,widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
-                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17,width:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, width:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
                           onDateChange={this.setStartDate}
                           disabled={false}
                           style={{widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}

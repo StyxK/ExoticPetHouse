@@ -61,15 +61,16 @@ class HistoryDetail extends Component {
         <Container style={{ height:'25%',flex:0.47 }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
-              <Icon
-                name="ios-arrow-back"
-                onPress={() => Actions.history()}
-                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-              />
+              <Button rounded transparent onPress={() => Actions.history()}>
+                <Icon
+                  name="arrow-back"
+                  style={{ color: theme.primaryTextColor, marginLeft: 10 }}
+                />
+              </Button>
             </Left>
-            <Body style={{ flex: 1, alignItems: "center" }}>
+            <Body style={{ flex: 4, alignItems: "center" }}>
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
-                History Detail
+                รายละเอียดการจอง
               </Title>
             </Body>
             <Right />
@@ -93,7 +94,7 @@ class HistoryDetail extends Component {
             </Text>
           </View>
           </Container>
-          <Content style={{backgroundColor:theme.secondaryColor}}>
+          <Content style={{backgroundColor:theme.primaryColor}}>
             <Content padder style={{backgroundColor:'white'}}>
               {orderLines.map(orderLine => {
                 const { pet, cage } = orderLine;
@@ -115,14 +116,6 @@ class HistoryDetail extends Component {
                               <Text> {pet.name} </Text>
                             </Left>
                           </View>
-                          {/* <View style={{flex:1,flexDirection:'row'}}>
-                            <Left style={{flex:0.5}}>
-                              <Text style={{ fontSize:15,backgroundColor:theme.primaryColor,padding:2,borderRadius:10,color:theme.infoTextColor}}>ชนิดกรง</Text>
-                            </Left>
-                            <Left style={{flex:0.5}}>
-                              <Text> {cage.name} </Text>
-                            </Left>
-                          </View> */}
                         </Left>
                       </Left>
                     <Right style={{flex:0.5}}>
@@ -142,7 +135,7 @@ class HistoryDetail extends Component {
                 );
               })}
             </Content>
-            <Content padder style={{borderBottomLeftRadius:25,borderBottomRightRadius:25,backgroundColor:'black'}}>
+            <Content padder style={{borderBottomLeftRadius:25,borderBottomRightRadius:25,backgroundColor:theme.secondaryColor}}>
               <Text style={{color:'white',textAlign:'center'}}>ค่าบริการทั้งหมด : {history.totalPrice} บาท</Text>
             </Content>
             <View style={{ display: "flex", flexDirection: "row", margin: 15 ,justifyContent:'center'}}>

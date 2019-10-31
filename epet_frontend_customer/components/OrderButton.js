@@ -38,7 +38,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: theme.primaryColor,
+              backgroundColor: theme.primaryColor3,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -57,7 +57,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: theme.primaryColor,
+              backgroundColor: theme.primaryColor3,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -76,7 +76,7 @@ class orderButton extends Component {
           <Button
             full
             style={{
-              backgroundColor: theme.primaryColor,
+              backgroundColor: theme.primaryColor3,
               flex: 0.5,
               marginHorizontal: 20,
               borderRadius: 10
@@ -107,7 +107,7 @@ class orderButton extends Component {
             <Button
               full
               style={{
-                backgroundColor: theme.primaryColor,
+                backgroundColor: theme.primaryColor3,
                 flex: 0.5,
                 marginHorizontal: 20,
                 borderRadius: 10

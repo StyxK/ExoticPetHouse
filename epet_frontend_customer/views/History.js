@@ -107,7 +107,7 @@ class History extends Component {
               </View>
               :
               ( statuses.length > 0 && (
-                <ScrollableTabView renderTabBar={() => <ScrollableTabBar />}>
+                <ScrollableTabView renderTabBar={() => <ScrollableTabBar underlineStyle={{backgroundColor:theme.secondaryColor}} textStyle={{color:'white'}} backgroundColor={theme.primaryColor} />}>
                   {this.getSegments()}
                 </ScrollableTabView>
               ))

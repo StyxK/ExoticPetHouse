@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, Right, Text, Title, View } from "native-base";
+import { Body, Button, Card, CardItem, Container, Content, Header, Icon, Left, Right, Text, Title, View, Thumbnail, Row, Grid, Col, Label } from "native-base";
 import React, { Component } from "react";
 import { Image, StyleSheet } from "react-native";
 import Config from "react-native-config";
@@ -7,8 +7,6 @@ import { Actions } from "react-native-router-flux";
 import theme from "../theme";
 
 const API_URL = Config.API_URL;
-const PIC_URI =
-  "https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67";
 
 export default class PetDescription extends Component {
   state = {};
@@ -19,160 +17,136 @@ export default class PetDescription extends Component {
     const { pet, updatePet } = this.props;
     return (
       <Container>
-        <Header style={{ backgroundColor: theme.primaryColor }}>
-          <Left style={{ flex: 1 }}>
-            <Icon
-              name="ios-arrow-back"
-              onPress={() => Actions.pop({ refresh: {} })}
-              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-            />
-          </Left>
-          <Body style={{ flex: 5, alignItems: "center" }}>
-            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>สัตว์เลี้ยงของฉัน : {pet.name}</Title>
-          </Body>
-          <Right style={{ flex: 1, alignItems: "center" }}/>
-        </Header>
-        <Content>
-          <Card style={{ flex: 0 }}>
-            <CardItem header>
-              <Text
-                style={{
-                  fontSize: 25,
-                  color: theme.primaryColor,
-                  fontWeight: "bold"
-                }}
-              >
-                {" "}
-                {pet.name}{" "}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>ชื่อ</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.name}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>ประเภท</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.typeOfPet}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>อายุ</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.age}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>เพศ</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>โรคประจำตัว</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.congenitalDisease || "-"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>ยาที่แพ้</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.allergicDrugs || "-"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>อาหารที่แพ้</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.allergicFoods || "-"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>สิ่งที่ชอบ</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.favThing || "-"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Text>สิ่งที่ไม่ชอบ</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.hateThing || "-"}
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left
-                style={{
-                  marginTop: "2.5%",
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start"
-                }}
-              >
-                <Text>สถานะของสัตว์เลี้ยง</Text>
-              </Left>
-              <Text note style={styles.container}>
-                {pet.wasDeposit ? "กำลังถูกฝากอยู๋" : "ยังไม่ถูกฝาก"}
-              </Text>
-            </CardItem>
-            <CardItem style={{ display: "flex", justifyContent: "center" }}>
-              <Image
-                source={{ uri: pet.image || PIC_URI }}
-                style={{
-                  width: 300,
-                  height: 300,
-                  borderColor: theme.primaryColor,
-                  borderWidth: 1,
-                  borderRadius: 5
-                }}
-              />
-            </CardItem>
-          </Card>
-
-          <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-            <Left>
-              <Button
-                style={{
-                  backgroundColor: theme.primaryColor,
-                  flex: 1,
-                  borderRadius: 10
-                }}
-                onPress={() => Actions.addPet({ pet: pet, updatePet })}
-              >
-                <Text>edit</Text>
+        <Container style={{flex:1,backgroundColor:'black'}}>
+          <Header transparent>
+            <Left style={{ flex: 1 }}>
+              <Button badge rounded onPress={() => Actions.pop({ refresh: {} })} transparent>
+                <Icon
+                  name="arrow-back"
+                  style={{ color: theme.primaryColor3,fontSize:theme.arrowSize }}
+                />
               </Button>
             </Left>
             <Right>
-              <Button
-                style={{
-                  backgroundColor: theme.primaryColor,
-                  flex: 1,
-                  borderRadius: 10
-                }}
-                onPress={this.removePet}
-              >
-                <Text>remove</Text>
+              <Button badge rounded onPress={this.removePet} transparent>
+                <Icon
+                  name="delete" type='AntDesign'
+                  style={{ color: theme.primaryTextColor,fontSize:theme.arrowSize }}
+                />
               </Button>
             </Right>
-          </View>
-        </Content>
+          </Header>
+          <Grid style={{paddingVertical:30,justifyContent:'flex-end'}}>
+            <Row>
+              <Col style={{flex:2,justifyContent:'center',alignItems:'center'}}>
+                <Thumbnail large source={{uri:pet.image}}/>
+              </Col>
+              <Col style={{flex:3,alignItems:'flex-start'}}>
+                <Row style={{alignItems:'flex-end',paddingBottom:10}}>
+                  <Label style={{color:theme.infoTextColor,fontSize:25}}> น้อง{pet.name}</Label>
+                </Row>
+                <Row style={{alignItems:'center',paddingBottom:10}}>
+                  <Label style={{color:theme.infoTextColor,fontSize:15}}> {pet.typeOfPet}</Label>
+                </Row>
+                <Row style={{alignItems:'flex-start'}}>
+                  {
+                    pet.wasDeposit ? 
+                      <Label style={{color:theme.infoTextColor,fontSize:15,padding:5,borderRadius:10,backgroundColor:theme.successColor}}>อยู่ระหว่างการฝาก</Label>
+                      :
+                      <Label style={{color:theme.infoTextColor,fontSize:15,padding:5,borderRadius:10,backgroundColor:'grey'}}>ยังไม่ถูกฝาก</Label>
+                  }
+                </Row>
+              </Col>
+              <Col style={{flex:1.5,justifyContent:'center',alignItems:'center'}}>
+                <Button badge rounded onPress={() => Actions.addPet({ pet: pet, updatePet })} transparent>
+                  <Icon
+                    name="edit" type='AntDesign'
+                    style={{ color: theme.primaryTextColor,fontSize:theme.arrowSize }}
+                  />
+                </Button>
+              </Col>
+            </Row>
+          </Grid>
+        </Container>
+        <Container style={{flex:2}}>
+          <Content>
+            <Card transparent>
+              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                <Left>
+                  <Text>ข้อมูลพื้นฐาน</Text>
+                </Left>
+              </CardItem>
+              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                <Left>
+                  <Text>อายุ</Text>
+                </Left>
+                <Right style={{alignItems:'flex-start'}}>
+                  <Text>{pet.age} เดือน</Text>
+                </Right>
+              </CardItem>
+              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                <Left>
+                  <Text>เพศ</Text>
+                </Left>
+                <Right style={{alignItems:'flex-start'}}>
+                  <Text>{pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}</Text>
+                </Right>
+              </CardItem>
+              {
+                pet.congenitalDisease != null ?
+                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                  <Left>
+                    <Text>โรคประจำตัว</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text>{pet.congenitalDisease}</Text>
+                  </Right>
+                </CardItem>
+                :
+                null  
+              }
+              {
+                pet.allergicFoods != null ?
+                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                  <Left>
+                    <Text>อาหารที่แพ้</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text>{pet.allergicFoods}</Text>
+                  </Right>
+                </CardItem>
+                :
+                null  
+              }
+              {
+                pet.favThing != null ?
+                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                  <Left>
+                    <Text>สิ่งที่ชอบ</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text>{pet.favThing}</Text>
+                  </Right>
+                </CardItem>
+                :
+                null  
+              }
+              {
+                pet.hateThing != null ?
+                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
+                  <Left>
+                    <Text>สิ่งที่ไม่ชอบ</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text>{pet.hateThing}</Text>
+                  </Right>
+                </CardItem>
+                :
+                null  
+              }
+            </Card>
+          </Content>
+        </Container>
       </Container>
     );
   }

@@ -63,7 +63,7 @@ export default class Camera extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <View style={{justifyContent:'center',backgroundColor: 'black'}}>
+        <View style={{justifyContent:'center',backgroundColor: 'white'}}>
           {(url && (
             <WebView
               style={{ justifyContent:'center',backgroundColor: 'black' }}
