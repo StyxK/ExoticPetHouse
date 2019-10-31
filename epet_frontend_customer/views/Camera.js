@@ -34,7 +34,7 @@ export default class Camera extends Component {
     if (!cage.cameraAddress) {
       return;
     }
-    const { storeId } = cage;
+    const { storeId } = this.props;
     const deviceId = DeviceInfo.getUniqueID();
     const url = buildUrl("https://epet-fd10e.web.app", {
       queryParams: {
@@ -49,7 +49,7 @@ export default class Camera extends Component {
   render() {
     const { url } = this.state;
     return (
-      <Container style={{backgroundColor:'black'}}>
+      <Container style={{ backgroundColor: "black" }}>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
             <Icon
@@ -63,16 +63,14 @@ export default class Camera extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <View style={{justifyContent:'center',backgroundColor: 'white'}}>
-          {(url && (
-            <WebView
-              style={{ justifyContent:'center',backgroundColor: 'black' }}
-              source={{
-                uri: url
-              }}
-            />
-          )) || <Text>Not Fround Camera</Text>}
-        </View>
+        {(url && (
+          <WebView
+            style={{ justifyContent: "center", backgroundColor: "black" }}
+            source={{
+              uri: url
+            }}
+          />
+        )) || <Text>Not Fround Camera</Text>}
       </Container>
     );
   }
