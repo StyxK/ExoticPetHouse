@@ -44,7 +44,8 @@ export default class AddPet extends Component {
     age: "",
     typeOfPet: "",
     image: null,
-    gender: ""
+    gender: "",
+    imageFile: undefined
   };
   constructor(props) {
     super(props);
@@ -59,9 +60,33 @@ export default class AddPet extends Component {
     };
     ImagePicker.launchImageLibrary(options, response => {
       if (response.uri) {
+        // const formData = new FormData();
+        // formData.append("file", {
+        //   name: response.fileName,
+        //   type: response.type,
+        //   uri: response.uri
+        // });
+        // alert(1);
+
+        // axios({
+        //   method: "post",
+        //   url: API_URL + "/image",
+        //   data: formData,
+        //   config: { headers: { "Content-Type": "multipart/form-data" } }
+        // })
+        //   .then(function(response) {
+        //     alert(JSON.stringify(response));
+        //   })
+        //   .catch(function(response) {
+        //     alert(JSON.stringify(response));
+        //   });
+
         //alert(JSON.stringify(response))
         //alert(JSON.stringify('data:image/jpeg;base64,' + response.data))
-        this.setState({ image: "data:image/jpeg;base64," + response.data });
+        this.setState({
+          image: "data:image/jpeg;base64," + response.data,
+          imageFile: response
+        });
       }
     });
   };
@@ -91,7 +116,9 @@ export default class AddPet extends Component {
             />
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>Add Pet</Title>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
+              Add Pet
+            </Title>
           </Body>
           <Right />
         </Header>
@@ -253,7 +280,7 @@ export default class AddPet extends Component {
     });
   };
 
-  submitForm = () => {
+  submitForm = async () => {
     const {
       id,
       name,
@@ -283,6 +310,25 @@ export default class AddPet extends Component {
     if (!image) {
       return alert("Plese Enter your pet photo");
     }
+
+    let imageName = undefined;
+    const { imageFile } = this.state;
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("file", {
+        name: imageFile.fileName,
+        type: imageFile.type,
+        uri: imageFile.uri
+      });
+      const response = await axios({
+        method: "post",
+        url: API_URL + "/image",
+        data: formData,
+        config: { headers: { "Content-Type": "multipart/form-data" } }
+      });
+      imageName = response.data.url;
+    }
+
     if (id) {
       axios
         .put("/pet/" + id, {
@@ -295,7 +341,7 @@ export default class AddPet extends Component {
           age: Number(age),
           typeOfPet,
           gender,
-          image
+          image: imageName || image
         })
         .then(response => {
           alert("success");
@@ -318,7 +364,7 @@ export default class AddPet extends Component {
           age: Number(age),
           typeOfPet,
           gender,
-          image
+          image: imageName
         })
         .then(response => {
           alert("success");
