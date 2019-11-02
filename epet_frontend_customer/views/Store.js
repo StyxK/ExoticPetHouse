@@ -32,6 +32,7 @@ import theme from "../theme";
 import StarRating from "react-native-star-rating";
 import moment from "moment-timezone";
 import NavFooter from '../components/NavFooter'
+import { SliderBox } from 'react-native-image-slider-box';
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -46,7 +47,9 @@ class Store extends Component {
       cageTemp: "cage",
       petTemp: [],
       feedBack: [],
-      banned: undefined
+      banned: undefined,
+      images: [],
+      imageProfile: undefined
     };
   }
 
@@ -107,7 +110,9 @@ class Store extends Component {
           stores: response.data,
           address: JSON.parse(JSON.stringify(response.data.address)),
           cageType: JSON.parse(JSON.stringify(response.data.cage)),
-          banned: response.data.banned
+          banned: response.data.banned,
+          images: response.data.storeImages.map(storeImage => storeImage.image),
+          imageProfile : response.data.image
         });
         console.log(response, "response");
       })
@@ -264,6 +269,14 @@ class Store extends Component {
           </Header>
           <Container style={{ backgroundColor: theme.primaryColor }}>
             <Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: 'white' }}>
+              <View>
+                <SliderBox
+                  images={this.state.images}
+                  sliderBoxHeight={500}
+                  dotColor="#FFEE58"
+                  inactiveDotColor="#90A4AE"
+                />
+              </View>
               <Label style={{ color: 'black', fontSize: 15, textAlign: 'left', paddingTop: 10, paddingHorizontal: 20 }}>
                 กรงที่ให้บริการภายในร้าน
                 </Label>
