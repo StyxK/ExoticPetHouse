@@ -173,7 +173,7 @@ export default class StoreManager extends Component {
             <Image
               style={{ width: 100, height: 100 }}
               source={
-                store.Image
+                store.image
                   ? { uri: store.image }
                   : require("../assets/no_image_available.jpeg")
               }
