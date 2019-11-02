@@ -1,6 +1,7 @@
 import { CageType } from './cage/cage.type.entity';
 import { User } from './user/user.decorator';
 import { Store } from './store/store.entity';
+import { StoreImage } from './store/store.image.entity';
 import { PetActivity } from './petactivity/petactivity.entity';
 import { Feedback } from './feedback/feedback.entity';
 import { Customer } from './customer/customer.entity';
@@ -65,6 +66,7 @@ import 'reflect-metadata';
         Pet,
         PetActivity,
         Store,
+        StoreImage,
         StoreOwner,
         User,
         CustomerNotification,
