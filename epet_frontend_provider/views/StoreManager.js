@@ -19,14 +19,19 @@ import {
 } from "native-base";
 import axios from "axios";
 import theme from "../theme";
+import ImagePicker from "react-native-image-picker";
+import Config from "react-native-config";
 
+const API_URL = Config.API_URL;
 
 export default class StoreManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
       cages: [],
-      createActivate: false
+      createActivate: false,
+      images: [],
+      imageFile: undefined
     };
   }
 
@@ -34,6 +39,7 @@ export default class StoreManager extends Component {
     axios.get("/store/" + this.props.store.id).then(response => {
       let cagelist = response.data.cage;
       this.setState({
+        images: response.data.storeImages.map(storeImage => storeImage.image),
         cages: cagelist
       });
     });
@@ -43,9 +49,38 @@ export default class StoreManager extends Component {
     this.getCages();
   }
 
+  handleChoosePhoto = () => {
+    const options = {
+      noData: false
+    };
+    ImagePicker.showImagePicker(options, async imageFile => {
+      if (imageFile.uri) {
+        const formData = new FormData();
+        formData.append("file", {
+          name: imageFile.fileName,
+          type: imageFile.type,
+          uri: imageFile.uri
+        });
+        const response = await axios({
+          method: "post",
+          url: API_URL + "/image",
+          data: formData,
+          config: { headers: { "Content-Type": "multipart/form-data" } }
+        });
+        const imgUrl = response.data.url;
+        axios
+          .post("/store/" + this.props.store.id + "/image/", { imgUrl })
+          .then(response => {});
+        this.setState(s => ({
+          images: [...s.images, imgUrl]
+        }));
+      }
+    });
+  };
+
   render() {
     const { store } = this.props;
-    const { cages } = this.state;
+    const { cages, images } = this.state;
 
     let cagesList = cages.map(data => {
       return (
@@ -129,15 +164,19 @@ export default class StoreManager extends Component {
         </Header>
         <View
           style={{
-            flex: 1,
             flexDirection: "row",
-            backgroundColor: theme.secondaryColor
+            backgroundColor: theme.secondaryColor,
+            height: "25%"
           }}
         >
           <Left style={{ flex: 1, marginLeft: 20 }}>
             <Image
               style={{ width: 100, height: 100 }}
-              source={ store.Image? { uri: store.image} : require("../assets/no_image_available.jpeg")}
+              source={
+                store.Image
+                  ? { uri: store.image }
+                  : require("../assets/no_image_available.jpeg")
+              }
             />
           </Left>
           <Body
@@ -200,7 +239,38 @@ export default class StoreManager extends Component {
                 {store.description}{" "}
               </Text>
             </Text>
+            <Button
+              style={{
+                backgroundColor: theme.primaryColor,
+                borderRadius: 10,
+                alignSelf: "center",
+                margin: 5,
+                height:30
+              }}
+              onPress={this.handleChoosePhoto}
+            >
+              <Text>เพิ่มรูปภายในร้าน</Text>
+            </Button>
           </Body>
+        </View>
+        <View
+          style={{
+            margin: 15,
+            flexDirection: "row",
+            justifyContent: "center",
+            backgroundColor: theme.secondaryColor,
+            margin: 0,
+            padding: 0
+          }}
+        >
+          {images &&
+            images.map(image => (
+              <Image
+                key={image}
+                source={{ uri: image }}
+                style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
+              />
+            ))}
         </View>
         <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
           <ListItem style={{ backgroundColor: theme.primaryColor }} itemDivider>

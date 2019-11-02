@@ -14,6 +14,11 @@ export class StoreController {
         return await this.storesService.showAll()
     }
 
+    @Post('/:id/image')
+    async addImage(@Param() id,@Body() data){
+        return await this.storesService.addImage(id,data.imgUrl)
+    }
+
     @Get('/search/:keyword')
     async showByKeyword(@Param("keyword") keyword){
         return await this.storesService.showByKeyword(keyword)

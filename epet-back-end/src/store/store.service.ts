@@ -1,3 +1,4 @@
+import { StoreImage } from './store.image.entity';
 import { Injectable, Logger } from '@nestjs/common';
 import { Repository, Like } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,27 +21,41 @@ export class StoreService {
     private readonly storeOwnerRepository: Repository<StoreOwner>,
     @InjectRepository(CageType)
     private readonly cageTypeRepository: Repository<CageType>,
+    @InjectRepository(StoreImage)
+    private readonly storeImageRepository: Repository<StoreImage>,
   ) {}
 
   async showAll() {
     return await this.storesRepository.find({ relations: ['address'] });
   }
 
-  async showByOwner(userName:string){
-    await console.log('searching .... '+userName)
-    const stores = await this.storesRepository.find({where:{owner:userName}})
-    return stores
+  async showByOwner(userName: string) {
+    await console.log('searching .... ' + userName);
+    const stores = await this.storesRepository.find({
+      where: { owner: userName },
+    });
+    return stores;
   }
 
-  async create(userName: string,data: Partial<StoreDTO>) {
-    const user = await this.storeOwnerRepository.findOne({where:{userName:userName}})
+  async addImage(storeId: string,imgUrl:string) {
+    const storeImage = await this.storeImageRepository.create({
+      storeId:storeId,
+      image : imgUrl
+    });
+    await this.storeImageRepository.save(storeImage);
+  }
+
+  async create(userName: string, data: Partial<StoreDTO>) {
+    const user = await this.storeOwnerRepository.findOne({
+      where: { userName: userName },
+    });
     await this.addressRepository.create(data.address);
     await this.addressRepository.save(data.address);
     const store = await this.storesRepository.create({
       ...data,
       address: data.address,
-      owner:user,
-      banned:false
+      owner: user,
+      banned: false,
     });
     await this.storesRepository.save(store);
     return { ...store, address: store.address };
@@ -49,7 +64,7 @@ export class StoreService {
   async showById(id: string) {
     const store = await this.storesRepository.findOne({
       where: id,
-      relations: ['address'],
+      relations: ['address','storeImages'],
     });
     const cage = await this.cageTypeRepository.find({ store: store });
     return { ...store, cage };
