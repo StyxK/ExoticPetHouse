@@ -52,7 +52,6 @@ class CreateStore extends Component {
   }
 
   componentDidMount() {
-    alert(JSON.stringify(this.props));
     navigator.geolocation.getCurrentPosition(position => {
       lat = parseFloat(position.coords.latitude);
       long = parseFloat(position.coords.longitude);
@@ -347,7 +346,7 @@ class CreateStore extends Component {
     let data = { ...storeDetail, address };
 
     axios.post("/store", data).then(response => {
-      goToProfile();
+      this.goToProfile();
     });
     
   };
