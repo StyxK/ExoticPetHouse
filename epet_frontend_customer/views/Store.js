@@ -50,7 +50,7 @@ class Store extends Component {
     };
   }
 
-  checkedCageIdForCheckBox = dataId => {};
+  checkedCageIdForCheckBox = dataId => { };
 
   setStoreId = () => {
     this.storeId = this.props.id;
@@ -129,15 +129,15 @@ class Store extends Component {
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
-            style={{ borderBottomWidth:0.5,borderColor:'grey',paddingHorizontal:10,backgroundColor:'rgba(0, 0, 0, 0)' }}
+            style={{ borderBottomWidth: 0.5, borderColor: 'grey', paddingHorizontal: 10, backgroundColor: 'rgba(0, 0, 0, 0)' }}
           >
-            <Left style={{flex:1}}>
-                <Icon name="paw" style={{color:theme.secondaryColor}} type='FontAwesome5' />
+            <Left style={{ flex: 1 }}>
+              <Icon name="paw" style={{ color: theme.secondaryColor }} type='FontAwesome5' />
             </Left>
-            <Body style={{flex:6}}>
+            <Body style={{ flex: 6 }}>
               <Text style={{ color: 'black' }}>{data.typeName}</Text>
               <Text note>{data.description}</Text>
-              <Text style={{ color: theme.successColor}}>
+              <Text style={{ color: theme.successColor }}>
                 {data.price} บาท/คืน
               </Text>
             </Body>
@@ -147,22 +147,36 @@ class Store extends Component {
     });
 
     let HeaderFeedback = () => {
+      if (this.countFeedBack() == 0) {
         return (
-          <ListItem itemDivider style={{height:30,borderTopLeftRadius:10,borderTopRightRadius:10,backgroundColor:theme.secondaryColor}}>
-              <Left style={{flex:2}}>
-                  <Text>รีวิวการให้บริการ</Text>
-                  <Text style={{ color: theme.primaryColor }}> {this.countFeedBack()} </Text>
-                  <Text>รีวิว</Text>
-              </Left>
-              <Right style={{flex:0.5}}>
-                <Button full transparent rounded button onPress={() => { Actions.review(this.state)}}>
-                  <Label style={{ color: theme.primaryColor , fontSize:15 }}>
-                    ดูทั้งหมด
+          <ListItem itemDivider style={{ height: 30, borderTopLeftRadius: 10, borderTopRightRadius: 10, backgroundColor: theme.secondaryColor }}>
+            <Left style={{ flex: 2 }}>
+              <Text>รีวิวการให้บริการ</Text>
+              <Text style={{ color: theme.primaryColor }}> {this.countFeedBack()} </Text>
+              <Text>รีวิว</Text>
+            </Left>
+            <Right style={{ flex: 0.5 }}>
+            </Right>
+          </ListItem>
+        )
+      } else {
+        return (
+          <ListItem itemDivider style={{ height: 30, borderTopLeftRadius: 10, borderTopRightRadius: 10, backgroundColor: theme.secondaryColor }}>
+            <Left style={{ flex: 2 }}>
+              <Text>รีวิวการให้บริการ</Text>
+              <Text style={{ color: theme.primaryColor }}> {this.countFeedBack()} </Text>
+              <Text>รีวิว</Text>
+            </Left>
+            <Right style={{ flex: 0.5 }}>
+              <Button full transparent rounded button onPress={() => { Actions.review(this.state) }}>
+                <Label style={{ color: theme.primaryColor, fontSize: 15 }}>
+                  ดูทั้งหมด
                   </Label>
-                </Button>
-              </Right>
-            </ListItem>
+              </Button>
+            </Right>
+          </ListItem>
         );
+      }
     }
 
     let selectPet = pets.map(pet => {
@@ -200,9 +214,9 @@ class Store extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header span style={{ backgroundColor: theme.primaryColor,justifyContent:'center'}}>
-            <Body style={{flex:4,justifyContent:'center',height:'85%',padding:10}}>
-              <View style={{flexDirection:'row'}}>
+          <Header span style={{ backgroundColor: theme.primaryColor, justifyContent: 'center' }}>
+            <Body style={{ flex: 4, justifyContent: 'center', height: '85%', padding: 10 }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Left>
                   <Text style={{ fontSize: 20, color: "white" }}>
                     {stores.name}
@@ -225,9 +239,9 @@ class Store extends Component {
               <Text note style={{ color: "white" }}>
                 {stores.description}
               </Text>
-              <View style={{backgroundColor:theme.primaryColor3,flexDirection:'row',padding:3,borderRadius:10,marginTop:5}}>
-                <Left style={{ flex: 0.35,justifyContent:'center',alignItems:'center' }}>
-                  <Icon name="md-pin" style={{ color: theme.secondaryColor,fontSize:20 }} />
+              <View style={{ backgroundColor: theme.primaryColor3, flexDirection: 'row', padding: 3, borderRadius: 10, marginTop: 5 }}>
+                <Left style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
+                  <Icon name="md-pin" style={{ color: theme.secondaryColor, fontSize: 20 }} />
                 </Left>
                 <Left style={{ flex: 4 }}>
                   <Label style={{ color: 'white', fontSize: 12 }}>
@@ -236,99 +250,99 @@ class Store extends Component {
                   </Label>
                 </Left>
               </View>
-              <View style={{backgroundColor:theme.primaryColor3,flexDirection:'row',padding:3,borderRadius:10,marginTop:5}}>
-                <Left style={{ flex: 0.35,justifyContent:'center',alignItems:'center' }}>
-                  <Icon name="md-contact" style={{ color: theme.secondaryColor,fontSize:20 }} />
+              <View style={{ backgroundColor: theme.primaryColor3, flexDirection: 'row', padding: 3, borderRadius: 10, marginTop: 5 }}>
+                <Left style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
+                  <Icon name="md-contact" style={{ color: theme.secondaryColor, fontSize: 20 }} />
                 </Left>
                 <Left style={{ flex: 4 }}>
                   <Label style={{ color: 'white', fontSize: 12 }}>
-                  {stores.phoneNumber}
+                    {stores.phoneNumber}
                   </Label>
                 </Left>
               </View>
             </Body>
           </Header>
-            <Container style={{backgroundColor:theme.primaryColor}}>
-              <Content style={{borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'white'}}>
-                <Label style={{ color: 'black', fontSize: 15 ,textAlign:'left',paddingTop:10,paddingHorizontal:20}}>
-                  กรงที่ให้บริการภายในร้าน
+          <Container style={{ backgroundColor: theme.primaryColor }}>
+            <Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: 'white' }}>
+              <Label style={{ color: 'black', fontSize: 15, textAlign: 'left', paddingTop: 10, paddingHorizontal: 20 }}>
+                กรงที่ให้บริการภายในร้าน
                 </Label>
-                {this.state.banned ? (
-                  <Content padder>
-                    <View
-                      style={{
-                        borderRadius: 20,
-                        backgroundColor: "orange",
-                        flexDirection: "row",
-                        height: 60
-                      }}
-                    >
-                      <Left
-                        style={{
-                          flex: 0.5,
-                          justifyContent: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Icon
-                          name="warning"
-                          style={{ color: "white", fontSize: 40 }}
-                        />
-                      </Left>
-                      <Body style={{ flex: 1 }}>
-                        <Label style={{ color: "white", fontSize: 15 }}>
-                          {" "}
-                          ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
-                        </Label>
-                        <Label style={{ color: "white", fontSize: 15 }}>
-                          {" "}
-                          ขออภัยในความไม่สะดวก{" "}
-                        </Label>
-                      </Body>
-                      <Right style={{ flex: 0.2 }} />
-                    </View>
-                  </Content>
-                ) : (
-                  <Content padder>{cageList}</Content>
-                )}
-              </Content>
-            </Container>
-            {HeaderFeedback()}
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modalVisible}
-              onRequestClose={() => {
-                Alert.alert("Modal Closed");
-              }}
-            >
-              <View style={styles.modalContainer}>
-                <Container style={styles.modal}>
-                  <Header
-                    translucent
+              {this.state.banned ? (
+                <Content padder>
+                  <View
                     style={{
-                      borderTopLeftRadius: 10,
-                      borderTopRightRadius: 10,
-                      backgroundColor: theme.primaryColor
+                      borderRadius: 20,
+                      backgroundColor: "orange",
+                      flexDirection: "row",
+                      height: 60
                     }}
                   >
-                    <Button
-                      transparent
+                    <Left
                       style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: theme.primaryColor
+                        flex: 0.5,
+                        justifyContent: "center",
+                        alignItems: "center"
                       }}
-                      onPress={() => this.setModalVisible(false)}
                     >
-                      <Text>ปิดรายการ</Text>
-                    </Button>
-                  </Header>
-                  <Content padder>{selectPet}</Content>
-                </Container>
-              </View>
-            </Modal>
-            <NavFooter/>
+                      <Icon
+                        name="warning"
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </Left>
+                    <Body style={{ flex: 1 }}>
+                      <Label style={{ color: "white", fontSize: 15 }}>
+                        {" "}
+                        ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
+                      </Label>
+                      <Label style={{ color: "white", fontSize: 15 }}>
+                        {" "}
+                        ขออภัยในความไม่สะดวก{" "}
+                      </Label>
+                    </Body>
+                    <Right style={{ flex: 0.2 }} />
+                  </View>
+                </Content>
+              ) : (
+                  <Content padder>{cageList}</Content>
+                )}
+            </Content>
+          </Container>
+          {HeaderFeedback()}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal Closed");
+            }}
+          >
+            <View style={styles.modalContainer}>
+              <Container style={styles.modal}>
+                <Header
+                  translucent
+                  style={{
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                    backgroundColor: theme.primaryColor
+                  }}
+                >
+                  <Button
+                    transparent
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: theme.primaryColor
+                    }}
+                    onPress={() => this.setModalVisible(false)}
+                  >
+                    <Text>ปิดรายการ</Text>
+                  </Button>
+                </Header>
+                <Content padder>{selectPet}</Content>
+              </Container>
+            </View>
+          </Modal>
+          <NavFooter />
         </Container>
       </View>
     );

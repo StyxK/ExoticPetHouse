@@ -40,17 +40,19 @@ class Order extends Component {
       startChosenDate: new Date(),
       endChosenDate: new Date(),
       petIdTemp: "id",
-      loading: false
+      loading: false,
+      wasChooseStartDate: false,
+      wasChooseEndDate: false
     };
     console.log(this.props)
   }
 
   setStartDate = newDate => {
-    this.setState({ startChosenDate: newDate });
+    this.setState({ startChosenDate: newDate, wasChooseStartDate: true });
   };
 
   setEndDate = newDate => {
-    this.setState({ endChosenDate: newDate });
+    this.setState({ endChosenDate: newDate, wasChooseEndDate: true });
   };
 
   showCageName = cageId => {
@@ -128,31 +130,52 @@ class Order extends Component {
   };
 
   submitForm = () => {
-    this.setState({loading:true})
-    axios
-      .post(API_URL + "/order/", {
-        transportation: "kerry",
-        submitDate: new Date(),
-        startDate: this.state.startChosenDate,
-        endDate: this.state.endChosenDate,
-        orderLines: this.props.orderLine,
-        storeId: this.props.stores.id
-      })
-      .then(response => {
-        this.setState({
-          loading:false
+    let correctAll = true;
+    const { wasChooseEndDate, wasChooseStartDate } = this.state;
+    const { orderLine } = this.props;
+    if (wasChooseStartDate == false) {
+      correctAll = false;
+      return alert("กรุณาระบุช่วงเวลาในการฝากให้ครบถ้วน");
+    }
+    if (wasChooseEndDate == false) {
+      correctAll = false;
+      return alert("กรุณาระบุช่วงเวลาในการฝากให้ครบถ้วน");
+    }
+    if (orderLine.length==0) {
+      correctAll = false;
+      return alert("กรุณาเลือกสัตว์เลี้ยงและกรงที่ต้องการฝาก");
+    }
+    if (!this.props.stores.id) {
+      correctAll = false;
+      return alert("เกิดข้อผิดพลาด เลือกรายการฝากใหม่");
+    }
+    if (correctAll == true) {
+      this.setState({ loading: true })
+      axios
+        .post(API_URL + "/order/", {
+          transportation: "kerry",
+          submitDate: new Date(),
+          startDate: this.state.startChosenDate,
+          endDate: this.state.endChosenDate,
+          orderLines: this.props.orderLine,
+          storeId: this.props.stores.id
         })
-        if(response.data.status == 406){
-          alert(response.data.message)
-        } else {
-          alert('ส่งคำขอไปยังร้านสำเร็จ กรุณาติดตามคำขอของท่าน')
-          Actions.history();
-        }
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(response => {
+          this.setState({
+            loading: false
+          })
+          if (response.data.status == 406) {
+            alert(response.data.message)
+          } else {
+            alert('ส่งคำขอไปยังร้านสำเร็จ กรุณาติดตามคำขอของท่าน')
+            Actions.history();
+          }
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
 
   render() {
@@ -188,8 +211,8 @@ class Order extends Component {
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}>
-              <Button transparent rounded onPress onPress={() => { Actions.pop() }} style={{justifyContent:'center',alignItems:'center'}}>
-                <Icon name="arrow-back" style={{ color: theme.primaryTextColor, marginLeft: 10 }}/>
+              <Button transparent rounded onPress onPress={() => { Actions.pop() }} style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Icon name="arrow-back" style={{ color: theme.primaryTextColor, marginLeft: 10 }} />
               </Button>
             </Left>
             <Body style={{ flex: 3 }}>
@@ -199,22 +222,22 @@ class Order extends Component {
             </Body>
             <Right style={{ flex: 1 }} />
           </Header>
-          <Container style={{backgroundColor:theme.primaryColor}}>
+          <Container style={{ backgroundColor: theme.primaryColor }}>
             <Container style={{ flex: 1 }}>
-              <Content style={{backgroundColor:theme.primaryColor}}>
+              <Content style={{ backgroundColor: theme.primaryColor }}>
                 <Grid>
-                  <Body style={{flex:1,flexDirection:'column'}}>
-                    <Row style={{flex:1,paddingVertical:5}}>
-                      <Col style={{flex:4,paddingHorizontal:10}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>เริ่มการฝาก</Label>
+                  <Body style={{ flex: 1, flexDirection: 'column' }}>
+                    <Row style={{ flex: 1, paddingVertical: 5 }}>
+                      <Col style={{ flex: 4, paddingHorizontal: 10 }}>
+                        <Label style={{ fontSize: 15, textAlign: 'center' }}>เริ่มการฝาก</Label>
                       </Col>
-                      <Col style={{flex:1,paddingHorizontal:10}}/>
-                      <Col style={{flex:4,paddingHorizontal:10}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>สิ้นสุดการฝาก</Label>
+                      <Col style={{ flex: 1, paddingHorizontal: 10 }} />
+                      <Col style={{ flex: 4, paddingHorizontal: 10 }}>
+                        <Label style={{ fontSize: 15, textAlign: 'center' }}>สิ้นสุดการฝาก</Label>
                       </Col>
                     </Row>
-                    <Row style={{flex:1,paddingVertical:5}}>
-                      <Col style={{flex:4,paddingHorizontal:10}}>
+                    <Row style={{ flex: 1, paddingVertical: 5 }}>
+                      <Col style={{ flex: 4, paddingHorizontal: 10 }}>
                         <DatePicker
                           defaultDate={new Date().getDate}
                           locale={"th"}
@@ -224,17 +247,17 @@ class Order extends Component {
                           animationType={"slide"}
                           androidMode={"default"}
                           placeHolderText="ระบุวันที่"
-                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17,width:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
-                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, width:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          textStyle={{ textAlign: 'center', color: 'white', fontSize: 17, width: '100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          placeHolderTextStyle={{ textAlign: 'center', color: 'white', fontSize: 17, width: '100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
                           onDateChange={this.setStartDate}
                           disabled={false}
-                          style={{widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}
+                          style={{ widht: '100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
                         />
                       </Col>
-                      <Col style={{flex:1,paddingHorizontal:10,justifyContent:'center'}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>จนถึง</Label>
+                      <Col style={{ flex: 1, paddingHorizontal: 10, justifyContent: 'center' }}>
+                        <Label style={{ fontSize: 15, textAlign: 'center' }}>จนถึง</Label>
                       </Col>
-                      <Col style={{flex:4,paddingHorizontal:10}}>
+                      <Col style={{ flex: 4, paddingHorizontal: 10 }}>
                         <DatePicker
                           defaultDate={new Date().getDate}
                           locale={"th"}
@@ -244,28 +267,28 @@ class Order extends Component {
                           animationType={"slide"}
                           androidMode={"calendar"}
                           placeHolderText="ระบุวันที่"
-                          textStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}
-                          placeHolderTextStyle={{ textAlign:'center',color: 'white', fontSize: 17, widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          textStyle={{ textAlign: 'center', color: 'white', fontSize: 17, widht: '100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
+                          placeHolderTextStyle={{ textAlign: 'center', color: 'white', fontSize: 17, widht: '100%', backgroundColor: theme.primaryColor3, borderRadius: 10 }}
                           onDateChange={this.setEndDate}
                           disabled={false}
                         />
                       </Col>
                     </Row>
-                    <Row style={{flex:1,paddingVertical:5}}>
-                      <Col style={{paddingHorizontal:10}}>
-                        <Button style={{alignSelf:'center', backgroundColor:theme.primaryColor3,borderRadius:10,width:'100%'}} onPress={() => Actions.pop()}>
+                    <Row style={{ flex: 1, paddingVertical: 5 }}>
+                      <Col style={{ paddingHorizontal: 10 }}>
+                        <Button style={{ alignSelf: 'center', backgroundColor: theme.primaryColor3, borderRadius: 10, width: '100%' }} onPress={() => Actions.pop()}>
                           <Text>เพิ่มรายการฝาก</Text>
                         </Button>
                       </Col>
                     </Row>
-                    <Row style={{flex:1}}>
+                    <Row style={{ flex: 1 }}>
                       <Text note>ยอดชำระรวม: {totalPrice}</Text>
                     </Row>
                   </Body>
                 </Grid>
               </Content>
             </Container>
-            <Container style={{flex:2,borderTopLeftRadius:10,borderTopRightRadius:10}}>
+            <Container style={{ flex: 2, borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
               <Content>
                 <Card transparent>
                   {orderList}
@@ -275,17 +298,17 @@ class Order extends Component {
           </Container>
           <Footer>
             <FooterTab>
-            <Button
-              full
-              style={{
-                flex: 2,
-                backgroundColor: theme.primaryColor
-              }}
-              onPress={this.sendOrderToStore}
-            >
-              <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
-            </Button>
-            {dimmerLoading(this.state.loading)}
+              <Button
+                full
+                style={{
+                  flex: 2,
+                  backgroundColor: theme.primaryColor
+                }}
+                onPress={this.sendOrderToStore}
+              >
+                <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
+              </Button>
+              {dimmerLoading(this.state.loading)}
             </FooterTab>
           </Footer>
         </Container>
