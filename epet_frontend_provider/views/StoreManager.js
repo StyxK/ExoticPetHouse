@@ -19,7 +19,7 @@ import {
 } from "native-base";
 import axios from "axios";
 import theme from "../theme";
-import PIC_URI from "../assets/no_image_available.jpeg";
+
 
 export default class StoreManager extends Component {
   constructor(props) {
@@ -137,7 +137,7 @@ export default class StoreManager extends Component {
           <Left style={{ flex: 1, marginLeft: 20 }}>
             <Image
               style={{ width: 100, height: 100 }}
-              source={{ uri: store.image || PIC_URI }}
+              source={ store.Image? { uri: store.image} : require("../assets/no_image_available.jpeg")}
             />
           </Left>
           <Body
