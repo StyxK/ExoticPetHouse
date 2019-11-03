@@ -200,8 +200,8 @@ class Store extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header span style={{ backgroundColor: theme.primaryColor,justifyContent:'center'}}>
-            <Body style={{flex:4,justifyContent:'center',height:'85%',padding:10}}>
+          <View style={{ flex:0.45,backgroundColor: theme.primaryColor,justifyContent:'center'}}>
+            <Body style={{flex:4,justifyContent:'center',padding:10}}>
               <View style={{flexDirection:'row'}}>
                 <Left>
                   <Text style={{ fontSize: 20, color: "white" }}>
@@ -222,7 +222,7 @@ class Store extends Component {
                   />
                 </Right>
               </View>
-              <Text note style={{ color: "white" }}>
+              <Text note style={{ color: "white",alignSelf:'flex-start' }}>
                 {stores.description}
               </Text>
               <View style={{backgroundColor:theme.primaryColor3,flexDirection:'row',padding:3,borderRadius:10,marginTop:5}}>
@@ -247,7 +247,7 @@ class Store extends Component {
                 </Left>
               </View>
             </Body>
-          </Header>
+          </View>
             <Container style={{backgroundColor:theme.primaryColor}}>
               <Content style={{borderTopLeftRadius:20,borderTopRightRadius:20,backgroundColor:'white'}}>
                 <Label style={{ color: 'black', fontSize: 15 ,textAlign:'left',paddingTop:10,paddingHorizontal:20}}>
@@ -265,7 +265,7 @@ class Store extends Component {
                     >
                       <Left
                         style={{
-                          flex: 0.5,
+                          flex: 0.75,
                           justifyContent: "center",
                           alignItems: "center"
                         }}
@@ -275,7 +275,7 @@ class Store extends Component {
                           style={{ color: "white", fontSize: 40 }}
                         />
                       </Left>
-                      <Body style={{ flex: 1 }}>
+                      <Body style={{ flex: 2 }}>
                         <Label style={{ color: "white", fontSize: 15 }}>
                           {" "}
                           ขณะนี้ร้านไม่สามารถให้บริการได้{" "}

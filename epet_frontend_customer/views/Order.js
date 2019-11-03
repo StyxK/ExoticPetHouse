@@ -206,11 +206,11 @@ class Order extends Component {
                   <Body style={{flex:1,flexDirection:'column'}}>
                     <Row style={{flex:1,paddingVertical:5}}>
                       <Col style={{flex:4,paddingHorizontal:10}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>เริ่มการฝาก</Label>
+                        <Label style={{fontSize:15,textAlign:'center',color:'white'}}>เริ่มการฝาก</Label>
                       </Col>
-                      <Col style={{flex:1,paddingHorizontal:10}}/>
+                      <Col style={{flex:2,paddingHorizontal:10}}/>
                       <Col style={{flex:4,paddingHorizontal:10}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>สิ้นสุดการฝาก</Label>
+                        <Label style={{fontSize:15,textAlign:'center',color:'white'}}>สิ้นสุดการฝาก</Label>
                       </Col>
                     </Row>
                     <Row style={{flex:1,paddingVertical:5}}>
@@ -231,8 +231,8 @@ class Order extends Component {
                           style={{widht:'100%', backgroundColor: theme.primaryColor3, borderRadius: 10}}
                         />
                       </Col>
-                      <Col style={{flex:1,paddingHorizontal:10,justifyContent:'center'}}>
-                        <Label style={{fontSize:15,textAlign:'center'}}>จนถึง</Label>
+                      <Col style={{flex:2,paddingHorizontal:10,justifyContent:'center'}}>
+                        <Label style={{fontSize:15,textAlign:'center',color:'white'}}>จนถึง</Label>
                       </Col>
                       <Col style={{flex:4,paddingHorizontal:10}}>
                         <DatePicker
@@ -252,14 +252,16 @@ class Order extends Component {
                       </Col>
                     </Row>
                     <Row style={{flex:1,paddingVertical:5}}>
-                      <Col style={{paddingHorizontal:10}}>
+                      <Col style={{flex:1,paddingHorizontal:10}}>
                         <Button style={{alignSelf:'center', backgroundColor:theme.primaryColor3,borderRadius:10,width:'100%'}} onPress={() => Actions.pop()}>
                           <Text>เพิ่มรายการฝาก</Text>
                         </Button>
                       </Col>
-                    </Row>
-                    <Row style={{flex:1}}>
-                      <Text note>ยอดชำระรวม: {totalPrice}</Text>
+                      <Col style={{flex:1.5,paddingHorizontal:10}}>
+                        <Button disabled style={{ justifyContent:'center',backgroundColor:theme.secondaryColor,borderRadius:10,width:'100%'}}>
+                          <Text style={{textAlign:'center'}}>ยอดชำระรวม: {totalPrice} บาท</Text>
+                        </Button>
+                      </Col>
                     </Row>
                   </Body>
                 </Grid>
@@ -283,7 +285,7 @@ class Order extends Component {
               }}
               onPress={this.sendOrderToStore}
             >
-              <Text style={{ color: theme.primaryTextColor }}>ยืนยันคำสั่งฝาก</Text>
+              <Text style={{ color: theme.primaryTextColor,fontSize:15 }}>ยืนยันคำสั่งฝาก</Text>
             </Button>
             {dimmerLoading(this.state.loading)}
             </FooterTab>
