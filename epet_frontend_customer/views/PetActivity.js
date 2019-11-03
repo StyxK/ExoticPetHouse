@@ -46,7 +46,7 @@ export default class PetActivity extends Component {
 
   render() {
     const { activities } = this.state;
-    const { orderLine } = this.props;
+    const { orderLine, statusId } = this.props;
     const { pet, cage } = orderLine;
 
     console.log(this.props);
@@ -113,14 +113,16 @@ export default class PetActivity extends Component {
             <ActivitiesCard key={activity.id} activity={activity} />
           ))}
         </Content>
-        {cage.cameraAddress ? (
+        {cage.cameraAddress && statusId == 3 ? (
           <Fab
             onPress={this.goToCamera(cage)}
             style={{ backgroundColor: theme.secondaryColor }}
           >
             <Icon name="md-videocam" />
           </Fab>
-        ):<></>}
+        ) : (
+          <></>
+        )}
       </Container>
     );
   }

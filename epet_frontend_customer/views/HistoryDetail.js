@@ -35,7 +35,7 @@ class HistoryDetail extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props)
+    console.log(this.props);
     axios.get("/order/" + this.props.item.id).then(response => {
       this.setState({
         history: response.data,
@@ -59,7 +59,7 @@ class HistoryDetail extends Component {
       .format("DD MMM YYYY HH:mm");
     return (
       <Container>
-        <Container style={{ height: '25%', flex: 0.47 }}>
+        <Container style={{ height: "25%", flex: 0.47 }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1.5 }}>
               <Button rounded transparent onPress={() => Actions.history()}>
@@ -74,48 +74,106 @@ class HistoryDetail extends Component {
                 รายละเอียดการจอง
               </Title>
             </Body>
-            <Right style={{flex:1.5}}>
-              <Button transparent rounded onPress={()=>Actions.chatbox({ customer: this.props.item.customerUserName, storeId: this.props.item.storeId })}>
-                <Icon name='ios-chatbubbles'/>
+            <Right style={{ flex: 1.5 }}>
+              <Button
+                transparent
+                rounded
+                onPress={() =>
+                  Actions.chatbox({
+                    customer: this.props.item.customerUserName,
+                    storeId: this.props.item.storeId
+                  })
+                }
+              >
+                <Icon name="ios-chatbubbles" />
               </Button>
             </Right>
           </Header>
-          <View padder style={{ backgroundColor: theme.primaryColor, borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+          <View
+            padder
+            style={{
+              backgroundColor: theme.primaryColor,
+              borderBottomLeftRadius: 25,
+              borderBottomRightRadius: 25
+            }}
+          >
             <Text style={{ fontSize: 15, color: theme.infoTextColor }}>
               {console.log(store.name, "store")}
-              ร้านที่ส่งฝาก : <Text note style={{ color: theme.accentTextColor }}> {store.name} </Text>
+              ร้านที่ส่งฝาก :{" "}
+              <Text note style={{ color: theme.accentTextColor }}>
+                {" "}
+                {store.name}{" "}
+              </Text>
             </Text>
             <Text style={{ fontSize: 15, color: theme.infoTextColor }}>
-              วันที่ส่งคำขอ : <Text note style={{ color: theme.accentTextColor }}> {submitDate} </Text>
+              วันที่ส่งคำขอ :{" "}
+              <Text note style={{ color: theme.accentTextColor }}>
+                {" "}
+                {submitDate}{" "}
+              </Text>
             </Text>
             <Text style={{ fontSize: 15, color: theme.infoTextColor }}>
-              ช่วงเวลาฝาก : <Text note style={{ color: theme.accentTextColor }}> {startDate} - {endDate} </Text>
+              ช่วงเวลาฝาก :{" "}
+              <Text note style={{ color: theme.accentTextColor }}>
+                {" "}
+                {startDate} - {endDate}{" "}
+              </Text>
             </Text>
             <Text style={{ fontSize: 15, color: theme.infoTextColor }}>
-              สถานะ : <Text note style={{ color: theme.accentTextColor }}> {this.state.status} </Text>
+              สถานะ :{" "}
+              <Text note style={{ color: theme.accentTextColor }}>
+                {" "}
+                {this.state.status}{" "}
+              </Text>
             </Text>
-            <Text style={{ marginTop: 10, fontSize: 10, alignSelf: 'center', color: theme.infoTextColor }}>
-              รหัสการฝาก : <Text note style={{ color: theme.accentTextColor, fontSize: 10 }}> {id} </Text>
+            <Text
+              style={{
+                marginTop: 10,
+                fontSize: 10,
+                alignSelf: "center",
+                color: theme.infoTextColor
+              }}
+            >
+              รหัสการฝาก :{" "}
+              <Text note style={{ color: theme.accentTextColor, fontSize: 10 }}>
+                {" "}
+                {id}{" "}
+              </Text>
             </Text>
           </View>
         </Container>
         <Content style={{ backgroundColor: theme.primaryColor }}>
-          <Content padder style={{ backgroundColor: 'white' }}>
+          <Content padder style={{ backgroundColor: "white" }}>
             {orderLines.map(orderLine => {
               const { pet, cage } = orderLine;
               return (
-                <Card transparent
+                <Card
+                  transparent
                   key={pet.id}
-                  style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center"
+                  }}
                 >
                   <Left style={{ display: "flex", flexDirection: "row" }}>
                     <Left style={{ flex: 1.5 }}>
                       <Thumbnail source={{ uri: pet.image }} />
                     </Left>
                     <Left style={{ flex: 3 }}>
-                      <View style={{ flex: 1, flexDirection: 'row' }}>
+                      <View style={{ flex: 1, flexDirection: "row" }}>
                         <Left style={{ flex: 0.5 }}>
-                          <Text style={{ fontSize: 15, backgroundColor: theme.primaryColor, padding: 3, borderRadius: 10, color: theme.infoTextColor }}>สัตว์เลี้ยง</Text>
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              backgroundColor: theme.primaryColor,
+                              padding: 3,
+                              borderRadius: 10,
+                              color: theme.infoTextColor
+                            }}
+                          >
+                            สัตว์เลี้ยง
+                          </Text>
                         </Left>
                         <Left style={{ flex: 0.5 }}>
                           <Text> {pet.name} </Text>
@@ -127,12 +185,15 @@ class HistoryDetail extends Component {
                     <Button
                       style={{
                         backgroundColor: theme.primaryColor,
-                        borderRadius: 10, flex: 1
+                        borderRadius: 10,
+                        flex: 1
                       }}
-                      onPress= {this.goToPetActivity(orderLine, history)}
+                      onPress={this.goToPetActivity(orderLine, history)}
                     >
-                      <Icon name='paw'>
-                        <Label style={{ marginLeft: 10, color: 'white' }}>activity</Label>
+                      <Icon name="paw">
+                        <Label style={{ marginLeft: 10, color: "white" }}>
+                          activity
+                        </Label>
                       </Icon>
                     </Button>
                   </Right>
@@ -140,10 +201,26 @@ class HistoryDetail extends Component {
               );
             })}
           </Content>
-          <Content padder style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25, backgroundColor: theme.secondaryColor }}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>ค่าบริการทั้งหมด : {history.totalPrice} บาท</Text>
+          <Content
+            padder
+            style={{
+              borderBottomLeftRadius: 25,
+              borderBottomRightRadius: 25,
+              backgroundColor: theme.secondaryColor
+            }}
+          >
+            <Text style={{ color: "white", textAlign: "center" }}>
+              ค่าบริการทั้งหมด : {history.totalPrice} บาท
+            </Text>
           </Content>
-          <View style={{ display: "flex", flexDirection: "row", margin: 15, justifyContent: 'center' }}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              margin: 15,
+              justifyContent: "center"
+            }}
+          >
             <OrderButton item={history} orderStatus={this.state.statusId} />
           </View>
         </Content>
@@ -160,7 +237,7 @@ class HistoryDetail extends Component {
         [
           {
             text: "Cancel",
-            onPress: () => { },
+            onPress: () => {},
             style: "cancel"
           },
           { text: "OK", onPress: () => this.cancelOrder() }
@@ -192,8 +269,9 @@ class HistoryDetail extends Component {
   };
 
   goToPetActivity = (orderLine, history) => () => {
-    const {storeId} = history
-    Actions.petActivity({ orderLine, storeId });
+    const { storeId } = history;
+    const { statusId } = this.state;
+    Actions.petActivity({ orderLine, storeId, statusId });
   };
 }
 
