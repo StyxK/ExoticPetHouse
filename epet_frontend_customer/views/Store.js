@@ -16,7 +16,10 @@ import {
   Title,
   Thumbnail,
   Label,
-  Badge
+  Badge,
+  Grid,
+  Col,
+  Row
 } from "native-base";
 import React, { Component } from "react";
 import {
@@ -33,6 +36,7 @@ import StarRating from "react-native-star-rating";
 import moment from "moment-timezone";
 import NavFooter from '../components/NavFooter'
 import { SliderBox } from 'react-native-image-slider-box';
+import { TouchableOpacity, TouchableHighlight } from "react-native-gesture-handler";
 
 const API_URL = Config.API_URL;
 class Store extends Component {
@@ -49,7 +53,8 @@ class Store extends Component {
       feedBack: [],
       banned: undefined,
       images: [],
-      imageProfile: undefined
+      imageProfile: undefined,
+      imageModalVisible: false
     };
   }
 
@@ -219,7 +224,7 @@ class Store extends Component {
     return (
       <View style={styles.container}>
         <Container>
-          <Header span style={{ backgroundColor: theme.primaryColor, justifyContent: 'center' }}>
+          <View style={{ flex:0.45,backgroundColor: theme.primaryColor, justifyContent: 'center' }}>
             <Body style={{ flex: 4, justifyContent: 'center', height: '85%', padding: 10 }}>
               <View style={{ flexDirection: 'row' }}>
                 <Left>
@@ -228,17 +233,9 @@ class Store extends Component {
                   </Text>
                 </Left>
                 <Right>
-                  <StarRating
-                    disabled={true}
-                    emptyStar={"md-star-outline"}
-                    fullStar={"md-star"}
-                    halfStar={"md-star-half"}
-                    iconSet={"Ionicons"}
-                    maxStars={5}
-                    rating={this.calculateRating()}
-                    fullStarColor={"orange"}
-                    starSize={20}
-                  />
+                  <Button rounded style={{backgroundColor:theme.secondaryColor}} onPress={()=>{this.setState({imageModalVisible:true})}}>
+                    <Icon style={{fontSize:20}} name='md-image'/>
+                  </Button>
                 </Right>
               </View>
               <Text note style={{ color: "white",alignSelf:'flex-start' }}>
@@ -255,27 +252,36 @@ class Store extends Component {
                   </Label>
                 </Left>
               </View>
-              <View style={{ backgroundColor: theme.primaryColor3, flexDirection: 'row', padding: 3, borderRadius: 10, marginTop: 5 }}>
-                <Left style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
-                  <Icon name="md-contact" style={{ color: theme.secondaryColor, fontSize: 20 }} />
-                </Left>
-                <Left style={{ flex: 4 }}>
-                  <Label style={{ color: 'white', fontSize: 12 }}>
-                    {stores.phoneNumber}
-                  </Label>
-                </Left>
+              <View style={{ flexDirection: 'row'}}>
+                <View style={{ flex:1,backgroundColor: theme.primaryColor3, flexDirection: 'row', padding: 3, borderRadius: 10, marginTop: 10 }}>
+                  <Left style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
+                    <Icon name="md-contact" style={{ color: theme.secondaryColor, fontSize: 20 }} />
+                  </Left>
+                  <Left style={{ flex: 1.7 }}>
+                    <Label style={{ color: 'white', fontSize: 12 }}>
+                      {stores.phoneNumber}
+                    </Label>
+                  </Left>
+                </View>
+                <View style={{ flex:1,padding: 3, borderRadius: 10, marginTop: 10,flexDirection:'row-reverse' }}>
+                  <StarRating
+                    disabled={true}
+                    emptyStar={"md-star-outline"}
+                    fullStar={"md-star"}
+                    halfStar={"md-star-half"}
+                    iconSet={"Ionicons"}
+                    maxStars={5}
+                    rating={this.calculateRating()}
+                    fullStarColor={"orange"}
+                    starSize={20}
+                  />
+                </View>
               </View>
             </Body>
-          </Header>
+          </View>
           <Container style={{ backgroundColor: theme.primaryColor }}>
             <Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: 'white' }}>
               <View>
-                <SliderBox
-                  images={this.state.images}
-                  sliderBoxHeight={500}
-                  dotColor="#FFEE58"
-                  inactiveDotColor="#90A4AE"
-                />
               </View>
               <Label style={{ color: 'black', fontSize: 15, textAlign: 'left', paddingTop: 10, paddingHorizontal: 20 }}>
                 กรงที่ให้บริการภายในร้าน
@@ -325,9 +331,6 @@ class Store extends Component {
             animationType="slide"
             transparent={true}
             visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal Closed");
-            }}
           >
             <View style={styles.modalContainer}>
               <Container style={styles.modal}>
@@ -354,6 +357,18 @@ class Store extends Component {
                 <Content padder>{selectPet}</Content>
               </Container>
             </View>
+          </Modal>
+          <Modal animationType='fade' visible={this.state.imageModalVisible} transparent={true}>
+              <Button style={styles.modalContainer} onPress={()=>this.setState({imageModalVisible:false})}>
+                <Container style={{flex:0.5,backgroundColor: "rgba(0, 0, 0, 0.0)"}}>
+                  <SliderBox
+                    images={this.state.images}
+                    sliderBoxHeight={250}
+                    dotColor="#FFEE58"
+                    inactiveDotColor="#90A4AE"
+                  />
+                </Container>
+              </Button>
           </Modal>
           <NavFooter />
         </Container>
