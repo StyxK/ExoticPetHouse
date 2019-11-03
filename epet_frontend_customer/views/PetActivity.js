@@ -12,7 +12,8 @@ import {
   View,
   Thumbnail,
   Label,
-  Fab
+  Fab,
+  Button
 } from "native-base";
 import React, { Component } from "react";
 import { TouchableHighlight } from "react-native";
@@ -53,11 +54,12 @@ export default class PetActivity extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
-            <Icon
-              style={{ color: theme.primaryTextColor }}
-              onPress={() => Actions.pop()}
-              name="ios-arrow-back"
-            />
+            <Button rounded transparent onPress={() => Actions.pop()}>
+              <Icon
+                style={{ color: theme.primaryTextColor,fontSize:theme.arrowSize }}
+                name="arrow-back"
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 3, alignItems: "center" }}>
             <Text style={{ color: theme.primaryTextColor }}>
@@ -66,55 +68,53 @@ export default class PetActivity extends Component {
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
-        <Content style={{ backgroundColor: theme.backgroundColor }}>
-          <View
-            style={{
-              backgroundColor: theme.accentColor,
-              flexDirection: "row",
-              marginBottom: 5
-            }}
-          >
-            <Left style={{ flex: 1, alignItems: "center" }}>
-              {pet.image ? (
-                <Thumbnail
-                  style={{ width: 80, height: 80 }}
-                  source={{ uri: pet.image }}
-                />
-              ) : (
-                <Thumbnail
-                  style={{ width: 80, height: 80 }}
-                  source={require("../assets/no_image_available.jpeg")}
-                />
-              )}
-            </Left>
-            <Body style={{ flex: 2, alignItems: "flex-start" }}>
-              <Label />
-              <Label style={{ color: theme.accentTextColor }}>
-                {" "}
-                น้อง <Label> {pet.name} </Label>{" "}
-              </Label>
-              <Label style={{ color: theme.accentTextColor }}>
-                {" "}
-                อายุ <Label> {pet.age} </Label> เดือน{" "}
-              </Label>
-              <Label style={{ color: theme.accentTextColor }}>
-                {" "}
-                เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label>{" "}
-              </Label>
-              <Label />
-            </Body>
-          </View>
+        <View
+          style={{
+            backgroundColor: theme.primaryColor,
+            flexDirection: "row",
+          }}
+        >
+          <Left style={{ flex: 1, alignItems: "center" }}>
+            {pet.image ? (
+              <Thumbnail
+                circular
+                style={{ width: 80, height: 80 }}
+                source={{ uri: pet.image }}
+              />
+            ) : (
+              <Thumbnail
+                style={{ width: 80, height: 80 }}
+                source={require("../assets/no_image_available.jpeg")}
+              />
+            )}
+          </Left>
+          <Body style={{ flex: 2, alignItems: "flex-start" }}>
+            <Label />
+            <Label style={{ color: theme.accentTextColor }}>
+              {" "}
+              น้อง <Label> {pet.name} </Label>{" "}
+            </Label>
+            <Label style={{ color: theme.accentTextColor }}>
+              {" "}
+              อายุ <Label> {pet.age} </Label> เดือน{" "}
+            </Label>
+            <Label style={{ color: theme.accentTextColor }}>
+              {" "}
+              เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label>{" "}
+            </Label>
+            <Label />
+          </Body>
+        </View>
+        <Content padder style={{ backgroundColor: theme.backgroundColor }}>
           {activities.map(activity => (
-            <TouchableHighlight key={activity.id}>
-              <ActivitiesCard activity={activity} />
-            </TouchableHighlight>
+              <ActivitiesCard key={activity.id} activity={activity} />
           ))}
         </Content>
         <Fab
           onPress={this.goToCamera(cage)}
-          style={{ backgroundColor: theme.primaryColor }}
+          style={{ backgroundColor: theme.secondaryColor }}
         >
-          <Icon name="camera" />
+          <Icon name="md-videocam" />
         </Fab>
       </Container>
     );

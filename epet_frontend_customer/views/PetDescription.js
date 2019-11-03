@@ -69,77 +69,84 @@ export default class PetDescription extends Component {
           </Grid>
         </Container>
         <Container style={{flex:2}}>
-          <Content>
+          <Content style={{backgroundColor:theme.primaryColor}}>
             <Card transparent>
-              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                <Left>
-                  <Text>ข้อมูลพื้นฐาน</Text>
-                </Left>
+              <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                  <Left>
+                    <Text style={{color:'white'}}>อายุ</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text style={{color:'white'}}>{pet.age} เดือน</Text>
+                  </Right>
+                </View>
               </CardItem>
-              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                <Left>
-                  <Text>อายุ</Text>
-                </Left>
-                <Right style={{alignItems:'flex-start'}}>
-                  <Text>{pet.age} เดือน</Text>
-                </Right>
-              </CardItem>
-              <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                <Left>
-                  <Text>เพศ</Text>
-                </Left>
-                <Right style={{alignItems:'flex-start'}}>
-                  <Text>{pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}</Text>
-                </Right>
+              <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                  <Left>
+                    <Text style={{color:'white'}}>เพศ</Text>
+                  </Left>
+                  <Right style={{alignItems:'flex-start'}}>
+                    <Text style={{color:'white'}}>{pet.gender == "male" ? "เพศผู้" : "เพศเมีย"}</Text>
+                  </Right>
+                </View>
               </CardItem>
               {
                 pet.congenitalDisease != null ?
-                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                  <Left>
-                    <Text>โรคประจำตัว</Text>
-                  </Left>
-                  <Right style={{alignItems:'flex-start'}}>
-                    <Text>{pet.congenitalDisease}</Text>
-                  </Right>
+                <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                    <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                    <Left>
+                      <Text style={{color:'white'}}>โรคประจำตัว</Text>
+                    </Left>
+                    <Right style={{alignItems:'flex-start'}}>
+                      <Text style={{color:'white'}}>{pet.congenitalDisease}</Text>
+                    </Right>
+                  </View>
                 </CardItem>
                 :
                 null  
               }
               {
                 pet.allergicFoods != null ?
-                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                  <Left>
-                    <Text>อาหารที่แพ้</Text>
-                  </Left>
-                  <Right style={{alignItems:'flex-start'}}>
-                    <Text>{pet.allergicFoods}</Text>
-                  </Right>
+                <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                  <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                    <Left>
+                      <Text style={{color:'white'}}>อาหารที่แพ้</Text>
+                    </Left>
+                    <Right style={{alignItems:'flex-start'}}>
+                      <Text style={{color:'white'}}>{pet.allergicFoods}</Text>
+                    </Right>
+                  </View>
                 </CardItem>
                 :
                 null  
               }
               {
                 pet.favThing != null ?
-                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                  <Left>
-                    <Text>สิ่งที่ชอบ</Text>
-                  </Left>
-                  <Right style={{alignItems:'flex-start'}}>
-                    <Text>{pet.favThing}</Text>
-                  </Right>
+                <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                  <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                    <Left>
+                      <Text style={{color:'white'}}>สิ่งที่ชอบ</Text>
+                    </Left>
+                    <Right style={{alignItems:'flex-start'}}>
+                      <Text style={{color:'white'}}>{pet.favThing}</Text>
+                    </Right>
+                  </View>
                 </CardItem>
                 :
                 null  
               }
               {
                 pet.hateThing != null ?
-                <CardItem style={{borderBottomWidth:0.5,borderBottomColor:'grey'}}>
-                  <Left>
-                    <Text>สิ่งที่ไม่ชอบ</Text>
-                  </Left>
-                  <Right style={{alignItems:'flex-start'}}>
-                    <Text>{pet.hateThing}</Text>
-                  </Right>
+                <CardItem style={{backgroundColor:'rgba(0,0,0,0)'}}>
+                  <View style={{flexDirection:'row',backgroundColor:theme.primaryColor3,padding:10,borderRadius:5}}>
+                    <Left>
+                      <Text style={{color:'white'}}>สิ่งที่ไม่ชอบ</Text>
+                    </Left>
+                    <Right style={{alignItems:'flex-start'}}>
+                      <Text style={{color:'white'}}>{pet.hateThing}</Text>
+                    </Right>
+                  </View>
                 </CardItem>
                 :
                 null  

@@ -18,7 +18,10 @@ import {
   Text,
   List,
   Body,
-  View
+  View,
+  Grid,
+  Col,
+  Row
 } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet, Image } from "react-native";
@@ -60,29 +63,6 @@ export default class AddPet extends Component {
     };
     ImagePicker.launchImageLibrary(options, response => {
       if (response.uri) {
-        // const formData = new FormData();
-        // formData.append("file", {
-        //   name: response.fileName,
-        //   type: response.type,
-        //   uri: response.uri
-        // });
-        // alert(1);
-
-        // axios({
-        //   method: "post",
-        //   url: API_URL + "/image",
-        //   data: formData,
-        //   config: { headers: { "Content-Type": "multipart/form-data" } }
-        // })
-        //   .then(function(response) {
-        //     alert(JSON.stringify(response));
-        //   })
-        //   .catch(function(response) {
-        //     alert(JSON.stringify(response));
-        //   });
-
-        //alert(JSON.stringify(response))
-        //alert(JSON.stringify('data:image/jpeg;base64,' + response.data))
         this.setState({
           image: "data:image/jpeg;base64," + response.data,
           imageFile: response
@@ -109,30 +89,93 @@ export default class AddPet extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
-            <Icon
-              name="ios-arrow-back"
-              onPress={Actions.pop}
-              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-            />
+            <Button rounded transparent onPress={Actions.pop}>
+              <Icon
+                name="arrow-back"
+                style={{ color: theme.primaryTextColor, marginLeft: 10 ,fontSize:theme.arrowSize}}
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 1, alignItems: "center" }}>
             <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
-              Add Pet
+              แก้ไขข้อมูล
             </Title>
           </Body>
-          <Right />
+          <Right>
+            <Button rounded transparent onPress={this.submitForm}>
+              <Icon
+                name="md-checkmark"
+                style={{ color: theme.primaryTextColor, marginLeft: 10 ,fontSize:theme.arrowSize}}
+              />
+            </Button>
+          </Right>
         </Header>
         <Content padder>
           <Form>
-            <Label>ชื่อ</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("name")}
-                defaultValue={name}
-              />
-            </Item>
-            <Label>ประเภท</Label>
-            <Item picker>
+            <View style={{flexDirection:'row'}}>
+              <Left style={{flex:0.5}}>
+                <View style={{ display: "flex", justifyContent: "center" }}>
+                  <Button transparent onPress={this.handleChoosePhoto}>
+                    <Label style={{width:100,position:'absolute',bottom:-30,zIndex:1,backgroundColor:'black',color:'white',borderBottomLeftRadius:5,borderBottomRightRadius:5,textAlign:'center'}}>
+                      เลือกรูป
+                    </Label>
+                    {
+                      image ?
+                        <Image
+                          source={{ uri: image }}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderColor: theme.primaryColor,
+                            borderWidth: 1,
+                            borderRadius: 5
+                          }}
+                        />
+                        :
+                        <Image
+                          source={{ uri: 'epet_frontend_customer/assets/no_image_available.jpeg' }}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderColor: theme.primaryColor,
+                            borderWidth: 1,
+                            borderRadius: 5
+                          }}
+                        />
+                    }
+                  </Button>
+                </View>
+              </Left>
+              <Right>
+                <Item style={{borderColor:'transparent'}}>
+                  <Left style={{flex:0.5}}>
+                    <Label>ชื่อ</Label>
+                  </Left>
+                  <Body style={{flex:2}}>
+                    <Input
+                      style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                      onChangeText={this.onChangeText("name")}
+                      defaultValue={name}
+                    />
+                  </Body>
+                </Item>
+                <Item style={{borderColor:'transparent'}}>
+                  <Left style={{flex:0.5}}>
+                    <Label>อายุ</Label>
+                  </Left>
+                  <Body style={{flex:2}}>
+                    <Input
+                      style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                      keyboardType="numeric"
+                      onChangeText={this.onChangeText("age")}
+                      defaultValue={age + ""}
+                    />
+                  </Body>
+                </Item>
+              </Right>
+            </View>
+            <Item style={{borderColor:'transparent'}}>
+              <Label>ประเภท</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -161,113 +204,87 @@ export default class AddPet extends Component {
                 />
               </Picker>
             </Item>
-            <Label>อายุ</Label>
-            <Item stackedLabel>
-              <Input
-                style={styles.textInput}
-                keyboardType="numeric"
-                onChangeText={this.onChangeText("age")}
-                defaultValue={age + ""}
-              />
-            </Item>
-            <Label>เพศ</Label>
-            <ListItem>
-              <Left>
-                <Text>เพศผู้</Text>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>เพศ</Label>
               </Left>
-              <Right>
-                <Radio
-                  selected={gender == "male"}
-                  onPress={() => this.onChangeText("gender")("male")}
-                />
-              </Right>
-            </ListItem>
-            <ListItem>
-              <Left>
-                <Text>เพศเมีย</Text>
+              <Body underline={false} style={{flex:5,alignItems:'flex-start',flexDirection:'row'}}>
+                <Item style={{padding:10,borderColor:'transparent'}}>
+                  <Radio
+                    selected={gender == "male"}
+                    onPress={() => this.onChangeText("gender")("male")}
+                    />
+                  <Text> เพศผู้ </Text>
+                </Item>
+                <Item underline={false} style={{padding:10,borderColor:'transparent'}}>
+                  <Radio
+                    selected={gender == "female"}
+                    onPress={() => this.onChangeText("gender")("female")}
+                    />
+                  <Text> เพศเมีย </Text>
+                </Item>
+              </Body>
+            </Item>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>โรคประจำตัว</Label>
               </Left>
-              <Right>
-                <Radio
-                  selected={gender == "female"}
-                  onPress={() => this.onChangeText("gender")("female")}
+              <Body style={{flex:2}}>
+                <Input
+                  style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                  onChangeText={this.onChangeText("congenitalDisease")}
+                  defaultValue={congenitalDisease}
                 />
-              </Right>
-            </ListItem>
-            <Label>โรคประจำตัว</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("congenitalDisease")}
-                defaultValue={congenitalDisease}
-              />
+              </Body>
             </Item>
-            <Label>ยาที่แพ้</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("allergicDrugs")}
-                defaultValue={allergicDrugs}
-              />
-            </Item>
-            <Label>อาหารที่แพ้</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("allergicFoods")}
-                defaultValue={allergicFoods}
-              />
-            </Item>
-            <Label>สิ่งที่ชอบ</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("favThing")}
-                defaultValue={favThing}
-              />
-            </Item>
-            <Label>สิ่งที่ไม่ชอบ</Label>
-            <Item stackedLabel>
-              <Input
-                onChangeText={this.onChangeText("hateThing")}
-                defaultValue={hateThing}
-              />
-            </Item>
-            <View style={{ display: "flex", justifyContent: "center" }}>
-              {image && (
-                <Image
-                  source={{ uri: image }}
-                  style={{
-                    width: 300,
-                    height: 300,
-                    borderColor: theme.primaryColor,
-                    borderWidth: 1,
-                    borderRadius: 5
-                  }}
-                />
-              )}
-            </View>
-            <View style={{ display: "flex", flexDirection: "row", margin: 15 }}>
-              <Left>
-                <Button
-                  style={{
-                    backgroundColor: theme.primaryColor,
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.handleChoosePhoto}
-                >
-                  <Text>Choose Photo</Text>
-                </Button>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>ยาที่แพ้</Label>
               </Left>
-              <Right>
-                <Button
-                  style={{
-                    backgroundColor: theme.primaryColor,
-                    flex: 1,
-                    borderRadius: 10
-                  }}
-                  onPress={this.submitForm}
-                >
-                  <Text>{id ? "Edit" : "Add Pet"}</Text>
-                </Button>
-              </Right>
-            </View>
+              <Body style={{flex:2}}>
+                <Input
+                  style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                  onChangeText={this.onChangeText("allergicDrugs")}
+                  defaultValue={allergicDrugs}
+                />
+              </Body>
+            </Item>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>อาหารที่แพ้</Label>
+              </Left>
+              <Body style={{flex:2}}>
+                <Input
+                  style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                  onChangeText={this.onChangeText("allergicFoods")}
+                  defaultValue={allergicFoods}
+                />
+              </Body>
+            </Item>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>สิ่งที่ชอบ</Label>
+              </Left>
+              <Body style={{flex:2}}>
+                <Input
+                  style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                  onChangeText={this.onChangeText("favThing")}
+                  defaultValue={favThing}
+                />
+              </Body>
+            </Item>
+            <Item style={{borderColor:'transparent'}}>
+              <Left style={{flex:1}}>
+                <Label>สิ่งที่ไม่ชอบ</Label>
+              </Left>
+              <Body style={{flex:2}}>
+                <Input
+                  style={{width:'100%',borderBottomWidth:1,maxHeight:'90%',borderRadius:5,borderBottomColor:'grey'}}
+                  onChangeText={this.onChangeText("hateThing")}
+                  defaultValue={hateThing}
+                />
+              </Body>
+            </Item>
           </Form>
         </Content>
       </Container>

@@ -17,13 +17,13 @@ export default class HistoryList extends Component {
       .format("DD MMM YYYY");
     return (
       <Card transparent style={{flex:1}}>
-        <CardItem button onPress={onPress} style={{borderBottomWidth:0.5}}>
-          <Body style={{ flex: 2 }}>
+        <CardItem button onPress={onPress} style={{borderRadius:10}}>
+          <Body style={{ flex:3,justifyContent:'center' }}>
             <Text style={{ fontSize: 15 }}>
               <Text> {store.name} </Text>
             </Text>
-            <Text style={{ fontSize: 15 ,paddingVertical:5}}>
-              <Icon name='md-calendar' style={{color:theme.secondaryColor}}/> <Text> {startDate} - {endDate} </Text>
+            <Text style={{ paddingVertical:5 }}>
+              <Icon name='md-calendar' style={{color:theme.secondaryColor}}/> <Text note> {startDate} - {endDate} </Text>
             </Text>
           </Body>
         </CardItem>

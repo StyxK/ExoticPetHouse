@@ -58,7 +58,7 @@ export default class Profile extends Component {
             />
           </Right>
         </Header>
-        <View style={{ backgroundColor: theme.secondaryColor }}>
+        <View style={{ backgroundColor: theme.primaryColor,borderBottomRightRadius:10,borderBottomLeftRadius:10 }}>
           <List style={{ alignItems: "center" }}>
             <ListItem noBorder>
               <Thumbnail source={{ uri: PIC_URI }} />

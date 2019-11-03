@@ -19,38 +19,31 @@ export default class ActivitiesCard extends Component {
   render() {
     const { activity } = this.props;
     return (
-      <View style={styles.container}>
-        <Card key={activity.id} style={{ marginLeft: 10, marginRight: 10 }}>
-          <CardItem style={{ backgroundColor: theme.primaryColor }}>
-            <Left>
-              <Text style={{ color: theme.primaryTextColor }}>{activity.topic}</Text>
-            </Left>
-            <Right>
-              <Text style={{ color: theme.primaryTextColor }}>
-                {" "}
-                {moment(activity.date).fromNow()}{" "}
-              </Text>
-            </Right>
+      <Card key={activity.id}>
+        <CardItem style={{ backgroundColor: theme.primaryColor3 }}>
+          <Left>
+            <Text style={{ color: theme.primaryTextColor }}>{activity.topic}</Text>
+          </Left>
+          <Right>
+            <Text style={{ color: theme.primaryTextColor }}>
+              {" "}
+              {moment(activity.date).fromNow()}{" "}
+            </Text>
+          </Right>
+        </CardItem>
+        {activity.picture ? (
+          <CardItem cardBody>
+            <Image
+              source={{ uri: activity.picture }}
+              style={{ height: 150, width: null, flex: 1 }}
+            />
           </CardItem>
-          {activity.picture ? (
-            <CardItem cardBody>
-              <Image
-                source={{ uri: activity.picture }}
-                style={{ height: 200, width: null, flex: 1 }}
-              />
-            </CardItem>
-          ) : null}
-          <CardItem>
-            <Text>{activity.description}</Text>
-          </CardItem>
-        </Card>
-      </View>
+        ) : null}
+        <CardItem>
+          <Text>{activity.description}</Text>
+        </CardItem>
+      </Card>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    margin: 10
-  }
-});

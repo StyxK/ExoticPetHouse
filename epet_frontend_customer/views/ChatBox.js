@@ -46,7 +46,7 @@ class ChatBox extends Component {
   getMessage = () =>{
     axios.post('chat/getMessageInRoom',
         {
-            customer : this.props.customer ,
+            customer : this.props.user.userName ,
             store : this.props.storeId
         }
         ).then(
@@ -59,7 +59,7 @@ class ChatBox extends Component {
   }
 
   userReply = () => {
-    socket.emit('customer',{message:this.state.message,customerUsername:this.props.customer,store:this.props.storeId,role:1,time: moment().unix()})
+    socket.emit('customer',{message:this.state.message,customerUsername:this.props.user.userName,store:this.props.storeId,role:1,time: moment().unix()})
     socket.once('customerSend',async data=>{
         this.getMessage()
     })
@@ -138,7 +138,7 @@ class ChatBox extends Component {
           )
       );
     });
-    console.log(this.state.messageList,'ขอกินผักโขมอบชีสก่อน')
+    console.log(this.props,'ขอกินผักโขมอบชีสก่อน')
     return list;
   };
 
@@ -147,13 +147,12 @@ class ChatBox extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
-            <Icon
-              style={{ color: theme.primaryTextColor }}
-              onPress={() => {
-                this.goToChat();
-              }}
-              name="ios-arrow-back"
-            />
+            <Button rounded transparent onPress={() => { this.goToChat() }}>
+              <Icon
+                style={{ color: theme.primaryTextColor }}
+                name="arrow-back"
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 2.5 }}>
             <Text style={{ color: theme.primaryTextColor }}> แชทกับร้าน </Text>

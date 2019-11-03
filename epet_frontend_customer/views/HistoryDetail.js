@@ -35,6 +35,7 @@ class HistoryDetail extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     axios.get("/order/" + this.props.item.id).then(response => {
       this.setState({
         history: response.data,
@@ -49,10 +50,10 @@ class HistoryDetail extends Component {
     const { id, orderStatus, orderLines = [], store = {} } = history;
     let startDate = moment(history.startDate)
       .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
+      .format("DD MMM YYYY");
     let endDate = moment(history.endDate)
       .tz("Asia/Bangkok")
-      .format("DD MMM YYYY HH:mm");
+      .format("DD MMM YYYY");
     let submitDate = moment(history.submitDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY HH:mm");
@@ -60,7 +61,7 @@ class HistoryDetail extends Component {
       <Container>
         <Container style={{ height: '25%', flex: 0.47 }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
-            <Left style={{ flex: 1 }}>
+            <Left style={{ flex: 1.5 }}>
               <Button rounded transparent onPress={() => Actions.history()}>
                 <Icon
                   name="arrow-back"
@@ -73,7 +74,11 @@ class HistoryDetail extends Component {
                 รายละเอียดการจอง
               </Title>
             </Body>
-            <Right />
+            <Right style={{flex:1.5}}>
+              <Button transparent rounded onPress={()=>Actions.chatbox({ customer: this.props.item.customerUserName, storeId: this.props.item.storeId })}>
+                <Icon name='ios-chatbubbles'/>
+              </Button>
+            </Right>
           </Header>
           <View padder style={{ backgroundColor: theme.primaryColor, borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
             <Text style={{ fontSize: 15, color: theme.infoTextColor }}>

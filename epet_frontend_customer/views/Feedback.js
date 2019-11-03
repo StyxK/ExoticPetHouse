@@ -78,15 +78,14 @@ export class Feedback extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
-            <Icon
-              name="ios-arrow-back"
-              onPress={() => {
-                Actions.pop();
-              }}
-              style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-            />
+            <Button rounded transparent onPress={() => { Actions.pop() }}>
+              <Icon
+                name="arrow-back"
+                style={{ color: theme.primaryTextColor,fontSize:theme.arrowSize }}
+              />
+            </Button>
           </Left>
-          <Body style={{flex:3,justifyContent:'center',alignItems:'center'}}>
+          <Body style={{flex:5,justifyContent:'center',alignItems:'center'}}>
             <Label style={{ color: theme.primaryTextColor, fontSize: 20,textAlign:'center' }}>
               ให้คะแนนร้าน
             </Label>

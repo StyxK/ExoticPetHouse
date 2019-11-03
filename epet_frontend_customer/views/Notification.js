@@ -58,17 +58,15 @@ class Notification extends Component {
                     <CardItem button header style={{flex:1,backgroundColor:'#e6e1de',borderTopLeftRadius:7,borderTopRightRadius:7,flexDirection:'column'}} onPress={()=>Actions.historyDetail({item:message})}>
                         <Right style={{flex:1,flexDirection:'row'}}>
                             <Body style={{flex:4,alignItems:'flex-start'}}>
-                                <Label style={{fontWeight:'bold'}}> ออร์เดอร์ของคุณในร้าน {message.store.name}</Label>
-                                <Label style={{fontWeight:'bold'}}> อยู่ในสถานะ {message.orderStatus.status}</Label>
+                                <Label style={{fontWeight:'bold',fontSize:15}}> ออร์เดอร์ของคุณในร้าน {message.store.name}</Label>
+                                <Label style={{fontWeight:'bold',fontSize:15}}> อยู่ในสถานะ {message.orderStatus.status}</Label>
                             </Body>
                             <Right style={{flex:0.7}}>
-                                <Icon name='ios-arrow-forward'/>
+                                <Icon name='search'/>
                             </Right>
                         </Right>
                         <Left style={{marginTop:10}}>
-                            <Left style={{flex:1}}>
-                                <Icon name='search' onPress={()=>alert('hello')}/>
-                            </Left>
+                            <Left style={{flex:1}}/>                            
                             <Right style={{flex:10}}>
                                 <Label style={{fontSize:13}}>เมื่อวันที่ {moment.unix(data.millisec).format("DD MMM YYYY hh:mm a")}</Label>
                             </Right>
@@ -85,7 +83,9 @@ class Notification extends Component {
             <Container>
                 <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }}>
-                        <Icon name='ios-arrow-back' style={{color:'white'}} onPress={()=>Actions.history()}/>
+                        <Button rounded transparent onPress={()=>Actions.history()}>
+                            <Icon name='arrow-back' style={{color:'white'}} />
+                        </Button>
                     </Left>
                     <Body style={{ flex: 3, alignItems: 'center' }}>
                         <Text style={{ color: "white" }}> การแจ้งเตือน </Text>

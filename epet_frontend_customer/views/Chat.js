@@ -10,7 +10,8 @@ import {
   Icon,
   List,
   ListItem,
-  Label
+  Label,
+  Title
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 import axios from "axios";
@@ -56,29 +57,29 @@ class Chat extends Component {
     let list = [];
     this.state.chatList.map(data => {
       list.push(
-        <ListItem
+        <ListItem avatar
           key={data.chat_id}
           onPress={() =>
             this.goToChatBox(data.chat_customerUsername, data.chat_storeId)
           }
         >
-          <Left style={{ flex: 0.5 }}>
+          <Left>
             <Icon name="person" />
           </Left>
           <Body style={{ flex: 3 }}>
-            <Label>
+            <Label style={{fontWeight:'bold'}}>
               {data.store_name}
               <Text> {} </Text>
             </Label>
             <View style={{ flexDirection: "row" }}>
               <Left style={{ flex: 2 }}>
-                <Text note style={{ fontSize: 15 }}>
+                <Text note>
                   {data.chat_role == 1 ? "คุณ : " : `ร้าน : `}
                   {data.chat_message}
                 </Text>
               </Left>
-              <Right style={{ flex: 1 }}>
-                <Text style={{ alignSelf: "flex-end", fontSize: 12.5 }}>
+              <Body>
+                <Text style={{ fontSize: 12.5 }}>
                   {console.log(
                     duration(parseInt(data.chat_time), "seconds"),
                     "duration"
@@ -97,7 +98,7 @@ class Chat extends Component {
                   )
                   }
                 </Text>
-              </Right>
+              </Body>
             </View>
           </Body>
         </ListItem>
@@ -111,9 +112,9 @@ class Chat extends Component {
       <Container>
         <Content>
           <Header style={{ backgroundColor: theme.primaryColor }}>
-            <Left style={{ flex: 2 }} />
-            <Body style={{ flex: 2.5 }}>
-              <Text style={{ color: theme.primaryTextColor }}> แชทกับร้านรับฝาก </Text>
+            <Left style={{ flex: 1 }} />
+            <Body style={{ flex: 4,alignItems:'center'}}>
+              <Title style={{ color: theme.primaryTextColor }}> แชทกับร้านรับฝาก </Title>
             </Body>
             <Right style={{ flex: 1 }} />
           </Header>

@@ -86,7 +86,7 @@ class History extends Component {
   render() {
     const { page, statuses } = this.state;
     return (
-      <Container style={{ display: "flex", height: "100%" }}>
+      <Container style={{ display: "flex", height: "100%"}}>
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}></Left>
@@ -102,12 +102,12 @@ class History extends Component {
           <View style={{ flex: 1 }}>
             {
               this.state.loading ?
-              <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+              <View style={{flex:1,backgroundColor:theme.backgroundColor,justifyContent:'center',alignItems:'center'}}>
                 {loading()}
               </View>
               :
               ( statuses.length > 0 && (
-                <ScrollableTabView renderTabBar={() => <ScrollableTabBar underlineStyle={{backgroundColor:theme.secondaryColor}} textStyle={{color:'white'}} backgroundColor={theme.primaryColor} />}>
+                <ScrollableTabView style={{backgroundColor:theme.backgroundColor}} renderTabBar={() => <ScrollableTabBar underlineStyle={{backgroundColor:theme.secondaryColor}} textStyle={{color:'white'}} backgroundColor={theme.primaryColor} />}>
                   {this.getSegments()}
                 </ScrollableTabView>
               ))
@@ -122,7 +122,7 @@ class History extends Component {
   getSegments = () => {
     const { statuses,history } = this.state;
     const segments = statuses.map(status => (
-      <Content key={status.id} tabLabel={status.status}>
+      <Content padder key={status.id} tabLabel={status.status}>
         {history
           .filter(item => item.orderStatus.id === status.id)
           .map(item => {

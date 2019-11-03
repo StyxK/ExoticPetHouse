@@ -11,7 +11,8 @@ import {
   View,
   Thumbnail,
   Label,
-  Fab
+  Fab,
+  Button
 } from "native-base";
 import React, { Component } from "react";
 import { Image, StyleSheet, Dimensions, WebView } from "react-native";
@@ -52,11 +53,12 @@ export default class Camera extends Component {
       <Container style={{ display: "flex" }}>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }}>
+            <Button rounded transparent onPress={() => Actions.pop()}>
             <Icon
-              style={{ color: theme.primaryTextColor }}
-              onPress={() => Actions.pop()}
-              name="ios-arrow-back"
+              style={{ color: theme.primaryTextColor ,fontSize:theme.arrowSize}}
+              name="arrow-back"
             />
+            </Button>
           </Left>
           <Body style={{ flex: 3, alignItems: "center" }}>
             <Text style={{ color: theme.primaryTextColor }}>Camera</Text>

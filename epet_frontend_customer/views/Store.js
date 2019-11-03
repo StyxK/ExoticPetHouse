@@ -308,14 +308,12 @@ class Store extends Component {
                         style={{ color: "white", fontSize: 40 }}
                       />
                     </Left>
-                    <Body style={{ flex: 1 }}>
+                    <Body style={{ flex: 1.5 }}>
                       <Label style={{ color: "white", fontSize: 15 }}>
-                        {" "}
-                        ขณะนี้ร้านไม่สามารถให้บริการได้{" "}
+                        ขณะนี้ร้านไม่สามารถให้บริการได้
                       </Label>
                       <Label style={{ color: "white", fontSize: 15 }}>
-                        {" "}
-                        ขออภัยในความไม่สะดวก{" "}
+                        ขออภัยในความไม่สะดวก
                       </Label>
                     </Body>
                     <Right style={{ flex: 0.2 }} />
@@ -361,12 +359,12 @@ class Store extends Component {
           <Modal animationType='fade' visible={this.state.imageModalVisible} transparent={true}>
               <Button style={styles.modalContainer} onPress={()=>this.setState({imageModalVisible:false})}>
                 <Container style={{flex:0.5,backgroundColor: "rgba(0, 0, 0, 0.0)"}}>
-                  <SliderBox
-                    images={this.state.images}
-                    sliderBoxHeight={250}
-                    dotColor="#FFEE58"
-                    inactiveDotColor="#90A4AE"
-                  />
+                    <SliderBox
+                      images={this.state.images}
+                      sliderBoxHeight={250}
+                      dotColor="#FFEE58"
+                      inactiveDotColor="#90A4AE"
+                    />
                 </Container>
               </Button>
           </Modal>

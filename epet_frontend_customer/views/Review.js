@@ -14,7 +14,8 @@ import {
     Right,
     Text,
     Title,
-    Thumbnail
+    Thumbnail,
+    Button
 } from "native-base";
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
@@ -34,6 +35,9 @@ export default class Review extends Component {
                             <Thumbnail />
                             <Text>{data.customerUserName}</Text>
                         </Left>
+                        <Right>
+                            <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
+                        </Right>
                     </CardItem>
                     <CardItem>
                         <StarRating
@@ -51,11 +55,6 @@ export default class Review extends Component {
                     <CardItem bordered>
                         <Text>{data.comment}</Text>
                     </CardItem>
-                    <CardItem bordered>
-                        <Left>
-                            <Text note>{moment(data.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
-                        </Left>
-                    </CardItem>
                 </List>
             );
         })
@@ -64,20 +63,19 @@ export default class Review extends Component {
                 <Container>
                     <Header style={{ backgroundColor: theme.primaryColor }}>
                         <Left style={{ flex: 1 }}>
-                            <Icon
-                                name="ios-arrow-back"
-                                onPress={() => {
-                                    Actions.pop();
-                                }}
-                                style={{ color: theme.primaryTextColor, marginLeft: 10 }}
-                            />
+                            <Button rounded transparent onPress={() => { Actions.pop() }}>
+                                <Icon
+                                    name="arrow-back"
+                                    style={{ color: theme.primaryTextColor, fontSize:theme.arrowSize }}
+                                />
+                            </Button>
                         </Left>
-                        <Body style={{ flex: 1, alignItems: "center" }}>
+                        <Body style={{ flex: 5, alignItems: "center" }}>
                             <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                                 รีวิวการให้บริการ
-              </Title>
+                            </Title>
                         </Body>
-                        <Right />
+                        <Right style={{flex:1}}/>
                     </Header>
                     <Content>
                         <Card>
