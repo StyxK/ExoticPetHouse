@@ -8,6 +8,7 @@ import { Entity, Column, OneToMany, ManyToOne, PrimaryGeneratedColumn, JoinColum
 import { Chat } from "../chat/chat.entity";
 import { StoreNotification } from "../notification/notification.store.entity";
 import { CageType } from "../cage/cage.type.entity";
+import { StoreImage } from "./store.image.entity";
 @Entity()
 export class Store {
 
@@ -25,6 +26,9 @@ export class Store {
 
     @Column()
     maxOfDeposit: number;
+
+    @Column({ nullable: true })
+    image: string;
 
     @Column({nullable:true})
     banned: boolean
@@ -58,4 +62,7 @@ export class Store {
 
     @OneToMany(type => StoreNotification,notifications => notifications.store)
     notifications: StoreNotification[];
+
+    @OneToMany(type => StoreImage, storeImage => storeImage.store,{ nullable: true })
+    storeImages: StoreImage[];
 }

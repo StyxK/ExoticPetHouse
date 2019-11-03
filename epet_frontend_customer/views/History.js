@@ -102,7 +102,7 @@ class History extends Component {
           <View style={{ flex: 1 }}>
             {
               this.state.loading ?
-              <View style={{justifyContent:'center'}}>
+              <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                 {loading()}
               </View>
               :

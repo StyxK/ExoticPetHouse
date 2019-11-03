@@ -1,6 +1,7 @@
 import { CageType } from './cage/cage.type.entity';
 import { User } from './user/user.decorator';
 import { Store } from './store/store.entity';
+import { StoreImage } from './store/store.image.entity';
 import { PetActivity } from './petactivity/petactivity.entity';
 import { Feedback } from './feedback/feedback.entity';
 import { Customer } from './customer/customer.entity';
@@ -18,6 +19,7 @@ import { StoreownerModule } from './storeowner/storeowner.module';
 import { EmployeeModule } from './employee/employee.module';
 import { CustomerModule } from './customer/customer.module';
 import { PetModule } from './pet/pet.module';
+import { ImageModule } from './image/image.module';
 import { OrderLineModule } from './orderline/orderline.module';
 import { PetActivityModule } from './petactivity/petactivity.module';
 import { FeedbackModule } from './feedback/feedback.module';
@@ -31,7 +33,7 @@ import { ChatGateway, AppNotification } from './app.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
 import { ChargeModule } from './charge/charge.module';
-import { ScheduleModule } from 'nest-schedule'
+import { ScheduleModule } from 'nest-schedule';
 import { ScheduleService } from './app.schedule';
 import { AdminModule } from './admin/admin.module';
 import { NotificationModule } from './notification/notification.module';
@@ -64,10 +66,11 @@ import 'reflect-metadata';
         Pet,
         PetActivity,
         Store,
+        StoreImage,
         StoreOwner,
         User,
         CustomerNotification,
-        StoreNotification
+        StoreNotification,
       ],
       synchronize: true,
       logging: true,
@@ -80,6 +83,7 @@ import 'reflect-metadata';
     EmployeeModule,
     CustomerModule,
     PetModule,
+    ImageModule,
     OrderLineModule,
     PetActivityModule,
     FeedbackModule,
@@ -89,6 +93,6 @@ import 'reflect-metadata';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService,ChatGateway,AppNotification,ScheduleService],
+  providers: [AppService, ChatGateway, AppNotification, ScheduleService],
 })
 export class AppModule {}

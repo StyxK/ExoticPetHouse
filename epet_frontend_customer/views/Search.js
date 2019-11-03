@@ -135,7 +135,7 @@ export default class Search extends Component {
                 {startPoint && data.address ? (
                   <Text note>
                     <Icon name='md-pin' style={{color:'red',fontSize:20}}/>{" "}
-                    ร้านห่างจากคุณ{" "}
+                    ห่างจากคุณ{" "}
                     {distance(
                       startPoint.latitude,
                       startPoint.longitude,
@@ -143,7 +143,7 @@ export default class Search extends Component {
                       data.address.longitude,
                       "K"
                     ).toFixed(2)}{" "}
-                    กิโลเมตร
+                    กม.
                   </Text>
                 ) : (
                 null

@@ -1,7 +1,8 @@
-import { Body, ListItem, Text } from "native-base";
+import { Body, ListItem, Text, Card, CardItem, Icon, View } from "native-base";
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import moment from "moment-timezone";
+import theme from "../theme";
 
 export default class HistoryList extends Component {
 
@@ -14,34 +15,19 @@ export default class HistoryList extends Component {
     let endDate = moment(item.endDate)
       .tz("Asia/Bangkok")
       .format("DD MMM YYYY");
-    // let submitDate = moment(item.submitDate)
-    //   .tz("Asia/Bangkok")
-    //   .format("DD MMM YYYY");
     return (
-      <ListItem note onPress={onPress}>
-        <Body style={{ flex: 2 }}>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            เลขคำสั่งฝาก : <Text note> {id} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            ร้านที่ส่งฝาก : <Text note> {store.name} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            ฝากวันที่ : <Text note> {startDate} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            ถึงวันที่ : <Text note> {endDate} </Text>
-          </Text>
-          <Text style={{ fontSize: 15 }}>
-            {" "}
-            สถานะ : <Text note> {orderStatus.status} </Text>
-          </Text>
-        </Body>
-      </ListItem>
+      <Card transparent style={{flex:1}}>
+        <CardItem button onPress={onPress} style={{borderBottomWidth:0.5}}>
+          <Body style={{ flex: 2 }}>
+            <Text style={{ fontSize: 15 }}>
+              <Text> {store.name} </Text>
+            </Text>
+            <Text style={{ fontSize: 15 ,paddingVertical:5}}>
+              <Icon name='md-calendar' style={{color:theme.secondaryColor}}/> <Text> {startDate} - {endDate} </Text>
+            </Text>
+          </Body>
+        </CardItem>
+      </Card>
     );
   }
 }

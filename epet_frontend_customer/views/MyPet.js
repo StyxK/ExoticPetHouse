@@ -50,7 +50,7 @@ class MyPet extends Component {
           {pets.map((pet,index) => {
             if(i*3 <= index && index < (i+1)*3){
               return (
-                  <Col style={{ height: 115 ,width: 105,margin:10}}>
+                  <Col style={{ height: 115 ,width: 105,margin:7}}>
                     <Card style={{flex:1,borderRadius:30,justifyContent:'center'}}>
                       <CardItem button onPress={this.goToPetDescription(pet)} style={{borderRadius:30,justifyContent:'center'}}>
                         <PetCard pet={pet}/>

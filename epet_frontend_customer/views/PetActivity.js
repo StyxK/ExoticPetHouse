@@ -48,7 +48,7 @@ export default class PetActivity extends Component {
     const { orderLine } = this.props;
     const { pet, cage } = orderLine;
 
-    console.log(this.props)
+    console.log(this.props);
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
@@ -81,11 +81,11 @@ export default class PetActivity extends Component {
                   source={{ uri: pet.image }}
                 />
               ) : (
-                  <Thumbnail
-                    style={{ width: 80, height: 80 }}
-                    source={require("../assets/no_image_available.jpeg")}
-                  />
-                )}
+                <Thumbnail
+                  style={{ width: 80, height: 80 }}
+                  source={require("../assets/no_image_available.jpeg")}
+                />
+              )}
             </Left>
             <Body style={{ flex: 2, alignItems: "flex-start" }}>
               <Label />
@@ -111,7 +111,7 @@ export default class PetActivity extends Component {
           ))}
         </Content>
         <Fab
-          onPress={()=>{this.goToCamera(cage)}}
+          onPress={this.goToCamera(cage)}
           style={{ backgroundColor: theme.primaryColor }}
         >
           <Icon name="camera" />
@@ -120,9 +120,8 @@ export default class PetActivity extends Component {
     );
   }
 
-  goToCamera = (cage) => {
-    const { history } = this.props
-    console.log(history)
-    Actions.camera({ cage,history});
+  goToCamera = cage => () => {
+    const { storeId } = this.props;
+    Actions.camera({ cage, storeId });
   };
 }

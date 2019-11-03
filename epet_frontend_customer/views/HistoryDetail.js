@@ -124,7 +124,7 @@ class HistoryDetail extends Component {
                         backgroundColor: theme.primaryColor,
                         borderRadius: 10, flex: 1
                       }}
-                      onPress= {()=>{this.goToPetActivity(orderLine, history)}}
+                      onPress= {this.goToPetActivity(orderLine, history)}
                     >
                       <Icon name='paw'>
                         <Label style={{ marginLeft: 10, color: 'white' }}>activity</Label>
@@ -186,8 +186,9 @@ class HistoryDetail extends Component {
     }
   };
 
-  goToPetActivity = (orderLine, history) => {
-    Actions.petActivity({ orderLine, history });
+  goToPetActivity = (orderLine, history) => () => {
+    const {storeId} = history
+    Actions.petActivity({ orderLine, storeId });
   };
 }
 
