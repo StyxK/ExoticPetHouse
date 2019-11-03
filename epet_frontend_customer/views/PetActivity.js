@@ -56,7 +56,10 @@ export default class PetActivity extends Component {
           <Left style={{ flex: 1 }}>
             <Button rounded transparent onPress={() => Actions.pop()}>
               <Icon
-                style={{ color: theme.primaryTextColor,fontSize:theme.arrowSize }}
+                style={{
+                  color: theme.primaryTextColor,
+                  fontSize: theme.arrowSize
+                }}
                 name="arrow-back"
               />
             </Button>
@@ -71,7 +74,7 @@ export default class PetActivity extends Component {
         <View
           style={{
             backgroundColor: theme.primaryColor,
-            flexDirection: "row",
+            flexDirection: "row"
           }}
         >
           <Left style={{ flex: 1, alignItems: "center" }}>
@@ -107,15 +110,17 @@ export default class PetActivity extends Component {
         </View>
         <Content padder style={{ backgroundColor: theme.backgroundColor }}>
           {activities.map(activity => (
-              <ActivitiesCard key={activity.id} activity={activity} />
+            <ActivitiesCard key={activity.id} activity={activity} />
           ))}
         </Content>
-        <Fab
-          onPress={this.goToCamera(cage)}
-          style={{ backgroundColor: theme.secondaryColor }}
-        >
-          <Icon name="md-videocam" />
-        </Fab>
+        {cage.cameraAddress ? (
+          <Fab
+            onPress={this.goToCamera(cage)}
+            style={{ backgroundColor: theme.secondaryColor }}
+          >
+            <Icon name="md-videocam" />
+          </Fab>
+        ):<></>}
       </Container>
     );
   }
