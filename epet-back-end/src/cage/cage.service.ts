@@ -51,6 +51,11 @@ export class CageService {
 
   async update(id: string, data: Partial<CageDTO>) {
     await this.cageTypeRepository.update(id, data);
+    const cageType = await this.cageTypeRepository.findOne({ where: id });
+    for (let i = 0; i < data.quantity; i++) {
+      this.createCage(data, cageType);
+    }
+    cageType.quantity = cageType.quantity - 1;
     return await this.cageTypeRepository.find({ where: id });
   }
 

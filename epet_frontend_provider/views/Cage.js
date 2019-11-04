@@ -32,15 +32,11 @@ export default class Cage extends Component {
       typeName: "",
       description: undefined,
       price: undefined,
-      types: [],
       hasCamera: false
     };
   }
 
   componentDidMount() {
-    axios.get("/cage/types").then(response => {
-      this.setState({ types: response.data });
-    });
     if (this.props.cage) {
       const cage = this.props.cage;
       this.setState({
@@ -60,7 +56,7 @@ export default class Cage extends Component {
   };
 
   render() {
-    const { quantity, typeName, description, price, types } = this.state;
+    const { quantity, typeName, description, price} = this.state;
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
@@ -179,6 +175,7 @@ export default class Cage extends Component {
       await alert("แก้ไขข้อมูลกรงสำเร็จ");
       Actions.storeManager({ store: this.props.store });
     } catch (err) {
+      alert(JSON.stringify(err))
       await console.log(err);
       await alert("กรุณาตรวจสอบข้อมูล แล้วทำรายการใหม่อีกครั้ง");
     }
