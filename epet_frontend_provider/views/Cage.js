@@ -16,7 +16,9 @@ import {
   Label,
   FooterTab,
   Button,
-  Picker
+  Picker,
+  CheckBox,
+  ListItem
 } from "native-base";
 import { Actions } from "react-native-router-flux";
 import axios from "axios";
@@ -30,7 +32,8 @@ export default class Cage extends Component {
       typeName: "",
       description: undefined,
       price: undefined,
-      types: []
+      types: [],
+      hasCamera: false
     };
   }
 
@@ -49,6 +52,13 @@ export default class Cage extends Component {
     }
   }
 
+  checkCamera = () => {
+    const checked = this.state.hasCamera;
+    if (checked == true) {
+      this.setState({ hasCamera: false });
+    } else this.setState({ hasCamera: true });
+  };
+
   render() {
     const { quantity, typeName, description, price, types } = this.state;
     return (
@@ -62,7 +72,10 @@ export default class Cage extends Component {
             />
           </Left>
           <Body style={{ flex: 2.5 }}>
-            <Text style={{ color: "white" }}> เพิ่มกรงในร้าน </Text>
+            <Text style={{ color: "white" }}>
+              {" "}
+              {this.props.cage ? "แก้ไขข้อมูลกรง" : "เพิ่มกรงในร้าน"}
+            </Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
@@ -116,6 +129,21 @@ export default class Cage extends Component {
                 />
               </Item>
             </View>
+            <View style={{ marginVertical: 5, paddingHorizontal: 10 }}>
+              <Text style={{ marginHorizontal: 15, marginVertical: 2 }}>
+                กล้อง :
+              </Text>
+              <ListItem onPress={this.checkCamera}>
+                <CheckBox
+                  onPress={this.checkCamera}
+                  checked={this.state.hasCamera}
+                  color={theme.primaryColor}
+                />
+                <Body>
+                  <Text>ตัวเลือกสำหรับกรงที่ต้องการเพิ่มกล้อง</Text>
+                </Body>
+              </ListItem>
+            </View>
           </Form>
           {console.log(this.props.store.id, "storeId")}
         </Content>
@@ -159,7 +187,7 @@ export default class Cage extends Component {
   handleSubmit_Create = async () => {
     try {
       await console.log(this.state, "state");
-      
+
       await axios.post("/cage/" + this.props.store.id, this.state);
       await alert("เพิ่มกรงสำเร็จ");
       Actions.storeManager({ store: this.props.store });

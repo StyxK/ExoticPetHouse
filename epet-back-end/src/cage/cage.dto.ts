@@ -9,6 +9,7 @@ export interface CageDTO{
     cages: Cage[];
     price: number;
     quantity: number;
+    hasCamera: boolean;
     storeId: string;
     store: Store;
 }

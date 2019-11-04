@@ -60,7 +60,14 @@ export class CageService {
   }
 
   async deleteSubCage(id: string) {
+    const subCage = await this.cageRepository.findOne({
+      where: id,
+      relations: ['cageType'],
+    });
+    const cage = subCage.cageType;
+    cage.quantity = cage.quantity - 1;
     await this.cageRepository.delete(id);
+    await this.cageTypeRepository.save(cage);
     return { delete: true };
   }
 }

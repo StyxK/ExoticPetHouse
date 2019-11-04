@@ -23,6 +23,9 @@ export class CageType {
   quantity: number;
 
   @Column({ nullable: true })
+  hasCamera: boolean;
+
+  @Column({ nullable: true })
   storeId: string;
 
   @ManyToOne(type => Store, store => store.cageType)

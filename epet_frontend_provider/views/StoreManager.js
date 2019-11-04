@@ -335,6 +335,7 @@ export default class StoreManager extends Component {
   };
 
   goToEditCage = data => {
+    alert(JSON.stringify(data))
     Actions.cage({ store: this.props.store, cage: data });
   };
 

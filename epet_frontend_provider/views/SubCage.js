@@ -29,12 +29,17 @@ export default class SubCage extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.refresh();
+  }
+
+  refresh = () => {
     const { cageType } = this.props;
     axios.get("/cage/types/" + cageType.id).then(response => {
       this.setState({ cages: response.data });
     });
-  }
+  };
+
   render() {
     const { cages } = this.state;
     const { cageType } = this.props;
@@ -73,25 +78,29 @@ export default class SubCage extends Component {
                   ลบ{" "}
                 </Label>
               </Button>
-              <Button
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  backgroundColor: theme.successColor
-                }}
-                rounded
-              >
-                <Label
+              {cageType.hasCamera ? (
+                <Button
                   style={{
-                    fontSize: 14,
-                    textAlign: "center",
-                    color: theme.successTextColor
+                    flex: 1,
+                    justifyContent: "center",
+                    backgroundColor: theme.successColor
                   }}
+                  rounded
                 >
-                  {" "}
-                  เพิ่มกล้อง{" "}
-                </Label>
-              </Button>
+                  <Label
+                    style={{
+                      fontSize: 14,
+                      textAlign: "center",
+                      color: theme.successTextColor
+                    }}
+                  >
+                    {" "}
+                    เพิ่มกล้อง{" "}
+                  </Label>
+                </Button>
+              ) : (
+                <></>
+              )}
             </Right>
           </ListItem>
         </List>
@@ -124,7 +133,10 @@ export default class SubCage extends Component {
           onPress: () => {
             axios
               .delete("/cage/types/" + cage.id)
-              .then(alert(`ทำรายการเสร็จสิ้น`))
+              .then(() => {
+                alert(`ทำรายการเสร็จสิ้น`);
+                this.refresh();
+              })
               .catch(err => {
                 console.log(err);
                 alert(
