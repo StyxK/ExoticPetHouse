@@ -54,6 +54,11 @@ export class CageService {
     return await this.cageTypeRepository.find({ where: id });
   }
 
+  async updateSubCage(id: string, data: Partial<CageDTO>) {
+    await this.cageRepository.update(id, data);
+    return await this.cageRepository.find({ where: id });
+  }
+  
   async delete(id: string) {
     await this.cageTypeRepository.delete(id);
     return { delete: true };

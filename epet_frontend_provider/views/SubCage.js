@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Alert } from "react-native";
+import { Image, Alert, Modal, StyleSheet } from "react-native";
 import { Actions } from "react-native-router-flux";
 import {
   Container,
@@ -16,7 +16,9 @@ import {
   Label,
   Content,
   View,
-  Title
+  Title,
+  Item,
+  Input
 } from "native-base";
 import axios from "axios";
 import theme from "../theme";
@@ -25,7 +27,9 @@ export default class SubCage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cages: []
+      cages: [],
+      ModalVisible: false,
+      cameraAddress: undefined
     };
   }
 
@@ -40,8 +44,32 @@ export default class SubCage extends Component {
     });
   };
 
+  setModalVisible = visible => {
+    this.setState({ ModalVisible: visible });
+  };
+
+  addCamera = async (cage) => {
+    const { cameraAddress } = this.state;
+    if (!cameraAddress) {
+      return alert("Plese Enter Camera Address");
+    }
+
+    axios
+      .put("/cage/types/" + cage.id, {
+        cameraAddress
+      })
+      .then(response => {
+        alert("success");
+        this.setModalVisible(false);
+      })
+      .catch(error => {
+        alert("error" + error);
+        console.log(error);
+      });
+  };
+
   render() {
-    const { cages } = this.state;
+    const { cages, ModalVisible, cameraAddress } = this.state;
     const { cageType } = this.props;
     let cagesList = cages.map(cage => {
       return (
@@ -86,6 +114,9 @@ export default class SubCage extends Component {
                     backgroundColor: theme.successColor
                   }}
                   rounded
+                  onPress={() => {
+                    this.setModalVisible(true);
+                  }}
                 >
                   <Label
                     style={{
@@ -101,6 +132,89 @@ export default class SubCage extends Component {
               ) : (
                 <></>
               )}
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={ModalVisible}
+              >
+                <View style={styles.modalContainer}>
+                  <Container style={styles.modal}>
+                    <Header
+                      translucent
+                      style={{
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10,
+                        backgroundColor: theme.primaryColor
+                      }}
+                    >
+                      <Button
+                        transparent
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: theme.primaryColor
+                        }}
+                        onPress={() => {
+                          this.setModalVisible(false);
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: theme.primaryTextColor,
+                            fontSize: 20
+                          }}
+                        >
+                          ปิด
+                        </Text>
+                      </Button>
+                    </Header>
+                    <Content translucent>
+                      <View
+                        style={{
+                          marginVertical: 5,
+                          paddingHorizontal: 10,
+                          flexDirection: "column"
+                        }}
+                      >
+                        <Text
+                          style={{ marginHorizontal: 15, marginVertical: 2 }}
+                        >
+                          Camera Address :
+                        </Text>
+                        <Item rounded>
+                          <Input
+                            value={cameraAddress}
+                            onChangeText={e =>
+                              this.setState({ cameraAddress: e })
+                            }
+                          />
+                        </Item>
+                        <Button
+                          rounded
+                          onPress={() => {
+                            this.addCamera(cage);
+                          }}
+                          style={{
+                            width: "100%",
+                            backgroundColor: theme.primaryColor,
+                            marginTop: "10%"
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: theme.primaryTextColor,
+                              width:"100%",
+                              textAlign:"center"
+                            }}
+                          >
+                            Add
+                          </Text>
+                        </Button>
+                      </View>
+                    </Content>
+                  </Container>
+                </View>
+              </Modal>
             </Right>
           </ListItem>
         </List>
@@ -109,9 +223,9 @@ export default class SubCage extends Component {
 
     return (
       <Container>
-        <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
+        <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
-            <Body style={{ flex: 1, alignItems: "center" }}>
+            <Body style={{ flex: 3, alignItems: "center" }}>
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 กรงประเภท {cageType.typeName}
               </Title>
@@ -151,3 +265,22 @@ export default class SubCage extends Component {
     );
   };
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column"
+  },
+  modalContainer: {
+    flex: 1,
+    flexDirection: "column-reverse",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(52, 52, 52, 0.8)"
+  },
+  modal: {
+    marginHorizontal: 20,
+    borderRadius: 10,
+    backgroundColor: "white",
+    opacity: 0.99
+  }
+});

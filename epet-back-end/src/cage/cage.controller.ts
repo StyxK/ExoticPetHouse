@@ -22,6 +22,11 @@ export class CageController {
     return this.cageService.showByCageTypeId(id);
   }
 
+  @Put('/types/:id')
+  async updateSubCage(@Param() id, @Body() data) {
+    return this.cageService.updateSubCage(id, data);
+  }
+
   @Delete('/types/:id')
   async deleteSubCage(@Param() id) {
     return this.cageService.deleteSubCage(id);
