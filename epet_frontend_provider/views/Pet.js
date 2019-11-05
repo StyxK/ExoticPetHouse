@@ -30,18 +30,10 @@ class Pet extends Component {
         try {
             let response = await axios.get('/pet/fromStore/' + this.props.store.storeId)
             let data = await response.data
-            let depositing = []
-            let expired = []
-            await data.map(data => {
-                moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ?
-                    depositing.push(data)
-                    :
-                    expired.push(data)
-
-            })
+            console.log(response,'hello')
             await this.setState({
-                depositingPet: depositing,
-                expiredPet: expired,
+                depositingPet: data.depositing,
+                expiredPet: data.endOfTime,
                 load: false
             })
         } catch (err) { 

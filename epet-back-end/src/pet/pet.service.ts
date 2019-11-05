@@ -19,9 +19,9 @@ export class PetService {
     return this.petRepository.findOne({ where: id });
   }
 
-  async showByStoreId(storeId : string):Promise<Pet[]>{
+  async showByStoreId(storeId : string){
     const store = JSON.parse(JSON.stringify(storeId)).id
-    const pet = await this.petRepository
+    const depositing = await this.petRepository
     .createQueryBuilder("pet")
     .innerJoinAndSelect('pet.orderLines','orderLine')
     .innerJoinAndSelect('orderLine.order','order')
@@ -30,7 +30,16 @@ export class PetService {
     .where(`store.id::text = :id`,{id : store})
     .andWhere(`order.orderStatus = 3`)
     .getMany()
-    return pet
+    const endOfTime = await this.petRepository
+    .createQueryBuilder("pet")
+    .innerJoinAndSelect('pet.orderLines','orderLine')
+    .innerJoinAndSelect('orderLine.order','order')
+    .innerJoinAndSelect('order.store','store')
+    .innerJoinAndSelect('orderLine.cage','cage')
+    .where(`store.id::text = :id`,{id : store})
+    .andWhere(`order.orderStatus = 6`)
+    .getMany()
+    return {depositing,endOfTime}
   }
 
   async showByuserName(userName: string): Promise<Pet[]> {
