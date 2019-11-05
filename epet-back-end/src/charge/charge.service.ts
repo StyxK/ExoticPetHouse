@@ -15,7 +15,7 @@ export class ChargeService {
         },(err,charge)=>{
             if(err){
                 console.log(err)
-                return ('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
+                return err
             }
             else if (charge){
                 console.log(charge,'ชาจ')
@@ -26,7 +26,7 @@ export class ChargeService {
 
     async balance(){
         return require('omise')({
-            'secretKey' : process.env.OMISE_SECRET_KEY,
+            'secretKey' : null,
             'omiseVersion' : '2015-09-10'
         }).balance.retrieve((error,balance)=>{
             if(error){
