@@ -1,6 +1,7 @@
 export default {
-  primaryColor: "#cfb000",
-  secondaryColor: "#8900c9",
+  primaryColor: "#5e6eff",
+  primaryColor3: "#838de6",
+  secondaryColor: "#ffac5e",
   accentColor: "#4F2A10", //เด่น
   infoColor: "#BD997F", //แจ้งเตือนทั่วไป
   warningColor: "#BA6870",
@@ -9,8 +10,8 @@ export default {
   //สีtextที่ใช้คู่กับสีด้านบน
   primaryTextColor: "#FFFFFF", //สีtextบนสีหลัก
   secondaryTextColor: "#4F2A10", //สีtextบนสีรอง
-  accentTextColor: "#BD997F",
-  infoTextColor: "",
+  accentTextColor: "#FFFFFF",
+  infoTextColor: "#FFFFFF",
   warningTextColor: "#FFFFFF",
   errorTextColor: "",
   successTextColor: "#000000",

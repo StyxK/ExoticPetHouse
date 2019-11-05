@@ -225,11 +225,17 @@ export default class SubCage extends Component {
       <Container>
         <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
           <Header style={{ backgroundColor: theme.primaryColor }}>
+            <Left style={{flex:1}}>
+              <Button rounded transparent onPress={()=>Actions.pop()}>
+                <Icon name='arrow-back'/>
+              </Button>
+            </Left>
             <Body style={{ flex: 3, alignItems: "center" }}>
               <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
                 กรงประเภท {cageType.typeName}
               </Title>
             </Body>
+            <Right style={{flex:1}}/>
           </Header>
           <Content>{cagesList}</Content>
         </View>

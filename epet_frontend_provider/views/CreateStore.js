@@ -113,13 +113,12 @@ class CreateStore extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
-            <Icon
-              name="ios-arrow-back"
-              style={{ marginLeft: 10, color: "white" }}
-              onPress={() => {
-                this.goToProfile();
-              }}
-            />
+            <Button rounded transparent onPress={() => {this.goToProfile()}}>
+              <Icon
+                name="arrow-back"
+                style={{ marginLeft: 10, color: "white" }}
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 2.5 }}>
             <Text style={{ color: "white" }}>ตั้งร้านเพิ่ม</Text>

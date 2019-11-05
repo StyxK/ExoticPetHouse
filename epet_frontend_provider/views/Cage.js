@@ -61,11 +61,12 @@ export default class Cage extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
-            <Icon
-              name="ios-arrow-back"
-              style={{ color: "white" }}
-              onPress={() => Actions.storeManager({ store: this.props.store })}
-            />
+            <Button rounded transparent onPress={() => Actions.storeManager({ store: this.props.store })}>
+              <Icon
+                name="arrow-back"
+                style={{ color: "white" }}
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 2.5 }}>
             <Text style={{ color: "white" }}>

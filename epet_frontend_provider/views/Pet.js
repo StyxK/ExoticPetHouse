@@ -30,8 +30,8 @@ class Pet extends Component {
         try {
             let response = await axios.get('/pet/fromStore/' + this.props.store.storeId)
             let data = await response.data
-            console.log(response,'hello')
-            await this.setState({
+            console.log(data)
+            this.setState({
                 depositingPet: data.depositing,
                 expiredPet: data.endOfTime,
                 load: false
@@ -61,7 +61,7 @@ class Pet extends Component {
             petList.map(data => {
                 list.push(
                     <Card key={data.id} style={{ marginTop: 5, marginBottom: 5, marginLeft: 10, marginRight: 10, borderRadius: 5 }}>
-                        <CardItem button activeOpacity={0.8} style={{ backgroundColor: theme.secondaryColor, borderRadius: 5 }} onPress={() => { goToPetActivities(data, this.props.store.storeId) }}>
+                        <CardItem button activeOpacity={0.8} style={{ backgroundColor: 'white', borderRadius: 5 }} onPress={() => { goToPetActivities(data, this.props.store.storeId) }}>
                             <Left style={{ flex: 1 }}>
                                 {data.image ?
                                     <Thumbnail style={{ width: 80, height: 80 }} source={{ uri: data.image }} />
@@ -70,14 +70,14 @@ class Pet extends Component {
                                 }
                             </Left>
                             <Body style={{ flex: 2 }}>
-                                <Text note style={{ color: theme.secondaryTextColor }}> ชื่อ :  <Text note style={{ color: 'white' }}> {data.name} </Text> </Text>
-                                <Text note style={{ color: theme.secondaryTextColor }}> ประเภท :  <Text note style={{ color: 'white' }}> {data.typeOfPet} </Text> </Text>
-                                <Text note style={{ color: theme.secondaryTextColor }}> กรง :  <Text note style={{ color: 'white' }}> {data.orderLines[0].cage.name} </Text> </Text>
+                                <Text note style={{ color: theme.secondaryTextColor }}> ชื่อ :  <Text note> {data.name} </Text> </Text>
+                                <Text note style={{ color: theme.secondaryTextColor }}> ประเภท :  <Text note> {data.typeOfPet} </Text> </Text>
+                                <Text note style={{ color: theme.secondaryTextColor }}> กรง :  <Text note> {data.orderLines[0].cage.cageType.typeName} </Text> </Text>
                                 {
                                     moment().unix() <= moment(data.orderLines[0].order.endDate).unix() ?
-                                        <Text note style={{ color: theme.secondaryTextColor }}> สถานะ : <Text note style={{ color: 'white' }}> กำลังฝาก </Text></Text>
+                                        <Text note style={{ color: theme.secondaryTextColor }}> สถานะ : <Text note> กำลังฝาก </Text></Text>
                                         :
-                                        <Text note style={{ color: theme.secondaryTextColor }}> สถานะ : <Text note style={{ color: 'white' }}> หมดระยะเวลาฝาก </Text></Text>
+                                        <Text note style={{ color: theme.secondaryTextColor }}> สถานะ : <Text note> หมดระยะเวลาฝาก </Text></Text>
                                 }
                             </Body>
                         </CardItem>
@@ -109,16 +109,16 @@ class Pet extends Component {
                 <View style={{ backgroundColor: theme.primaryColor }}>
                     <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
                         <SegmentedControlTab
-                            tabStyle={{ borderColor: theme.secondaryColor }}
-                            tabTextStyle={{ color: theme.secondaryTextColor }}
-                            activeTabStyle={{ backgroundColor: theme.secondaryColor }}
+                            tabStyle={{backgroundColor:theme.primaryColor}}
+                            tabTextStyle={{ color: theme.primaryTextColor }}
+                            activeTabStyle={{ borderBottomWidth:5, borderBottomColor: theme.secondaryColor,backgroundColor:theme.primaryColor}}
                             values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}
                             selectedIndex={selectedIndex}
                             onTabPress={this.handleIndexChange}
                         />
                     </View>
                 </View>
-                <Content>
+                <Content style={{backgroundColor:'#e6e1de'}}>
                     {
                         load ?
                         (

@@ -91,9 +91,9 @@ export default class PetActivities extends Component {
                         </Left>
                         <Body style={{flex:2,alignItems:'flex-start'}}>
                             <Label/>
-                            <Label style={{color:theme.secondaryTextColor}}> น้อง <Label> {pet.name} </Label> </Label>
-                            <Label style={{color:theme.secondaryTextColor}}> อายุ <Label> {pet.age} </Label> เดือน </Label>
-                            <Label style={{color:theme.secondaryTextColor}}> เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label> </Label>
+                            <Label style={{color:'white'}}> น้อง <Label> {pet.name} </Label> </Label>
+                            <Label style={{color:'white'}}> อายุ <Label> {pet.age} </Label> เดือน </Label>
+                            <Label style={{color:'white'}}> เจ้าของสัตว์เลี้ยง : <Label> {pet.ownerUserName} </Label> </Label>
                             <Label/>
                         </Body>
                     </View>

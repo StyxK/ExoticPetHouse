@@ -15,7 +15,9 @@ import {
   List,
   Label,
   Content,
-  View
+  View,
+  Card,
+  CardItem
 } from "native-base";
 import axios from "axios";
 import theme from "../theme";
@@ -84,15 +86,11 @@ export default class StoreManager extends Component {
 
     let cagesList = cages.map(data => {
       return (
-        <List style={{ backgroundColor: theme.primaryColor }} key={data.id}>
-          <ListItem
+        <Card transparent key={data.id}>
+          <CardItem
+            button
             style={{
               backgroundColor: theme.secondaryColor,
-              borderBottomWidth: 3,
-              borderBottomColor: theme.primaryColor,
-              marginLeft: 10,
-              marginRight: 10,
-              borderRadius: 5
             }}
             onPress={() => this.goToSubCage(data)}
           >
@@ -140,8 +138,8 @@ export default class StoreManager extends Component {
                 </Label>
               </Button>
             </Right>
-          </ListItem>
-        </List>
+          </CardItem>
+        </Card>
       );
     });
 
@@ -149,13 +147,12 @@ export default class StoreManager extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
-            <Icon
-              name="ios-arrow-back"
-              style={{ marginLeft: 10, color: "white" }}
-              onPress={() => {
-                this.goToProfile();
-              }}
-            />
+            <Button transparent rounded onPress={() => {this.goToProfile()}}>
+              <Icon
+                name="arrow-back"
+                style={{ color: "white" }}
+              />
+            </Button>
           </Left>
           <Body style={{ flex: 2 }}>
             <Text style={{ color: "white" }}>{store.name}</Text>
@@ -164,9 +161,9 @@ export default class StoreManager extends Component {
         </Header>
         <View
           style={{
+            flex:1.5,
             flexDirection: "row",
             backgroundColor: theme.secondaryColor,
-            height: "25%"
           }}
         >
           <Left style={{ flex: 1, marginLeft: 20 }}>
@@ -175,7 +172,7 @@ export default class StoreManager extends Component {
               source={
                 store.image
                   ? { uri: store.image }
-                  : require("../assets/no_image_available.jpeg")
+                  : require("../assets//no_image_available.jpeg")
               }
             />
           </Left>
@@ -187,55 +184,36 @@ export default class StoreManager extends Component {
               justifyContent: "flex-start"
             }}
           >
-            <Text
+            <Text note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
               }}
             >
-              {" "}
-              ชื่อร้าน :
-              <Text style={{ color: "white", alignSelf: "flex-start" }}>
-                {" "}
-                {store.name}{" "}
-              </Text>
-            </Text>
-            <Text
-              style={{
-                color: theme.secondaryTextColor,
-                alignSelf: "flex-start"
-              }}
-            >
-              {" "}
               เบอร์โทรศัพท์ :
-              <Text style={{ color: "white", alignSelf: "flex-start" }}>
-                {" "}
+              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
                 {store.phoneNumber}{" "}
               </Text>
             </Text>
-            <Text
+            <Text note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
               }}
             >
-              {" "}
               คะแนนร้าน :
-              <Text style={{ color: "white", alignSelf: "flex-start" }}>
-                {" "}
+              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
                 {store.rating}{" "}
               </Text>
             </Text>
-            <Text
+            <Text note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
               }}
             >
-              {" "}
               คำอธิบายร้าน :
-              <Text style={{ color: "white", alignSelf: "flex-start" }}>
-                {" "}
+              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
                 {store.description}{" "}
               </Text>
             </Text>
@@ -253,25 +231,19 @@ export default class StoreManager extends Component {
             </Button>
           </Body>
         </View>
-        <View
-          style={{
-            margin: 15,
-            flexDirection: "row",
-            justifyContent: "center",
-            backgroundColor: theme.secondaryColor,
-            margin: 0,
-            padding: 0
-          }}
-        >
-          {images &&
-            images.map(image => (
-              <Image
-                key={image}
-                source={{ uri: image }}
-                style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
-              />
-            ))}
-        </View>
+        <Content style={{
+          flexDirection: "row",
+          backgroundColor: 'white',
+        }}>
+        {images &&
+          images.map(image => (
+            <Image
+              key={image}
+              source={{ uri: image }}
+              style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
+            />
+          ))}
+        </Content>
         <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
           <ListItem style={{ backgroundColor: theme.primaryColor }} itemDivider>
             <Left>
@@ -298,7 +270,7 @@ export default class StoreManager extends Component {
               </Button>
             </Right>
           </ListItem>
-          <Content>{cagesList}</Content>
+          <Content padder style={{flexDirection:'column'}}>{cagesList}</Content>
         </View>
       </Container>
     );
