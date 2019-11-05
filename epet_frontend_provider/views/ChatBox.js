@@ -126,7 +126,9 @@ class ChatBox extends Component{
             <Container style={{backgroundColor:"rgba(128,128,128,.5)"}}>
                 <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { this.goToChat() }} name='ios-arrow-back' />
+                        <Button rounded transparent onPress={() => { this.goToChat() }}>
+                            <Icon style={{ color: 'white' }} name='arrow-back' />
+                        </Button>
                     </Left>
                     <Body style={{ flex: 3 ,alignItems:'center'}}>
                         <Text style={{ color: "white" }}> {this.props.customer} </Text>
@@ -136,15 +138,25 @@ class ChatBox extends Component{
                 <AutoScroll>
                     {this.messageDialog()}
                 </AutoScroll>
-                <Footer style={{backgroundColor:'white'}}>
-                    <Body style={{flex:3}}>
-                        <Input onChangeText={e => {
-                            this.setState({message : e})
-                        }} placeholder='พิมพ์ข้อความ'/>
-                    </Body>
-                    <Right style={{flex:0.5}}>
-                        <Button full onPress={()=>{ this.submitMessage() }} style={{alignItems:'center',marginRight:5}}>
-                            <Icon name="md-send"/>
+                <Footer style={{justifyContent:'center',alignItems:'center'}}>
+                    <Left style={{padding:5,flex:6}}>
+                        <Input
+                            onChangeText={e => {
+                                this.setState({ message: e });
+                            }}
+                            value={this.state.message}
+                            placeholder="พิมพ์ข้อความในช่องนี้"
+                            style={{ backgroundColor: "white",borderRadius:10 ,width:'100%'}}
+                        />
+                    </Left>
+                    <Right style={{flex:1}}>
+                        <Button transparent
+                        onPress={() => {
+                            this.submitMessage();
+                        }}
+                        style={{justifyContent:'center'}}
+                        >
+                        <Icon name='md-send' style={{color:'white'}}/>
                         </Button>
                     </Right>
                 </Footer>
@@ -154,6 +166,9 @@ class ChatBox extends Component{
 
     submitMessage = () => {
         this.shopReply(this.state.message,this.props.customer,this.props.store.storeId)
+        this.setState({
+            message: null
+        });
     }
 
     goToChat = () => {

@@ -16,7 +16,7 @@ export default class orderButton extends Component{
             list.push(
                 <View key='ยอมรับคำสั่งฝาก' style={{ flex: 1,marginVertical:5}} >
                     <Button full
-                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        style={{ backgroundColor: theme.primaryColor3,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.acceptOrder()}}>
                         <Label style={{color:'white'}}>ยอมรับคำสั่งฝาก</Label>
                     </Button>
@@ -25,7 +25,7 @@ export default class orderButton extends Component{
             list.push(
                 <View key='ปฏิเสธคำสั่งฝาก' style={{ flex: 1}} >
                     <Button full
-                        style={{ backgroundColor: theme.primaryColor,flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
+                        style={{ backgroundColor: 'red',flex: 0.5,marginHorizontal:20,borderRadius: 10}} 
                         onPress={()=>{this.denyOrder()}}>
                         <Label style={{color:'white'}}>ปฏิเสธคำสั่งฝาก</Label>
                     </Button>
@@ -45,7 +45,7 @@ export default class orderButton extends Component{
         else if(orderStatus == 9){
             list.push(
                 <Button full key='ร้านยืนยันการคืนสัตว์เลี้ยง'
-                    style={{ backgroundColor: theme.primaryColor,flex: 1,borderRadius: 10}} 
+                    style={{ backgroundColor: theme.primaryColor3,flex: 1,borderRadius: 10}} 
                     onPress={()=>{ this.returnPetsBack() }}>
                     <Label style={{color:'white'}}>ร้านยืนยันการคืนสัตว์เลี้ยง</Label>
                 </Button>
@@ -57,8 +57,6 @@ export default class orderButton extends Component{
     render(){
         return(
             <Content padder style={{flex:1}}>
-                <Label style={{textAlign:'center'}}> ตัวเลือกออร์เดอร์ </Label>
-                <Label/>
                 {this.button(this.props.orderStatus)}
             </Content>
         )

@@ -8,6 +8,7 @@ import {
   Left,
   Right,
   Content,
+  Title,
 } from "native-base";
 import { View } from "react-native";
 import { connect } from "react-redux";
@@ -17,6 +18,7 @@ import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view"
 import theme from "../theme";
+import { loading } from '../components/Loading'
 
 class OrderList extends Component {
   constructor(props) {
@@ -46,8 +48,8 @@ class OrderList extends Component {
       this.setState({ history: response.data });
     });
     axios.get("/order/statuses").then(response => {
-      this.setState({ statuses: response.data });
-    }).then(this.setState({ load: false }))
+      this.setState({ statuses: response.data,load: false });
+    })
   };
 
   render() {
@@ -56,23 +58,25 @@ class OrderList extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 1 }} />
-          <Body style={{ flex: 3, alignItems: 'center' }}>
-            <Text style={{ color: theme.primaryTextColor }}>รายการคำขอฝากสัตว์เลี้ยง</Text>
+          <Body style={{ flex: 5, alignItems: 'center' }}>
+            <Title style={{ color: theme.primaryTextColor }}>รายการคำขอฝากสัตว์เลี้ยง</Title>
           </Body>
-          <Right style={{ flex: 1 }} />
+          <Right/>
         </Header>
         <View style={{ flex: 1 }}>
-          {console.log(this.state.load,'load')}
           {
-            (statuses.length > 0 && (
-              <ScrollableTabView 
-                tabBarUnderlineStyle={{ backgroundColor: theme.primaryColor }} 
-                tabBarActiveTextColor={theme.primaryColor} 
-                renderTabBar={() => <ScrollableTabBar />}
-              >
-                {this.getSegments()}
-              </ScrollableTabView>
-            ))
+            this.state.load ? 
+              <View style={{flex:1,backgroundColor:theme.backgroundColor,justifyContent:'center',alignItems:'center'}}>
+                {loading()}
+              </View>
+              :
+              (statuses.length > 0 && (
+                <ScrollableTabView  style={{backgroundColor:theme.backgroundColor}}
+                  renderTabBar={() => <ScrollableTabBar underlineStyle={{backgroundColor:theme.secondaryColor}} textStyle={{color:'white'}} backgroundColor={theme.primaryColor}/>}
+                >
+                  {this.getSegments()}
+                </ScrollableTabView>
+              ))
           }
         </View>
         <NavFooter />
@@ -83,7 +87,7 @@ class OrderList extends Component {
   getSegments = () => {
     const { history, statuses } = this.state;
     const segments = statuses.map(status => (
-      <Content key={status.id} tabLabel={status.status} style={{ marginTop: 5, marginBottom: 5 }}>
+      <Content padder key={status.id} tabLabel={status.status} style={{ marginTop: 5, marginBottom: 5 }}>
         {history.filter(item => {
           return item.orderStatus.id === status.id
         }).map(item => {

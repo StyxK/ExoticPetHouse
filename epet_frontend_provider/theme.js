@@ -1,6 +1,6 @@
 export default {
-  primaryColor: "#7A5032",
-  secondaryColor: "#BD8C69",
+  primaryColor: "#cfb000",
+  secondaryColor: "#8900c9",
   accentColor: "#4F2A10", //เด่น
   infoColor: "#BD997F", //แจ้งเตือนทั่วไป
   warningColor: "#BA6870",

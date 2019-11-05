@@ -14,7 +14,8 @@ export class ChargeService {
             'card' : data.token
         },(err,charge)=>{
             if(err){
-                throw new Error('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
+                console.log(err)
+                return ('การชำระเงินผิดพลาด กรุณาตรวจสอบหรือทำรายการใหม่อีกครั้ง')
             }
             else if (charge){
                 console.log(charge,'ชาจ')
@@ -36,5 +37,25 @@ export class ChargeService {
         })
     }
 
+    async test(){
+        require('omise')({
+            'publicKey' : 'pkey_test_5h6bc0k9vn43x8y9mld',
+            'secretKey' : process.env.OMISE_SECRET_KEY,
+            'omiseVersion' : '2015-09-10'
+        }).tokens.create({
+            'card':{
+              'name': 'JOHN DOE',
+              'city': 'Bangkok',
+              'postal_code': 10320,
+              'number': '4543756255918867',
+              'expiration_month': 2,
+              'expiration_year': 2022,
+              'security_code': 123
+            }
+          }, function(error, token) {
+                Logger.log(error)
+                Logger.log(token)
+          });
+    }
 
 }

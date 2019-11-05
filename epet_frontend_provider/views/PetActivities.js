@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Image } from 'react-native'
-import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab, Thumbnail, Label } from 'native-base'
+import { Content, Text, View, Header, Right, Left, Body, Icon, Container, Card, CardItem, Fab, Thumbnail, Label, Button } from 'native-base'
 import { Actions } from 'react-native-router-flux'
 import axios from 'axios'
 import moment from 'moment-timezone'
@@ -71,7 +71,9 @@ export default class PetActivities extends Component {
             <Container>
                 <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
-                        <Icon style={{ color: 'white' }} onPress={() => { goToPets() }} name='ios-arrow-back' />
+                        <Button transparent onPress={() => { goToPets() }}>
+                            <Icon style={{ color: 'white' }} name='arrow-back' />
+                        </Button>
                     </Left>
                     <Body style={{ flex: 3 ,alignItems:'center'}}>
                         <Text style={{ color: theme.primaryTextColor }}>กิจกรรมระหว่างการฝาก</Text>
@@ -79,7 +81,7 @@ export default class PetActivities extends Component {
                     <Right style={{ flex: 1 }} />
                 </Header>
                 <Content style={{ backgroundColor: theme.backgroundColor }}>
-                    <View style={{backgroundColor:theme.secondaryColor,flexDirection:'row',marginBottom:5}}>
+                    <View style={{backgroundColor:theme.primaryColor,flexDirection:'row',marginBottom:5}}>
                         <Left style={{flex:1,alignItems:'center'}}>
                             {pet.image ?
                                 <Thumbnail style={{ width: 80, height: 80 }} source={{ uri: pet.image }} />
