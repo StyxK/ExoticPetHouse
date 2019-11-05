@@ -16,15 +16,18 @@ import {
   Title,
   View
 } from "native-base";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import NavFooter from "../components/NavFooter";
 import theme from "../theme";
+import { clearUser } from "../actions";
+import { connect } from "react-redux";
+import { storage } from "../Storage";
 const PIC_URI =
   "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
 
-export default class Profile extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,24 +44,56 @@ export default class Profile extends Component {
       })
       .then(error => console.log(error));
   }
+  logout = async () => {
+    const { clearUser } = this.props;
+    Alert.alert("", "ยืนยันการออกจากระบบ", [
+      {
+        text: "ยืนยัน",
+        onPress: async () => {
+          clearUser();
+          try {
+            storage.remove({
+              key: "user"
+            });
+            await Actions.reset("login");
+          } catch (e) {
+            alert(JSON.stringify(e));
+          }
+        }
+      },
+      {
+        text: "ยกเลิก",
+        style: "cancel"
+      }
+    ]);
+  };
+
   render() {
     const { customerProfile } = this.state;
     return (
       <Container style={{ display: "flex", height: "100%" }}>
         <Header style={{ backgroundColor: theme.primaryColor }}>
-          <Left style={{ flex: 1 }}/>
+          <Left style={{ flex: 1 }} />
           <Body style={{ flex: 1, alignItems: "center" }}>
-            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>Profile</Title>
+            <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>
+              Profile
+            </Title>
           </Body>
           <Right>
             <Icon
               name="exit"
-              onPress={() => Actions.home()}
+              onPress={() => this.logout()}
               style={{ color: theme.primaryTextColor, marginLeft: 10 }}
             />
           </Right>
         </Header>
-        <View style={{ backgroundColor: theme.primaryColor,borderBottomRightRadius:10,borderBottomLeftRadius:10 }}>
+        <View
+          style={{
+            backgroundColor: theme.primaryColor,
+            borderBottomRightRadius: 10,
+            borderBottomLeftRadius: 10
+          }}
+        >
           <List style={{ alignItems: "center" }}>
             <ListItem noBorder>
               <Thumbnail source={{ uri: PIC_URI }} />
@@ -94,3 +129,18 @@ export default class Profile extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    clearUser: () => dispatch(clearUser())
+  };
+};
+
+const mapStateToProps = state => {
+  return { ...state };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);

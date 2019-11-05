@@ -33,9 +33,8 @@ export function setUser(user) {
   };
 }
 
-export function clearUser(user) {
+export function clearUser() {
   return {
-    type: "user/set",
-    payload: user
+    type: "user/clear"
   };
 }
