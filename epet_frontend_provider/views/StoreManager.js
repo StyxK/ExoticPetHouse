@@ -231,9 +231,11 @@ export default class StoreManager extends Component {
             </Button>
           </Body>
         </View>
-        <Content style={{
+        <View style={{
           flexDirection: "row",
+          flexWrap:"wrap",
           backgroundColor: 'white',
+          justifyContent:"center"
         }}>
         {images &&
           images.map(image => (
@@ -243,7 +245,7 @@ export default class StoreManager extends Component {
               style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
             />
           ))}
-        </Content>
+        </View>
         <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
           <ListItem style={{ backgroundColor: theme.primaryColor }} itemDivider>
             <Left>
