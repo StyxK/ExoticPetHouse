@@ -101,11 +101,6 @@ class CreateStore extends Component {
         });
       }
     });
-
-    // alert(JSON.stringify(ImagePicker));
-    // ImagePicker.launchImageLibrary(options, response => {
-    //   alert(2)
-    // });
   };
 
   render() {

@@ -23,6 +23,7 @@ import axios from "axios";
 import theme from "../theme";
 import ImagePicker from "react-native-image-picker";
 import Config from "react-native-config";
+import Corousel from 'react-native-snap-carousel'
 
 const API_URL = Config.API_URL;
 
@@ -79,6 +80,14 @@ export default class StoreManager extends Component {
       }
     });
   };
+
+  renderItem =({item,index})=>{
+    return(
+      <View>
+        <Image style={{ width: 100, height: 100, margin: 5,marginBottom:10 }} source={{uri:item}}></Image>
+      </View>
+    )
+  }
 
   render() {
     const { store } = this.props;
@@ -237,14 +246,20 @@ export default class StoreManager extends Component {
           backgroundColor: 'white',
           justifyContent:"center"
         }}>
-        {images &&
+          <Corousel
+            data={images}
+            renderItem={this.renderItem}
+            sliderWidth={500}
+            itemWidth={100}
+          />
+        {/* {images &&
           images.map(image => (
             <Image
               key={image}
               source={{ uri: image }}
               style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
             />
-          ))}
+          ))} */}
         </View>
         <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
           <ListItem style={{ backgroundColor: theme.primaryColor }} itemDivider>
