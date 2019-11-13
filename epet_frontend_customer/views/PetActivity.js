@@ -8,7 +8,6 @@ import {
   Left,
   Right,
   Text,
-  Title,
   View,
   Thumbnail,
   Label,
@@ -16,18 +15,16 @@ import {
   Button
 } from "native-base";
 import React, { Component } from "react";
-import { TouchableHighlight } from "react-native";
-import Config from "react-native-config";
+import { loading } from  '../components/Loading'
 import { Actions } from "react-native-router-flux";
 import ActivitiesCard from "../components/ActivitiesCard";
 import theme from "../theme";
-
-const API_URL = Config.API_URL;
 
 export default class PetActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading : true,
       activities: []
     };
   }
@@ -38,6 +35,7 @@ export default class PetActivity extends Component {
       .get("/petactivity/" + orderLine.id)
       .then(response => {
         this.setState({
+          loading:false,
           activities: response.data
         });
       })
@@ -48,8 +46,6 @@ export default class PetActivity extends Component {
     const { activities } = this.state;
     const { orderLine, statusId } = this.props;
     const { pet, cage } = orderLine;
-
-    console.log(this.props);
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
@@ -109,7 +105,11 @@ export default class PetActivity extends Component {
           </Body>
         </View>
         <Content padder style={{ backgroundColor: theme.backgroundColor }}>
-          {activities.map(activity => (
+          {
+            this.state.loading?
+            loading()
+            :
+            activities.map(activity => (
             <ActivitiesCard key={activity.id} activity={activity} />
           ))}
         </Content>

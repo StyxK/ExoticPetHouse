@@ -139,7 +139,7 @@ class Store extends Component {
           <CardItem
             button
             onPress={() => this.chooseCageFromStorePage(data.id)}
-            style={{ borderBottomWidth: 0.5, borderColor: 'grey', paddingHorizontal: 10, backgroundColor: 'rgba(0, 0, 0, 0)' }}
+            style={{ borderRadius: 5, paddingHorizontal: 10 }}
           >
             <Left style={{ flex: 1 }}>
               <Icon name="paw" style={{ color: theme.secondaryColor }} type='FontAwesome5' />
@@ -281,11 +281,6 @@ class Store extends Component {
           </View>
           <Container style={{ backgroundColor: theme.primaryColor }}>
             <Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: 'white' }}>
-              <View>
-              </View>
-              <Label style={{ color: 'black', fontSize: 15, textAlign: 'left', paddingTop: 10, paddingHorizontal: 20 }}>
-                กรงที่ให้บริการภายในร้าน
-                </Label>
               {this.state.banned ? (
                 <Content padder>
                   <View
@@ -320,7 +315,7 @@ class Store extends Component {
                   </View>
                 </Content>
               ) : (
-                  <Content padder>{cageList}</Content>
+                  <Content padder style={{backgroundColor:theme.backgroundColor}}>{cageList}</Content>
                 )}
             </Content>
           </Container>

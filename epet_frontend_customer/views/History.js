@@ -90,8 +90,8 @@ class History extends Component {
         <Container>
           <Header style={{ backgroundColor: theme.primaryColor }}>
             <Left style={{ flex: 1 }}></Left>
-            <Body style={{ flex: 1, alignItems: "center" }}>
-              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>My Order</Title>
+            <Body style={{ flex: 5, alignItems: "center" }}>
+              <Title style={{ color: theme.primaryTextColor, fontSize: 20 }}>รายการฝากสัตว์เลี้ยง</Title>
             </Body>
             <Right>
             <Button onPress={()=>{Actions.notification()}} transparent badge>
