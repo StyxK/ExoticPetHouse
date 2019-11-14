@@ -79,13 +79,13 @@ export default class PetPost extends Component {
                     </View>
                 </Content>
                 <View>
-                    <Fab onPress={()=> this.selectImageFromGallery()}>
+                    <Fab onPress={()=> this.selectImageFromGallery()} style={{backgroundColor:theme.secondaryColor}}>
                         <Icon name='camera'/>
                     </Fab>
                 </View>
                 <FooterTab style={{maxHeight : 50}}>
-                    <Button full onPress={()=>{ this.uploadActivity() }}>
-                        <Text> โพสต์ </Text>
+                    <Button full onPress={()=>{ this.uploadActivity() }} style={{backgroundColor:theme.primaryColor}}>
+                        <Label style={{fontSize:17,color:'white'}}> โพสต์ </Label>
                     </Button>
                 </FooterTab>
             </Container>

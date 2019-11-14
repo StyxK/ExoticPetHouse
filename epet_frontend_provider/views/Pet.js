@@ -109,7 +109,7 @@ class Pet extends Component {
                 <View style={{ backgroundColor: theme.primaryColor }}>
                     <View style={{ marginHorizontal: 10, marginBottom: 10 }}>
                         <SegmentedControlTab
-                            tabStyle={{backgroundColor:theme.primaryColor}}
+                            tabStyle={{backgroundColor:theme.primaryColor,borderColor:theme.primaryColor}}
                             tabTextStyle={{ color: theme.primaryTextColor }}
                             activeTabStyle={{ borderBottomWidth:5, borderBottomColor: theme.secondaryColor,backgroundColor:theme.primaryColor}}
                             values={['อยู่ระหว่างการฝาก', 'หมดระยะเวลาฝาก']}

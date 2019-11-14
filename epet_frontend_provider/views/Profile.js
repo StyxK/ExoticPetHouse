@@ -87,7 +87,7 @@ class Profile extends Component {
                             <Text note> คะแนนร้าน : <Text note style={{ color: 'black' }}> {data.rating} </Text> </Text>
                         </Body>
                         <Right style={{ flex: 2, flexDirection: 'row-reverse' }}>
-                            <Button style={{ flex: 1 }} rounded onPress={() => goToStoreManager(data)}>
+                            <Button style={{ flex: 1 , backgroundColor:theme.primaryColor3}} rounded onPress={() => goToStoreManager(data)}>
                                 <Label style={{ fontSize: 10, color: 'white' }}> จัดการ </Label>
                             </Button>
                             {
@@ -96,7 +96,7 @@ class Profile extends Component {
                                         <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้านนี้อยู่ </Label>
                                     </Button>
                                     :
-                                    <Button style={{ flex: 2, marginRight: 5 }} rounded onPress={() => { this.props.setStore(data.id) }}>
+                                    <Button style={{ flex: 2, marginRight: 5 ,backgroundColor:theme.primaryColor}} rounded onPress={() => { this.props.setStore(data.id) }}>
                                         <Label style={{ fontSize: 10, color: 'white' }}> เลือกร้าน </Label>
                                     </Button>
                             }
@@ -131,7 +131,9 @@ class Profile extends Component {
                 </List>
                 <ListItem noBorder itemDivider style={{backgroundColor: theme.primaryColor}}>
                     <Text style={{color:'white'}}> การจัดการร้านรับฝาก </Text>
-                    <Button small rounded onPress={() => { this.goToCreateStore() }}><Text> ตั้งร้านเพิ่ม </Text></Button>
+                    <Button small rounded style={{backgroundColor:theme.primaryColor3}} onPress={() => { this.goToCreateStore() }}>
+                        <Text> ตั้งร้านเพิ่ม </Text>
+                    </Button>
                 </ListItem>
                 <Content>
                     {storeFlatList}

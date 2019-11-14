@@ -73,7 +73,7 @@ class ChatBox extends Component {
           <View key={data.id}>
             <View style={{ flexDirection: "row-reverse", padding: 5 }}>
               <View
-                style={{ borderRadius: 5, backgroundColor: "blue", padding: 7 }}
+                style={{ borderRadius: 5, backgroundColor: theme.primaryColor, padding: 7 }}
               >
                 <Text style={{ color: "white" }}>{data.message}</Text>
               </View>
@@ -106,11 +106,11 @@ class ChatBox extends Component {
                 <View
                   style={{
                     borderRadius: 5,
-                    backgroundColor: "green",
+                    backgroundColor: '#d9d2b3',
                     padding: 7
                   }}
                 >
-                  <Text style={{ color: "white" }}>{data.message}</Text>
+                  <Text style={{ color: "black" }}>{data.message}</Text>
                 </View>
                 <View style={{ marginRight: 4, justifyContent: "flex-end" }}>
                   <Text note style={{ alignSelf: "flex-end", fontSize: 12.5 }}>
@@ -160,7 +160,7 @@ class ChatBox extends Component {
           <Right style={{ flex: 1 }} />
         </Header>
         <AutoScroll>{this.messageDialog()}</AutoScroll>
-        <Footer style={{justifyContent:'center',alignItems:'center'}}>
+        <Footer style={{justifyContent:'center',alignItems:'center',backgroundColor:theme.primaryColor}}>
           <Left style={{padding:5,flex:6}}>
             <Input
               onChangeText={e => {

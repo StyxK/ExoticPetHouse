@@ -65,13 +65,13 @@ class ChatBox extends Component{
                 data.role == 0 ?
                     <View key={data.id}>
                         <View style={{flexDirection:"row-reverse",padding:5}}>
-                            <Card style={{borderRadius:5,backgroundColor:'blue',padding:7}}>
+                            <Card style={{borderRadius:5,backgroundColor:theme.primaryColor,padding:7}}>
                                 <Label style={{color:'white'}}>
                                     {data.message}
                                 </Label>
                             </Card>
                             <View style={{marginRight:4,justifyContent:'flex-end'}}>
-                                <Text note style={{alignSelf:'flex-end',fontSize: 12.5,color:'white'}}>
+                                <Text note style={{alignSelf:'flex-end',fontSize: 12.5}}>
                                 {
                                     (
                                         7+duration(parseInt(data.time),'seconds').hours() > 24 ? 
@@ -92,8 +92,8 @@ class ChatBox extends Component{
                     :
                     <View key={data.id}>
                         <View style={{flexDirection:"row",padding:5}}>
-                            <View style={{borderRadius:5,backgroundColor:'green',padding:7}}>
-                                <Text style={{color:'white'}}>
+                            <View style={{borderRadius:5,backgroundColor:'#d9d2b3',padding:7}}>
+                                <Text style={{color:'black'}}>
                                     {data.message}
                                 </Text>
                             </View>
@@ -123,7 +123,7 @@ class ChatBox extends Component{
 
     render(){
         return (
-            <Container style={{backgroundColor:"rgba(128,128,128,.5)"}}>
+            <Container>
                 <Header style={{ backgroundColor: theme.primaryColor }}>
                     <Left style={{ flex: 1 }} >
                         <Button rounded transparent onPress={() => { this.goToChat() }}>
@@ -138,7 +138,7 @@ class ChatBox extends Component{
                 <AutoScroll>
                     {this.messageDialog()}
                 </AutoScroll>
-                <Footer style={{justifyContent:'center',alignItems:'center'}}>
+                <Footer style={{justifyContent:'center',alignItems:'center',backgroundColor:theme.primaryColor}}>
                     <Left style={{padding:5,flex:6}}>
                         <Input
                             onChangeText={e => {
