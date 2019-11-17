@@ -47,7 +47,7 @@ class Main extends Component {
               initial={true}
             />
             <Scene key="login" component={Login} title="login" />
-            <Scene key="home" component={History} title="Home" />
+            <Scene key="home" component={Search} title="Home" />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />

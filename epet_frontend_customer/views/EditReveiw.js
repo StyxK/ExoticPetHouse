@@ -34,23 +34,6 @@ export default class EditReview extends Component {
         };
     }
 
-    editButton = () => {
-            return (
-                <Button
-                    style={{
-                        backgroundColor: theme.primaryColor3,
-                        flex: 0.5,
-                        marginHorizontal: 20,
-                        borderRadius: 10
-                    }}
-                    onPress={() => {
-                        Actions.feedback(this.props);
-                    }}>
-                    <Text>แก้ไข</Text>
-                </Button>
-            );
-    }
-
     componentWillMount() {
         axios
             .get(API_URL + "/feedback/order/" + this.props.id)

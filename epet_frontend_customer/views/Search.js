@@ -119,7 +119,7 @@ export default class Search extends Component {
           pinColor={theme.primaryColor}
           title={data.name}
           onPress={() => {
-            this.setModalVisible(true);
+            this.goToStore(data.id);
           }}
         />
       );

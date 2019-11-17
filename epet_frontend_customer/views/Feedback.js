@@ -34,7 +34,7 @@ export class Feedback extends Component {
     this.state = {
       starCount: 0,
       reviewText: "",
-      feedbackId:""
+      feedbackId: ""
     };
   }
 
@@ -62,7 +62,7 @@ export class Feedback extends Component {
   submitForm = () => {
     if (this.props.wasFeedBack == true) {
       axios
-        .put(API_URL + "/feedback/"+ this.state.feedbackId, {
+        .put(API_URL + "/feedback/" + this.state.feedbackId, {
           score: this.state.starCount,
           comment: this.state.reviewText,
           submitDate: new Date(),
@@ -71,9 +71,8 @@ export class Feedback extends Component {
         .catch(error => {
           console.log(error);
         })
-        alert("Edit");
-        Actions.history();
-    }else if (!this.state.starCount) {
+      Actions.history();
+    } else if (!this.state.starCount) {
       alert("โปรดให้คะแนนผู้รับฝาก");
     }
     else {
@@ -126,7 +125,8 @@ export class Feedback extends Component {
         <Content>
           <Content padder style={{ backgroundColor: theme.primaryColor, borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
             <Body>
-              <Text style={{ marginBottom: 10 }}>ขอบคุณที่ใช้บริการ {this.props.store.name}</Text>
+              <Text style={{ color: theme.accentTextColor, marginBottom: 10 }}>{this.props.store.name}</Text>
+              <Text style={{ color: theme.primaryTextColor, marginBottom: 10 }}>ขอบคุณที่ใช้บริการ </Text>
               <StarRating
                 disabled={false}
                 emptyStar={"ios-star-outline"}
@@ -157,7 +157,7 @@ export class Feedback extends Component {
         <Footer>
           <FooterTab style={{ backgroundColor: theme.primaryColor }}>
             <Button full onPress={() => this.submitForm()}>
-              <Text>ให้คะแนน</Text>
+              <Label style={{ color: theme.primaryTextColor }}>ให้คะแนน</Label>
             </Button>
           </FooterTab>
         </Footer>
