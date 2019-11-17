@@ -20,6 +20,9 @@ import {
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
 import moment from "moment-timezone";
+const PIC_URI =
+  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png";
+
 
 export default class Review extends Component {
     constructor(props) {
@@ -32,7 +35,7 @@ export default class Review extends Component {
                 <List avatar key={data.id}  >
                     <CardItem>
                         <Left>
-                            <Thumbnail />
+                            <Thumbnail source={{ uri: PIC_URI }} />
                             <Text>{data.customerUserName}</Text>
                         </Left>
                         <Right>
