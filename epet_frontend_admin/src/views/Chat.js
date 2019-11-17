@@ -4,7 +4,7 @@ import {Container, Input, Grid, Label, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import '../styles/Chat.css'
 import moment from 'moment'
-const socket = io('http://localhost:4001').emit('customer')
+const socket = io(process.env.REACT_APP_SOCKET).emit('customer')
 
 export const Chat = (props)=>{
 
