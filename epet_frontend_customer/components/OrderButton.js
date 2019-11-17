@@ -101,7 +101,7 @@ class orderButton extends Component {
         <Label style={{ textAlign: "center" }}> ร้านปฏิเสธการรับฝาก </Label>
       );
     } else if (orderStatus == 7) {
-      if(this.props.item.wasFeedBack!=true){
+      if (this.props.item.wasFeedBack != true) {
         list.push(
           <View style={{ flex: 1, marginVertical: 5 }}>
             <Button
@@ -120,6 +120,25 @@ class orderButton extends Component {
             </Button>
           </View>
         );
+      } else if (this.props.item.wasFeedBack == true) {
+        list.push(
+          <View style={{ flex: 1, marginVertical: 5 }}>
+            <Button
+              full
+              style={{
+                backgroundColor: theme.primaryColor3,
+                flex: 0.5,
+                marginHorizontal: 20,
+                borderRadius: 10
+              }}
+              onPress={() => {
+                Actions.editReview(this.props.item);
+              }}
+            >
+              <Label style={{ color: theme.primaryTextColor }}>ดูรีวิว</Label>
+            </Button>
+          </View>
+        );
       }
     } else if (orderStatus == 9) {
       list.push(
@@ -131,7 +150,7 @@ class orderButton extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 ,justifyContent:'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         {this.button(this.props.orderStatus)}
       </View>
     );

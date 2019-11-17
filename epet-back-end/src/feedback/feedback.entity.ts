@@ -24,6 +24,12 @@ export class Feedback {
     @Column()
     storeId : string;
 
+    @Column()
+    orderId : string;
+
+    @Column({nullable:true})
+    wasEdit : boolean;
+
     @ManyToOne(type => Customer,customer => customer.feedbacks)
     @JoinColumn({
         name: 'customerUserName',
@@ -31,6 +37,9 @@ export class Feedback {
     customer: Customer;
 
     @ManyToOne(type => Order,order => order.feedbacks)
+    @JoinColumn({
+      name: 'orderId',
+    })
     order: Order;
 
     @ManyToOne(type => Store,store => store.feedbacks)

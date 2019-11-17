@@ -20,6 +20,10 @@ export class FeedbackService {
         return this.feedbackRepository.find({ where: { storeId: id } });
     }
 
+    async showByOrderId(id: string): Promise<Feedback> {
+        return this.feedbackRepository.findOne({ where: { orderId: id } });
+    }
+
     async create(data: FeedbackDTO): Promise<Feedback> {
         const pet = await this.feedbackRepository.create(data);
         await this.feedbackRepository.save(data);
@@ -27,7 +31,7 @@ export class FeedbackService {
     }
 
     async update(id: string, data: FeedbackDTO): Promise<Feedback> {
-        const feedback = await this.feedbackRepository.findOne({ where: id, relations: ['customer', 'order'] });
+        const feedback = await this.feedbackRepository.findOne({  where: { orderId: id }, relations: ['customer', 'order'] });
         if (feedback.customer.userName != data.customer.userName) {
             throw "Username mismatch"
         }

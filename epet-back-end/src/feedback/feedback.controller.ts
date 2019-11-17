@@ -15,6 +15,11 @@ export class FeedbackController {
         return this.feedbackService.showById(id);
     }
 
+    @Get('order/:id')
+    async showByOrderId(@Param() id) {
+        return this.feedbackService.showByOrderId(id);
+    }
+
     @Post('/')
     async createFeedback(@Body() data) {
         return this.feedbackService.create(data);

@@ -23,6 +23,7 @@ import Feedback from "./Feedback";
 import Camera from "./Camera";
 import Notification from "./Notification";
 import Review from "./Review";
+import EditReview from "./EditReveiw";
 
 // const store = createStore(allReducer,applyMiddleware(thunk));
 class Main extends Component {
@@ -46,7 +47,7 @@ class Main extends Component {
               initial={true}
             />
             <Scene key="login" component={Login} title="login" />
-            <Scene key="home" component={Search} title="Home" />
+            <Scene key="home" component={History} title="Home" />
             <Scene key="myPet" component={MyPet} title="MyPet" />
             <Scene key="store" component={Store} title="Store" />
             <Scene key="history" component={History} title="History" />
@@ -75,6 +76,7 @@ class Main extends Component {
             <Scene key="camera" component={Camera} title="camera" />
             <Scene key="notification" component={Notification} title="notification" />
             <Scene key="review" component={Review} title="Review"/>
+            <Scene key="editReview" component={EditReview} title="EditReview"/>
           </Scene>
         </Router>
       </View>
