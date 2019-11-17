@@ -34,6 +34,7 @@ export class Feedback extends Component {
     this.state = {
       starCount: 0,
       reviewText: "",
+      feedbackId:""
     };
   }
 
@@ -50,7 +51,8 @@ export class Feedback extends Component {
         .then(response => {
           this.setState({
             starCount: response.data.score,
-            reviewText: response.data.comment
+            reviewText: response.data.comment,
+            feedbackId: response.data.id
           });
         })
         .then(error => console.log(error));
@@ -58,12 +60,9 @@ export class Feedback extends Component {
   }
 
   submitForm = () => {
-    if (!this.state.starCount) {
-      alert("โปรดให้คะแนนผู้รับฝาก");
-    }
-    else if (this.props.wasFeedBack == true) {
+    if (this.props.wasFeedBack == true) {
       axios
-        .put(API_URL + "/feedback/"+ this.props.id, {
+        .put(API_URL + "/feedback/"+ this.state.feedbackId, {
           score: this.state.starCount,
           comment: this.state.reviewText,
           submitDate: new Date(),
@@ -74,6 +73,8 @@ export class Feedback extends Component {
         })
         alert("Edit");
         Actions.history();
+    }else if (!this.state.starCount) {
+      alert("โปรดให้คะแนนผู้รับฝาก");
     }
     else {
       axios
@@ -81,7 +82,7 @@ export class Feedback extends Component {
           score: this.state.starCount,
           comment: this.state.reviewText,
           customerUserName: this.props.customerUsername,
-          order: this.props.id,
+          orderId: this.props.id,
           storeId: this.props.storeId,
           submitDate: new Date(),
           wasEdit: false

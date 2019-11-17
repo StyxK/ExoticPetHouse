@@ -33,7 +33,6 @@ export default class EditReview extends Component {
     }
 
     editButton = () => {
-        if (this.state.wasEdit != true) {
             return (
                 <Button
                     style={{
@@ -48,7 +47,6 @@ export default class EditReview extends Component {
                     <Text>แก้ไข</Text>
                 </Button>
             );
-        }
     }
 
     componentWillMount() {
@@ -92,7 +90,7 @@ export default class EditReview extends Component {
                                         <Text>{feedback.customerUserName}</Text>
                                     </Left>
                                     <Right>
-                                        {this.editButton()}
+                                        {this.state.feedback.wasEdit==false ? this.editButton():false}
                                         <Text note>{moment(feedback.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
                                     </Right>
                                 </CardItem>

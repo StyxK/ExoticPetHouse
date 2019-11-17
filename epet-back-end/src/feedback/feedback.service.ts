@@ -31,13 +31,7 @@ export class FeedbackService {
     }
 
     async update(id: string, data: FeedbackDTO): Promise<Feedback> {
-        const feedback = await this.feedbackRepository.findOne({  where: { orderId: id }, relations: ['customer', 'order'] });
-        if (feedback.customer.userName != data.customer.userName) {
-            throw "Username mismatch"
-        }
-        if (feedback.order.id != data.order.id) {
-            throw "order mismatch"
-        }
+        const feedback = await this.feedbackRepository.findOne({  where: id });
         await this.feedbackRepository.update(id, data);
         return this.feedbackRepository.findOne({ where: id });
     }
