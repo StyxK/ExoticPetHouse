@@ -15,7 +15,9 @@ import {
     Text,
     Title,
     Thumbnail,
-    Button
+    Button,
+    Fab,
+    Label
 } from "native-base";
 import theme from "../theme";
 import StarRating from "react-native-star-rating";
@@ -81,7 +83,7 @@ export default class EditReview extends Component {
                         </Body>
                         <Right style={{ flex: 1 }} />
                     </Header>
-                    <Content>
+                    <Content padder>
                         <Card>
                             <List>
                                 <CardItem>
@@ -90,7 +92,6 @@ export default class EditReview extends Component {
                                         <Text>{feedback.customerUserName}</Text>
                                     </Left>
                                     <Right>
-                                        {this.state.feedback.wasEdit==false ? this.editButton():false}
                                         <Text note>{moment(feedback.submitDate).tz("Asia/Bangkok").format("DD MMM YYYY")}</Text>
                                     </Right>
                                 </CardItem>
@@ -112,7 +113,22 @@ export default class EditReview extends Component {
                                 </CardItem>
                             </List>
                         </Card>
+                        <Label style={{textAlign:'center',paddingVertical:15,marginTop:30,backgroundColor:theme.secondaryColor,fontSize:15,color:'white',borderRadius:10}}>
+                            ท่านสามารถแก้ไขรีวิวของท่านได้เพียง 1 ครั้ง
+                        </Label>
                     </Content>
+                    {this.state.feedback.wasEdit==false ? 
+                        <Fab
+                            style={{
+                                backgroundColor: theme.primaryColor3,
+                                flex:3
+                            }}
+                            onPress={() => {
+                                Actions.feedback(this.props);
+                            }}>
+                            <Icon name='edit' type='AntDesign'/>
+                        </Fab>
+                        :false}
                 </Container>
             </View>
         );
