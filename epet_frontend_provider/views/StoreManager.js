@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Alert } from "react-native";
+import { Image, Alert, TouchableHighlight } from "react-native";
 import { Actions } from "react-native-router-flux";
 import {
   Container,
@@ -23,7 +23,7 @@ import axios from "axios";
 import theme from "../theme";
 import ImagePicker from "react-native-image-picker";
 import Config from "react-native-config";
-import Corousel from 'react-native-snap-carousel'
+import Corousel from "react-native-snap-carousel";
 
 const API_URL = Config.API_URL;
 
@@ -52,6 +52,10 @@ export default class StoreManager extends Component {
     this.getCages();
   }
 
+  refresh = () => {
+    this.getCages();
+  };
+
   handleChoosePhoto = () => {
     const options = {
       noData: false
@@ -79,15 +83,33 @@ export default class StoreManager extends Component {
         }));
       }
     });
+    this.refresh();
   };
-
-  renderItem =({item,index})=>{
-    return(
-      <View>
-        <Image style={{ width: 100, height: 100, margin: 5,marginBottom:10 }} source={{uri:item}}></Image>
-      </View>
-    )
-  }
+  deleteImage = imgUrl => async () => {
+    Alert.alert("", "คุณต้องการลบรูปภาพนี้หรือไม่", [
+      {
+        text: "ยืนยัน",
+        onPress: async () => {
+          await axios.post("/store/deleteImage", { url: imgUrl });
+          this.refresh();
+        }
+      },
+      {
+        text: "ยกเลิก",
+        style: "cancel"
+      }
+    ]);
+  };
+  renderItem = ({ item, index }) => {
+    return (
+      <TouchableHighlight
+        style={{ width: 100, height: 100, margin: 5, marginBottom: 10 }}
+        onLongPress={this.deleteImage(item)}
+      >
+        <Image style={{ width: 100, height: 100 }} source={{ uri: item }} />
+      </TouchableHighlight>
+    );
+  };
 
   render() {
     const { store } = this.props;
@@ -99,7 +121,7 @@ export default class StoreManager extends Component {
           <CardItem
             button
             style={{
-              backgroundColor: theme.secondaryColor,
+              backgroundColor: theme.secondaryColor
             }}
             onPress={() => this.goToSubCage(data)}
           >
@@ -156,11 +178,14 @@ export default class StoreManager extends Component {
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
           <Left style={{ flex: 2 }}>
-            <Button transparent rounded onPress={() => {this.goToProfile()}}>
-              <Icon
-                name="arrow-back"
-                style={{ color: "white" }}
-              />
+            <Button
+              transparent
+              rounded
+              onPress={() => {
+                this.goToProfile();
+              }}
+            >
+              <Icon name="arrow-back" style={{ color: "white" }} />
             </Button>
           </Left>
           <Body style={{ flex: 2 }}>
@@ -170,9 +195,9 @@ export default class StoreManager extends Component {
         </Header>
         <View
           style={{
-            flex:1.5,
+            flex: 1.5,
             flexDirection: "row",
-            backgroundColor: theme.secondaryColor,
+            backgroundColor: theme.secondaryColor
           }}
         >
           <Left style={{ flex: 1, marginLeft: 20 }}>
@@ -193,7 +218,8 @@ export default class StoreManager extends Component {
               justifyContent: "flex-start"
             }}
           >
-            <Text note
+            <Text
+              note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
@@ -204,7 +230,8 @@ export default class StoreManager extends Component {
                 {store.phoneNumber}{" "}
               </Text>
             </Text>
-            <Text note
+            <Text
+              note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
@@ -215,7 +242,8 @@ export default class StoreManager extends Component {
                 {store.rating}{" "}
               </Text>
             </Text>
-            <Text note
+            <Text
+              note
               style={{
                 color: theme.secondaryTextColor,
                 alignSelf: "flex-start"
@@ -232,7 +260,7 @@ export default class StoreManager extends Component {
                 borderRadius: 10,
                 alignSelf: "center",
                 margin: 5,
-                height:30
+                height: 30
               }}
               onPress={this.handleChoosePhoto}
             >
@@ -240,19 +268,21 @@ export default class StoreManager extends Component {
             </Button>
           </Body>
         </View>
-        <View style={{
-          flexDirection: "row",
-          flexWrap:"wrap",
-          backgroundColor: 'white',
-          justifyContent:"center"
-        }}>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            backgroundColor: "white",
+            justifyContent: "center"
+          }}
+        >
           <Corousel
             data={images}
             renderItem={this.renderItem}
             sliderWidth={500}
             itemWidth={100}
           />
-        {/* {images &&
+          {/* {images &&
           images.map(image => (
             <Image
               key={image}
@@ -287,7 +317,9 @@ export default class StoreManager extends Component {
               </Button>
             </Right>
           </ListItem>
-          <Content padder style={{flexDirection:'column'}}>{cagesList}</Content>
+          <Content padder style={{ flexDirection: "column" }}>
+            {cagesList}
+          </Content>
         </View>
       </Container>
     );

@@ -52,4 +52,9 @@ export class StoreController {
         return await this.storesService.delete(id)
     }
 
+    @Post('/deleteImage')
+    async deleteImage(@Body("url") url){
+        return await this.storesService.deleteImage(url)
+    }
+
 }

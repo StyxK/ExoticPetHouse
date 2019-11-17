@@ -37,12 +37,19 @@ export class StoreService {
     return stores;
   }
 
-  async addImage(storeId: string,imgUrl:string) {
+  async addImage(storeId: string, imgUrl: string) {
     const storeImage = await this.storeImageRepository.create({
-      storeId:storeId,
-      image : imgUrl
+      storeId: storeId,
+      image: imgUrl,
     });
     await this.storeImageRepository.save(storeImage);
+  }
+
+  async deleteImage(imgUrl: string) {
+    const storeImage = await this.storeImageRepository.findOne({
+      where: { image: imgUrl },
+    });
+    await this.storeImageRepository.remove(storeImage);
   }
 
   async create(userName: string, data: Partial<StoreDTO>) {
@@ -64,7 +71,7 @@ export class StoreService {
   async showById(id: string) {
     const store = await this.storesRepository.findOne({
       where: id,
-      relations: ['address','storeImages'],
+      relations: ['address', 'storeImages'],
     });
     const cage = await this.cageTypeRepository.find({ store: store });
     return { ...store, cage };
