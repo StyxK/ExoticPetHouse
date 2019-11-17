@@ -75,9 +75,7 @@ class Login extends Component {
     const { loading } = this.state;
     return (
       <ImageBackground
-        source={{
-          uri: "https://media3.giphy.com/media/xT8qB5ItRMSfODfzJm/source.gif"
-        }}
+        source={require('../assets/background.jpg')}
         style={{ flex: 1, resizeMode: "cover" }}
       >
         {

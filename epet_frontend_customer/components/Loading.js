@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ActivityIndicator,Modal } from "react-native";
+import { ActivityIndicator,Modal,ImageBackground,Image } from "react-native";
 import { View, Label } from "native-base";
 import { Actions } from "react-native-router-flux";
 import { setUser, setPets } from "../actions";
@@ -28,19 +28,15 @@ class Loading extends Component {
   }
   render() {
     return (
-      <View
-        style={{
-          backgroundColor: theme.primaryColor,
-          flex: 1,
-          justifyContent: "center"
-        }}
-      >
-        <ActivityIndicator size={100} />
-        <Label style={{ marginTop: 20, textAlign: "center", color: theme.primaryTextColor }}>
-          {" "}
-          กำลังเรียกข้อมูลจากแอปพลิเคชัน กรุณารอสักครู่{" "}
-        </Label>
-      </View>
+      <ImageBackground
+            source={require('../assets/background.jpg')}  
+            style={{flex:1,resizeMode:'cover'}}
+        >
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+              <Image style={{width:210,height:110}} source={require('../assets/epet_logo.png')}/>
+              <ActivityIndicator style={{marginTop:50}} size={100} />
+          </View>
+      </ImageBackground>
     );
   }
 }
