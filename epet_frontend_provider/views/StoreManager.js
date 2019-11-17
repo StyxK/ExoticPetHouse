@@ -23,7 +23,7 @@ import axios from "axios";
 import theme from "../theme";
 import ImagePicker from "react-native-image-picker";
 import Config from "react-native-config";
-import Corousel from "react-native-snap-carousel";
+import Corousel,{Pagination} from "react-native-snap-carousel";
 
 const API_URL = Config.API_URL;
 
@@ -106,7 +106,7 @@ export default class StoreManager extends Component {
         style={{ width: 100, height: 100, margin: 5, marginBottom: 10 }}
         onLongPress={this.deleteImage(item)}
       >
-        <Image style={{ width: 100, height: 100 }} source={{ uri: item }} />
+        <Image style={{ width: 100, height: 100 ,borderRadius:10}} source={{ uri: item }} />
       </TouchableHighlight>
     );
   };
@@ -120,53 +120,36 @@ export default class StoreManager extends Component {
         <Card transparent key={data.id}>
           <CardItem
             button
-            style={{
-              backgroundColor: theme.secondaryColor
-            }}
+            style={{borderRadius:10}}
             onPress={() => this.goToSubCage(data)}
           >
-            <Body>
-              <Text style={{ color: "white" }}> {data.typeName}</Text>
-              <Text />
-              <Text style={{ color: "white" }}> ราคาต่อวัน : {data.price}</Text>
+            <Body style={{ flex:1 }}>
+              <Text> {data.typeName}</Text>
+              <Text note> ราคาต่อวัน : {data.price}</Text>
             </Body>
-            <Right style={{ flexDirection: "row", flex: 1 }}>
+            <Right style={{ flexDirection: "row", flex: 0.75 }}>
               <Button
                 style={{
-                  flex: 0.5,
+                  flex: 1,
                   marginRight: 10,
-                  backgroundColor: theme.warningColor,
-                  justifyContent: "center"
+                  backgroundColor: 'red',
+                  alignItems:'center'
                 }}
                 rounded
                 onPress={() => this.deleteCage(data)}
               >
-                <Label
-                  style={{ fontSize: 14, textAlign: "center", color: "white" }}
-                >
-                  {" "}
-                  ลบ{" "}
-                </Label>
+                <Icon name='delete' type='AntDesign'/>
               </Button>
               <Button
                 style={{
                   flex: 1,
                   justifyContent: "center",
-                  backgroundColor: theme.successColor
+                  backgroundColor: theme.primaryColor3
                 }}
                 rounded
                 onPress={() => this.goToEditCage(data)}
               >
-                <Label
-                  style={{
-                    fontSize: 14,
-                    textAlign: "center",
-                    color: theme.successTextColor
-                  }}
-                >
-                  {" "}
-                  แก้ไขข้อมูล{" "}
-                </Label>
+                <Icon name='edit' type='AntDesign'/>
               </Button>
             </Right>
           </CardItem>
@@ -177,7 +160,7 @@ export default class StoreManager extends Component {
     return (
       <Container>
         <Header style={{ backgroundColor: theme.primaryColor }}>
-          <Left style={{ flex: 2 }}>
+          <Left style={{ flex: 1 }}>
             <Button
               transparent
               rounded
@@ -188,28 +171,18 @@ export default class StoreManager extends Component {
               <Icon name="arrow-back" style={{ color: "white" }} />
             </Button>
           </Left>
-          <Body style={{ flex: 2 }}>
+          <Body style={{ flex: 2 ,alignItems:'center'}}>
             <Text style={{ color: "white" }}>{store.name}</Text>
           </Body>
           <Right style={{ flex: 1 }} />
         </Header>
         <View
+          padder
           style={{
-            flex: 1.5,
-            flexDirection: "row",
-            backgroundColor: theme.secondaryColor
+            flex: 0.5,
+            flexDirection: "row"
           }}
         >
-          <Left style={{ flex: 1, marginLeft: 20 }}>
-            <Image
-              style={{ width: 100, height: 100 }}
-              source={
-                store.image
-                  ? { uri: store.image }
-                  : require("../assets//no_image_available.jpeg")
-              }
-            />
-          </Left>
           <Body
             style={{
               alignSelf: "center",
@@ -225,9 +198,9 @@ export default class StoreManager extends Component {
                 alignSelf: "flex-start"
               }}
             >
-              เบอร์โทรศัพท์ :
-              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
-                {store.phoneNumber}{" "}
+              เบอร์โทรศัพท์ : {" "}
+              <Text note style={{ alignSelf: "flex-start" }}>
+                {store.phoneNumber}
               </Text>
             </Text>
             <Text
@@ -237,8 +210,8 @@ export default class StoreManager extends Component {
                 alignSelf: "flex-start"
               }}
             >
-              คะแนนร้าน :
-              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
+              คะแนนร้าน : {" "}
+              <Text note style={{ alignSelf: "flex-start" }}>
                 {store.rating}{" "}
               </Text>
             </Text>
@@ -250,74 +223,69 @@ export default class StoreManager extends Component {
               }}
             >
               คำอธิบายร้าน :
-              <Text note style={{ color: "white", alignSelf: "flex-start" }}>
+              <Text note style={{ alignSelf: "flex-start" }}>
                 {store.description}{" "}
               </Text>
             </Text>
-            <Button
-              style={{
-                backgroundColor: theme.primaryColor,
-                borderRadius: 10,
-                alignSelf: "center",
-                margin: 5,
-                height: 30
-              }}
-              onPress={this.handleChoosePhoto}
-            >
-              <Text>เพิ่มรูปภายในร้าน</Text>
-            </Button>
           </Body>
         </View>
+        <ListItem itemDivider style={{backgroundColor: theme.primaryColor,height:50}}>
+          <Body>
+            <Label style={{color:'white'}}>
+              รูปร้าน
+            </Label>
+          </Body>
+          <Button
+            style={{
+              backgroundColor: theme.primaryColor3,
+              borderRadius: 10,
+              alignSelf: "center",
+              margin: 5,
+              height: 30
+            }}
+            onPress={this.handleChoosePhoto}
+          >
+            <Text>เพิ่มรูปภายในร้าน</Text>
+          </Button>
+        </ListItem>
         <View
           style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            backgroundColor: "white",
-            justifyContent: "center"
+            backgroundColor: theme.backgroundColor,
+            justifyContent: "center",
+            alignItems:'center'
           }}
         >
           <Corousel
             data={images}
             renderItem={this.renderItem}
             sliderWidth={500}
-            itemWidth={100}
+            itemWidth={110}
           />
-          {/* {images &&
-          images.map(image => (
-            <Image
-              key={image}
-              source={{ uri: image }}
-              style={{ width: 100, height: 100, margin: 5,marginBottom:10 }}
-            />
-          ))} */}
         </View>
         <View style={{ flex: 2, backgroundColor: theme.backgroundColor }}>
-          <ListItem style={{ backgroundColor: theme.primaryColor }} itemDivider>
-            <Left>
+          <ListItem style={{ backgroundColor: theme.primaryColor,height:50 }} itemDivider>
+            <Body>
               <Label style={{ color: "white" }}>กรงภายในร้าน </Label>
-            </Left>
-            <Right>
-              <Button
-                small
-                rounded
-                onPress={() => {
-                  this.goToCreateCage();
-                }}
-                style={{
-                  height: 40,
-                  width: 90,
-                  justifyContent: "center",
-                  backgroundColor: theme.successColor
-                }}
-              >
-                <Label style={{ color: theme.successTextColor }}>
-                  {" "}
-                  เพิ่มกรง{" "}
-                </Label>
-              </Button>
-            </Right>
+            </Body>
+            <Button
+              rounded
+              onPress={() => {
+                this.goToCreateCage();
+              }}
+              style={{
+                backgroundColor: theme.primaryColor3,
+                borderRadius: 10,
+                alignSelf: "center",
+                margin: 5,
+                height: 30
+              }}
+            >
+              <Text>
+                เพิ่มกรง
+              </Text>
+            </Button>
           </ListItem>
-          <Content padder style={{ flexDirection: "column" }}>
+          <Content padder style={{ flexDirection: "column",backgroundColor:theme.backgroundColor }}>
             {cagesList}
           </Content>
         </View>

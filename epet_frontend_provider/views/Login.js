@@ -60,7 +60,7 @@ class Login extends Component{
         return(
             <Animatable.View ref={view} animation="fadeIn" style={{flex:1}}>
                 <ImageBackground
-                    source={{uri: 'https://media3.giphy.com/media/xT8qB5ItRMSfODfzJm/source.gif'}}  
+                    source={require('../assets/background.jpg')}  
                     style={{flex:1,resizeMode:'cover'}}
                 >
                     {
