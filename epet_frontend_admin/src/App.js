@@ -9,6 +9,7 @@ import { Dashboard } from './views/Dashboard';
 import '../src/styles/App.css'
 import { Chat } from './views/Chat';
 import { RegistryStoreOwner } from './views/RegistryStoreOwner';
+import {Helmet} from "react-helmet";
 
 function App() {
 
@@ -16,6 +17,11 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Exotic Pet House (Administrator)</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
       <Sidebar.Pushable as={Segment} className='Sidebar'>
         <SideBar visible={visible}/>
         <Sidebar.Pusher>
